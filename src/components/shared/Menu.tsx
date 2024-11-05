@@ -2,12 +2,19 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
 
 export function Menu(){
+  const router = useRouter();
+  const handleLogout = async () => {
+    await fetch('/api/logout', {
+      method: 'POST'
+    });
+    router.push('/');
+  };
     return (
         <>
-        <aside className="flex">
-          
+        <aside className="flex flex-col justify-between h-screen">          
           <ul>
             <li>
               <Link
@@ -29,7 +36,7 @@ export function Menu(){
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
                 </svg>
-                <span className="text-sm font-medium"> Vive el Vino </span>
+                <span className="text-sm font-medium">ExpoAccess </span>
               </Link>
             </li>
 
@@ -129,6 +136,12 @@ export function Menu(){
               </Link>
             </li>
           </ul>
+          <button onClick={handleLogout} className="flex items-center gap-2 border-s-[3px] border-transparent px-4 py-3 text-gray-500 hover:border-gray-100 hover:bg-gray-50 hover:text-gray-700">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5.636 5.636a9 9 0 1 0 12.728 0M12 3v9" />
+            </svg>
+            Logout
+          </button>
         </aside>   
         </>
     );

@@ -1,11 +1,12 @@
 'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
-    
+    const router = useRouter();
 
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
       e.preventDefault();
@@ -13,20 +14,21 @@ export default function Login() {
       const res = await fetch('/api/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
       });
-  
-      const data = await res.json();
-      if (data.message === 'Success') {
-        window.location.href = '/dashboard';
+
+      const data = await res.json();      
+      if (data.status) {
+        localStorage.setItem('token', data.token);
+        router.push('/dashboard');        
       } else {
         setError(data.message);
       }
     };
 
     return (
-      <main className="flex h-screen items-center justify-center">
-          <section className="mx-auto min-h-[590px] w-full max-w-[450px]">
+     
+          <section className="mx-auto min-h-[590px] w-full max-w-[450px] px-4">
             <h1 className="text-lg font-extrabold">
               Log in to ExpoAccess
             </h1>
@@ -35,8 +37,8 @@ export default function Login() {
                 <label>Usuario </label>
                 <input
                   type="email"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                   className='mt-2 rounded-md bg-[#ddeaf814] px-2 py-1'
                   placeholder='user@example.com'
@@ -63,7 +65,7 @@ export default function Login() {
             </form>
             <p className='mt-5'>By signing in, you agree to our Terms of Service and Privacy Policy.</p>  
           </section>                  
-      </main>
+      
     );
 }
 
