@@ -27,7 +27,7 @@ export default function Login() {
     };
 
     return (
-     
+        <main className='flex h-screen items-center justify-center'>
           <section className="mx-auto min-h-[590px] w-full max-w-[450px] px-4">
             <h1 className="text-lg font-extrabold">
               Log in to ExpoAccess
@@ -65,7 +65,7 @@ export default function Login() {
             </form>
             <p className='mt-5'>By signing in, you agree to our Terms of Service and Privacy Policy.</p>  
           </section>                  
-      
+        </main>
     );
 }
 
