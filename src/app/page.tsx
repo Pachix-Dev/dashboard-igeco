@@ -19,8 +19,7 @@ export default function Login() {
       });
 
       const data = await res.json();      
-      if (data.status) {
-        console.log('hola?');    
+      if (data.status) {    
         router.push('/dashboard');        
       } else {
         setError(data.message);
