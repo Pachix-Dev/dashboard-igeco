@@ -5,21 +5,20 @@ import jwt from 'jsonwebtoken';
 import mysql from 'mysql2/promise'
 
 export async function POST(req: NextRequest) {
-  const { email, password } = await req.json();
-  console.log(email)
+  const { email, password } = await req.json();  
   const connection = await mysql.createConnection(db)
   try {    
     const [rows]: any = await connection.query('SELECT * FROM users WHERE email = ?', [email]);
-
+    
     if (rows.length === 0) {
-      return NextResponse.json({ error: 'Usuario no encontrado' }, { status: 401 });
+      return NextResponse.json({ message: 'Usuario no encontrado' }, { status: 401 });
     }
 
     const user = rows[0];
     
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return NextResponse.json({ error: 'Contraseña o usuario incorrecto...' }, { status: 401 });
+      return NextResponse.json({ message: 'Contraseña o usuario incorrecto...' }, { status: 401 });
     }
     
     const token = jwt.sign({ id: user.id, email: user.email }, 'tu_secreto_jwt', { expiresIn: '1h' });
@@ -36,7 +35,7 @@ export async function POST(req: NextRequest) {
 
     return response;
   } catch (error) {
-    return NextResponse.json({ error: 'Error en el servidor' }, { status: 500 });
+    return NextResponse.json({ message: 'Error en el servidor' }, { status: 500 });
   }
   finally {
     await connection.end()

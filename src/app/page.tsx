@@ -1,4 +1,5 @@
 'use client';
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -19,7 +20,7 @@ export default function Login() {
 
       const data = await res.json();      
       if (data.status) {
-        localStorage.setItem('token', data.token);
+        console.log('hola?');    
         router.push('/dashboard');        
       } else {
         setError(data.message);
@@ -53,6 +54,7 @@ export default function Login() {
                   required
                   className='mt-2 rounded-md bg-[#ddeaf814] px-2 py-1'
                   placeholder="••••••••••••"
+                  autoComplete='off'
                 />
               </div>
               {error && <p style={{ color: 'red' }}>{error}</p>}
