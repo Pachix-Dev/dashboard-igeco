@@ -1,19 +1,9 @@
+import { fetchUsers } from 'app/lib/db'
 import { AddUser } from '../../../components/users/AddUser'
-export default function usuarios(){
-    const users = [
-            {
-                id: 1,
-                name: 'John Doe',
-                email: 'pachi.claros@gmail.com',
-                role: 'Admin'
-            },
-            {
-                id: 2,
-                name: 'Jane Doe',
-                email: 'fabian.yapura@igeco.mx',
-                role: 'User'
-            },
-        ]
+import { User } from 'app/lib/definitions'
+
+export default async function Usuarios(){
+    const users: User[] = await fetchUsers();    
     return (
         <>      
             <section className="container mx-auto w-full max-w-full px-6 md:max-w-5xl">
@@ -36,7 +26,7 @@ export default function usuarios(){
                                 <tr key={user.id}>
                                     <td className="py-2 px-4 border-b border-gray-200 text-sm">{user.name}</td>
                                     <td className="py-2 px-4 border-b border-gray-200 text-sm">{user.email}</td>
-                                    <td className="py-2 px-4 border-b border-gray-200 text-sm">{user.role}</td>
+                                    <td className="py-2 px-4 border-b border-gray-200 text-sm">{user.rol}</td>
                                     <td className="py-2 px-4 border-b border-gray-200 text-sm">
                                         <button className="bg-[#E6E6E7] text-black rounded-md p-2 flex items-center justify-center gap-2 font-bold hover:bg-slate-400 hover:text-white">
                                             Editar
