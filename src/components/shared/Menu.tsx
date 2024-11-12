@@ -42,7 +42,7 @@ export function Menu(){
 
             <li>
               <Link
-                href="#"
+                href="/dashboard/exhibitors"
                 className="flex items-center gap-2 border-s-[3px] border-transparent px-4 py-3 text-gray-500 hover:border-gray-100 hover:bg-gray-50 hover:text-gray-700"
               >
                 <svg
@@ -60,7 +60,7 @@ export function Menu(){
                   />
                 </svg>
 
-                <span className="text-sm font-medium"> Teams </span>
+                <span className="text-sm font-medium"> Exhibitors </span>
               </Link>
             </li>
 

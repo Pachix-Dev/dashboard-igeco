@@ -4,16 +4,17 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Notification from '../shared/Notification'
 
-export function AddUser() {
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
+export function EditUser({ user }) {
   const [isOpen, setIsOpen] = useState(false)
-  const [notify, setNotify] = useState()
-
   const handleOpen = () => setIsOpen(true)
   const handleClose = () => setIsOpen(false)
+
+  const [name, setName] = useState(user.name)
+  const [email, setEmail] = useState(user.email)
+  const [password, setPassword] = useState('')
+
+  const [showPassword, setShowPassword] = useState(false)
+  const [notify, setNotify] = useState()
 
   const {
     register,
@@ -22,36 +23,49 @@ export function AddUser() {
   } = useForm()
 
   const handleUser = async () => {
-    const response = await fetch('/api/users', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    const response = await fetch(`/api/users/${user.id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password }),
     })
 
     if (response.ok) {
       setNotify({ message: 'User Edit successfully', type: 'success' })
     } else {
-      console.log(response)
       setNotify({ message: 'Failed to edit user', type: 'error' })
     }
 
     handleClose()
   }
+
   return (
     <>
       <button
-        className='bg-[#E6E6E7] text-black rounded-md p-2 flex items-center justify-center gap-2 font-bold hover:bg-slate-400 hover:text-white'
         onClick={handleOpen}
+        className='h-6 w-6 rounded bg-transparent border-none text-slate-11 hover:bg-slate-5 cursor-pointer align-middle'
+        type='button'
+        aria-label='More actions'
       >
-        + Agregar Usuario
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          fill='none'
+          viewBox='0 0 24 24'
+          strokeWidth='1.5'
+          stroke='currentColor'
+          className='w-6 h-6 transition-transform duration-300 ease-in-out transform hover:scale-110 hover:rotate-6'
+        >
+          <path
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            d='M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10'
+          />
+        </svg>
       </button>
 
       {isOpen && (
-        <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center'>
+        <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-10'>
           <div className='bg-[#05050a] p-6 rounded-lg shadow-lg w-96'>
-            <h2 className='text-xl font-semibold mb-4'>Add New User</h2>
+            <h2 className='text-xl font-semibold mb-4'>Edit User</h2>
             <form onSubmit={handleSubmit(handleUser)}>
               <div className='mb-4'>
                 <label className='block text-[#f1f7feb5]'>Company name</label>
@@ -92,7 +106,9 @@ export function AddUser() {
                 )}
               </div>
               <div className='mb-4'>
-                <label className='block text-[#f1f7feb5]'>Password</label>
+                <label className='block text-[#f1f7feb5]'>
+                  Enter New Password
+                </label>
                 <div className='relative'>
                   <input
                     id='password'
@@ -176,7 +192,7 @@ export function AddUser() {
                   type='submit'
                   className='px-4 py-2 bg-[#ffffffe6] hover:bg-[#ffffff] opacity-60 hover:opacity-100 text-black rounded-lg'
                 >
-                  Add
+                  Edit
                 </button>
               </div>
             </form>

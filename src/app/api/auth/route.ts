@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: 'Contraseña o usuario incorrecto...' }, { status: 401 });
     }
     
-    const token = jwt.sign({ id: user.id, email: user.email }, 'tu_secreto_jwt', { expiresIn: '1h' });
+    const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, 'tu_secreto_jwt', { expiresIn: '1h' });
 
     const response = NextResponse.json({ status: true, message: 'Login exitoso' });
     
