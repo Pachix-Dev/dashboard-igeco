@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@yudiel/react-qr-scanner": "^2.0.8",
     "bcryptjs": "^2.4.3",
     "chart.js": "^4.4.2",
     "jose": "^5.9.6",
@@ -19,7 +20,8 @@
     "react": "^18",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18",
-    "react-hook-form": "^7.53.1"
+    "react-hook-form": "^7.53.1",
+    "zustand": "^5.0.1"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",

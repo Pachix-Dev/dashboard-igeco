@@ -2,13 +2,15 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSessionUser } from 'app/store/session-user';
 
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
     const router = useRouter();
-
+    const {setUserSession} = useSessionUser();
+    
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
       e.preventDefault();
   
@@ -20,6 +22,7 @@ export default function Login() {
 
       const data = await res.json();      
       if (data.status) {    
+        setUserSession(data.user);       
         router.push('/dashboard');        
       } else {
         setError(data.message);
