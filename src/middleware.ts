@@ -19,8 +19,7 @@ export async function middleware(req: NextRequest) {
     
     const pathname = new URL(req.url).pathname;
     const allowedRoutes = roles[userRole as keyof typeof roles] as string[];
-    
-
+        
     if (!allowedRoutes.includes(pathname)) {
       return NextResponse.redirect(new URL('/dashboard', req.url));
     }

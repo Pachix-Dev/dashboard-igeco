@@ -7,14 +7,11 @@ interface NotificationProps {
 
 const Notification: React.FC<NotificationProps> = ({ message, type }) => {
   const [visible, setVisible] = useState(true);
-
-  // Auto-hide notification after 3 seconds
+    
   useEffect(() => {
     const timer = setTimeout(() => {
       setVisible(false);
-    }, 4000);
-
-    // Clear timeout if component unmounts
+    }, 4000);    
     return () => clearTimeout(timer);
   }, []);
 
@@ -22,7 +19,7 @@ const Notification: React.FC<NotificationProps> = ({ message, type }) => {
   return (
     <ol
       tabIndex={-1}
-      className="fixed bottom-0 right-0 z-50 flex w-[90%] p-6 md:w-[390px]"
+      className="absolute bottom-0 right-0 z-50 p-6"
     >
       <li>
         <div

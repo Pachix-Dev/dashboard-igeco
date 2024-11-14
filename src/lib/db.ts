@@ -1,5 +1,5 @@
 import mysql from 'mysql2/promise';
-import { User, Exhibitor } from './definitions';
+import { User, Exhibitor, Lead } from './definitions';
 
 const db = mysql.createPool({
     host: process.env.DB_HOST,
@@ -32,5 +32,15 @@ export async function fetchExhibitors(): Promise<Exhibitor[]> {
     } catch (error) {
         console.error('Database Error: ', error);
         throw new Error('Error fetching users');
+    }
+}
+
+export async function fetchRercordsByUserId(id: number | null): Promise<Lead[]> {
+    try{
+        const [rows] = await db.query('SELECT * FROM leads l LEFT JOIN records r ON l.record_id = r.id WHERE user_id = ? ', [id]);
+        return rows as Lead[];
+    } catch (error) {
+        console.error('Database Error: ', error);
+        throw new Error('Error fetching user');
     }
 }

@@ -23,7 +23,7 @@ export default function GenerarQr() {
 
   return (
     <main className='min-h-screen p-4 w-full '>
-      <h1>Vive el Vino</h1>
+      <h1>Generar QR con logo personalizado</h1>
       <img id='image' ref={imgRef} alt='QR Code' />
     </main>
   )
