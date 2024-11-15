@@ -30,14 +30,14 @@ const Notification: React.FC<NotificationProps> = ({ message, type }) => {
           } relative flex w-full flex-col gap-2 overflow-hidden rounded-md p-4 border`}
         >
           <div className="flex items-center gap-4">
-            {/* Background Blur */}
+            
             <div
               className={`absolute -left-20 -top-4 z-10 h-[200px] w-[160px] rounded-full blur-lg ${
                 type === 'success' ? 'bg-[#44ffaa4b]' : 'bg-red-600'
               }`}
             ></div>
 
-            {/* Icon */}
+            
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -53,7 +53,7 @@ const Notification: React.FC<NotificationProps> = ({ message, type }) => {
               />
             </svg>
 
-            {/* Message */}
+           
             <div className="relative z-20">
               <h1 className="text-sm text-slate-12 font-semibold">{message}</h1>
             </div>

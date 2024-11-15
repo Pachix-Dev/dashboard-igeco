@@ -1,5 +1,7 @@
 import mysql from 'mysql2/promise';
 import { User, Exhibitor, Lead } from './definitions';
+import { cookies } from 'next/headers';
+import { jwtVerify } from 'jose';
 
 const db = mysql.createPool({
     host: process.env.DB_HOST,
@@ -35,12 +37,23 @@ export async function fetchExhibitors(): Promise<Exhibitor[]> {
     }
 }
 
-export async function fetchRercordsByUserId(id: number | null): Promise<Lead[]> {
-    try{
-        const [rows] = await db.query('SELECT * FROM leads l LEFT JOIN records r ON l.record_id = r.id WHERE user_id = ? ', [id]);
+export async function fetchRecordsByUserId(): Promise<Lead[]> {
+    const cookieStore = cookies();
+    const token = cookieStore.get('access_token')?.value;
+    if (!token) {
+        throw new Error('No access token found');
+    }
+    const {payload} = await jwtVerify(token, new TextEncoder().encode("tu_secreto_jwt"));
+    const userId = payload.id;       
+    try {               
+        const [rows] = await db.query(
+            'SELECT * FROM leads l LEFT JOIN records r ON l.record_id = r.id WHERE l.user_id = ?',
+            [userId]
+        );
+        
         return rows as Lead[];
     } catch (error) {
-        console.error('Database Error: ', error);
-        throw new Error('Error fetching user');
+        console.error('Database Error:', error);
+        throw new Error('Error fetching user records');
     }
 }

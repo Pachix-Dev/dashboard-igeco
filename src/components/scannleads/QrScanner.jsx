@@ -63,7 +63,7 @@ export function QrScanner() {
         {showScanner ? 'Hide Scanner' : 'Scan QR'}
       </button>
       {showScanner && (
-        <div className='fixed top-8 rounded-t-lg inset-0 bg-white grid justify-center items-center'>
+        <div className='fixed top-8 rounded-t-lg inset-0 bg-white grid justify-center items-center z-10'>
           <div className='text-black grid h-full items-end'>
             <div className='flex gap-2 items-center justify-evenly'>
               <button
