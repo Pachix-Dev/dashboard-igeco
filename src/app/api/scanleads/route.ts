@@ -24,3 +24,13 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: 'Lead not created' }, { status: 500 });
   }
 }
+
+export async function PUT(req: Request) {
+  const {id, notes} = await req.json();  
+  try{         
+    await db.query('UPDATE leads SET notes = ? WHERE id = ?', [notes, id]);
+    return NextResponse.json({ message: 'Lead updated' });
+  }catch(err){
+    return NextResponse.json({ message: 'Lead not updated' }, { status: 500 });
+  }
+}

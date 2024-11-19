@@ -5,7 +5,7 @@ import { FetchLeads } from 'app/components/scannleads/FetchLeads'
 import { ExportExcel } from 'app/components/scannleads/ExportExcel'
 
 export default async function ScanLeads() {
-    const leads: Lead[] = await fetchRecordsByUserId();
+    const leads: Lead[] = await fetchRecordsByUserId();    
     return (
         <section className="container mx-auto w-full max-w-full px-6 md:max-w-5xl grid gap-10">
             <div className="flex justify-between items-center gap-20">

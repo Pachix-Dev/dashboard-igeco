@@ -19,6 +19,8 @@ export function ExportExcel({ leads }) {
       Country: lead.country,
       State: lead.state,
       City: lead.city,
+      Notes: lead.notes,
+      Created: lead.created_at,
     }))
     const ws = XLSX.utils.json_to_sheet(leadsData)
     const wb = XLSX.utils.book_new()

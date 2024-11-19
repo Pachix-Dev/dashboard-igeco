@@ -47,7 +47,7 @@ export async function fetchRecordsByUserId(): Promise<Lead[]> {
     const userId = payload.id;       
     try {               
         const [rows] = await db.query(
-            'SELECT * FROM leads l LEFT JOIN records r ON l.record_id = r.id WHERE l.user_id = ?',
+            'SELECT *, l.id as id_lead FROM leads l LEFT JOIN records r ON l.record_id = r.id WHERE l.user_id = ?',
             [userId]
         );
         

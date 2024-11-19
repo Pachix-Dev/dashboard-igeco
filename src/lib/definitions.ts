@@ -30,5 +30,6 @@ export type Lead = {
     country: string;
     municipality: string;
     state: string;
-    city: string;    
+    city: string;
+    created_at: Date; 
 };

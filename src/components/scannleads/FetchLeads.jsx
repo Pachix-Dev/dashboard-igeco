@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { AddNotes } from './AddNotes'
 
 export function FetchLeads({ leads }) {
   const [currentPage, setCurrentPage] = useState(1)
@@ -26,7 +27,7 @@ export function FetchLeads({ leads }) {
 
   return (
     <>
-      <div className='relative w-full overflow-x-auto overflow-y-hidden'>
+      <div className='w-full overflow-x-auto overflow-y-hidden'>
         <table className='m-0 w-max min-w-full border-separate border-spacing-0 border-none p-0 text-left md:w-full'>
           <thead>
             <tr className='bg-[#16171C] rounded-lg h-8'>
@@ -36,9 +37,7 @@ export function FetchLeads({ leads }) {
               <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'>
                 Email
               </th>
-              <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'>
-                Phone
-              </th>
+
               <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'>
                 Company
               </th>
@@ -46,17 +45,12 @@ export function FetchLeads({ leads }) {
                 Position
               </th>
               <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'>
-                Country
+                Created
               </th>
-              <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'>
-                State
-              </th>
-              <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'>
-                City
-              </th>
+              <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'></th>
             </tr>
           </thead>
-          <tbody className='lowercase first-letter:capitalize'>
+          <tbody>
             {currentLeads.map((lead, index) => (
               <tr key={index}>
                 <td className='py-3 border-slate-6 h-10 w-fit overflow-hidden text-ellipsis whitespace-nowrap border-b px-3 text-sm sm:text-xs'>
@@ -65,9 +59,7 @@ export function FetchLeads({ leads }) {
                 <td className='py-3 border-slate-6 h-10 w-fit overflow-hidden text-ellipsis whitespace-nowrap border-b px-3 text-sm sm:text-xs'>
                   {lead.email}
                 </td>
-                <td className='py-3 border-slate-6 h-10 w-fit overflow-hidden text-ellipsis whitespace-nowrap border-b px-3 text-sm sm:text-xs'>
-                  {lead.phone}
-                </td>
+
                 <td className='py-3 border-slate-6 h-10 w-fit overflow-hidden text-ellipsis whitespace-nowrap border-b px-3 text-sm sm:text-xs'>
                   {lead.company}
                 </td>
@@ -75,13 +67,10 @@ export function FetchLeads({ leads }) {
                   {lead.position}
                 </td>
                 <td className='py-3 border-slate-6 h-10 w-fit overflow-hidden text-ellipsis whitespace-nowrap border-b px-3 text-sm sm:text-xs'>
-                  {lead.country}
+                  {lead.created_at.toLocaleDateString()}
                 </td>
-                <td className='py-3 border-slate-6 h-10 w-fit overflow-hidden text-ellipsis whitespace-nowrap border-b px-3 text-sm sm:text-xs'>
-                  {lead.state}
-                </td>
-                <td className='py-3 border-slate-6 h-10 w-fit overflow-hidden text-ellipsis whitespace-nowrap border-b px-3 text-sm sm:text-xs'>
-                  {lead.city}
+                <td className='py-3 border-slate-6 h-10 w-fit text-ellipsis whitespace-nowrap border-b px-3 text-sm sm:text-xs'>
+                  <AddNotes lead={lead} />
                 </td>
               </tr>
             ))}
