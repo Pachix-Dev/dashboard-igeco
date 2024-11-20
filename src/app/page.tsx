@@ -20,7 +20,12 @@ export default function Login() {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await res.json();      
+      const data = await res.json();
+      
+      if(data?.redirectTo) {
+        router.push(data.redirectTo);
+      }
+
       if (data.status) {    
         setUserSession(data.user);       
         router.push('/dashboard');        

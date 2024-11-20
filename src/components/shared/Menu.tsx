@@ -1,35 +1,80 @@
 'use client';
 
+import { useState } from 'react';
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
 
-export function Menu(){
+export function Menu() {
+  const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+
   const handleLogout = async () => {
     await fetch('/api/logout', {
       method: 'POST'
     });
     router.push('/');
   };
-    return (
-        <>
-        <aside className="flex flex-col justify-between h-screen">          
-          <ul>
-            <li>
-              <Link
-              href="/dashboard"
-              className="flex items-center gap-2 py-2">
-                <Image
-                  src="/img/youlogohere.webp"
-                  alt="logo"
-                  width={135}
-                  height={87}
-                  priority
-                />
-              </Link>
-            </li>           
-            <li>
+
+  const toggleMenu = () => setIsOpen(!isOpen);
+
+  return (
+    <>
+      {/* Mobile Menu Toggle */}
+      <div className="lg:hidden flex justify-between items-center px-4 py-2 border-b">
+        <Link href="/dashboard">
+          <Image
+            src="/img/youlogohere.webp"
+            alt="logo"
+            width={100}
+            height={64}
+            priority
+          />
+        </Link>
+        <button
+          onClick={toggleMenu}
+          className="text-gray-700 hover:text-gray-900 focus:outline-none"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M4 6h16M4 12h16m-7 6h7"
+            />
+          </svg>
+        </button>
+      </div>
+
+      {/* Sidebar Menu */}
+      <aside
+        className={`lg:flex flex-col justify-between h-screen bg-white border-r transition-transform ${
+          isOpen ? 'block' : 'hidden'
+        } lg:block`}
+      >
+        <ul>
+          {/* Logo */}
+          <li className="hidden lg:flex items-center justify-center py-4">
+            <Link href="/dashboard">
+              <Image
+                src="/img/youlogohere.webp"
+                alt="logo"
+                width={135}
+                height={87}
+                priority
+              />
+            </Link>
+          </li>
+
+          {/* Menu Items */}         
+
+          <li>
               <Link
                 href="/dashboard/usuarios"
                 className="flex items-center gap-2 border-s-[3px] border-blue-500 bg-blue-50 px-4 py-3 text-blue-700"
@@ -102,14 +147,30 @@ export function Menu(){
                 <span className="text-sm font-medium"> Profile </span>
               </Link>
             </li>
-          </ul>
-          <button onClick={handleLogout} className="flex items-center gap-2 border-s-[3px] border-transparent px-4 py-3 text-gray-500 hover:border-gray-100 hover:bg-gray-50 hover:text-gray-700">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5.636 5.636a9 9 0 1 0 12.728 0M12 3v9" />
-            </svg>
-            Logout
-          </button>
-        </aside>   
-        </>
-    );
+        </ul>
+
+        {/* Logout Button */}
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 border-s-[3px] border-transparent px-4 py-3 text-gray-500 hover:border-gray-100 hover:bg-gray-50 hover:text-gray-700"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="size-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M5.636 5.636a9 9 0 1 0 12.728 0M12 3v9"
+            />
+          </svg>
+          Logout
+        </button>
+      </aside>
+    </>
+  );
 }

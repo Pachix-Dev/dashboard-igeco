@@ -8,9 +8,8 @@ export async function GET(req: Request, { params }: { params: { id: number } }) 
 }
 
 export async function PUT(req: Request, { params }: { params: { id: number } }) {
-  const { name, email, password } = await req.json();
-  const hashedPassword = await bcrypt.hash(password, 10);   
-  await db.query('UPDATE users SET name = ?, email = ?, password = ?  WHERE id = ?', [name, email, hashedPassword, params.id]);
+  const { name, email, maxsessions } = await req.json();  
+  await db.query('UPDATE users SET name = ?, email = ?, maxsessions = ?  WHERE id = ?', [name, email, maxsessions, params.id]);
   return NextResponse.json({ message: 'User updated' });
 }
 

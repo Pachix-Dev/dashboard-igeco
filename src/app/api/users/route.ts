@@ -13,3 +13,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: 'User not created' }, { status: 500 });
   }
 }
+
+export async function PUT(req: Request, { params }: { params: { id: number } }) {
+  const { name, email, role } = await req.json();  
+  await db.query('UPDATE users SET name = ?, email = ?, role = ? WHERE id = ?', [name, email, role, params.id]);
+  return NextResponse.json({ message: 'User updated' });
+}

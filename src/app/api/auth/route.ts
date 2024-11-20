@@ -4,36 +4,89 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 export async function POST(req: NextRequest) {
-  const { email, password } = await req.json();  
-  
-  try {    
-    const [rows]: any = await db.query('SELECT * FROM users WHERE email = ?', [email]);
-    
-    if (rows.length === 0) {
-      return NextResponse.json({ message: 'Usuario no encontrado' }, { status: 401 });
-    }
+  try {
+    // Parse request body
+    const { email, password } = await req.json();
 
+    // Check if user exists
+    const [rows] : any = await db.query('SELECT * FROM users WHERE email = ?', [email]);
+    if (rows.length === 0) {
+      return NextResponse.json(
+        { message: 'Usuario no encontrado.' },
+        { status: 401 }
+      );
+    }
     const user = rows[0];
-    
+    // Validate password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return NextResponse.json({ message: 'Contraseña o usuario incorrecto...' }, { status: 401 });
+      return NextResponse.json(
+        { message: 'Contraseña o usuario incorrecto.' },
+        { status: 401 }
+      );
     }
-    
-    const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, 'tu_secreto_jwt', { expiresIn: '1h' });
 
-    const response = NextResponse.json({ status: true, message: 'Login exitoso', user: { id: user.id, name:user.name, email: user.email, role: user.role } }, { status: 200 });
-    
+    // Generate JWT token
+    const token = jwt.sign(
+      { id: user.id, email: user.email, role: user.role },
+      process.env.JWT_SECRET || 'tu_secreto_jwt', // Use an environment variable for the secret
+      { expiresIn: '7d' }
+    );
+
+    // Check active sessions
+    const [sessions] : any = await db.query(
+      'SELECT COUNT(*) as sessionCount FROM user_sessions WHERE user_id = ?',
+      [user.id]
+    );
+
+    if (sessions[0].sessionCount >= user.maxsessions) {
+      return NextResponse.json({ redirectTo: '/session-limit' }, { status: 403 });
+    }
+
+    // Check if the token already exists in the database
+    const [existingSession] : any = await db.query(
+      'SELECT * FROM user_sessions WHERE session_token = ?',
+      [token]
+    );
+
+    // Register new session if it doesn't exist
+    if (existingSession.length === 0) {
+      await db.query(
+        'INSERT INTO user_sessions (user_id, session_token) VALUES (?, ?)',
+        [user.id, token]
+      );
+    }
+
+    // Prepare successful response
+    const response = NextResponse.json(
+      {
+        status: true,
+        message: 'Login exitoso',
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        },
+      },
+      { status: 200 }
+    );
+
+    // Set HTTP-only cookie for the token
     response.cookies.set('access_token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      maxAge: 604800, // 7 days in seconds
       path: '/',
     });
 
     return response;
   } catch (error) {
-    return NextResponse.json({ message: 'Error en el servidor' }, { status: 500 });
-  }  
+    console.error('Error during login:', error);
+    return NextResponse.json(
+      { message: 'Error en el servidor. Por favor, intenta nuevamente.' },
+      { status: 500 }
+    );
+  }
 }

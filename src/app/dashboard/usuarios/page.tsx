@@ -6,14 +6,14 @@ import { User } from 'app/lib/definitions'
 export default async function Usuarios(){
     const users: User[] = await fetchUsers();    
     return (
-        <>      
-            <section className="container mx-auto w-full max-w-full px-6 md:max-w-5xl">
+        <>     
+            <section className="container mx-auto w-full max-w-full px-6 md:max-w-5xl grid gap-10">
                 <div className="flex justify-between items-center gap-20">
                     <h1 className="text-center font-extrabold text-2xl">Usuarios</h1>                    
                     <AddUser />
                 </div>
-                <div className="mt-6">
-                    <table className="min-w-full ">
+                <div className='w-full overflow-x-auto overflow-y-hidden'>
+                    <table className='m-0 w-max min-w-full border-separate border-spacing-0 border-none p-0 text-left md:w-full'>
                         <thead className='bg-slate-900 rounded-md'>
                             <tr className='text-left text-xs *:font-extrabold tracking-wider text-white'>
                                 <th className="py-2 px-4 ">Nombre</th>
