@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from 'next/navigation';
@@ -9,6 +9,12 @@ export function Menu() {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
+  
+  const handleNavigate = () => {
+    setIsOpen(false);
+    window.scrollTo(0, 0);
+  };
+ 
   const handleLogout = async () => {
     await fetch('/api/logout', {
       method: 'POST'
@@ -61,7 +67,7 @@ export function Menu() {
         <ul>
           {/* Logo */}
           <li className="hidden lg:flex items-center justify-center py-4">
-            <Link href="/dashboard">
+            <Link href="/dashboard" onClick={handleNavigate}>
               <Image
                 src="/img/youlogohere.webp"
                 alt="logo"
@@ -77,6 +83,7 @@ export function Menu() {
           <li>
               <Link
                 href="/dashboard/usuarios"
+                onClick={handleNavigate}
                 className="flex items-center gap-2 border-s-[3px] border-blue-500 bg-blue-50 px-4 py-3 text-blue-700"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
@@ -88,6 +95,7 @@ export function Menu() {
 
             <li>
               <Link
+              onClick={handleNavigate}
                 href="/dashboard/exhibitors"
                 className="flex items-center gap-2 border-s-[3px] border-transparent px-4 py-3 text-gray-500 hover:border-gray-100 hover:bg-gray-50 hover:text-gray-700"
               >
@@ -112,6 +120,7 @@ export function Menu() {
 
             <li>
               <Link
+              onClick={handleNavigate}
                 href="/dashboard/scan-leads"
                 className="flex items-center gap-2 border-s-[3px] border-transparent px-4 py-3 text-gray-500 hover:border-gray-100 hover:bg-gray-50 hover:text-gray-700"
               >
@@ -126,6 +135,7 @@ export function Menu() {
 
             <li>
               <Link
+              onClick={handleNavigate}
                 href="#"
                 className="flex items-center gap-2 border-s-[3px] border-transparent px-4 py-3 text-gray-500 hover:border-gray-100 hover:bg-gray-50 hover:text-gray-700"
               >
