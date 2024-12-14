@@ -1,8 +1,8 @@
 'use client'
 
+import { useToaster } from 'app/context/ToasterContext'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import Notification from '../shared/Notification'
 
 export function EditExhibitor({ exhibitor }) {
   const [formData, setFormData] = useState({
@@ -16,7 +16,7 @@ export function EditExhibitor({ exhibitor }) {
   const [isOpen, setIsOpen] = useState(false)
   const handleOpen = () => setIsOpen(true)
   const handleClose = () => setIsOpen(false)
-  const [notify, setNotify] = useState()
+  const { notify } = useToaster()
 
   const {
     register,
@@ -36,9 +36,9 @@ export function EditExhibitor({ exhibitor }) {
     })
 
     if (response.ok) {
-      setNotify({ message: 'User Edit successfully', type: 'success' })
+      notify('User Edit successfully', 'success')
     } else {
-      setNotify({ message: 'Failed to edit user', type: 'error' })
+      notify('Failed to edit user', 'error')
     }
 
     handleClose()
@@ -166,8 +166,6 @@ export function EditExhibitor({ exhibitor }) {
           </div>
         </div>
       )}
-
-      {notify && <Notification {...notify} />}
     </>
   )
 }

@@ -1,14 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useToaster } from 'app/context/ToasterContext'
 import * as XLSX from 'xlsx'
-import Notification from '../shared/Notification'
 
 export function ExportExcel({ leads }) {
-  const [notify, setNotify] = useState()
+  const { notify } = useToaster()
   const exportToExcel = () => {
-    if (!leads.length)
-      return setNotify({ message: 'No leads to export', type: 'error' })
+    if (!leads.length) return notify('No leads to export', 'error')
 
     const leadsData = leads.map((lead) => ({
       Name: `${lead.name} ${lead.paternSurname} ${lead.maternSurname}`,
@@ -36,7 +34,6 @@ export function ExportExcel({ leads }) {
       >
         Export to Excel
       </button>
-      {notify && <Notification {...notify} />}
     </>
   )
 }

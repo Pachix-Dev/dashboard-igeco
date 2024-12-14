@@ -28,21 +28,12 @@ export async function POST(req: NextRequest) {
 
     // Generate JWT token
     const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.role },
+      { id: user.id, email: user.email, role: user.role, maxsessions: user.maxsessions },
       process.env.JWT_SECRET || 'tu_secreto_jwt', // Use an environment variable for the secret
       { expiresIn: '7d' }
     );
 
-    // Check active sessions
-    const [sessions] : any = await db.query(
-      'SELECT COUNT(*) as sessionCount FROM user_sessions WHERE user_id = ?',
-      [user.id]
-    );
-
-    if (sessions[0].sessionCount >= user.maxsessions) {
-      return NextResponse.json({ redirectTo: '/session-limit' }, { status: 403 });
-    }
-
+    
     // Check if the token already exists in the database
     const [existingSession] : any = await db.query(
       'SELECT * FROM user_sessions WHERE session_token = ?',

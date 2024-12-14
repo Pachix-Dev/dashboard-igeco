@@ -1,12 +1,10 @@
-import Notification from '../shared/Notification'
-
 export function EditPassword({ user }) {
   const [isOpen, setIsOpen] = useState(false)
   const handleOpen = () => setIsOpen(true)
   const handleClose = () => setIsOpen(false)
 
   const [password, setPassword] = useState('')
-  const [notify, setNotify] = useState()
+  const { notify } = useToaster()
 
   const {
     register,
@@ -18,13 +16,13 @@ export function EditPassword({ user }) {
     const response = await fetch(`/api/users/${user.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, password }),
+      body: JSON.stringify({ email, password }),
     })
 
     if (response.ok) {
-      setNotify({ message: 'User Edit successfully', type: 'success' })
+      notify('User Edit successfully', 'success')
     } else {
-      setNotify({ message: 'Failed to edit user', type: 'error' })
+      notify('Failed to edit user', 'error')
     }
 
     handleClose()
@@ -138,8 +136,6 @@ export function EditPassword({ user }) {
           </div>
         </div>
       )}
-
-      {notify && <Notification {...notify} />}
     </>
   )
 }

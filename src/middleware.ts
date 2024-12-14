@@ -3,19 +3,47 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 import { jwtVerify } from 'jose';
-import { roles } from './lib/db';
+import db, { roles } from './lib/db';
+
+async function checkActiveSessions(userId: string, maxSessions: number) {
+  const [sessions]: any = await db.query(
+    'SELECT COUNT(*) as sessionCount FROM user_sessions WHERE user_id = ?',
+    [userId]
+  );
+
+  return sessions[0].sessionCount >= maxSessions;
+}
 
 export async function middleware(req: NextRequest) {
   const token = req.cookies.get('access_token')?.value;
+  
   if (!token) {
     return NextResponse.redirect(new URL('/', req.url));
   }
   
   try {
-    const {payload} = await jwtVerify(token,new TextEncoder().encode("tu_secreto_jwt"));
-    const userRole = payload.role;    
-               
+    const {payload} : any  = await jwtVerify(token,new TextEncoder().encode("tu_secreto_jwt"));
+    const userRole = payload.role;       
+    const userId = payload.id;
+    const maxSessions = payload.maxsessions;       
     const pathname = new URL(req.url).pathname;
+
+    if (pathname.startsWith('/dashboard/scan-leads')) {
+      const response = await fetch(new URL('/api/check-sessions', req.url).toString(), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ userId, maxSessions }),
+      });
+
+      const data = await response.json();
+
+      if (data.limitReached) {
+        return NextResponse.redirect(new URL('/session-limit', req.url));
+      }
+    }
+
     const allowedRoutes = roles[userRole as keyof typeof roles] as string[];
         
     if (!allowedRoutes.includes(pathname)) {

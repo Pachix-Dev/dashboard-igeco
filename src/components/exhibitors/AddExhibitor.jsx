@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import Notification from '../shared/Notification'
 import { useSessionUser } from 'app/store/session-user'
+import { useToaster } from 'app/context/ToasterContext'
 
 export function AddExhibitor() {
   const [formData, setFormData] = useState({
@@ -14,7 +14,7 @@ export function AddExhibitor() {
   })
   const { userSession } = useSessionUser()
   const [isOpen, setIsOpen] = useState(false)
-  const [notify, setNotify] = useState()
+  const { notify } = useToaster()
 
   const handleOpen = () => setIsOpen(true)
   const handleClose = () => setIsOpen(false)
@@ -39,10 +39,9 @@ export function AddExhibitor() {
     })
 
     if (response.ok) {
-      setNotify({ message: 'User Edit successfully', type: 'success' })
+      notify('User Edit successfully', 'success')
     } else {
-      console.log(response)
-      setNotify({ message: 'Failed to edit user', type: 'error' })
+      notify('Failed to edit user', 'error')
     }
 
     handleClose()
@@ -157,8 +156,6 @@ export function AddExhibitor() {
           </div>
         </div>
       )}
-
-      {notify && <Notification {...notify} />}
     </>
   )
 }

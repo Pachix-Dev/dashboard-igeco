@@ -1,13 +1,13 @@
 'use client'
 
+import { useToaster } from 'app/context/ToasterContext'
 import { useState } from 'react'
-import Notification from '../shared/Notification'
 import { useForm } from 'react-hook-form'
 
 export function AddNotes({ lead }) {
   const [notes, setNotes] = useState(lead.notes)
   const [isOpen, setIsOpen] = useState(false)
-  const [notify, setNotify] = useState()
+  const { notify } = useToaster()
 
   const handleOpen = () => setIsOpen(true)
   const handleClose = () => setIsOpen(false)
@@ -25,9 +25,9 @@ export function AddNotes({ lead }) {
     })
 
     if (response.ok) {
-      setNotify({ message: 'Note update successfully', type: 'success' })
+      notify('Note update successfully', 'success')
     } else {
-      setNotify({ message: 'Failed to update note', type: 'error' })
+      notify('Failed to update note', 'error')
     }
 
     handleClose()
@@ -107,8 +107,6 @@ export function AddNotes({ lead }) {
           </div>
         </div>
       )}
-
-      {notify && <Notification {...notify} />}
     </>
   )
 }

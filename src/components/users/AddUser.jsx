@@ -1,8 +1,8 @@
 'use client'
 
+import { useToaster } from 'app/context/ToasterContext'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import Notification from '../shared/Notification'
 
 export function AddUser() {
   const [name, setName] = useState('')
@@ -10,7 +10,7 @@ export function AddUser() {
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
-  const [notify, setNotify] = useState()
+  const { notify } = useToaster()
 
   const handleOpen = () => setIsOpen(true)
   const handleClose = () => setIsOpen(false)
@@ -31,10 +31,9 @@ export function AddUser() {
     })
 
     if (response.ok) {
-      setNotify({ message: 'User Edit successfully', type: 'success' })
+      notify('User Edit successfully', 'success')
     } else {
-      console.log(response)
-      setNotify({ message: 'Failed to edit user', type: 'error' })
+      notify('Failed to edit user', 'error')
     }
 
     handleClose()
@@ -183,8 +182,6 @@ export function AddUser() {
           </div>
         </div>
       )}
-
-      {notify && <Notification {...notify} />}
     </>
   )
 }

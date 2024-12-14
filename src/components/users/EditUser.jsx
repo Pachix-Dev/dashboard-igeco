@@ -1,8 +1,8 @@
 'use client'
 
+import { useToaster } from 'app/context/ToasterContext'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import Notification from '../shared/Notification'
 
 export function EditUser({ user }) {
   const [isOpen, setIsOpen] = useState(false)
@@ -11,9 +11,9 @@ export function EditUser({ user }) {
 
   const [name, setName] = useState(user.name)
   const [email, setEmail] = useState(user.email)
+  const [role, setRole] = useState(user.role)
   const [maxsessions, setMaxsessions] = useState(user.maxsessions)
-
-  const [notify, setNotify] = useState()
+  const { notify } = useToaster() // Usa el hook para mostrar notificaciones
 
   const {
     register,
@@ -25,13 +25,13 @@ export function EditUser({ user }) {
     const response = await fetch(`/api/users/${user.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, maxsessions }),
+      body: JSON.stringify({ name, email, role, maxsessions }),
     })
 
     if (response.ok) {
-      setNotify({ message: 'User Edit successfully', type: 'success' })
+      notify('User Edit successfully', 'success')
     } else {
-      setNotify({ message: 'Failed to edit user', type: 'error' })
+      notify('Failed to edit user', 'error')
     }
 
     handleClose()
@@ -105,32 +105,60 @@ export function EditUser({ user }) {
                 )}
               </div>
               <div className='mb-4'>
-                <label className='block text-[#f1f7feb5]'>Max Sessions</label>
-                <input
-                  type='number'
-                  {...register('sessions', {
-                    required: 'Sessions is required',
-                    pattern: {
-                      value: /^[0-9]*$/,
-                      message: 'Invalid sessions format',
-                    },
-                    min: {
-                      value: 2,
-                      message: 'Sessions must be at least 2',
-                    },
-                    max: {
-                      value: 10,
-                      message: 'Sessions maximum is 10',
-                    },
-                    onChange: (e) => setMaxsessions(e.target.value),
+                <label className='block text-[#f1f7feb5]'>Tipo de perfil</label>
+                <select
+                  {...register('role', {
+                    required: 'Role is required',
+                    onChange: (e) => setRole(e.target.value),
                   })}
-                  defaultValue={maxsessions}
-                  className='w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 bg-[#16171c]'
-                />
+                  defaultValue={role}
+                  className='mt-2 w-full rounded-lg bg-transparent border border-gray-200 p-4 pe-12 text-sm text-white *:text-black'
+                >
+                  <option value='' disabled>
+                    selecciona una option
+                  </option>
+                  <option value='exhibitor'>Expositor</option>
+                  <option value='exhibitorplus'>Expositor + Scanner</option>
+                </select>
                 {errors.sessions && (
                   <p className='text-red-500 text-sm mt-1'>
                     {errors.sessions.message}
                   </p>
+                )}
+              </div>
+              <div className='mb-4'>
+                {role === 'exhibitorplus' && (
+                  <>
+                    <label className='block text-[#f1f7feb5]'>
+                      Max Sessions
+                    </label>
+                    <input
+                      type='number'
+                      {...register('sessions', {
+                        required: 'Sessions is required',
+                        pattern: {
+                          value: /^[0-9]*$/,
+                          message: 'Invalid sessions format',
+                        },
+                        min: {
+                          value: 2,
+                          message: 'Sessions must be at least 2',
+                        },
+                        max: {
+                          value: 10,
+                          message: 'Sessions maximum is 10',
+                        },
+                        onChange: (e) => setMaxsessions(e.target.value),
+                      })}
+                      defaultValue={maxsessions}
+                      className='w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 bg-[#16171c]'
+                    />
+                    {errors.sessions && (
+                      <p className='text-red-500 text-sm mt-1'>
+                        {errors.sessions.message}
+                      </p>
+                    )}
+                  </>
                 )}
               </div>
               <div className='flex justify-end'>
@@ -152,8 +180,6 @@ export function EditUser({ user }) {
           </div>
         </div>
       )}
-
-      {notify && <Notification {...notify} />}
     </>
   )
 }

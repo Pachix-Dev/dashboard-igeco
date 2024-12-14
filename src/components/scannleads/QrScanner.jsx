@@ -2,12 +2,12 @@
 
 import { Scanner } from '@yudiel/react-qr-scanner'
 import { useState } from 'react'
-import Notification from '../shared/Notification'
 import { useSessionUser } from 'app/store/session-user'
+import { useToaster } from 'app/context/ToasterContext'
 
 export function QrScanner() {
   const [showScanner, setShowScanner] = useState(false)
-  const [notify, setNotify] = useState()
+  const { notify } = useToaster()
   const { userSession } = useSessionUser()
 
   const handleScan = async (result) => {
@@ -23,10 +23,10 @@ export function QrScanner() {
     })
     const data = await response.json()
     if (response.ok) {
-      setNotify({ message: data.message, type: 'success' })
+      notify(data.message, 'success')
       setShowScanner(!showScanner)
     } else {
-      setNotify({ message: data.message, type: 'error' })
+      notify(data.message, 'error')
       setShowScanner(!showScanner)
     }
   }
@@ -88,7 +88,6 @@ export function QrScanner() {
           </div>
         </div>
       )}
-      {notify && <Notification {...notify} />}
     </>
   )
 }
