@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from 'next/navigation';
@@ -12,6 +12,12 @@ export function Menu() {
   const {userSession} = useSessionUser();
   const pathname = usePathname()
 
+  
+  const handleNavigate = () => {
+    setIsOpen(false);
+    window.scrollTo(0, 0);
+  };
+ 
   const handleLogout = async () => {
     await fetch('/api/logout', {
       method: 'POST'
@@ -70,7 +76,7 @@ export function Menu() {
         <ul>
           
           <li className="hidden lg:flex items-center justify-center py-4">
-            <Link href="/dashboard">
+            <Link href="/dashboard" onClick={handleNavigate}>
               <Image
                 src="/img/youlogohere.webp"
                 alt="logo"
@@ -122,6 +128,7 @@ export function Menu() {
           {(userSession?.role === 'exhibitorplus' || userSession?.role === 'admin') && (
             <li>
               <Link
+              onClick={handleNavigate}
                 href="/dashboard/scan-leads"
                 className={`flex items-center gap-2 border-s-[3px] px-4 py-3 ${getLinkClasses('/dashboard/scan-leads')}`}
               >
