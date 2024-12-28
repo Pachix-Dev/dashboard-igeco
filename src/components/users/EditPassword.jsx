@@ -1,4 +1,10 @@
+'use client'
+import { useToaster } from 'app/context/ToasterContext'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+
 export function EditPassword({ user }) {
+  const [showPassword, setShowPassword] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const handleOpen = () => setIsOpen(true)
   const handleClose = () => setIsOpen(false)
@@ -13,14 +19,27 @@ export function EditPassword({ user }) {
   } = useForm()
 
   const handleUser = async () => {
-    const response = await fetch(`/api/users/${user.id}`, {
+    const response = await fetch(`/api/users`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ id: user.id, password }),
     })
 
     if (response.ok) {
       notify('User Edit successfully', 'success')
+      const send = await fetch('/api/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name: user.name, email: user.email, password }),
+      })
+      const sendResponse = await send.json()
+      if (sendResponse.status) {
+        notify(sendResponse.message, 'success')
+      } else {
+        notify(sendResponse.message, 'error')
+      }
     } else {
       notify('Failed to edit user', 'error')
     }
@@ -30,32 +49,36 @@ export function EditPassword({ user }) {
 
   return (
     <>
-      <button
-        onClick={handleOpen}
-        className='h-6 w-6 rounded bg-transparent border-none text-slate-11 hover:bg-slate-5 cursor-pointer align-middle'
-        type='button'
-        aria-label='More actions'
-      >
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          fill='none'
-          viewBox='0 0 24 24'
-          strokeWidth='1.5'
-          stroke='currentColor'
-          className='w-6 h-6 transition-transform duration-300 ease-in-out transform hover:scale-110 hover:rotate-6'
+      <div className='group relative flex justify-center'>
+        <span className='absolute top-[-5px] right-12 scale-0 transition-all rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100'>
+          📨 Enviar credenciales
+        </span>
+        <button
+          onClick={handleOpen}
+          className='h-6 w-6 rounded bg-transparent border-none text-slate-11 hover:bg-slate-5 cursor-pointer align-middle'
+          type='button'
+          aria-label='More actions'
         >
-          <path
-            strokeLinecap='round'
-            strokeLinejoin='round'
-            d='M16.862 4.487l1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10'
-          />
-        </svg>
-      </button>
-
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+            strokeWidth={1.5}
+            stroke='currentColor'
+            className='size-6'
+          >
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              d='M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z'
+            />
+          </svg>
+        </button>
+      </div>
       {isOpen && (
         <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-10'>
           <div className='bg-[#05050a] p-6 rounded-lg shadow-lg w-96'>
-            <h2 className='text-xl font-semibold mb-4'>Edit User</h2>
+            <h2 className='text-xl font-semibold mb-4'>Send Credentials</h2>
             <form onSubmit={handleSubmit(handleUser)}>
               <div className='mb-4'>
                 <label className='block text-[#f1f7feb5]'>
@@ -125,12 +148,26 @@ export function EditPassword({ user }) {
                     )}
                   </button>
                 </div>
-
                 {errors.password && (
                   <p className='text-red-500 text-sm mt-1'>
                     {errors.password.message}
                   </p>
                 )}
+              </div>
+              <div className='flex justify-end'>
+                <button
+                  type='button'
+                  onClick={handleClose}
+                  className='mr-2 px-4 py-2 hover:bg-[#d9edfe25] text-white rounded-lg'
+                >
+                  Cancel
+                </button>
+                <button
+                  type='submit'
+                  className='px-4 py-2 bg-[#ffffffe6] hover:bg-[#ffffff] opacity-60 hover:opacity-100 text-black rounded-lg'
+                >
+                  Send
+                </button>
               </div>
             </form>
           </div>

@@ -14,8 +14,8 @@ const db = mysql.createPool({
 export default db;
 
 export const roles = {
-    admin: ['/dashboard', '/dashboard/usuarios', '/dashboard/exhibitors', '/dashboard/scan-leads'],
-    exhibitor: ['/dashboard', '/dashboard/exhibitors'],
+    admin: ['/dashboard', '/dashboard/usuarios', '/dashboard/exhibitors', '/dashboard/profile', '/dashboard/scan-leads'],
+    exhibitor: ['/dashboard', '/dashboard/exhibitors', '/dashboard/scan-leads'],
     exhibitorplus: ['/dashboard','/dashboard/exhibitors', '/dashboard/scan-leads'],    
 };
 

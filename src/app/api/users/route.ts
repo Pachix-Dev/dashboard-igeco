@@ -14,8 +14,15 @@ export async function POST(req: Request) {
   }
 }
 
-export async function PUT(req: Request, { params }: { params: { id: number } }) {
-  const { name, email, role } = await req.json();  
-  await db.query('UPDATE users SET name = ?, email = ?, role = ? WHERE id = ?', [name, email, role, params.id]);
-  return NextResponse.json({ message: 'User updated' });
+export async function PUT(req: Request) {
+  const { id, password } = await req.json();  
+  try{
+    const hashedPassword = await bcrypt.hash(password, 10);    
+    await db.query('UPDATE users SET password = ? WHERE id = ?', [hashedPassword, id]);
+    return NextResponse.json({ message: 'Password updated sucess', status: true }, {status: 200});
+  }
+  catch(err){
+    return NextResponse.json({ message: 'Error try later', status: false }, { status: 500 });
+  }
+ 
 }

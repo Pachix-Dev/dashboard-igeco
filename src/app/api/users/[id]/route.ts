@@ -1,7 +1,5 @@
 import { NextResponse } from 'next/server';
 import db from '../../../../lib/db';
-import bcrypt from 'bcryptjs';
-import { resolveMx } from 'dns';
 
 export async function GET(req: Request, { params }: { params: { id: number } }) {
   const [user] = await db.query('SELECT * FROM users WHERE id = ?', [params.id]);

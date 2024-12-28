@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from 'next/navigation';
@@ -43,7 +43,7 @@ export function Menu() {
             alt="logo"
             width={100}
             height={64}
-            priority
+            
           />
         </Link>
         <button
@@ -90,6 +90,7 @@ export function Menu() {
           {userSession?.role === 'admin' && (
             <li>
               <Link
+                onClick={handleNavigate}
                 href="/dashboard/usuarios"
                 className={`flex items-center gap-2 border-s-[3px] px-4 py-3 ${getLinkClasses('/dashboard/usuarios')}`}
               >
@@ -103,6 +104,7 @@ export function Menu() {
 
           <li>
             <Link
+              onClick={handleNavigate}
               href="/dashboard/exhibitors"
               className={`flex items-center gap-2 border-s-[3px] px-4 py-3 ${getLinkClasses('/dashboard/exhibitors')}`}
             >
@@ -128,7 +130,7 @@ export function Menu() {
           {(userSession?.role === 'exhibitorplus' || userSession?.role === 'admin') && (
             <li>
               <Link
-              onClick={handleNavigate}
+                onClick={handleNavigate}
                 href="/dashboard/scan-leads"
                 className={`flex items-center gap-2 border-s-[3px] px-4 py-3 ${getLinkClasses('/dashboard/scan-leads')}`}
               >
@@ -143,7 +145,8 @@ export function Menu() {
 
           <li>
             <Link
-              href="#"
+              onClick={handleNavigate}
+              href="/dashboard/profile"
               className={`flex items-center gap-2 border-s-[3px] px-4 py-3 ${getLinkClasses('/dashboard/profile')}`}
             >
               <svg

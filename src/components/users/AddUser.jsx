@@ -32,6 +32,21 @@ export function AddUser() {
 
     if (response.ok) {
       notify('User Edit successfully', 'success')
+      // Enviar correo electrónico con las credenciales
+
+      const sendResponse = await fetch('/api/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, name, password }),
+      })
+
+      if (sendResponse.status) {
+        notify(sendResponse.message, 'success')
+      } else {
+        notify(sendResponse.message, 'error')
+      }
     } else {
       notify('Failed to edit user', 'error')
     }

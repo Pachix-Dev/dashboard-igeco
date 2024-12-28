@@ -22,7 +22,7 @@ export const ToasterProvider = ({ children }: { children: ReactNode }) => {
 
   // Función para mostrar la notificación
   const notify = useCallback((message: string, type: 'success' | 'error') => {
-    setNotification({ message, type })
+    setNotification({ message, type })    
     setTimeout(() => setNotification(null), 3000) // Oculta la notificación después de 3 segundos
   }, [])
 
@@ -30,11 +30,7 @@ export const ToasterProvider = ({ children }: { children: ReactNode }) => {
     <ToasterContext.Provider value={{ notify }}>
       {children}
       {notification && (
-        <ol
-        tabIndex={-1}
-        className="absolute bottom-0 right-0 z-50 p-6"
-        >
-        <li>
+        <div className="p-6 absolute" style={{ bottom: 0, right: 0, zIndex: 50 }}>        
           <div
             className={`${
                 notification.type === 'success'
@@ -71,10 +67,8 @@ export const ToasterProvider = ({ children }: { children: ReactNode }) => {
                 <h1 className="text-sm text-slate-12 font-semibold">{notification.message}</h1>
               </div>
             </div>
-          </div>
-        </li>
-      </ol>
-       
+          </div>        
+        </div>       
       )}
     </ToasterContext.Provider>
   )
