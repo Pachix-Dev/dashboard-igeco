@@ -2,6 +2,7 @@ import mysql from 'mysql2/promise';
 import { User, Exhibitor, Lead } from './definitions';
 import { cookies } from 'next/headers';
 import { jwtVerify } from 'jose';
+import { unstable_noStore } from 'next/cache';
 
 const db = mysql.createPool({
     host: process.env.DB_HOST,
@@ -19,6 +20,7 @@ export const roles = {
 };
 
 export async function fetchUsers(): Promise<User[]> {
+    unstable_noStore();
     try{
         const [rows] = await db.query('SELECT * FROM users');
         return rows as User[];
