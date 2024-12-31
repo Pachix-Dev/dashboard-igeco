@@ -2,7 +2,8 @@ import mysql from 'mysql2/promise';
 import { User, Exhibitor, Lead } from './definitions';
 import { cookies } from 'next/headers';
 import { jwtVerify } from 'jose';
-import { unstable_noStore } from 'next/cache';
+
+
 
 const db = mysql.createPool({
     host: process.env.DB_HOST,
@@ -19,8 +20,7 @@ export const roles = {
     exhibitorplus: ['/dashboard','/dashboard/exhibitors', '/dashboard/profile', '/dashboard/scan-leads'],    
 };
 
-export async function fetchUsers(): Promise<User[]> {
-    unstable_noStore();
+export async function fetchUsers(): Promise<User[]> {    
     try{
         const [rows] = await db.query('SELECT * FROM users');
         return rows as User[];
@@ -30,7 +30,7 @@ export async function fetchUsers(): Promise<User[]> {
     }
 }
 
-export async function fetchExhibitors(): Promise<Exhibitor[]> {
+export async function fetchExhibitors(): Promise<Exhibitor[]> {    
     try{
         const [rows] = await db.query('SELECT * FROM exhibitors');
         return rows as Exhibitor[];
@@ -40,7 +40,7 @@ export async function fetchExhibitors(): Promise<Exhibitor[]> {
     }
 }
 
-export async function fetchRecordsByUserId(): Promise<Lead[]> {
+export async function fetchRecordsByUserId(): Promise<Lead[]> {    
     const cookieStore = cookies();
     const token = cookieStore.get('access_token')?.value;
     if (!token) {

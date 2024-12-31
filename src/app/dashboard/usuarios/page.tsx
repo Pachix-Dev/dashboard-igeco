@@ -2,8 +2,10 @@ import { fetchUsers } from 'app/lib/db'
 import { AddUser } from '../../../components/users/AddUser'
 import { ListUsers } from '../../../components/users/ListUsers'
 import { User } from 'app/lib/definitions'
+import { unstable_noStore as noStore } from 'next/cache';
 
 export default async function Usuarios(){
+    noStore();
     const users: User[] = await fetchUsers();    
     return (
         <>     

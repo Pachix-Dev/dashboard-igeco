@@ -1,9 +1,11 @@
 import { Exhibitor } from 'app/lib/definitions';
 import {EditExhibitor} from '../../../components/exhibitors/EditExhibitor'
 import {AddExhibitor} from '../../../components/exhibitors/AddExhibitor'
-
 import { fetchExhibitors } from 'app/lib/db';
+import { unstable_noStore as noStore } from 'next/cache';
+
 export default async function Exhibitors(){
+    noStore();
     const exhibitors: Exhibitor[] = await fetchExhibitors();
     return (
         <>      
