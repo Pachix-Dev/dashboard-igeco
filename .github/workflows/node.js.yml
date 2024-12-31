@@ -34,8 +34,8 @@ jobs:
       - run: npm run build --if-present
       - name: Set Secrets and Environment Variables
         run: |
-          echo "RESEND_API_KEY=${{secrets.RESEND_API_KEY}}" >> .env.production
-          echo "DB_HOST=${{secrets.DB_HOST}}" >> .env.production
-          echo "DB_USER=${{secrets.DB_USER}}" >> .env.production
-          echo "DB_PASSWORD=${{secrets.DB_PASSWORD}}" >> .env.production
-          echo "DB_NAME=${{secrets.DB_NAME}}" >> .env.production
+          echo "RESEND_API_KEY=${{secrets.RESEND_API_KEY}}" >> .env
+          echo "DB_HOST=${{secrets.DB_HOST}}" >> .env
+          echo "DB_USER=${{secrets.DB_USER}}" >> .env
+          echo "DB_PASSWORD=${{secrets.DB_PASSWORD}}" >> .env
+          echo "DB_NAME=${{secrets.DB_NAME}}" >> .env
