@@ -2,7 +2,6 @@ import mysql from 'mysql2/promise';
 import { User, Exhibitor, Lead } from './definitions';
 import { cookies } from 'next/headers';
 import { jwtVerify } from 'jose';
-import bcrypt from 'bcryptjs';
 
 const db = mysql.createPool({
     host: process.env.DB_HOST,
