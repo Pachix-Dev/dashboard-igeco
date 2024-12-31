@@ -22,10 +22,6 @@ export default function Login() {
 
       const data = await res.json();
       
-      if(data?.redirectTo) {
-        router.push(data.redirectTo);
-      }
-
       if (data.status) {    
         setUserSession(data.user);       
         router.push('/dashboard');        
