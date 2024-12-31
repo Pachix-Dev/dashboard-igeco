@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import QrCodeWithLogo from 'qrcode-with-logos'
 import { useEffect, useRef } from 'react'
 
@@ -24,7 +25,7 @@ export default function GenerarQr() {
   return (
     <main className='min-h-screen p-4 w-full '>
       <h1>Generar QR con logo personalizado</h1>
-      <img id='image' ref={imgRef} alt='QR Code' />
+      <Image id='image' ref={imgRef} alt='QR Code' />
     </main>
   )
 }

@@ -14,8 +14,8 @@ export default db;
 
 export const roles = {
     admin: ['/dashboard', '/dashboard/usuarios', '/dashboard/exhibitors', '/dashboard/profile', '/dashboard/scan-leads'],
-    exhibitor: ['/dashboard', '/dashboard/exhibitors', '/dashboard/scan-leads'],
-    exhibitorplus: ['/dashboard','/dashboard/exhibitors', '/dashboard/scan-leads'],    
+    exhibitor: ['/dashboard', '/dashboard/exhibitors', '/dashboard/profile'],
+    exhibitorplus: ['/dashboard','/dashboard/exhibitors', '/dashboard/profile', '/dashboard/scan-leads'],    
 };
 
 export async function fetchUsers(): Promise<User[]> {

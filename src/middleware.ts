@@ -3,16 +3,9 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 import { jwtVerify } from 'jose';
-import db, { roles } from './lib/db';
+import { roles } from './lib/db';
 
-async function checkActiveSessions(userId: string, maxSessions: number) {
-  const [sessions]: any = await db.query(
-    'SELECT COUNT(*) as sessionCount FROM user_sessions WHERE user_id = ?',
-    [userId]
-  );
 
-  return sessions[0].sessionCount >= maxSessions;
-}
 
 export async function middleware(req: NextRequest) {
   const token = req.cookies.get('access_token')?.value;
