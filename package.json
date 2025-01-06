@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-email/components": "^0.0.31",
     "@yudiel/react-qr-scanner": "^2.0.8",
     "bcryptjs": "^2.4.3",
     "chart.js": "^4.4.2",

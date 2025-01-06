@@ -9,7 +9,7 @@ import { useSessionUser } from 'app/store/session-user';
 export function Menu() {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
-  const {userSession} = useSessionUser();
+  const {userSession, clear} = useSessionUser();
   const pathname = usePathname()
 
   
@@ -22,6 +22,7 @@ export function Menu() {
     await fetch('/api/logout', {
       method: 'POST'
     });
+    clear();
     router.push('/');
   };
 
@@ -39,11 +40,11 @@ export function Menu() {
       <div className="lg:hidden flex justify-between items-center px-4 py-2 border-b">
         <Link href="/dashboard">
           <Image
-            src="/img/youlogohere.webp"
+            src="/img/deutschemesselogo.webp"
             alt="logo"
-            width={100}
-            height={64}
-            
+            width={50}
+            height={32}
+            className='rounded-lg'
           />
         </Link>
         <button
@@ -78,10 +79,11 @@ export function Menu() {
           <li className="hidden lg:flex items-center justify-center py-4">
             <Link href="/dashboard" onClick={handleNavigate}>
               <Image
-                src="/img/youlogohere.webp"
+                src="/img/deutschemesselogo.webp"
                 alt="logo"
-                width={135}
-                height={87}
+                width={50}
+                height={32}
+                className='rounded-lg'
                 priority
               />
             </Link>

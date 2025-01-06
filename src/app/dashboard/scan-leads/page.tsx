@@ -3,8 +3,10 @@ import { QrScanner } from '../../../components/scannleads/QrScanner'
 import { Lead } from 'app/lib/definitions'
 import { FetchLeads } from 'app/components/scannleads/FetchLeads'
 import { ExportExcel } from 'app/components/scannleads/ExportExcel'
+import { unstable_noStore as noStore } from 'next/cache';
 
 export default async function ScanLeads() {
+    noStore();
     const leads: Lead[] = await fetchRecordsByUserId();    
     return (
         <section className="container mx-auto w-full max-w-full px-6 md:max-w-5xl grid gap-10">

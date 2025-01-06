@@ -22,7 +22,7 @@ export const roles = {
 
 export async function fetchUsers(): Promise<User[]> {    
     try{
-        const [rows] = await db.query('SELECT * FROM users');
+        const [rows] = await db.query('SELECT * FROM users WHERE role != "admin"');
         return rows as User[];
     } catch (error) {
         console.error('Database Error: ', error);

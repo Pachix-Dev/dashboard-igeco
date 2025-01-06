@@ -58,6 +58,8 @@ export async function POST(req: NextRequest) {
           name: user.name,
           email: user.email,
           role: user.role,
+          maxsessions: user.maxsessions,
+          maxexhibitors: user.maxexhibitors
         },
       },
       { status: 200 }

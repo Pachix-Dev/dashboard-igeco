@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { AddNotes } from './AddNotes'
+import { getSpanishDateString } from '../../utils/helpers.js'
 
 export function FetchLeads({ leads }) {
   const [currentPage, setCurrentPage] = useState(1)
@@ -67,7 +68,7 @@ export function FetchLeads({ leads }) {
                   {lead.position}
                 </td>
                 <td className='py-3 border-slate-6 h-10 w-fit overflow-hidden text-ellipsis whitespace-nowrap border-b px-3 text-sm sm:text-xs'>
-                  {lead.created_at.toLocaleDateString()}
+                  {getSpanishDateString(lead.created_at)}
                 </td>
                 <td className='py-3 border-slate-6 h-10 w-fit text-ellipsis whitespace-nowrap border-b px-3 text-sm sm:text-xs'>
                   <AddNotes lead={lead} />

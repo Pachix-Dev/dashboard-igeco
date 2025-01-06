@@ -9,6 +9,9 @@ export function AddUser() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const [role, setRole] = useState('')
+  const [maxsessions, setMaxsessions] = useState('')
+  const [maxexhibitors, setMaxexhibitors] = useState('')
   const [isOpen, setIsOpen] = useState(false)
   const { notify } = useToaster()
 
@@ -27,7 +30,14 @@ export function AddUser() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ name, email, password }),
+      body: JSON.stringify({
+        name,
+        email,
+        password,
+        role,
+        maxsessions,
+        maxexhibitors,
+      }),
     })
 
     if (response.ok) {
@@ -175,6 +185,94 @@ export function AddUser() {
                 {errors.password && (
                   <p className='text-red-500 text-sm mt-1'>
                     {errors.password.message}
+                  </p>
+                )}
+              </div>
+              <div className='mb-4'>
+                <label className='block text-[#f1f7feb5]'>Tipo de perfil</label>
+                <select
+                  {...register('role', {
+                    required: 'Role is required',
+                    onChange: (e) => setRole(e.target.value),
+                  })}
+                  defaultValue={role}
+                  className='mt-2 w-full rounded-lg bg-transparent border border-gray-200 p-4 pe-12 text-sm text-white *:text-black'
+                >
+                  <option value='' disabled>
+                    Selecciona una opción
+                  </option>
+                  <option value='exhibitor'>Expositor</option>
+                  <option value='exhibitorplus'>Expositor + Scanner</option>
+                </select>
+                {errors.role && (
+                  <p className='text-red-500 text-sm mt-1'>
+                    {errors.role.message}
+                  </p>
+                )}
+              </div>
+              <div className='mb-4'>
+                {role === 'exhibitorplus' && (
+                  <>
+                    <label className='block text-[#f1f7feb5]'>
+                      Max Sessions
+                    </label>
+                    <input
+                      type='number'
+                      {...register('sessions', {
+                        required: 'Sessions is required',
+                        pattern: {
+                          value: /^[0-9]*$/,
+                          message: 'Invalid sessions format',
+                        },
+                        min: {
+                          value: 2,
+                          message: 'Sessions must be at least 2',
+                        },
+                        max: {
+                          value: 10,
+                          message: 'Sessions maximum is 10',
+                        },
+                        onChange: (e) => setMaxsessions(e.target.value),
+                      })}
+                      defaultValue={maxsessions}
+                      className='w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 bg-[#16171c]'
+                    />
+                    {errors.sessions && (
+                      <p className='text-red-500 text-sm mt-1'>
+                        {errors.sessions.message}
+                      </p>
+                    )}
+                  </>
+                )}
+              </div>
+              <div className='mb-4'>
+                <label className='block text-[#f1f7feb5]'>
+                  Max Exbhibitors
+                </label>
+                <input
+                  type='number'
+                  {...register('maxexhibitors', {
+                    required: 'Exhibitos is required',
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: 'Invalid sessions format',
+                    },
+                    min: {
+                      value: 2,
+                      message: 'Exhibitors must be at least 2',
+                    },
+                    max: {
+                      value: 10,
+                      message: 'Exhibitos maximum is 10',
+                    },
+                    onChange: (e) => setMaxexhibitors(e.target.value),
+                  })}
+                  defaultValue={maxexhibitors}
+                  className='w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 bg-[#16171c]'
+                />
+                {errors.maxexhibitors && (
+                  <p className='text-red-500 text-sm mt-1'>
+                    {errors.maxexhibitors.message}
                   </p>
                 )}
               </div>

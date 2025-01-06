@@ -8,9 +8,9 @@ export async function POST(req: Request) {
 
   try {
     await resend.emails.send({
-      from: 'RE+ MEXICO 2025 <noreply@re-plus-mexico.com.mx>',
+      from: 'IGECO <noreply@igeco.mx>',
       to: email,
-      subject: 'Te damos la bienvenida a RE+ MEXICO 2025',
+      subject: 'Te damos la bienvenida a IGECO para Expositores',
       react: EmailTemplate({ name, email, password }),
     });
 

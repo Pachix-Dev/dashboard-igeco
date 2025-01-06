@@ -13,6 +13,7 @@ export function EditUser({ user }) {
   const [email, setEmail] = useState(user.email)
   const [role, setRole] = useState(user.role)
   const [maxsessions, setMaxsessions] = useState(user.maxsessions)
+  const [maxexhibitors, setMaxexhibitors] = useState(user.maxexhibitors)
   const { notify } = useToaster() // Usa el hook para mostrar notificaciones
 
   const {
@@ -120,9 +121,9 @@ export function EditUser({ user }) {
                   <option value='exhibitor'>Expositor</option>
                   <option value='exhibitorplus'>Expositor + Scanner</option>
                 </select>
-                {errors.sessions && (
+                {errors.role && (
                   <p className='text-red-500 text-sm mt-1'>
-                    {errors.sessions.message}
+                    {errors.role.message}
                   </p>
                 )}
               </div>
@@ -159,6 +160,37 @@ export function EditUser({ user }) {
                       </p>
                     )}
                   </>
+                )}
+              </div>
+              <div className='mb-4'>
+                <label className='block text-[#f1f7feb5]'>
+                  Max Exbhibitors
+                </label>
+                <input
+                  type='number'
+                  {...register('maxexhibitors', {
+                    required: 'Exhibitos is required',
+                    pattern: {
+                      value: /^[0-9]*$/,
+                      message: 'Invalid sessions format',
+                    },
+                    min: {
+                      value: 2,
+                      message: 'Exhibitors must be at least 2',
+                    },
+                    max: {
+                      value: 10,
+                      message: 'Exhibitos maximum is 10',
+                    },
+                    onChange: (e) => setMaxexhibitors(e.target.value),
+                  })}
+                  defaultValue={maxexhibitors}
+                  className='w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 bg-[#16171c]'
+                />
+                {errors.maxexhibitors && (
+                  <p className='text-red-500 text-sm mt-1'>
+                    {errors.maxexhibitors.message}
+                  </p>
                 )}
               </div>
               <div className='flex justify-end'>

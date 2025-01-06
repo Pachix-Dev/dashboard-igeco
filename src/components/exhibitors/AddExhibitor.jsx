@@ -53,7 +53,7 @@ export function AddExhibitor() {
         className='bg-[#E6E6E7] text-black rounded-md p-2 flex items-center justify-center gap-2 font-bold hover:bg-slate-400 hover:text-white'
         onClick={handleOpen}
       >
-        + Agregar Usuario
+        + Agregar Expositor
       </button>
 
       {isOpen && (
