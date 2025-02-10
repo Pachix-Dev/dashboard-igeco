@@ -4,7 +4,7 @@ import { ToasterProvider } from "app/context/ToasterContext";
 
 
 export const metadata: Metadata = {
-  title: "ExpoAccess | Dashboard",
+  title: "IGECO | Dashboard",
   description: "app expositores, scanners",
 };
 

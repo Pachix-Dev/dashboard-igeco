@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useSessionUser } from 'app/store/session-user';
+import { Img } from '@react-email/components';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -30,9 +31,10 @@ export default function Login() {
 
     return (
         <main className='flex h-screen items-center justify-center'>
-          <section className="mx-auto min-h-[590px] w-full max-w-[450px] px-4">
-            <h1 className="text-lg font-extrabold">
-              Log in to ExpoAccess
+          <section className="mx-auto w-full max-w-[450px] px-4">
+            <Img src='/img/deutschemesselogo.webp' alt='logo' className='mx-auto rounded-2xl w-16' />
+            <h1 className="mt-5 text-lg font-extrabold text-center">
+              Log in to IGECO
             </h1>
             <form onSubmit={handleSubmit} className='mt-5'>
               <div className='grid'>
@@ -66,7 +68,7 @@ export default function Login() {
                 </svg>
               </button>
             </form>
-            <p className='mt-5'>By signing in, you agree to our Terms of Service and Privacy Policy.</p>  
+            <p className='mt-5'>By signing in, you agree to our Terms of Service and <a href='https://igeco.mx/aviso-de-privacidad' target='_blank' className='text-[#3b9eff]'>Privacy Policy.</a></p>  
           </section>                  
         </main>
     );

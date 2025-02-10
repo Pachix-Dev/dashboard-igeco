@@ -61,7 +61,7 @@ export function AddNotes({ lead }) {
       </div>
 
       {isOpen && (
-        <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center'>
+        <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50'>
           <div className='bg-[#05050a] p-6 rounded-lg shadow-lg w-96'>
             <h2 className='text-xl font-semibold mb-4'>Add Note for User</h2>
             <form onSubmit={handleSubmit(handleUser)}>
