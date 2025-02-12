@@ -16,14 +16,14 @@ export default function Dashboard(){
                     Exhibitors
                 </Link>            
             </div>
-            <p className="mt-5">* Recuerda que la información proporcionada se usara para imprimir el gafete de acceso favor de verificar la información antes de guardar.</p>
+            <p className="mt-5">* Recuerda que la información proporcionada se usara para imprimir el gafete de acceso.</p>
             <p className="mt-5">Puntos importantes:</p>
             <ul className="mt-10 ps-5 list-disc ml-5 space-y-3">
                 <li>                    
                     Tienes derecho a registrar a {userSession?.maxexhibitors} expositores.
                 </li>
                 <li>                    
-                    Los gafetes se entregaran el día del evento en el modulo de registro de forma individual para expositores recuerda que debes presentar una identificación oficial.
+                    Los gafetes a expositores se entregaran el día del evento en el modulo de registro de forma individual para expositores recuerda que debes presentar una identificación oficial.
                 </li>
                 <li>                    
                     No se permiten reimpresiones de gafetes por lo que es importante conserves y guardes tu gafete durante los dias del  evento de lo contrario tendra un costo adicional.

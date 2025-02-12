@@ -38,7 +38,7 @@ export function Menu() {
     <>
       
       <div className="lg:hidden flex justify-between items-center px-4 py-2 border-b">
-        <Link href="/dashboard">
+        <Link href="/dashboard" onClick={handleNavigate}>
           <Image
             src="/img/deutschemesselogo.webp"
             alt="logo"

@@ -9,7 +9,7 @@ export default async function ScanLeads() {
     noStore();
     const leads: Lead[] = await fetchRecordsByUserId();    
     return (
-        <section className="container mx-auto w-full max-w-full px-6 md:max-w-5xl grid gap-10">
+        <section className="container mx-auto w-full max-w-full px-1 md:max-w-6xl grid gap-5">
             <div className="flex justify-between items-center gap-20">
                 <h1 className="text-center font-extrabold text-2xl">Leads</h1>
                 <div className='grid md:flex gap-4'>
