@@ -30,9 +30,17 @@ export async function fetchUsers(): Promise<User[]> {
     }
 }
 
-export async function fetchExhibitors(): Promise<Exhibitor[]> {    
+export async function fetchExhibitors(): Promise<Exhibitor[]> {  
+    const cookieStore = cookies();
+    const token = cookieStore.get('access_token')?.value; 
+    if (!token) {
+        throw new Error('No access token found');
+    } 
+    const {payload} = await jwtVerify(token, new TextEncoder().encode("tu_secreto_jwt"));
+
+    const userId = payload.id;  
     try{
-        const [rows] = await db.query('SELECT * FROM exhibitors');
+        const [rows] = await db.query('SELECT * FROM exhibitors WHERE user_id = ?', [userId]);
         return rows as Exhibitor[];
     } catch (error) {
         console.error('Database Error: ', error);

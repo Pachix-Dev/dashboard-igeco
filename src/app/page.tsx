@@ -32,7 +32,10 @@ export default function Login() {
     return (
         <main className='flex h-screen items-center justify-center'>
           <section className="mx-auto w-full max-w-[450px] px-4">
-            <Img src='/img/deutschemesselogo.webp' alt='logo' className='mx-auto rounded-2xl w-16' />
+            <div className='flex justify-center gap-2'>
+              <Img src='/img/deutschemesselogo.webp' alt='logo' className='rounded-2xl w-16' />
+              <Img src='/img/italian.png' alt='logo' className='rounded-2xl w-16' />
+            </div>
             <h1 className="mt-5 text-lg font-extrabold text-center">
               Log in to IGECO
             </h1>
