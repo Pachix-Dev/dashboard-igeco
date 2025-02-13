@@ -10,10 +10,10 @@ export type User= {
 export type Exhibitor = {
     id: number;
     name: string;
-    email: string;
-    phone: string;
+    lastname: string;
+    email: string;    
     position: string;
-    created_at: Date;
+    nationality: string;
 };
 
 export type Lead = {

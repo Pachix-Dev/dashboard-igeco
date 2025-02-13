@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { AddNotes } from './AddNotes'
-import { getSpanishDateString } from '../../utils/helpers.js'
 
 export function FetchLeads({ leads }) {
   const [currentPage, setCurrentPage] = useState(1)
@@ -79,7 +78,7 @@ export function FetchLeads({ leads }) {
           </span>
         </div>
 
-        <table className='m-0 w-max min-w-full border-separate border-spacing-0 border-none p-0 text-left md:w-full '>
+        <table className='m-0 w-max min-w-full border-separate border-spacing-0 border-none p-0 text-left md:w-full'>
           <thead>
             <tr className='bg-[#0A0A14] rounded-lg h-8'>
               <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'>
@@ -96,7 +95,7 @@ export function FetchLeads({ leads }) {
                 Position
               </th>
               <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'>
-                Created
+                Phone
               </th>
               <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'></th>
             </tr>
@@ -119,7 +118,7 @@ export function FetchLeads({ leads }) {
                   {lead.position}
                 </td>
                 <td className='py-3 border-slate-6 h-10 w-fit overflow-hidden text-ellipsis whitespace-nowrap border-b px-3 text-sm sm:text-xs'>
-                  {getSpanishDateString(lead.created_at)}
+                  {lead.phone}
                 </td>
                 <td className='py-3 border-slate-6 h-10 w-fit text-ellipsis whitespace-nowrap border-b px-3 text-sm sm:text-xs'>
                   <AddNotes lead={lead} />
