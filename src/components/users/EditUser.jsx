@@ -14,6 +14,7 @@ export function EditUser({ user }) {
   const [role, setRole] = useState(user.role)
   const [maxsessions, setMaxsessions] = useState(user.maxsessions)
   const [maxexhibitors, setMaxexhibitors] = useState(user.maxexhibitors)
+  const [event, setevent] = useState(user.event)
   const { notify } = useToaster() // Usa el hook para mostrar notificaciones
 
   const {
@@ -190,6 +191,28 @@ export function EditUser({ user }) {
                 {errors.maxexhibitors && (
                   <p className='text-red-500 text-sm mt-1'>
                     {errors.maxexhibitors.message}
+                  </p>
+                )}
+              </div>
+              <div className='mb-4'>
+                <label className='block text-[#f1f7feb5]'>Tipo de evento</label>
+                <select
+                  {...register('event', {
+                    required: 'Event is required',
+                    onChange: (e) => setevent(e.target.value),
+                  })}
+                  defaultValue={event}
+                  className='mt-2 w-full rounded-lg bg-transparent border border-gray-200 p-4 pe-12 text-sm text-white *:text-black'
+                >
+                  <option value='' disabled>
+                    selecciona una option
+                  </option>
+                  <option value='Ecomondo'>Ecomondo</option>
+                  <option value='Replus'>Replus</option>
+                </select>
+                {errors.event && (
+                  <p className='text-red-500 text-sm mt-1'>
+                    {errors.event.message}
                   </p>
                 )}
               </div>

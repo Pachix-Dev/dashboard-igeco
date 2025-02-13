@@ -36,7 +36,7 @@ export function ListUsers({ users }) {
               <th className='py-2 px-4 '>Nombre</th>
               <th className='py-2 px-4'>Correo</th>
               <th className='py-2 px-4'>Rol</th>
-              <th className='py-2 px-4'></th>
+              <th className='py-2 px-4'>Event</th>
             </tr>
           </thead>
           <tbody>
@@ -50,6 +50,9 @@ export function ListUsers({ users }) {
                 </td>
                 <td className='py-2 px-4 border-b border-gray-200 text-sm'>
                   {user.role}
+                </td>
+                <td className='py-2 px-4 border-b border-gray-200 text-sm'>
+                  {user.event}
                 </td>
                 <td className='py-2 px-4 border-b border-gray-200 text-sm flex gap-2 w-fit'>
                   <EditUser user={user} />

@@ -12,6 +12,7 @@ export function AddUser() {
   const [role, setRole] = useState('')
   const [maxsessions, setMaxsessions] = useState('')
   const [maxexhibitors, setMaxexhibitors] = useState('')
+  const [event, setevent] = useState('')
   const [isOpen, setIsOpen] = useState(false)
   const { notify } = useToaster()
 
@@ -37,6 +38,7 @@ export function AddUser() {
         role,
         maxsessions,
         maxexhibitors,
+        event,
       }),
     })
 
@@ -273,6 +275,28 @@ export function AddUser() {
                 {errors.maxexhibitors && (
                   <p className='text-red-500 text-sm mt-1'>
                     {errors.maxexhibitors.message}
+                  </p>
+                )}
+              </div>
+              <div className='mb-4'>
+                <label className='block text-[#f1f7feb5]'>Tipo de evento</label>
+                <select
+                  {...register('event', {
+                    required: 'Event is required',
+                    onChange: (e) => setevent(e.target.value),
+                  })}
+                  defaultValue={event}
+                  className='mt-2 w-full rounded-lg bg-transparent border border-gray-200 p-4 pe-12 text-sm text-white *:text-black'
+                >
+                  <option value='' disabled>
+                    Selecciona una opción
+                  </option>
+                  <option value='Ecomondo'>Ecomondo</option>
+                  <option value='Replus'>Replus</option>
+                </select>
+                {errors.event && (
+                  <p className='text-red-500 text-sm mt-1'>
+                    {errors.event.message}
                   </p>
                 )}
               </div>

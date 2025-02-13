@@ -3,10 +3,10 @@ import db from '../../../lib/db';
 import bcrypt from 'bcryptjs';
 
 export async function POST(req: Request) {
-  const { name, email, password, role, maxsessions,  maxexhibitors} = await req.json();    
+  const { name, email, password, role, maxsessions,  maxexhibitors, event} = await req.json();    
   try{    
     const hashedPassword = await bcrypt.hash(password, 10);    
-    await db.query('INSERT INTO users (name, email, password, role, maxsessions, maxexhibitors) VALUES (?, ?, ?, ?, ? ,?)', [name, email, hashedPassword, role, maxsessions, maxexhibitors]);
+    await db.query('INSERT INTO users (name, email, password, role, maxsessions, maxexhibitors, event) VALUES (?, ?, ?, ?, ?, ?, ?)', [name, email, hashedPassword, role, maxsessions, maxexhibitors, event]);
     return NextResponse.json({ message: 'User created' }, { status: 201 });
   }catch(err){    
     return NextResponse.json({ message: 'User not created' }, { status: 500 });

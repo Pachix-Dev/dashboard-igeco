@@ -7,8 +7,8 @@ export async function GET(req: Request, { params }: { params: { id: number } }) 
 }
 
 export async function PUT(req: Request, { params }: { params: { id: number } }) {
-  const { name, email, role, maxsessions } = await req.json();  
-  await db.query('UPDATE users SET name = ?, email = ?, role=?, maxsessions = ?  WHERE id = ?', [name, email, role, maxsessions, params.id]);
+  const { name, email, role, maxsessions, event } = await req.json();  
+  await db.query('UPDATE users SET name = ?, email = ?, role=?, maxsessions = ? , event = ? WHERE id = ?', [name, email, role, maxsessions, event, params.id]);
   return NextResponse.json({ message: 'User updated' });
 }
 
