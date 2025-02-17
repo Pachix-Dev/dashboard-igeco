@@ -1,6 +1,7 @@
 import { Exhibitor } from 'app/lib/definitions';
 import {EditExhibitor} from '../../../components/exhibitors/EditExhibitor'
 import {AddExhibitor} from '../../../components/exhibitors/AddExhibitor'
+import {SearchExhibitor} from '../../../components/exhibitors/SearchExhibitors'
 import { fetchExhibitors } from 'app/lib/db';
 import { unstable_noStore as noStore } from 'next/cache';
 
@@ -14,6 +15,7 @@ export default async function Exhibitors(){
                     <h1 className="text-center font-extrabold text-2xl">Exhibitors</h1>                    
                     <AddExhibitor />
                 </div>
+                <SearchExhibitor /> 
                 <div className="w-full overflow-x-auto overflow-y-hidden bg-[#212136] p-5 py-10 rounded-lg">
                     <table className='m-0 w-max min-w-full border-separate border-spacing-0 border-none p-0 text-left md:w-full'>
                         <thead className='bg-slate-900 rounded-md'>

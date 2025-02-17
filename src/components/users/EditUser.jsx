@@ -45,7 +45,8 @@ export function EditUser({ user }) {
   }
 
   return (
-    <>  
+    <>
+  
 <button
         onClick={handleOpen}
         className="h-6 w-6 rounded bg-transparent border-none text-slate-11 hover:bg-slate-5 cursor-pointer align-middle"
@@ -78,10 +79,11 @@ export function EditUser({ user }) {
                 <input
                   type='text'
                   {...register('name', { required: 'Name is required' })}
-                  className='w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg bg-[#f0f0f0]'
+                  className='w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg bg-[#0e0b0b]'
                 />
                 {errors.name && <p className='text-red-500 text-sm'>{errors.name.message}</p>}
-              </div
+              </div>
+
               <div className='mb-4'>
                 <label className='block text-[#f1f7feb5]'>Email</label>
                 <input
@@ -94,6 +96,7 @@ export function EditUser({ user }) {
                 />
                 {errors.email && <p className='text-red-500 text-sm'>{errors.email.message}</p>}
               </div>
+
               <div className='mb-4'>
                 <label className='block text-[#f1f7feb5]'>Tipo de perfil</label>
                 <select
@@ -122,6 +125,7 @@ export function EditUser({ user }) {
                   {errors.maxsessions && <p className='text-red-500 text-sm'>{errors.maxsessions.message}</p>}
                 </div>
               )}
+
               <div className='mb-4'>
                 <label className='block text-[#f1f7feb5]'>Max Exhibitors</label>
                 <input
@@ -135,6 +139,7 @@ export function EditUser({ user }) {
                 />
                 {errors.maxexhibitors && <p className='text-red-500 text-sm'>{errors.maxexhibitors.message}</p>}
               </div>
+
               <div className='mb-4'>
                 <label className='block text-[#f1f7feb5]'>Tipo de evento</label>
                 <select
@@ -147,6 +152,7 @@ export function EditUser({ user }) {
                 </select>
                 {errors.event && <p className='text-red-500 text-sm'>{errors.event.message}</p>}
               </div>
+
               <div className='flex justify-end'>
                 <button type='button' onClick={handleClose} className='mr-2 px-4 py-2 hover:bg-[#d9edfe25] text-white rounded-lg'>
                   Cancel

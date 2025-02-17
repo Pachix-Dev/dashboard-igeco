@@ -10,3 +10,20 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: 'Exhibitor not created' }, { status: 500 });
   }
 }
+//AGREGARE AQUI EL DE BUSCAR 
+export async function GET(req: Request) {
+  try {
+    const { search } = await req.json();  
+    const results = await db.query(
+      "SELECT * FROM exhibitors WHERE name LIKE ? OR lastname LIKE ? OR email LIKE ?",
+      [`%${search}%`, `%${search}%`, `%${search}%`] //buca por medio de esto 
+    );
+    return NextResponse.json(results);  // Retorna los resultados de la búsqueda 
+  } catch (err) {
+    console.error("Error en la búsqueda:", err);
+    return NextResponse.json({ message: 'Error en la búsqueda' }, { status: 500 });
+  }
+}
+
+
+
