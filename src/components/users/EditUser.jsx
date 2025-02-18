@@ -46,12 +46,7 @@ export function EditUser({ user }) {
 
   return (
     <>
-<<<<<<< HEAD
-  
-<button
-=======
       <button
->>>>>>> 408c4fae2e4570163755e4c379a965e80dee541d
         onClick={handleOpen}
         className='h-6 w-6 rounded bg-transparent border-none text-slate-11 hover:bg-slate-5 cursor-pointer align-middle'
         type='button'
@@ -85,16 +80,10 @@ export function EditUser({ user }) {
                   {...register('name', { required: 'Name is required' })}
                   className='w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg bg-[#0e0b0b]'
                 />
-<<<<<<< HEAD
-                {errors.name && <p className='text-red-500 text-sm'>{errors.name.message}</p>}
-              </div>
-
-=======
                 {errors.name && (
                   <p className='text-red-500 text-sm'>{errors.name.message}</p>
                 )}
               </div>
->>>>>>> 408c4fae2e4570163755e4c379a965e80dee541d
               <div className='mb-4'>
                 <label className='block text-[#f1f7feb5]'>Email</label>
                 <input

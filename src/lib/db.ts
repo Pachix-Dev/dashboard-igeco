@@ -47,14 +47,21 @@ export async function fetchExhibitors(): Promise<Exhibitor[]> {
     } 
     const {payload} = await jwtVerify(token, new TextEncoder().encode("tu_secreto_jwt"));
 
-    const userId = payload.id;  
-    try{
-        const [rows] = await db.query('SELECT * FROM exhibitors WHERE user_id = ?', [userId]);
+    const userId = payload.id;
+    try {
+        const query = payload.role === 'admin' 
+            ? 'SELECT e.*, u.name AS company FROM exhibitors e LEFT JOIN users u ON e.user_id = u.id' 
+            : 'SELECT * FROM exhibitors WHERE user_id = ?';
+    
+        const params = payload.role === 'admin' ? [] : [userId];
+        const [rows] = await db.query(query, params);
+    
         return rows as Exhibitor[];
     } catch (error) {
         console.error('Database Error: ', error);
-        throw new Error('Error fetching users');
+        throw new Error('Error fetching exhibitors');
     }
+    
 }
 
 export async function fetchRecordsByUserId(): Promise<Lead[]> {    
