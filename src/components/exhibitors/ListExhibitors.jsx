@@ -3,8 +3,12 @@
 import { useState } from 'react'
 import { EditExhibitor } from '../exhibitors/EditExhibitor'
 import { QrPrinter } from '../exhibitors/QrPrinter'
+import { useSessionUser } from 'app/store/session-user'
 
 export function ListExhibitors({ exhibitors }) {
+  const { userSession } = useSessionUser()
+  const role = userSession.role
+
   const [searchTerm, setSearchTerm] = useState(exhibitors)
   // Debounced function to avoid multiple API calls
 
@@ -25,7 +29,7 @@ export function ListExhibitors({ exhibitors }) {
 
     setSearchTerm(results)
   }
-  console.log(exhibitors)
+
   return (
     <>
       <div className='relative w-3/5 mx-auto'>
@@ -81,6 +85,11 @@ export function ListExhibitors({ exhibitors }) {
               <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'>
                 nationality
               </th>
+              {role === 'admin' && (
+                <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'>
+                  impresiones
+                </th>
+              )}
               <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'></th>
             </tr>
           </thead>
@@ -102,7 +111,12 @@ export function ListExhibitors({ exhibitors }) {
                 <td className='py-2 px-4 border-b border-gray-200 text-sm'>
                   {exhibitor.nationality}
                 </td>
-                <td className='py-4 px-4 border-b border-gray-200 text-sm flex gap-2'>
+                {role === 'admin' && (
+                  <td className='py-2 px-4 border-b border-gray-200 text-sm'>
+                    {exhibitor.impresiones}
+                  </td>
+                )}
+                <td className='border-b border-gray-200 text-sm flex items-center justify-center gap-2 h-24'>
                   <EditExhibitor exhibitor={exhibitor} />
                   <QrPrinter exhibitor={exhibitor} />
                 </td>

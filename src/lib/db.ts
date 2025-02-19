@@ -24,7 +24,7 @@ const db_re_eco = mysql.createPool({
 export {db_re_eco};
 
 export const roles = {
-    admin: ['/dashboard', '/dashboard/usuarios', '/dashboard/exhibitors', '/dashboard/profile', '/dashboard/scan-leads'],
+    admin: ['/dashboard', '/dashboard/usuarios', '/dashboard/exhibitors', '/dashboard/profile', '/dashboard/scan-leads', '/dashboard/ponentes'],
     exhibitor: ['/dashboard', '/dashboard/exhibitors', '/dashboard/profile'],
     exhibitorplus: ['/dashboard','/dashboard/exhibitors', '/dashboard/profile', '/dashboard/scan-leads'],    
 };
