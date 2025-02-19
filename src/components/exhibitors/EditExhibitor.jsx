@@ -57,8 +57,9 @@ export function EditExhibitor({ exhibitor }) {
       body: JSON.stringify({ ...formData }),
     })
 
-    if (response.ok) {
+    if (response.ok) {window.location.reload()
       notify('User Edit successfully', 'success')
+      
     } else {
       notify('Failed to edit user', 'error')
     }

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import QRCode from 'react-qr-code'
 
 export function QrPrinter({ exhibitor }) {
@@ -7,7 +7,30 @@ export function QrPrinter({ exhibitor }) {
   const generarqr = () => {
     setShowQr(!showQr)
   }
+  const modalRef = useRef();
+  //para que se muestre un modal
+  const Modal=()=>{
+    setShowQr(!showQr)
+  }
+  //para imprimir 
 
+  
+  const imprimir = () => {
+    if (modalRef.current) {
+      // Guarda el contenido original
+      const originalContents = document.body.innerHTML; 
+      
+      const printContents = modalRef.current.innerHTML; // Obtiene solo el contenido del modal
+  
+      document.body.innerHTML = printContents; // Reemplaza el contenido con el modal
+        window.print();
+        //estaura el ontenido original 
+        document.body.innerHTML = originalContents; 
+        window.location.reload(); 
+      
+    }
+  };
+  
   return (
     <>
       <svg
@@ -18,7 +41,7 @@ export function QrPrinter({ exhibitor }) {
         stroke='currentColor'
         className='size-6 cursor-pointer hover:scale-125 ease-in-out duration-500'
         onClick={() => {
-          generarqr()
+          Modal()
         }}
       >
         <path
@@ -34,17 +57,27 @@ export function QrPrinter({ exhibitor }) {
       </svg>
 
       {showQr && (
-        <div className='absolute inset-0 bg-white bg-opacity-90 flex items-center justify-center mx-auto '>
-          <div className='text-black text-center'>
+        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
+          <div className='bg-white p-7 rounded-lg shadow-lg text-center text-black'>
+            <div ref={modalRef}>
             <QRCode value={exhibitor?.uuid} />
             <p className='mt-5 font-bold text-2xl'>
               {exhibitor?.name} {exhibitor?.lastname}
             </p>
             <p className=' text-xl'>{exhibitor.position}</p>
-            <p className=' text-xl'>{exhibitor.company}</p>
+            <p className=' text-xl'>{exhibitor.company}</p></div>
+            <div className='mt-4 flex justify-center gap-4'>
+              <button onClick={imprimir} className='bg-blue-500 text-white px-4 py-2 rounded'>Imprimir</button>
+              <button onClick={Modal} className='bg-red-500 text-white px-4 py-2 rounded'>Cerrar</button>
+            </div>
           </div>
+          
         </div>
       )}
+      <style>
+      
+
+      </style>
     </>
   )
 }
