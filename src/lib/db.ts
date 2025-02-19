@@ -1,5 +1,5 @@
 import mysql from 'mysql2/promise';
-import { User, Exhibitor, Lead } from './definitions';
+import { User, Exhibitor, Lead, Ponentes } from './definitions';
 import { cookies } from 'next/headers';
 import { jwtVerify } from 'jose';
 
@@ -57,6 +57,29 @@ export async function fetchExhibitors(): Promise<Exhibitor[]> {
         const [rows] = await db.query(query, params);
     
         return rows as Exhibitor[];
+    } catch (error) {
+        console.error('Database Error: ', error);
+        throw new Error('Error fetching exhibitors');
+    }
+    
+}
+export async function fetchPonenetes(): Promise<Ponentes[]> {  
+    const cookieStore = cookies();
+    const token = cookieStore.get('access_token')?.value; 
+    if (!token) {
+        throw new Error('No access token found');
+    } 
+    const {payload} = await jwtVerify(token, new TextEncoder().encode("tu_secreto_jwt"));
+
+    const userId = payload.id;
+    try {
+        const query = 
+            'SELECT * FROM ponentes ';
+    
+        
+        const [rows] = await db.query(query);
+    
+        return rows as Ponentes[];
     } catch (error) {
         console.error('Database Error: ', error);
         throw new Error('Error fetching exhibitors');
