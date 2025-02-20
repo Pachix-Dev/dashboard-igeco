@@ -7,18 +7,18 @@ import { getSpanishDateString } from '../../utils/helpers.js'
 
 export function ListUsers({ users }) {
   const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 10
+  const itemsPerPage = 7
 
-  // Calculate total pages
+  // Calcular el total de páginas
   const totalPages = Math.ceil(users.length / itemsPerPage)
 
-  // Get the current page items
+  // Obtener los elementos de la página actual
   const currentLeads = users.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   )
 
-  // Handle page navigation
+  // Manejo de la navegación entre páginas
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))
   }
@@ -29,32 +29,28 @@ export function ListUsers({ users }) {
 
   return (
     <>
-      <div className='w-full overflow-x-auto overflow-y-hidden'>
-        <table className='m-0 w-max min-w-full border-separate border-spacing-0 border-none p-0 text-left md:w-full'>
-          <thead className='bg-slate-900 rounded-md'>
-            <tr className='text-left text-xs *:font-extrabold tracking-wider text-white'>
-              <th className='py-2 px-4 '>Nombre</th>
-              <th className='py-2 px-4'>Correo</th>
-              <th className='py-2 px-4'>Rol</th>
-              <th className='py-2 px-4'>Event</th>
+      <div className="w-full overflow-x-auto overflow-y-hidden bg-[#212136] p-5 py-10 rounded-lg">
+        <table className="min-w-full table-auto border-separate border-spacing-0">
+          <thead className="bg-slate-900 text-white">
+            <tr>
+              <th className="py-3 px-4 text-sm font-semibold text-left">Nombre</th>
+              <th className="py-3 px-4 text-sm font-semibold text-left">Correo</th>
+              <th className="py-3 px-4 text-sm font-semibold text-left">Rol</th>
+              <th className="py-3 px-4 text-sm font-semibold text-left">Evento</th>
+              <th className="py-3 px-4 text-sm font-semibold text-left">Acciones</th>
             </tr>
           </thead>
           <tbody>
             {currentLeads.map((user, index) => (
-              <tr key={index}>
-                <td className='py-2 px-4 border-b border-gray-200 text-sm'>
-                  {user.name}
-                </td>
-                <td className='py-2 px-4 border-b border-gray-200 text-sm'>
-                  {user.email}
-                </td>
-                <td className='py-2 px-4 border-b border-gray-200 text-sm'>
-                  {user.role}
-                </td>
-                <td className='py-2 px-4 border-b border-gray-200 text-sm'>
-                  {user.event}
-                </td>
-                <td className='py-2 px-4 border-b border-gray-200 text-sm flex gap-2 w-fit'>
+              <tr
+                key={index}
+                className="hover:bg-black-100 border-b border-gray-200 transition-colors"
+              >
+                <td className="py-3 px-4 text-sm">{user.name}</td>
+                <td className="py-3 px-4 text-sm">{user.email}</td>
+                <td className="py-3 px-4 text-sm">{user.role}</td>
+                <td className="py-3 px-4 text-sm">{user.event}</td>
+                <td className="py-3 px-4 text-sm flex gap-2">
                   <EditUser user={user} />
                   <EditPassword user={user} />
                 </td>
@@ -63,25 +59,26 @@ export function ListUsers({ users }) {
           </tbody>
         </table>
       </div>
-      <div className='flex justify-between items-center mt-4'>
+
+      <div className="flex justify-between items-center mt-4">
         <button
           onClick={handlePreviousPage}
           disabled={currentPage === 1}
-          className='px-4 py-2 text-sm font-semibold text-white bg-gray-800 rounded hover:bg-gray-700 disabled:opacity-50'
+          className="px-4 py-2 text-sm font-semibold text-white bg-gray-800 rounded-md hover:bg-gray-700 disabled:opacity-50"
         >
-          Previous
+          Anterior
         </button>
 
-        <span className='text-sm text-gray-600'>
-          Page {currentPage} of {totalPages}
+        <span className="text-sm text-gray-600">
+          Página {currentPage} de {totalPages}
         </span>
 
         <button
           onClick={handleNextPage}
           disabled={currentPage === totalPages}
-          className='px-4 py-2 text-sm font-semibold text-white bg-gray-800 rounded hover:bg-gray-700 disabled:opacity-50'
+          className="px-4 py-2 text-sm font-semibold text-white bg-gray-800 rounded-md hover:bg-gray-700 disabled:opacity-50"
         >
-          Next
+          Siguiente
         </button>
       </div>
     </>

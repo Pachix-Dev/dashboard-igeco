@@ -60,14 +60,14 @@ export function AddPonentes() {
             className='bg-[#E6E6E7] text-black rounded-md p-2 flex items-center justify-center gap-2 font-bold hover:bg-slate-400 hover:text-white'
             onClick={handleOpen}
           >
-            + Agregar Expositor
+            + Agregar Ponente
           </button>
 
           {isOpen && (
             <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center'>
               <div className='bg-[#05050a] p-6 rounded-lg shadow-lg w-96'>
                 <h2 className='text-xl font-semibold mb-4'>
-                  Add New Exhibitor
+                  Add New Ponente
                 </h2>
                 <form onSubmit={handleSubmit(handleUser)}>
                   <div className='mb-4'>

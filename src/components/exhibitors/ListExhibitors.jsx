@@ -7,27 +7,53 @@ import { useSessionUser } from 'app/store/session-user'
 
 export function ListExhibitors({ exhibitors }) {
   const { userSession } = useSessionUser()
-  const role = userSession.role
+  const [currentPage, setCurrentPage] = useState(1)
+  const role = userSession ? userSession.role : null;
 
-  const [searchTerm, setSearchTerm] = useState(exhibitors)
-  // Debounced function to avoid multiple API calls
+  const itemsPerPage = 4
 
-  const searchResults = (e) => {
-    if (e === '') {
-      setSearchTerm(exhibitors)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [filteredExhibitors, setFilteredExhibitors] = useState(exhibitors)
+
+  // Función de búsqueda
+  const searchResults = (query) => {
+    setSearchTerm(query)
+
+    if (query.trim() === '') {
+      setFilteredExhibitors(exhibitors)
+      setCurrentPage(1) // Reiniciar a la primera página
       return
     }
-    const query = e.toLowerCase()
 
+    const lowerQuery = query.toLowerCase()
     const results = exhibitors.filter(
       (item) =>
-        item.name.toLowerCase().includes(query) ||
-        item.lastname.toLowerCase().includes(query) ||
-        item.email.toLowerCase().includes(query) ||
-        item.nationality.toLowerCase().includes(query)
+        item.name.toLowerCase().includes(lowerQuery) ||
+        item.lastname.toLowerCase().includes(lowerQuery) ||
+        item.email.toLowerCase().includes(lowerQuery) ||
+        item.nationality.toLowerCase().includes(lowerQuery)
     )
 
-    setSearchTerm(results)
+    setFilteredExhibitors(results)
+    setCurrentPage(1) // Reiniciar a la primera página
+  }
+
+  // Calcular total de páginas basado en los resultados filtrados
+  const totalPages = Math.ceil(filteredExhibitors.length / itemsPerPage)
+
+  // Obtener los elementos de la página actual
+  const currentExhibitors = filteredExhibitors.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  )
+
+  // Manejo de la paginación
+  const handlePreviousPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))
+  }
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages))
   }
 
   return (
@@ -41,6 +67,7 @@ export function ListExhibitors({ exhibitors }) {
           type='text'
           id='Search'
           placeholder='Search for...'
+          value={searchTerm}
           onChange={(e) => searchResults(e.target.value)}
           className='w-full rounded-md border-gray-200 py-2.5 pe-10 shadow-sm sm:text-sm text-black'
         />
@@ -70,31 +97,31 @@ export function ListExhibitors({ exhibitors }) {
         <table className='m-0 w-max min-w-full border-separate border-spacing-0 border-none p-0 text-left md:w-full'>
           <thead className='bg-slate-900 rounded-md'>
             <tr className='text-left text-xs *:font-extrabold tracking-wider text-white'>
-              <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'>
+              <th className='h-8 border-b border-t px-3 text-xs font-semibold text-slate-11'>
                 Name
               </th>
-              <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'>
+              <th className='h-8 border-b border-t px-3 text-xs font-semibold text-slate-11'>
                 Lastname
               </th>
-              <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'>
-                email
+              <th className='h-8 border-b border-t px-3 text-xs font-semibold text-slate-11'>
+                Email
               </th>
-              <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'>
-                position
+              <th className='h-8 border-b border-t px-3 text-xs font-semibold text-slate-11'>
+                Position
               </th>
-              <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'>
-                nationality
+              <th className='h-8 border-b border-t px-3 text-xs font-semibold text-slate-11'>
+                Nationality
               </th>
               {role === 'admin' && (
-                <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'>
-                  impresiones
+                <th className='h-8 border-b border-t px-3 text-xs font-semibold text-slate-11'>
+                  Impressions
                 </th>
               )}
-              <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'></th>
+              <th className='h-8 border-b border-t px-3 text-xs font-semibold text-slate-11'></th>
             </tr>
           </thead>
           <tbody>
-            {searchTerm.map((exhibitor) => (
+            {currentExhibitors.map((exhibitor) => (
               <tr key={exhibitor.id}>
                 <td className='py-2 px-4 border-b border-gray-200 text-sm'>
                   {exhibitor.name}
@@ -116,7 +143,7 @@ export function ListExhibitors({ exhibitors }) {
                     {exhibitor.impresiones}
                   </td>
                 )}
-                <td className='border-b border-gray-200 text-sm flex items-center justify-center gap-2 h-24'>
+                <td className='border-b border-gray-200 text-sm flex items-center justify-center gap-2 h-20'>
                   <EditExhibitor exhibitor={exhibitor} />
                   <QrPrinter exhibitor={exhibitor} />
                 </td>
@@ -125,6 +152,30 @@ export function ListExhibitors({ exhibitors }) {
           </tbody>
         </table>
       </div>
+
+      {totalPages > 1 && (
+        <div className='flex justify-between items-center mt-4'>
+          <button
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+            className='px-4 py-2 text-sm font-semibold text-white bg-gray-800 rounded hover:bg-gray-700 disabled:opacity-50'
+          >
+            Previous
+          </button>
+
+          <span className='text-sm text-gray-600'>
+            Page {currentPage} of {totalPages}
+          </span>
+
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className='px-4 py-2 text-sm font-semibold text-white bg-gray-800 rounded hover:bg-gray-700 disabled:opacity-50'
+          >
+            Next
+          </button>
+        </div>
+      )}
     </>
   )
 }
