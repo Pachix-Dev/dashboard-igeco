@@ -80,6 +80,15 @@ export function EmailTemplate({ name, email, password }: EmailTemplateProps) {
             </ul>
 
             <Section className="mt-6">
+              <Button
+                href="https://dashboard.igeco.mx/"
+                className="bg-brand text-white font-bold py-2 px-4 rounded-md shadow-md hover:bg-blue-700"
+              >
+                Inicia seccion
+              </Button>
+            </Section>
+
+            <Section className="mt-6">
               <Row className="justify-center">
                 <Column>
                   <Link href="https://igeco.mx/" className="text-black underline font-bold">
@@ -93,20 +102,12 @@ export function EmailTemplate({ name, email, password }: EmailTemplateProps) {
                   </Link>
                   <span className="text-green-500"> →</span>
                 </Column>
-                
               </Row>
             </Section>
 
             <Container className="mt-6">
               <Section>
-                <Row className="justify-between text-sm">
-                  <Column className="text-right">
-                    <Link href="#" className="text-gray-500">Unsubscribe</Link>
-                  </Column>
-                  <Column className="text-left">
-                    <Link href="#" className="text-gray-500">Manage Preferences</Link>
-                  </Column>
-                </Row>
+               
               </Section>
               <Text className="text-center text-gray-400 text-xs mt-4">
                 IGECO, Blvrd Francisco Villa 102-piso 14, Oriental, 37510 León, Guanajuato, México.
