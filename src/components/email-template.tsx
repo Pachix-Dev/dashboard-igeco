@@ -19,15 +19,10 @@ import * as React from "react";
 interface EmailTemplateProps {
   name: string;
   email: string;
-  password: string;  
+  password: string;
 }
 
-
-export function EmailTemplate ({
-  name,
-  email,
-  password,
-}: EmailTemplateProps){
+export function EmailTemplate({ name, email, password }: EmailTemplateProps) {
   return (
     <Html>
       <Head />
@@ -49,19 +44,19 @@ export function EmailTemplate ({
           },
         }}
       >
-        <Body className="bg-offwhite text-base font-sans">          
-          <Container className="bg-white p-45">
-            <Row >                
-              <Column >
+        <Body className="bg-offwhite text-base font-sans flex justify-center">
+          <Container className="bg-white p-10 rounded-lg shadow-lg text-center max-w-lg mx-auto">
+            <Row className="justify-center">
+              <Column>
                 <Img
                   src="https://hfmexico.mx/iegx.png"
                   width="120"
                   height="66"
-                  alt="IGECO" 
-                  className="my-5 mx-auto"             
+                  alt="IGECO"
+                  className="my-5 mx-auto"
                 />
               </Column>
-              <Column >
+              <Column>
                 <Img
                   src="https://hfmexico.mx/deutsche-messe.png"
                   width="184"
@@ -71,79 +66,56 @@ export function EmailTemplate ({
                 />
               </Column>
             </Row>
-            <Heading className="text-center my-0 leading-8">
-              Welcome to IGECO
-            </Heading>
+
+            <Heading className="text-center text-xl font-bold my-4">Welcome to IGECO</Heading>
 
             <Section>
-              <Row>
-                <Text className="text-base">
-                  ¡Felicitaciones! {name}! Tu cuenta ha sido creada ahora formas parte de la comunidad de IGECO.
-                </Text>
-
-                <Text className="text-base">Aquí te explicamos cómo empezar:</Text>
-              </Row>
+              <Text className="text-base">¡Felicitaciones, {name}! Tu cuenta ha sido creada, ahora formas parte de la comunidad de IGECO.</Text>
+              <Text className="text-base mt-2">Aquí te explicamos cómo empezar:</Text>
             </Section>
 
-            <ul>
-              <li className="mb-20" key={1}>
-                <strong>Nombre de usuario.</strong>{" "}
-                {email}
-              </li>
-              <li className="mb-20" key={1}>
-                <strong>Password.</strong>{" "}
-                {password}
-              </li>
+            <ul className="text-left mx-auto w-fit my-5">
+              <li className="mb-2"><strong>Nombre de usuario:</strong> {email}</li>
+              <li className="mb-2"><strong>Password:</strong> {password}</li>
             </ul>
 
-            <Section className="text-center">
-              <Button href="https://exhibitors.igeco.mx" className="bg-brand text-white rounded-lg py-3 px-[18px]">
-                Go to your dashboard
+            <Section className="mt-6">
+              <Button
+                href="https://dashboard.igeco.mx/"
+                className="bg-brand text-white font-bold py-2 px-4 rounded-md shadow-md hover:bg-blue-700"
+              >
+                Inicia sesión
               </Button>
             </Section>
 
-            <Section className="mt-45">
-              <Row>                
-                  <Column >
-                    <Link href="https://igeco.mx/" className="text-black underline font-bold">
-                      Enterate de nuestros eventos
-                    </Link>{" "}
-                    <span className="text-green-500">→</span>
-                  </Column>
-                  <Column >
-                    <Link href="https://igeco.mx/aviso-de-privacidad" className="text-black underline font-bold">
-                      Lee nuestro aviso de privacidad
-                    </Link>{" "}
-                    <span className="text-green-500">→</span>
-                  </Column>
-                  <Column >
-                    <Link className="text-black underline font-bold">
-                      Contact an expert
-                    </Link>{" "}
-                    <span className="text-green-500">→</span>
-                  </Column>
+            <Section className="mt-6">
+              <Row className="justify-center">
+                <Column>
+                  <Link href="https://igeco.mx/" className="text-black underline font-bold">
+                    Enterate de nuestros eventos
+                  </Link>
+                  <span className="text-green-500"> →</span>
+                </Column>
+                <Column>
+                  <Link href="https://igeco.mx/aviso-de-privacidad" className="text-black underline font-bold">
+                    Lee nuestro aviso de privacidad
+                  </Link>
+                  <span className="text-green-500"> →</span>
+                </Column>
               </Row>
             </Section>
-          </Container>
 
-          <Container className="mt-20">
-            <Section>
-              <Row>
-                <Column className="text-right px-20">
-                  <Link>Unsubscribe</Link>
-                </Column>
-                <Column className="text-left">
-                  <Link>Manage Preferences</Link>
-                </Column>
-              </Row>
-            </Section>
-            <Text className="text-center text-gray-400 mb-45">
-              IGECO, Blvrd Francisco Villa 102-piso 14, Oriental, 37510 León, Guanajuato México.
-            </Text>
+            <Container className="mt-6">
+              <Section>
+               
+              </Section>
+              <Text className="text-center text-gray-400 text-xs mt-4">
+                IGECO, Blvrd Francisco Villa 102-piso 14, Oriental, 37510 León, Guanajuato, México.
+              </Text>
+            </Container>
           </Container>
         </Body>
       </Tailwind>
     </Html>
   );
-};
-
+}
