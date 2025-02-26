@@ -8,7 +8,7 @@ export async function POST(req: Request) {
         'SELECT COUNT(*) as sessionCount FROM user_sessions WHERE user_id = ?',
         [userId]
       );
-    if (sessions[0].sessionCount >= maxSessions) {
+    if (sessions[0].sessionCount > maxSessions) {
     return NextResponse.json({ limitReached: true }, { status: 200 });
     }
     return NextResponse.json({ limitReached: false}, { status: 200 });
