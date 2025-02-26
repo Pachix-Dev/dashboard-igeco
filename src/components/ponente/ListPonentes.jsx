@@ -53,7 +53,7 @@ export function ListPonentes({ ponente }) {
     <>
       <div className='relative w-3/5 mx-auto'>
         <label htmlFor='Search' className='sr-only'>Search</label>
-        <input
+        <input   
           type='text'
           id='Search'
           placeholder='Search for...'

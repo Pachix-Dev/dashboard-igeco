@@ -84,7 +84,7 @@ export function EmailTemplate({ name, email, password }: EmailTemplateProps) {
                 href="https://dashboard.igeco.mx/"
                 className="bg-brand text-white font-bold py-2 px-4 rounded-md shadow-md hover:bg-blue-700"
               >
-                Inicia seccion
+                Inicia sesión
               </Button>
             </Section>
 
