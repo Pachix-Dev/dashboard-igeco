@@ -2,8 +2,17 @@ import { NextResponse } from 'next/server';
 import db, {db_re_eco} from '../../../lib/db';
 
 export async function POST(req: Request) {
-  const {uuid, user_id} = await req.json();  
-  try{         
+  const {uuid, user_id, token} = await req.json();  
+  try{
+
+    const [existSession]: any = await db.query(
+      'SELECT * FROM user_sessions WHERE user_id = ? AND session_token = ?',
+      [user_id, token]
+    );
+
+    if (existSession.length === 0) {
+      return NextResponse.json({ message: 'Superaste el limite de sesiones / no tienes sesión' }, { status: 401 });
+    }
     // Search in `users` table first
     let [existingRecord]: any = await db_re_eco.query('SELECT * FROM users WHERE uuid = ? LIMIT 1', [uuid]);
 

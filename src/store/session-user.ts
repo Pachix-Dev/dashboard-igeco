@@ -2,8 +2,8 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 interface UserState {
-    userSession: { id: number; name: string; email: string; role: string, maxexhibitors: number, maxsessions: number } | null;
-    setUserSession: (user: { id: number; name: string; email: string; role: string, maxexhibitors: number, maxsessions: number } | null) => void;
+    userSession: { id: number; name: string; email: string; role: string, maxexhibitors: number, maxsessions: number, token: string } | null;
+    setUserSession: (user: { id: number; name: string; email: string; role: string, maxexhibitors: number, maxsessions: number, token:string } | null) => void;
     clear: () => void;
 }
 

@@ -19,8 +19,12 @@ export function QrScanner() {
       body: JSON.stringify({
         uuid: result[0].rawValue,
         user_id: userSession.id,
+        token: userSession.token,
       }),
     })
+    if (response.status === 401) {
+      window.location.href = '/session-limit'
+    }
     const data = await response.json()
     if (response.ok) {
       notify(data.message, 'success')

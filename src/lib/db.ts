@@ -63,6 +63,7 @@ export async function fetchExhibitors(): Promise<Exhibitor[]> {
     }
     
 }
+
 export async function fetchPonenetes(): Promise<Ponentes[]> {  
     const cookieStore = cookies();
     const token = cookieStore.get('access_token')?.value; 
