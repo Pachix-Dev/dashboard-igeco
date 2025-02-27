@@ -27,7 +27,7 @@ export async function middleware(req: NextRequest) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId, maxSessions }),
+        body: JSON.stringify({ userId, maxSessions, token }),
       });
 
       const data = await response.json();
