@@ -83,7 +83,11 @@ export function AddPonentes() {
                       <input
                         type={type}
                         name={name}
-                        
+                        {...register(name, {
+                          required: `${label} is required`,
+                          pattern: pattern ? { value: pattern, message: `Invalid ${label.toLowerCase()} format` } : undefined,
+                          onChange: (e) => handleChange(e)
+                        })}
                         defaultValue={formData[name]}
                         className='w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 bg-[#16171c] text-white'
                       />
