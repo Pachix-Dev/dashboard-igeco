@@ -106,7 +106,7 @@ export function EditUser({ user }) {
                 <label className='block text-[#f1f7feb5]'>Tipo de perfil</label>
                 <select
                   {...register('role', { required: 'Role is required' })}
-                  className='mt-2 w-full rounded-lg bg-transparent border border-gray-200 p-4 text-sm text-white'
+                  className='mt-2 w-full rounded-lg bg-transparent border border-gray-200 p-4 text-sm bg-white text-black'
                 >
                   <option value='' disabled>
                     Selecciona una opción

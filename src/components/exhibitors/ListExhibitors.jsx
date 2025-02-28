@@ -8,7 +8,7 @@ import { useSessionUser } from 'app/store/session-user'
 export function ListExhibitors({ exhibitors }) {
   const { userSession } = useSessionUser()
   const [currentPage, setCurrentPage] = useState(1)
-  const role = userSession ? userSession.role : null;
+  const role = userSession ? userSession.role : null
 
   const itemsPerPage = 4
 
@@ -28,10 +28,10 @@ export function ListExhibitors({ exhibitors }) {
     const lowerQuery = query.toLowerCase()
     const results = exhibitors.filter(
       (item) =>
-        item.name.toLowerCase().includes(lowerQuery) ||
-        item.lastname.toLowerCase().includes(lowerQuery) ||
-        item.email.toLowerCase().includes(lowerQuery) ||
-        item.nationality.toLowerCase().includes(lowerQuery)
+        item.name?.toLowerCase().includes(lowerQuery) ||
+        item.lastname?.toLowerCase().includes(lowerQuery) ||
+        item.email?.toLowerCase().includes(lowerQuery) ||
+        item.nationality?.toLowerCase().includes(lowerQuery)
     )
 
     setFilteredExhibitors(results)
@@ -69,7 +69,7 @@ export function ListExhibitors({ exhibitors }) {
           placeholder='Search for...'
           value={searchTerm}
           onChange={(e) => searchResults(e.target.value)}
-          className='w-full rounded-md border-gray-200 py-2.5 pe-10 shadow-sm sm:text-sm text-black'
+          className='w-full rounded-md border-gray-200 py-2.5 ps-2 pe-10 shadow-sm sm:text-sm text-black'
         />
 
         <span className='absolute inset-y-0 end-0 grid w-10 place-content-center'>

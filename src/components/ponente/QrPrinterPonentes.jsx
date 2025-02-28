@@ -39,8 +39,8 @@ export function QrPrinterPonente({ ponente }) {
           <div>
             ${document.getElementById('qr-code').outerHTML}
           </div>
-          <h1>${ponente.name} ${ponente.lastname}</h1> 
-          <p><br />${ponente.companny}</p>          
+          <h1>${ponente.name} ${ponente.lastname}</h1>           
+          <p>SPEAKER<br />${ponente.companny}</p>           
           <script>
             window.onload = function() {
               window.print();
@@ -90,7 +90,7 @@ export function QrPrinterPonente({ ponente }) {
                 <p className='mt-5 font-bold text-2xl'>
                   {ponente?.name} {ponente?.lastname}
                 </p>
-                
+                <p>SPEAKER</p>
                 <p className=' text-xl'>{ponente.companny}</p>
 
                 <div className='mt-4 flex justify-center gap-4'>

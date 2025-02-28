@@ -25,8 +25,8 @@ export {db_re_eco};
 
 export const roles = {
     admin: ['/dashboard', '/dashboard/usuarios', '/dashboard/exhibitors', '/dashboard/profile', '/dashboard/scan-leads', '/dashboard/ponentes'],
-    exhibitor: ['/dashboard', '/dashboard/exhibitors', '/dashboard/profile'],
-    exhibitorplus: ['/dashboard','/dashboard/exhibitors', '/dashboard/profile', '/dashboard/scan-leads'],    
+    exhibitor: ['/dashboard', '/dashboard/profile'],
+    exhibitorplus: ['/dashboard', '/dashboard/profile', '/dashboard/scan-leads'],    
 };
 
 export async function fetchUsers(): Promise<User[]> {    
@@ -46,13 +46,11 @@ export async function fetchExhibitors(): Promise<Exhibitor[]> {
         throw new Error('No access token found');
     } 
     const {payload} = await jwtVerify(token, new TextEncoder().encode("tu_secreto_jwt"));
-
     const userId = payload.id;
     try {
         const query = payload.role === 'admin' 
             ? 'SELECT e.*, u.name AS company FROM exhibitors e LEFT JOIN users u ON e.user_id = u.id' 
-            : 'SELECT * FROM exhibitors WHERE user_id = ?';
-    
+            : 'SELECT * FROM exhibitors WHERE user_id = ?';    
         const params = payload.role === 'admin' ? [] : [userId];
         const [rows] = await db.query(query, params);
     
@@ -66,18 +64,15 @@ export async function fetchExhibitors(): Promise<Exhibitor[]> {
 
 export async function fetchPonenetes(): Promise<Ponentes[]> {  
     const cookieStore = cookies();
-    const token = cookieStore.get('access_token')?.value; 
+    const token = cookieStore.get('access_token')?.value;
     if (!token) {
         throw new Error('No access token found');
     } 
     const {payload} = await jwtVerify(token, new TextEncoder().encode("tu_secreto_jwt"));
-
     const userId = payload.id;
     try {
         const query = 
-            'SELECT * FROM ponentes ';
-    
-        
+            'SELECT * FROM ponentes ';            
         const [rows] = await db.query(query);
     
         return rows as Ponentes[];

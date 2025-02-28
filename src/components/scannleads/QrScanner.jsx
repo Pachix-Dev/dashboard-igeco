@@ -29,6 +29,7 @@ export function QrScanner() {
     if (response.ok) {
       notify(data.message, 'success')
       setShowScanner(!showScanner)
+      window.location.reload()
     } else {
       notify(data.message, 'error')
       setShowScanner(!showScanner)
@@ -74,12 +75,18 @@ export function QrScanner() {
                 onClick={toggleScanner}
                 className='p-2 bg-slate-800 hover:bg-slate-600 rounded-lg text-white'
               >
-                Cancelar
+                Cancelar / Cancel
               </button>
-              <p className='font-extrabold text-xl'>Escanea el código QR</p>
+              <p className='font-bold text-xl'>
+                Escanea el código QR
+                <br />
+                <span className='text-gray-500'>Scan the QR code</span>
+              </p>
             </div>
-            <p className='font-semibold text-gray-500 text-center text-lg'>
+            <p className='font-semibold text-black text-center text-lg'>
               Escanea el gafete del visitante
+              <br />
+              <span className='text-gray-500'>Scan visitor badge</span>
             </p>
           </div>
           <div>
