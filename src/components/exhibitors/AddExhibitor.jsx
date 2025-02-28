@@ -90,7 +90,10 @@ export function AddExhibitor() {
                     <input
                       type='text'
                       name='name'
-                     
+                      {...register('name', {
+                        required: 'Name is required',
+                        onChange: (e) => handleChange(e),
+                      })}
                       defaultValue={formData.name}
                       className='w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 bg-[#16171c]'
                     />
