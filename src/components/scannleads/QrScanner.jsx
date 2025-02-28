@@ -77,16 +77,15 @@ export function QrScanner() {
               >
                 Cancelar / Cancel
               </button>
-              <p className='font-bold text-xl'>
-                Escanea el código QR
-                <br />
-                <span className='text-gray-500'>Scan the QR code</span>
-              </p>
             </div>
             <p className='font-semibold text-black text-center text-lg'>
-              Escanea el gafete del visitante
+              El uso del escaner es solo para gafetes de tipo VISITANTES,
+              MEDIOS, VIP
               <br />
-              <span className='text-gray-500'>Scan visitor badge</span>
+              <span className='text-gray-500'>
+                The use of the scanner is only for VISITOR, MEDIA PARTNER, VIP
+                badges.
+              </span>
             </p>
           </div>
           <div>
