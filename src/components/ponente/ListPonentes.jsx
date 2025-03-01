@@ -16,7 +16,7 @@ export function ListPonentes({ ponente }) {
 
   const searchResults = (query) => {
     setSearchTerm(query)
-    
+
     if (query.trim() === '') {
       setFilteredPonentes(ponente)
       setCurrentPage(1)
@@ -52,7 +52,9 @@ export function ListPonentes({ ponente }) {
   return (
     <>
       <div className='relative w-3/5 mx-auto'>
-        <label htmlFor='Search' className='sr-only'>Search</label>
+        <label htmlFor='Search' className='sr-only'>
+          Search
+        </label>
         <input
           type='text'
           id='Search'
@@ -71,8 +73,8 @@ export function ListPonentes({ ponente }) {
               <th className='px-3 py-2'>Lastname</th>
               <th className='px-3 py-2'>email</th>
               <th className='px-3 py-2'>Company</th>
-            
-              <th className='px-3 py-2'>Event</th>
+
+              <th className='px-3 py-2'>Stage</th>
               {role === 'admin' && <th className='px-3 py-2'>Impressions</th>}
               <th className='px-3 py-2'></th>
             </tr>
@@ -84,8 +86,10 @@ export function ListPonentes({ ponente }) {
                 <td className='px-4 py-2'>{ponente.lastname}</td>
                 <td className='px-4 py-2'>{ponente.email}</td>
                 <td className='px-4 py-2'>{ponente.companny}</td>
-                <td className='px-4 py-2'>{ponente.event}</td>
-                {role === 'admin' && <td className='px-4 py-2'>{ponente.impresiones}</td>}
+                <td className='px-4 py-2'>{ponente.escenario}</td>
+                {role === 'admin' && (
+                  <td className='px-4 py-2'>{ponente.impresiones}</td>
+                )}
                 <td className='px-4 py-2 flex gap-2'>
                   <QrPrinterPonente ponente={ponente} />
                   <EditPonentes ponente={ponente} />
@@ -105,7 +109,9 @@ export function ListPonentes({ ponente }) {
           >
             Previous
           </button>
-          <span className='text-sm text-gray-600'>Page {currentPage} of {totalPages}</span>
+          <span className='text-sm text-gray-600'>
+            Page {currentPage} of {totalPages}
+          </span>
           <button
             onClick={handleNextPage}
             disabled={currentPage === totalPages}
