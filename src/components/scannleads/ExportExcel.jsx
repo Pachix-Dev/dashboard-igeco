@@ -5,6 +5,7 @@ import * as XLSX from 'xlsx'
 
 export function ExportExcel({ leads }) {
   const { notify } = useToaster()
+
   const exportToExcel = () => {
     if (!leads.length) return notify('No leads to export', 'error')
 

@@ -43,9 +43,9 @@ export async function POST(req: Request) {
 }
 
 export async function PUT(req: Request) {
-  const {id, notes} = await req.json();  
+  const {uuid, notes} = await req.json();
   try{         
-    await db.query('UPDATE leads SET notes = ? WHERE id = ?', [notes, id]);
+    await db.query('UPDATE leads SET notes = ? WHERE uuid = ?', [notes, uuid]);
     return NextResponse.json({ message: 'Lead updated' });
   }catch(err){
     return NextResponse.json({ message: 'Lead not updated' }, { status: 500 });

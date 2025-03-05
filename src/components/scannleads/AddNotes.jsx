@@ -20,7 +20,7 @@ export function AddNotes({ lead }) {
     const response = await fetch(`/api/scanleads`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: lead.id, notes }),
+      body: JSON.stringify({ uuid: lead.uuid, notes }),
     })
 
     if (response.ok) {

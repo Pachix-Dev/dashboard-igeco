@@ -7,7 +7,7 @@ import { unstable_noStore as noStore } from 'next/cache';
 
 export default async function ScanLeads() {
     noStore();
-    const leads: Lead[] = await fetchRecordsByUserId();    
+    const leads: Lead[] = await fetchRecordsByUserId();      
     return (
         <section className="container mx-auto w-full max-w-full px-1 md:max-w-6xl grid gap-5">
             <div className="flex justify-between items-center gap-20">
