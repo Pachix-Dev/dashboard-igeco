@@ -8,7 +8,6 @@ export function AddNotes({ lead }) {
   const [notes, setNotes] = useState(lead.notes)
   const [isOpen, setIsOpen] = useState(false)
   const { notify } = useToaster()
-
   const handleOpen = () => setIsOpen(true)
   const handleClose = () => setIsOpen(false)
   const {
@@ -21,7 +20,7 @@ export function AddNotes({ lead }) {
     const response = await fetch(`/api/scanleads`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: lead.id_lead, notes }),
+      body: JSON.stringify({ id: lead.id, notes }),
     })
 
     if (response.ok) {
