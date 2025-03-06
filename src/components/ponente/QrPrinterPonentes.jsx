@@ -84,7 +84,7 @@ export function QrPrinterPonente({ ponente }) {
             <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
               <div className='bg-white p-7 rounded-lg shadow-lg text-center text-black'>
                 <div id='qr-code' className='flex justify-center'>
-                  <QRCode value={ponente?.uuid} size={90} />
+                  <QRCode value={ponente?.uuid} size={110} />
                 </div>
 
                 <p className='mt-5 font-bold text-2xl'>
