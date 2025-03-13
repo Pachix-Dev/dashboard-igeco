@@ -70,10 +70,8 @@ export function ListPonentes({ ponente }) {
           <thead className='bg-slate-900 text-white'>
             <tr>
               <th className='px-3 py-2'>Name</th>
-              <th className='px-3 py-2'>Lastname</th>
               <th className='px-3 py-2'>email</th>
               <th className='px-3 py-2'>Company</th>
-
               <th className='px-3 py-2'>Stage</th>
               {role === 'admin' && <th className='px-3 py-2'>Impressions</th>}
               <th className='px-3 py-2'></th>
@@ -82,10 +80,9 @@ export function ListPonentes({ ponente }) {
           <tbody>
             {currentPonentes.map((ponente) => (
               <tr key={ponente.id} className='border-b'>
-                <td className='px-4 py-2'>{ponente.name}</td>
-                <td className='px-4 py-2'>{ponente.lastname}</td>
+                <td className='px-4 py-2'>{ponente.speaker_name}</td>
                 <td className='px-4 py-2'>{ponente.email}</td>
-                <td className='px-4 py-2'>{ponente.companny}</td>
+                <td className='px-4 py-2'>{ponente.company}</td>
                 <td className='px-4 py-2'>{ponente.escenario}</td>
                 {role === 'admin' && (
                   <td className='px-4 py-2'>{ponente.impresiones}</td>

@@ -62,25 +62,17 @@ export async function fetchExhibitors(): Promise<Exhibitor[]> {
     
 }
 
-export async function fetchPonenetes(): Promise<Ponentes[]> {  
-    const cookieStore = cookies();
-    const token = cookieStore.get('access_token')?.value;
-    if (!token) {
-        throw new Error('No access token found');
-    } 
-    const {payload} = await jwtVerify(token, new TextEncoder().encode("tu_secreto_jwt"));
-    const userId = payload.id;
+export async function fetchPonenetes(): Promise<Ponentes[]> {        
     try {
         const query = 
-            'SELECT * FROM ponentes ';            
+            'SELECT s.id AS speaker_id, s.uuid, s.name AS speaker_name, s.position, s.company, s.email, s.impresiones, e.name AS escenario FROM ponentes s JOIN programa_speakers ps ON s.id = ps.speaker_id JOIN programa p ON ps.programa_id = p.id JOIN escenarios e ON p.escenario_id = e.id ORDER BY e.name, s.name';            
         const [rows] = await db.query(query);
-    
+        
         return rows as Ponentes[];
     } catch (error) {
         console.error('Database Error: ', error);
         throw new Error('Error fetching exhibitors');
     }
-    
 }
 
 export async function fetchRecordsByUserId(): Promise<Lead[]> {
