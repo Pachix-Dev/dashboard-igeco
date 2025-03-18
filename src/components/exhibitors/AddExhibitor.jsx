@@ -194,7 +194,7 @@ export function AddExhibitor() {
                       onClick={handleClose}
                       className='mr-2 px-4 py-2 hover:bg-[#d9edfe25] text-white rounded-lg'
                     >
-                      Cancel
+                      Cancelista
                     </button>
                     <button
                       type='submit'

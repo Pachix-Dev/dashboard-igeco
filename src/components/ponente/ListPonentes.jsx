@@ -27,7 +27,7 @@ export function ListPonentes({ ponente }) {
     const results = ponente.filter(
       (item) =>
         item.name.toLowerCase().includes(lowerQuery) ||
-        item.lastname.toLowerCase().includes(lowerQuery) ||
+        item.position.toLowerCase().includes(lowerQuery) ||
         item.email.toLowerCase().includes(lowerQuery)
     )
 
@@ -70,9 +70,11 @@ export function ListPonentes({ ponente }) {
           <thead className='bg-slate-900 text-white'>
             <tr>
               <th className='px-3 py-2'>Name</th>
-              <th className='px-3 py-2'>email</th>
+              <th className='px-3 py-2'>Position</th>
               <th className='px-3 py-2'>Company</th>
-              <th className='px-3 py-2'>Stage</th>
+              <th className='px-3 py-2'>LinkedIn</th>
+              <th className='px-3 py-2'>Bio (Spanish)</th>
+              <th className='px-3 py-2'>Bio (English)</th>
               {role === 'admin' && <th className='px-3 py-2'>Impressions</th>}
               <th className='px-3 py-2'></th>
             </tr>
@@ -80,10 +82,12 @@ export function ListPonentes({ ponente }) {
           <tbody>
             {currentPonentes.map((ponente) => (
               <tr key={ponente.id} className='border-b'>
-                <td className='px-4 py-2'>{ponente.speaker_name}</td>
-                <td className='px-4 py-2'>{ponente.email}</td>
-                <td className='px-4 py-2'>{ponente.company}</td>
-                <td className='px-4 py-2'>{ponente.escenario}</td>
+                <td className='px-4 py-2'>{ponente.name}</td>
+                <td className='px-4 py-2'>{ponente.position}</td>
+                <td className='px-4 py-2'>{ponente.companny}</td>
+                <td className='px-4 py-2'>{ponente.linkedin}</td>
+                <td className='px-4 py-2'>{ponente.bio_esp}</td>
+                <td className='px-4 py-2'>{ponente.bio_eng}</td>
                 {role === 'admin' && (
                   <td className='px-4 py-2'>{ponente.impresiones}</td>
                 )}

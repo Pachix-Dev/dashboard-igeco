@@ -6,18 +6,18 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 export function EditPonentes({ ponente }) {
- 
   const { userSession } = useSessionUser()
   const [formData, setFormData] = useState({
     id: ponente.id,
     name: ponente.name,
-    lastname: ponente.lastname,
+    position: ponente.position,
     companny: ponente.companny,
-    categoria: ponente.categoria,
-    escenario: ponente.escenario,
+    bio_esp: ponente.bio_esp,
+    bio_eng: ponente.bio_eng,
+    photo: ponente.photo,
+    linkedin: ponente.linkedin,
     email: ponente.email,
-    event: ponente.event,
-   
+    phone: ponente.phone,
   })
 
   const [isOpen, setIsOpen] = useState(false)
@@ -100,29 +100,31 @@ export function EditPonentes({ ponente }) {
                       </p>
                     )}
                   </div>
+
                   <div className='mb-4'>
-                    <label className='block text-[#f1f7feb5]'>Last Name </label>
+                    <label className='block text-[#f1f7feb5]'>Position</label>
                     <input
                       type='text'
-                      {...register('lastname', {
-                        required: 'Lastname is required',
+                      {...register('position', {
+                        required: 'Position is required',
                         onChange: (e) => handleChange(e),
                       })}
-                      defaultValue={formData.lastname}
+                      defaultValue={formData.position}
                       className='w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 bg-[#16171c]'
                     />
-                    {errors.name && (
+                    {errors.position && (
                       <p className='text-red-500 text-sm mt-1'>
-                        {errors.name.message}
+                        {errors.position.message}
                       </p>
                     )}
                   </div>
+
                   <div className='mb-4'>
-                    <label className='block text-[#f1f7feb5]'>Companny </label>
+                    <label className='block text-[#f1f7feb5]'>Company</label>
                     <input
                       type='text'
                       {...register('companny', {
-                        required: 'Companny is required',
+                        required: 'Company is required',
                         onChange: (e) => handleChange(e),
                       })}
                       defaultValue={formData.companny}
@@ -134,51 +136,83 @@ export function EditPonentes({ ponente }) {
                       </p>
                     )}
                   </div>
+
                   <div className='mb-4'>
-                    <label className='block text-[#f1f7feb5]'>Categoria</label>
-                    <input
-                      type='text'
-                      {...register('categoria', {
-                        required: 'Categoria is required',
+                    <label className='block text-[#f1f7feb5]'>Bio (Spanish)</label>
+                    <textarea
+                      {...register('bio_esp', {
+                        required: 'Bio in Spanish is required',
                         onChange: (e) => handleChange(e),
                       })}
-                      defaultValue={formData.categoria}
+                      defaultValue={formData.bio_esp}
                       className='w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 bg-[#16171c]'
                     />
-                    {errors.categoria && (
+                    {errors.bio_esp && (
                       <p className='text-red-500 text-sm mt-1'>
-                        {errors.categoria.message}
+                        {errors.bio_esp.message}
                       </p>
                     )}
                   </div>
+
                   <div className='mb-4'>
-                    <label className='block text-[#f1f7feb5]'>Escenario</label>
-                    <input
-                      type='text'
-                      {...register('escenario', {
-                        required: 'Escenario is required',
+                    <label className='block text-[#f1f7feb5]'>Bio (English)</label>
+                    <textarea
+                      {...register('bio_eng', {
+                        required: 'Bio in English is required',
                         onChange: (e) => handleChange(e),
                       })}
-                      defaultValue={formData.escenario}
+                      defaultValue={formData.bio_eng}
                       className='w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 bg-[#16171c]'
                     />
-                    {errors.escenario && (
+                    {errors.bio_eng && (
                       <p className='text-red-500 text-sm mt-1'>
-                        {errors.name.escenario}
+                        {errors.bio_eng.message}
                       </p>
                     )}
                   </div>
+
+                  <div className='mb-4'>
+                    <label className='block text-[#f1f7feb5]'>LinkedIn URL</label>
+                    <input
+                      type='url'
+                      {...register('linkedin', {
+                        required: 'LinkedIn URL is required',
+                        onChange: (e) => handleChange(e),
+                      })}
+                      defaultValue={formData.linkedin}
+                      className='w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 bg-[#16171c]'
+                    />
+                    {errors.linkedin && (
+                      <p className='text-red-500 text-sm mt-1'>
+                        {errors.linkedin.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className='mb-4'>
+                    <label className='block text-[#f1f7feb5]'>Photo URL</label>
+                    <input
+                      type='url'
+                      {...register('photo', {
+                        required: 'Photo URL is required',
+                        onChange: (e) => handleChange(e),
+                      })}
+                      defaultValue={formData.photo}
+                      className='w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 bg-[#16171c]'
+                    />
+                    {errors.photo && (
+                      <p className='text-red-500 text-sm mt-1'>
+                        {errors.photo.message}
+                      </p>
+                    )}
+                  </div>
+
                   <div className='mb-4'>
                     <label className='block text-[#f1f7feb5]'>Email</label>
                     <input
                       type='email'
                       {...register('email', {
                         required: 'Email is required',
-                        pattern: {
-                          value:
-                            /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                          message: 'Invalid email format',
-                        },
                         onChange: (e) => handleChange(e),
                       })}
                       defaultValue={formData.email}
@@ -192,24 +226,22 @@ export function EditPonentes({ ponente }) {
                   </div>
 
                   <div className='mb-4'>
-                    <label className='block text-[#f1f7feb5]'>Event</label>
+                    <label className='block text-[#f1f7feb5]'>Phone</label>
                     <input
                       type='text'
-                      name='event'
-                      {...register('event', {
-                        required: 'Event is required',
+                      {...register('phone', {
+                        required: 'Phone number is required',
                         onChange: (e) => handleChange(e),
                       })}
-                      defaultValue={formData.event}
+                      defaultValue={formData.phone}
                       className='w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 bg-[#16171c]'
                     />
-                    {errors.event && (
+                    {errors.phone && (
                       <p className='text-red-500 text-sm mt-1'>
-                        {errors.event.message}
+                        {errors.phone.message}
                       </p>
                     )}
                   </div>
-                  
 
                   <div className='flex justify-end'>
                     <button

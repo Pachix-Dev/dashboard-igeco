@@ -7,8 +7,13 @@ export async function GET(req: Request, { params }: { params: { id: number } }) 
 }
 
 export async function PUT(req: Request, { params }: { params: { id: number } }) {
-  const { name, lastname, email, companny,event,categoria, escenario } = await req.json();  
-  await db.query('UPDATE ponentes SET name = ?, lastname = ?, companny = ?, categoria = ?, escenario = ?, email = ?, event = ?  WHERE id = ?', [name, lastname, companny, categoria, escenario,  email, event ,  params.id]);
+  const { name, position, companny, bio_esp, bio_eng, photo, linkedin, email, phone } = await req.json();
+  
+  await db.query(
+    'UPDATE ponentes SET name = ?, position = ?, companny = ?, bio_esp = ?, bio_eng = ?, photo = ?, linkedin = ?, email = ?, phone = ? WHERE id = ?',
+    [name, position, companny, bio_esp, bio_eng, photo, linkedin, email, phone, params.id]
+  );
+
   return NextResponse.json({ message: 'User updated' });
 }
 
