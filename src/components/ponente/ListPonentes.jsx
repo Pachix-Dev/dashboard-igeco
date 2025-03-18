@@ -7,7 +7,7 @@ import { EditPonentes } from './EditPonentes'
 
 export function ListPonentes({ ponente }) {
   const { userSession } = useSessionUser()
-  const role = userSession.role
+  const role = userSession?.role
 
   const [searchTerm, setSearchTerm] = useState('')
   const [filteredPonentes, setFilteredPonentes] = useState(ponente)
@@ -48,7 +48,7 @@ export function ListPonentes({ ponente }) {
   const handleNextPage = () => {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages))
   }
-
+  console.log('ponente', ponente)
   return (
     <>
       <div className='relative w-3/5 mx-auto'>
@@ -80,11 +80,11 @@ export function ListPonentes({ ponente }) {
             </tr>
           </thead>
           <tbody>
-            {currentPonentes.map((ponente) => (
-              <tr key={ponente.id} className='border-b'>
-                <td className='px-4 py-2'>{ponente.name}</td>
+            {currentPonentes.map((ponente, index) => (
+              <tr key={index} className='border-b'>
+                <td className='px-4 py-2'>{ponente.speaker_name}</td>
                 <td className='px-4 py-2'>{ponente.position}</td>
-                <td className='px-4 py-2'>{ponente.companny}</td>
+                <td className='px-4 py-2'>{ponente.company}</td>
                 <td className='px-4 py-2'>{ponente.linkedin}</td>
                 <td className='px-4 py-2'>{ponente.bio_esp}</td>
                 <td className='px-4 py-2'>{ponente.bio_eng}</td>
