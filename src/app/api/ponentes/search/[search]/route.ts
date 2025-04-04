@@ -6,8 +6,8 @@ export async function GET(req: Request, { params }: { params: { search: string }
     const search = params.search;  // Accedemos al valor de 'search' desde la URL
     // Esta es la consulta de la base de datos 
     const [results] = await db.query(
-      "SELECT * FROM ponentes WHERE name LIKE ? OR company LIKE ? OR email LIKE ?",
-      [`%${search}%`, `%${search}%`, `%${search}%`] // buscamos por los 3 valores 
+      "SELECT * FROM ponentes WHERE name LIKE ? OR company LIKE ? ",
+      [`%${search}%`, `%${search}%`, ] // buscamos por los 3 valores 
     );
     // esto es para retornar en json con los valores que nos da 
     return NextResponse.json(results);  

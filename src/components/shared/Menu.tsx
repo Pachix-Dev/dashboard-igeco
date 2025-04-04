@@ -151,6 +151,30 @@ export function Menu() {
                   <span className="text-sm font-medium"> Exhibitors </span>
                 </Link>
               </li>
+              <li>
+            <Link
+              onClick={handleNavigate}
+              href="/dashboard/profile"
+              className={`flex items-center gap-2 border-s-[3px] px-4 py-3 ${getLinkClasses('/dashboard/programa')}`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="size-5 opacity-75"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
+
+              <span className="text-sm font-medium"> Programa </span>
+            </Link>
+          </li>
             </>
           )}
 
@@ -197,6 +221,8 @@ export function Menu() {
               <span className="text-sm font-medium"> Profile </span>
             </Link>
           </li>
+
+          
         </ul>
 
        

@@ -1,5 +1,5 @@
 import mysql from 'mysql2/promise';
-import { User, Exhibitor, Lead, Ponentes } from './definitions';
+import { User, Exhibitor, Lead, Ponentes, Escenarios, Dia } from './definitions';
 import { cookies } from 'next/headers';
 import { jwtVerify } from 'jose';
 
@@ -24,7 +24,7 @@ const db_re_eco = mysql.createPool({
 export {db_re_eco};
 
 export const roles = {
-    admin: ['/dashboard', '/dashboard/usuarios', '/dashboard/exhibitors', '/dashboard/profile', '/dashboard/scan-leads', '/dashboard/ponentes'],
+    admin: ['/dashboard', '/dashboard/usuarios', '/dashboard/exhibitors', '/dashboard/profile', '/dashboard/scan-leads', '/dashboard/ponentes', '/dashboard/programa'],
     exhibitor: ['/dashboard', '/dashboard/profile'],
     exhibitorplus: ['/dashboard', '/dashboard/profile', '/dashboard/scan-leads'],    
 };
@@ -38,6 +38,25 @@ export async function fetchUsers(): Promise<User[]> {
         throw new Error('Error fetching users');
     }
 }
+export async function fetchEscenarios(): Promise<Escenarios[]> {    
+    try {
+        const [rows] = await db.query('SELECT * FROM escenarios');
+        return rows as Escenarios[];
+    } catch (error) {
+        console.error('Database Error: ', error);
+        throw new Error('Error fetching escenarios');
+    }
+}
+export async function fetchDias(): Promise<Dia[]> {    
+    try {
+        const [rows] = await db.query('SELECT * FROM dias');
+        return rows as Dia[];
+    } catch (error) {
+        console.error('Database Error: ', error);
+        throw new Error('Error fetching escenarios');
+    }
+}
+
 
 export async function fetchExhibitors(): Promise<Exhibitor[]> {  
     const cookieStore = cookies();
@@ -62,18 +81,26 @@ export async function fetchExhibitors(): Promise<Exhibitor[]> {
     
 }
 
+
 export async function fetchPonenetes(): Promise<Ponentes[]> {        
     try {
+        // Asegúrate de que la consulta esté completa, especificando de dónde obtener los datos.
         const query = 
-            'SELECT s.id AS speaker_id, s.uuid, s.name AS speaker_name, s.position, s.company, s.email, s.impresiones, e.name AS escenario FROM ponentes s JOIN programa_speakers ps ON s.id = ps.speaker_id JOIN programa p ON ps.programa_id = p.id JOIN escenarios e ON p.escenario_id = e.id ORDER BY e.name, s.name';            
+        'SELECT s.id AS speaker_id, s.uuid, s.name AS speaker_name, s.position, s.company, s.email, s.impresiones, s.bio_esp, s.bio_eng, s.photo, s.linkedin ' + 
+        'FROM ponentes s';  // Aquí especificamos la tabla 'ponentes' de la que obtener los datos.
+        
+        // Ejecutamos la consulta a la base de datos.
         const [rows] = await db.query(query);
         
+        // Devolvemos los resultados como un arreglo de Ponentes.
         return rows as Ponentes[];
     } catch (error) {
+        // Se recomienda agregar más detalles en el error para facilitar el diagnóstico.
         console.error('Database Error: ', error);
-        throw new Error('Error fetching exhibitors');
+        throw new Error('Error fetching ponentes');  // Asegúrate de que el mensaje sea coherente con los datos que estás obteniendo.
     }
 }
+
 
 export async function fetchRecordsByUserId(): Promise<Lead[]> {
     const cookieStore = cookies();

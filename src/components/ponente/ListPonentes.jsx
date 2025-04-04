@@ -1,127 +1,109 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { useSessionUser } from 'app/store/session-user'
-import { QrPrinterPonente } from './QrPrinterPonentes'
-import { EditPonentes } from './EditPonentes'
+import { useState } from 'react';
+import { useSessionUser } from 'app/store/session-user';
+import { QrPrinterPonente } from './QrPrinterPonentes';
+import { EditPonentes } from './EditPonentes';
 
 export function ListPonentes({ ponente }) {
-  const { userSession } = useSessionUser()
-  const role = userSession?.role
+  const { userSession } = useSessionUser();
+  const role = userSession?.role;
 
-  const [searchTerm, setSearchTerm] = useState('')
-  const [filteredPonentes, setFilteredPonentes] = useState(ponente)
-  const [currentPage, setCurrentPage] = useState(1)
-  const itemsPerPage = 4
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredPonentes, setFilteredPonentes] = useState(ponente);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
 
   const searchResults = (query) => {
-    setSearchTerm(query)
+    setSearchTerm(query);
 
     if (query.trim() === '') {
-      setFilteredPonentes(ponente)
-      setCurrentPage(1)
-      return
+      setFilteredPonentes(ponente);
+      setCurrentPage(1);
+      return;
     }
 
-    const lowerQuery = query.toLowerCase()
+    const lowerQuery = query.toLowerCase();
     const results = ponente.filter(
       (item) =>
-        item.name.toLowerCase().includes(lowerQuery) ||
+        item.speaker_name.toLowerCase().includes(lowerQuery) ||
         item.position.toLowerCase().includes(lowerQuery) ||
         item.email.toLowerCase().includes(lowerQuery)
-    )
+    );
 
-    setFilteredPonentes(results)
-    setCurrentPage(1)
-  }
+    setFilteredPonentes(results);
+    setCurrentPage(1);
+  };
 
-  const totalPages = Math.ceil(filteredPonentes.length / itemsPerPage)
+  const totalPages = Math.ceil(filteredPonentes.length / itemsPerPage);
   const currentPonentes = filteredPonentes.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
-  )
+  );
 
-  const handlePreviousPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))
-  }
-
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages))
-  }
-  console.log('ponente', ponente)
   return (
-    <>
-      <div className='relative w-3/5 mx-auto'>
-        <label htmlFor='Search' className='sr-only'>
-          Search
-        </label>
-        <input
-          type='text'
-          id='Search'
-          placeholder='Search for...'
-          value={searchTerm}
-          onChange={(e) => searchResults(e.target.value)}
-          className='w-full rounded-md border-gray-200 py-2.5 pe-10 shadow-sm sm:text-sm text-black'
-        />
+    <div className='p-10 bg-[#212136] rounded-lg shadow-md w-full max-w-6xl mx-auto'>
+      <h2 className='text-2xl font-semibold mb-6 text-white'>Contacts</h2>
+      <input
+        type='text'
+        placeholder='Search for...'
+        value={searchTerm}
+        onChange={(e) => searchResults(e.target.value)}
+        className='w-full p-3 border rounded-md mb-6 text-black'
+      />
+      <div className='space-y-6'>
+        {currentPonentes.map((ponente) => (
+          <div
+            key={ponente.uuid}
+            className='flex items-center justify-between bg-slate-900 p-6 rounded-lg shadow-md text-white'
+          >
+            <div className='flex items-center space-x-6'>
+              <img
+                src={`/ponentes/${ponente.uuid}.jpg`}
+                className='w-16 h-16 rounded-full object-cover'
+                alt={ponente.speaker_name}
+              />
+              <div>
+                <p className='font-semibold text-lg'>{ponente.speaker_name}</p>
+                <p className='text-sm text-gray-400'>{ponente.position}</p>
+              </div>
+            </div>
+            <div>
+              <span className='px-4 py-2 bg-blue-600 text-white rounded-full text-sm'>{ponente.company}</span>
+            </div>
+            <div className='text-right'>
+              <p className='text-gray-400 text-sm'>Correo</p>
+              <p className='font-bold text-lg'>{ponente.email}</p>
+              <p className='text-gray-400 text-sm mt-2'>Impresiones: <span className='font-semibold'>{ponente.impresiones}</span></p>
+            </div>
+            <div className='flex items-center space-x-4'>
+              <QrPrinterPonente ponente={ponente} />
+              <EditPonentes ponente={ponente} />
+            </div>
+          </div>
+        ))}
       </div>
-
-      <div className='w-full overflow-x-auto bg-[#212136] p-5 py-10 rounded-lg'>
-        <table className='w-full text-left border-collapse'>
-          <thead className='bg-slate-900 text-white'>
-            <tr>
-              <th className='px-3 py-2'>Name</th>
-              <th className='px-3 py-2'>Position</th>
-              <th className='px-3 py-2'>Company</th>
-              <th className='px-3 py-2'>LinkedIn</th>
-              <th className='px-3 py-2'>Bio (Spanish)</th>
-              <th className='px-3 py-2'>Bio (English)</th>
-              {role === 'admin' && <th className='px-3 py-2'>Impressions</th>}
-              <th className='px-3 py-2'></th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentPonentes.map((ponente, index) => (
-              <tr key={index} className='border-b'>
-                <td className='px-4 py-2'>{ponente.speaker_name}</td>
-                <td className='px-4 py-2'>{ponente.position}</td>
-                <td className='px-4 py-2'>{ponente.company}</td>
-                <td className='px-4 py-2'>{ponente.linkedin}</td>
-                <td className='px-4 py-2'>{ponente.bio_esp}</td>
-                <td className='px-4 py-2'>{ponente.bio_eng}</td>
-                {role === 'admin' && (
-                  <td className='px-4 py-2'>{ponente.impresiones}</td>
-                )}
-                <td className='px-4 py-2 flex gap-2'>
-                  <QrPrinterPonente ponente={ponente} />
-                  <EditPonentes ponente={ponente} />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
       {totalPages > 1 && (
-        <div className='flex justify-between items-center mt-4'>
+        <div className='flex justify-between items-center mt-6'>
           <button
-            onClick={handlePreviousPage}
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className='px-4 py-2 bg-gray-800 text-white rounded disabled:opacity-50'
+            className='px-6 py-3 bg-gray-800 text-white rounded disabled:opacity-50'
           >
             Previous
           </button>
-          <span className='text-sm text-gray-600'>
+          <span className='text-sm text-gray-400'>
             Page {currentPage} of {totalPages}
           </span>
           <button
-            onClick={handleNextPage}
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
             disabled={currentPage === totalPages}
-            className='px-4 py-2 bg-gray-800 text-white rounded disabled:opacity-50'
+            className='px-6 py-3 bg-gray-800 text-white rounded disabled:opacity-50'
           >
             Next
           </button>
         </div>
       )}
-    </>
-  )
+    </div>
+  );
 }

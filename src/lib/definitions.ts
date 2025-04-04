@@ -6,6 +6,18 @@ export type User= {
     role: string;
     created_at: Date;   
 };
+export type Escenarios={
+    id: number;
+    name:string;
+    created_at: Date; 
+
+}
+export type Dia={
+    id: number;
+    name_esp: string;
+    name_eng: string;
+    created_at: Date; 
+}
 
 export type Exhibitor = {
     id: number;

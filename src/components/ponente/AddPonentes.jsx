@@ -9,7 +9,7 @@ export function AddPonentes() {
   const [formData, setFormData] = useState({
     name: '',
     position: '',
-    companny: '',
+    company: '',
     bio_esp: '',
     bio_eng: '',
     photo: '',
@@ -32,22 +32,63 @@ export function AddPonentes() {
   }
 
   const handleUser = async () => {
-    const response = await fetch('/api/ponentes', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ user_id: userSession.id, ...formData }),
-    })
-
-    if (response.ok) {
-      notify('User added successfully', 'success')
-    } else {
-      notify('Failed to add user', 'error')
+    try {
+      // 🔹 Primero, insertar los datos en la base de datos y obtener el UUID
+      const ponenteResponse = await fetch("/api/ponentes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...formData, photo: "" }), // Enviamos un valor vacío por ahora
+      });
+  
+      const ponenteData = await ponenteResponse.json();
+  
+      if (!ponenteResponse.ok) {
+        notify("Failed to add user", "error");
+        return;
+      }
+  
+      const uuid = ponenteData.uuid; // Obtener el UUID generado por la API
+  
+      let imagePath = "";
+  
+      // 🔹 Luego, si el usuario subió una imagen, la enviamos a la API de upload
+      if (formData.photo instanceof File) {
+        const formDataFile = new FormData();
+        formDataFile.append("image", formData.photo);
+        formDataFile.append("uuid", uuid); // Enviar el UUID para que el nombre de la imagen coincida
+  
+        const uploadResponse = await fetch("/api/upload", {
+          method: "POST",
+          body: formDataFile,
+        });
+  
+        const uploadData = await uploadResponse.json();
+        if (uploadResponse.ok) {
+          imagePath = uploadData.path; // Ruta devuelta por la API
+        } else {
+          notify(uploadData.error || "Image upload failed", "error");
+          return;
+        }
+      }
+  
+      // 🔹 Finalmente, actualizar la entrada del ponente con la imagen
+      await fetch("/api/ponentes/update-photo", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ uuid, photo: imagePath }),
+      });
+  
+      notify("User added successfully", "success");
+      handleClose();
+    } catch (error) {
+      notify("An error occurred", "error");
     }
-
-    handleClose()
-  }
+  };
+  
 
   return (
     <>
@@ -70,10 +111,7 @@ export function AddPonentes() {
                   {[ 
                     { label: 'Name', name: 'name' },
                     { label: 'Position', name: 'position' },
-                    { label: 'Company', name: 'companny' },
-                    { label: 'Bio (Spanish)', name: 'bio_esp' },
-                    { label: 'Bio (English)', name: 'bio_eng' },
-                    { label: 'Photo URL', name: 'photo' },
+                    { label: 'Company', name: 'company' },
                     { label: 'LinkedIn URL', name: 'linkedin' },
                     { label: 'Email', name: 'email' },
                     { label: 'Phone', name: 'phone' }
@@ -88,7 +126,7 @@ export function AddPonentes() {
                           onChange: handleChange,
                         })}
                         defaultValue={formData[name]}
-                        className="w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 bg-[#16171c] text-white"
+                        className="w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg bg-[#16171c] text-white"
                       />
                       {errors[name] && (
                         <p className="text-red-500 text-sm mt-1">
@@ -97,6 +135,41 @@ export function AddPonentes() {
                       )}
                     </div>
                   ))}
+
+                  <div className="w-full col-span-1 md:col-span-2">
+                    <label className="block text-[#f1f7feb5]">Upload Image</label>
+                    <input
+                      type="file"
+                      accept="image/png, image/jpeg, image/jpg, image/webp"
+                      onChange={(e) => setFormData({ ...formData, photo: e.target.files[0] })}
+                      className="w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg bg-[#16171c] text-white"
+                    />
+                  </div>
+
+                  {[ 
+                    { label: 'Bio (Spanish)', name: 'bio_esp' },
+                    { label: 'Bio (English)', name: 'bio_eng' }
+                  ].map(({ label, name }) => (
+                    <div key={name} className="w-full col-span-1 md:col-span-2">
+                      <label className="block text-[#f1f7feb5]">{label}</label>
+                      <textarea
+                        name={name}
+                        {...register(name, {
+                          required: `${label} is required`,
+                          onChange: handleChange,
+                        })}
+                        defaultValue={formData[name]}
+                        rows={4}
+                        className="w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg bg-[#16171c] text-white"
+                      ></textarea>
+                    </div>
+                  ))}
+
+                  {formData.photo && typeof formData.photo === "string" && (
+                    <div className="col-span-1 md:col-span-2 flex justify-center">
+                      <img src={formData.photo} alt="Uploaded preview" className="w-32 h-32 object-cover rounded-lg mt-2" />
+                    </div>
+                  )}
 
                   <div className="col-span-1 md:col-span-2 flex justify-end gap-2 mt-4">
                     <button

@@ -1,23 +1,35 @@
 import { NextResponse } from 'next/server';
 import db from '../../../../lib/db';
 
-export async function GET(req: Request, { params }: { params: { id: number } }) {
-  const [user] = await db.query('SELECT * FROM ponentes WHERE id = ?', [params.id]);
-  return user ? NextResponse.json(user) : NextResponse.json({ message: 'User not found' }, { status: 404 });
-}
-
 export async function PUT(req: Request, { params }: { params: { id: number } }) {
-  const { name, position, companny, bio_esp, bio_eng, photo, linkedin, email, phone } = await req.json();
-  
-  await db.query(
-    'UPDATE ponentes SET name = ?, position = ?, companny = ?, bio_esp = ?, bio_eng = ?, photo = ?, linkedin = ?, email = ?, phone = ? WHERE id = ?',
-    [name, position, companny, bio_esp, bio_eng, photo, linkedin, email, phone, params.id]
-  );
+  const { name, position, company, bio_esp, bio_eng, photo, linkedin, email, phone } = await req.json();
 
-  return NextResponse.json({ message: 'User updated' });
-}
+  try {
+    // Obtener el UUID actual del ponente
+    const [rows]: any = await db.query('SELECT uuid FROM ponentes WHERE id = ?', [params.id]);
+    
+    if (!rows || rows.length === 0) {
+      return NextResponse.json({ message: 'User not found' }, { status: 404 });
+    }
 
-export async function DELETE(req: Request, { params }: { params: { id: number } }) {
-  await db.query('DELETE FROM ponentes WHERE id = ?', [params.id]);
-  return NextResponse.json({ message: 'User deleted' });
+    const uuid = rows[0].uuid; // Extraer correctamente el UUID
+
+    // Si hay una nueva imagen, asegurarnos de que se actualiza con el mismo UUID
+    let updatedPhoto = photo;
+    if (photo && !photo.includes(uuid)) {
+      const extension = photo.split('.').pop();
+      updatedPhoto = `/Ponentes/${uuid}.${extension}`;
+    }
+
+    // Actualizar los datos en la base de datos
+    await db.query(
+      'UPDATE ponentes SET name = ?, position = ?, company = ?, bio_esp = ?, bio_eng = ?, linkedin = ?, email = ?, phone = ? WHERE id = ?',
+      [name, position, company, bio_esp, bio_eng,  linkedin, email, phone, params.id]
+    );
+
+    return NextResponse.json({ message: 'User updated' });
+  } catch (error) {
+    console.error('Error updating user:', error);
+    return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
+  }
 }

@@ -5,13 +5,16 @@ import { useSessionUser } from 'app/store/session-user'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
+
 export function EditPonentes({ ponente }) {
   const { userSession } = useSessionUser()
+  const { notify } = useToaster();
+  const [isOpen, setIsOpen] = useState(false) // Estado para controlar el modal
   const [formData, setFormData] = useState({
     id: ponente.id,
-    name: ponente.name,
+    name: ponente.speaker_name,
     position: ponente.position,
-    companny: ponente.companny,
+    company: ponente.company,  
     bio_esp: ponente.bio_esp,
     bio_eng: ponente.bio_eng,
     photo: ponente.photo,
@@ -20,37 +23,57 @@ export function EditPonentes({ ponente }) {
     phone: ponente.phone,
   })
 
-  const [isOpen, setIsOpen] = useState(false)
+  const { register, handleSubmit, formState: { errors } } = useForm()
+
   const handleOpen = () => setIsOpen(true)
   const handleClose = () => setIsOpen(false)
-  const { notify } = useToaster()
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm()
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  const handleUser = async () => {
-    const response = await fetch(`/api/ponentes/${formData.id}`, {
+  const handleFileChange = (e) => {
+    setFormData({ ...formData, photo: e.target.files[0] }) // Guardar archivo temporalmente
+  }
+
+  const handleUser = async (data) => {
+    let imagePath = data.photo;
+  
+    if (data.photo instanceof File) {
+      const formDataFile = new FormData();
+      formDataFile.append('image', data.photo);
+      formDataFile.append('uuid', ponente.uuid);
+  
+      const uploadResponse = await fetch('/api/upload', {
+        method: 'POST',
+        body: formDataFile,
+      });
+  
+      const uploadData = await uploadResponse.json();
+      if (uploadResponse.ok) {
+        imagePath = uploadData.path;
+      } else {
+        notify(uploadData.error || 'Image upload failed', 'error');
+        return;
+      }
+    }
+  
+    const response = await fetch(`/api/ponentes/${ponente.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...formData }),
-    })
-
+      body: JSON.stringify({ ...data, photo: imagePath }),
+    });
+  
     if (response.ok) {
-      window.location.reload()
-      notify('User Edit successfully', 'success')
+      window.location.reload();
+      notify('User edited successfully', 'success');
     } else {
-      notify('Failed to edit user', 'error')
+      notify('Failed to edit user', 'error');
     }
-
-    handleClose()
-  }
+  
+    handleClose();
+  };
+  
 
   return (
     <>
@@ -123,16 +146,16 @@ export function EditPonentes({ ponente }) {
                     <label className='block text-[#f1f7feb5]'>Company</label>
                     <input
                       type='text'
-                      {...register('companny', {
-                        required: 'Company is required',
+                      {...register('company', {
+                        required: 'Company is required',  // Corregido 'companny' a 'company'
                         onChange: (e) => handleChange(e),
                       })}
-                      defaultValue={formData.companny}
+                      defaultValue={formData.company}  // Corregido 'companny' a 'company'
                       className='w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 bg-[#16171c]'
                     />
-                    {errors.companny && (
+                    {errors.company && (
                       <p className='text-red-500 text-sm mt-1'>
-                        {errors.companny.message}
+                        {errors.company.message}
                       </p>
                     )}
                   </div>
@@ -190,22 +213,20 @@ export function EditPonentes({ ponente }) {
                   </div>
 
                   <div className='mb-4'>
-                    <label className='block text-[#f1f7feb5]'>Photo URL</label>
+                    <label className='block text-[#f1f7feb5]'>Upload New Image</label>
                     <input
-                      type='url'
-                      {...register('photo', {
-                        required: 'Photo URL is required',
-                        onChange: (e) => handleChange(e),
-                      })}
-                      defaultValue={formData.photo}
-                      className='w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 bg-[#16171c]'
+                      type="file"
+                      accept="image/png, image/jpeg, image/jpg, image/webp"
+                      onChange={handleFileChange}
+                      className="w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg bg-[#16171c] text-white"
                     />
-                    {errors.photo && (
-                      <p className='text-red-500 text-sm mt-1'>
-                        {errors.photo.message}
-                      </p>
-                    )}
                   </div>
+
+                  {typeof formData.photo === "string" && (
+                    <div className="mb-4 flex justify-center">
+                      <img src={formData.photo} alt="Uploaded preview" className="w-32 h-32 object-cover rounded-lg mt-2" />
+                    </div>
+                  )}
 
                   <div className='mb-4'>
                     <label className='block text-[#f1f7feb5]'>Email</label>
@@ -228,7 +249,7 @@ export function EditPonentes({ ponente }) {
                   <div className='mb-4'>
                     <label className='block text-[#f1f7feb5]'>Phone</label>
                     <input
-                      type='text'
+                      type='tel'
                       {...register('phone', {
                         required: 'Phone number is required',
                         onChange: (e) => handleChange(e),
