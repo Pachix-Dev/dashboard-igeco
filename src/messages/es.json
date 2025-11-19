@@ -1,0 +1,48 @@
+{
+  "Common": {
+    "continue": "Continuar",
+    "logout": "Cerrar sesión",
+    "loading": "Cargando..."
+  },
+  "Login": {
+    "title": "Bienvenido a IGECO",
+    "subtitle": "Inicia sesión para acceder a tu cuenta",
+    "emailLabel": "Correo Electrónico",
+    "emailPlaceholder": "usuario@ejemplo.com",
+    "passwordLabel": "Contraseña",
+    "passwordPlaceholder": "********",
+    "submit": "Continuar",
+    "privacyPrefix": "Al iniciar sesión, aceptas la",
+    "privacyLink": "Política de Privacidad",
+    "serverError": "Error al conectar con el servidor",
+    "footer": "© 2026 IGECO. Todos los derechos reservados."
+  },
+  "Dashboard": {
+    "welcome": "Bienvenido {name}!",
+    "important": "Puntos importantes:",
+    "points": {
+      "1": "Los gafetes a expositores se entregarán el día del evento en el módulo de registro de forma individual para expositores; recuerda que debes presentar una identificación oficial.",
+      "2": "No se permiten reimpresiones de gafetes, por lo que es importante que conserves tu gafete durante los días del evento; de lo contrario, tendrá un costo adicional.",
+      "3": "Si requieres registrar a más expositores de los permitidos, por favor contacta a tu asesor de ventas.",
+      "4": "Si requieres activar el servicio de escáner para recopilar datos de los visitantes a tu stand, contacta a tu asesor de ventas. (Recuerda que este servicio solo lo puedes usar dentro de tu stand; de lo contrario, se cumplirán las políticas del contrato establecido)."
+    }
+  },
+  "Menu": {
+    "users": "Usuarios",
+    "speakers": "Ponentes",
+    "exhibitors": "Expositores",
+    "scanLeads": "Escanear leads",
+    "profile": "Perfil",
+    "program": "Programa",
+    "logout": "Cerrar sesión"
+  },
+  "SessionLimit": {
+    "title": "Límite de sesiones",
+    "description1": "Has alcanzado el límite de sesiones activas.",
+    "description2": "Cierra todas las sesiones para continuar o contacta a tu proveedor para contratar un paquete adicional.",
+    "closeAll": "Cerrar todas las sesiones"
+  },
+  "Exhibitors": {
+    "heading": "Gestión de Escenarios y Días"
+  }
+}

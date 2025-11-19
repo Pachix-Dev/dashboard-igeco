@@ -1,8 +1,8 @@
 import { fetchUsers } from 'app/lib/db'
-import { AddUser } from '../../../components/users/AddUser'
+import { AddUser } from 'app/components/users/AddUser'
 
 import { User } from 'app/lib/definitions'
-import { ListUsers } from '../../../components/users/ListUsers'
+import { ListUsers } from 'app/components/users/ListUsers'
 import { unstable_noStore as noStore } from 'next/cache';
 
 export default async function Usuarios(){

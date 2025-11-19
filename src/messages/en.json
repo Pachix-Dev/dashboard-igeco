@@ -1,0 +1,48 @@
+{
+  "Common": {
+    "continue": "Continue",
+    "logout": "Log out",
+    "loading": "Loading..."
+  },
+  "Login": {
+    "title": "Welcome to IGECO",
+    "subtitle": "Sign in to access your account",
+    "emailLabel": "Email",
+    "emailPlaceholder": "user@example.com",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "********",
+    "submit": "Continue",
+    "privacyPrefix": "By signing in, you accept the",
+    "privacyLink": "Privacy Policy",
+    "serverError": "Unable to reach the server",
+    "footer": "© 2026 IGECO. All rights reserved."
+  },
+  "Dashboard": {
+    "welcome": "Welcome {name}!",
+    "important": "Important points:",
+    "points": {
+      "1": "Exhibitor badges will be delivered on the day of the event at the registration module individually. Remember to bring an official ID.",
+      "2": "Badge reprints are not allowed, so keep your badge during the days of the event; otherwise, there will be an additional cost.",
+      "3": "If you need to register more exhibitors than allowed, please contact your sales advisor.",
+      "4": "If you need to activate the scanner service to collect data from visitors to your stand, contact your sales advisor. (This service can only be used within your stand; otherwise, the contract policies will apply)."
+    }
+  },
+  "Menu": {
+    "users": "Users",
+    "speakers": "Speakers",
+    "exhibitors": "Exhibitors",
+    "scanLeads": "Scan leads",
+    "profile": "Profile",
+    "program": "Program",
+    "logout": "Log out"
+  },
+  "SessionLimit": {
+    "title": "Session limit",
+    "description1": "You reached the maximum active sessions.",
+    "description2": "Close all sessions to continue or contact your provider to purchase an additional package.",
+    "closeAll": "Close all sessions"
+  },
+  "Exhibitors": {
+    "heading": "Manage stages and days"
+  }
+}

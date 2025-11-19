@@ -1,5 +1,5 @@
 import { fetchRecordsByUserId } from 'app/lib/db';
-import { QrScanner } from '../../../components/scannleads/QrScanner'
+import { QrScanner } from 'app/components/scannleads/QrScanner'
 import { Lead } from 'app/lib/definitions'
 import { FetchLeads } from 'app/components/scannleads/FetchLeads'
 import { ExportExcel } from 'app/components/scannleads/ExportExcel'

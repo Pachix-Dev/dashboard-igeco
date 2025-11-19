@@ -1,9 +1,9 @@
 
 import { Exhibitor } from 'app/lib/definitions';
-import {AddExhibitor} from '../../../components/exhibitors/AddExhibitor'
+import {AddExhibitor} from 'app/components/exhibitors/AddExhibitor'
 import { fetchExhibitors } from 'app/lib/db';
 import { unstable_noStore as noStore } from 'next/cache';
-import {ListExhibitors} from '../../../components/exhibitors/ListExhibitors'
+import {ListExhibitors} from 'app/components/exhibitors/ListExhibitors'
 
 export default async function Exhibitors(){
     noStore();
