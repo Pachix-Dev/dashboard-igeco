@@ -24,7 +24,7 @@ export function AddEscenario() {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="p-4 border rounded-lg">
+        <form onSubmit={handleSubmit} className="p-4 border rounded-lg grid md:flex gap-4 ">
             <h2 className="text-lg font-bold">Agregar Escenario</h2>
             <input
                 type="text"

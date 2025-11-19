@@ -38,7 +38,7 @@ export default function Escenarios() {
     }, []);
 
     return (
-        <section className="container mx-auto w-full max-w-full md:max-w-5xl grid gap-10">
+        <section className="mx-auto w-full grid gap-10">
             <div className="flex justify-between items-center gap-20">
                 <h1 className="text-center font-extrabold text-2xl">Gestión de Escenarios y Días</h1>
             </div>

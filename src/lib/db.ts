@@ -38,6 +38,7 @@ export async function fetchUsers(): Promise<User[]> {
         throw new Error('Error fetching users');
     }
 }
+
 export async function fetchEscenarios(): Promise<Escenarios[]> {    
     try {
         const [rows] = await db.query('SELECT * FROM escenarios');
@@ -47,6 +48,7 @@ export async function fetchEscenarios(): Promise<Escenarios[]> {
         throw new Error('Error fetching escenarios');
     }
 }
+
 export async function fetchDias(): Promise<Dia[]> {    
     try {
         const [rows] = await db.query('SELECT * FROM dias');
@@ -56,7 +58,6 @@ export async function fetchDias(): Promise<Dia[]> {
         throw new Error('Error fetching escenarios');
     }
 }
-
 
 export async function fetchExhibitors(): Promise<Exhibitor[]> {  
     const cookieStore = cookies();
@@ -81,7 +82,6 @@ export async function fetchExhibitors(): Promise<Exhibitor[]> {
     
 }
 
-
 export async function fetchPonenetes(): Promise<Ponentes[]> {        
     try {
         // Asegúrate de que la consulta esté completa, especificando de dónde obtener los datos.
@@ -100,7 +100,6 @@ export async function fetchPonenetes(): Promise<Ponentes[]> {
         throw new Error('Error fetching ponentes');  // Asegúrate de que el mensaje sea coherente con los datos que estás obteniendo.
     }
 }
-
 
 export async function fetchRecordsByUserId(): Promise<Lead[]> {
     const cookieStore = cookies();
