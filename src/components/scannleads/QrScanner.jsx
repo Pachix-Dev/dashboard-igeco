@@ -1,11 +1,13 @@
 'use client'
 
 import { Scanner } from '@yudiel/react-qr-scanner'
+import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { useSessionUser } from 'app/store/session-user'
 import { useToaster } from 'app/context/ToasterContext'
 
 export function QrScanner() {
+  const t = useTranslations('ScanLeadsPage')
   const [showScanner, setShowScanner] = useState(false)
   const { notify } = useToaster()
   const { userSession } = useSessionUser()
@@ -28,11 +30,11 @@ export function QrScanner() {
     const data = await response.json()
     if (response.ok) {
       notify(data.message, 'success')
-      setShowScanner(!showScanner)
+      setShowScanner(false)
       window.location.reload()
     } else {
       notify(data.message, 'error')
-      setShowScanner(!showScanner)
+      setShowScanner(false)
     }
   }
 
@@ -44,7 +46,7 @@ export function QrScanner() {
     <>
       <button
         onClick={toggleScanner}
-        className='flex gap-2 border rounded-md p-1 bg-gray-900'
+        className='group inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-400 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-500/30 transition hover:scale-[1.01] focus:outline-none focus:ring-2 focus:ring-emerald-300/60 focus:ring-offset-2 focus:ring-offset-slate-950'
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -52,7 +54,7 @@ export function QrScanner() {
           viewBox='0 0 24 24'
           strokeWidth={1.5}
           stroke='currentColor'
-          className='size-6'
+          className='h-5 w-5'
         >
           <path
             strokeLinecap='round'
@@ -65,36 +67,44 @@ export function QrScanner() {
             d='M6.75 6.75h.75v.75h-.75v-.75ZM6.75 16.5h.75v.75h-.75v-.75ZM16.5 6.75h.75v.75h-.75v-.75ZM13.5 13.5h.75v.75h-.75v-.75ZM13.5 19.5h.75v.75h-.75v-.75ZM19.5 13.5h.75v.75h-.75v-.75ZM19.5 19.5h.75v.75h-.75v-.75ZM16.5 16.5h.75v.75h-.75v-.75Z'
           />
         </svg>
-        {showScanner ? 'Hide Scanner' : 'Scan QR'}
+        <span>{showScanner ? t('scanner.hide') : t('scanner.show')}</span>
       </button>
+
       {showScanner && (
-        <div className='fixed top-8 rounded-t-lg inset-0 bg-white grid justify-center items-center z-10'>
-          <div className='text-black grid h-full items-end'>
-            <div className='flex gap-2 items-center justify-evenly'>
+        <div className='fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 px-3 py-4 backdrop-blur-sm'>
+          <div className='flex h-full w-full max-w-5xl flex-col gap-4 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 px-4 py-4 shadow-2xl shadow-emerald-500/20 sm:h-auto sm:max-h-[90vh] sm:px-6 sm:py-6'>
+            <div className='flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between'>
+              <div>
+                <h3 className='text-xl font-bold text-white'>{t('scanner.title')}</h3>
+                <p className='text-sm text-slate-400'>{t('scanner.desc')}</p>
+              </div>
               <button
                 onClick={toggleScanner}
-                className='p-2 bg-slate-800 hover:bg-slate-600 rounded-lg text-white'
+                className='self-end rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-slate-200 transition hover:bg-white/10'
               >
-                Cancelar / Cancel
+                {t('actions.close')}
               </button>
             </div>
-            <p className='font-semibold text-black text-center text-lg'>
-              El uso del escaner es solo para gafetes de tipo VISITANTES,
-              MEDIOS, VIP
-              <br />
-              <span className='text-gray-500'>
-                The use of the scanner is only for VISITOR, MEDIA PARTNER, VIP
-                badges.
-              </span>
-            </p>
-          </div>
-          <div>
-            <Scanner
-              onScan={(result) => handleScan(result)}
-              allowMultiple
-              paused={false}
-              scanDelay={2000}
-            />
+
+            <div className='rounded-2xl border border-white/10 bg-white/5 p-4 text-center text-sm text-slate-200 shadow-inner shadow-emerald-500/5'>
+              <p>{t('scanner.notice.primary')}</p>
+              <p className='text-slate-400'>{t('scanner.notice.secondary')}</p>
+            </div>
+
+            <div className='flex flex-1 flex-col items-center justify-center gap-4 overflow-hidden rounded-2xl border border-white/10 bg-black/40 p-3 shadow-inner shadow-emerald-500/10 sm:flex-row'>
+              <div className='w-full max-w-md'>
+                <Scanner
+                  onScan={(result) => handleScan(result)}
+                  allowMultiple
+                  paused={false}
+                  scanDelay={2000}
+                  className='h-full w-full'
+                />
+              </div>
+              <p className='text-center text-xs text-slate-400 sm:max-w-xs sm:text-left'>
+                {t('scanner.helper')}
+              </p>
+            </div>
           </div>
         </div>
       )}

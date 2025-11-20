@@ -44,5 +44,206 @@
   },
   "Exhibitors": {
     "heading": "Gestión de Escenarios y Días"
+  },
+  "ExhibitorsPage": {
+    "panel": "Panel",
+    "title": "Expositores",
+    "badge": "{count} activos",
+    "subtitle": "Administra expositores, credenciales y nacionalidades desde un panel limpio.",
+    "stat": {
+      "label": "Expositores",
+      "desc": "Total registrados"
+    },
+    "cta": {
+      "add": "Agregar expositor"
+    },
+    "modal": {
+      "title": "Nuevo expositor",
+      "desc": "Completa los datos para registrar al expositor y generar su QR más adelante."
+    },
+    "actions": {
+      "close": "Cerrar",
+      "cancel": "Cancelar",
+      "submit": "Crear expositor"
+    },
+    "toast": {
+      "success": "Expositor creado correctamente",
+      "error": "No se pudo crear el expositor"
+    },
+    "form": {
+      "name": "Nombre",
+      "namePlaceholder": "Ej: Jane",
+      "lastname": "Apellido",
+      "lastnamePlaceholder": "Ej: Doe",
+      "email": "Email",
+      "emailPlaceholder": "correo@empresa.com",
+      "position": "Cargo",
+      "positionPlaceholder": "Ej: Sales Manager",
+      "nationality": "Nacionalidad",
+      "select": "Selecciona una opción",
+      "errors": {
+        "required": "Campo requerido",
+        "email": "Formato de email inválido"
+      }
+    },
+    "list": {
+      "label": "Listado",
+      "title": "Expositores",
+      "desc": "Busca por nombre, correo o nacionalidad. Acciones rápidas a la derecha."
+    },
+    "search": {
+      "placeholder": "Buscar expositor, correo o nacionalidad",
+      "inView": "En vista",
+      "found": "{count} encontrados"
+    },
+    "table": {
+      "exhibitor": "Expositor",
+      "email": "Correo",
+      "position": "Cargo",
+      "nationality": "Nacionalidad",
+      "prints": "Impresiones",
+      "actions": "Acciones",
+      "noData": "Sin dato"
+    },
+    "empty": "No se encontraron expositores con ese criterio.",
+    "pagination": {
+      "page": "Página {current} de {total}",
+      "prev": "Anterior",
+      "next": "Siguiente"
+    }
+  },
+  "UsersPage": {
+    "panel": "Panel",
+    "title": "Usuarios",
+    "badge": "{count} activos",
+    "subtitle": "Gestiona accesos, roles y eventos desde un panel limpio.",
+    "stat": {
+      "label": "Usuarios",
+      "desc": "Total activos en este evento"
+    },
+    "cta": {
+      "add": "Agregar usuario"
+    },
+    "modal": {
+      "title": "Nuevo usuario",
+      "desc": "Completa los campos para invitar a la plataforma. Los campos obligatorios mantienen la validación actual."
+    },
+    "actions": {
+      "close": "Cerrar",
+      "cancel": "Cancelar",
+      "submit": "Crear usuario"
+    },
+    "toast": {
+      "success": "Usuario creado correctamente",
+      "error": "No se pudo crear el usuario"
+    },
+    "form": {
+      "name": "Nombre de la empresa",
+      "namePlaceholder": "Ej: IGECO Team",
+      "email": "Email",
+      "emailPlaceholder": "correo@empresa.com",
+      "password": "Password",
+      "passwordPlaceholder": "Mínimo 6 caracteres",
+      "role": "Perfil",
+      "sessions": "Max sesiones",
+      "exhibitors": "Max expositores",
+      "event": "Evento",
+      "select": "Selecciona una opción",
+      "roles": {
+        "exhibitor": "Expositor",
+        "exhibitorplus": "Expositor + Scanner"
+      },
+      "events": {
+        "ecomondo": "Ecomondo",
+        "replus": "Replus"
+      },
+      "errors": {
+        "required": "Campo requerido",
+        "email": "Formato de email inválido",
+        "passwordLength": "El password debe tener al menos 6 caracteres",
+        "passwordPattern": "El password debe incluir letras y números",
+        "number": "Solo se permiten números",
+        "sessionsMin": "Las sesiones deben ser al menos 2",
+        "sessionsMax": "Las sesiones máximas son 10",
+        "exhibitorsMin": "Los expositores deben ser al menos 2",
+        "exhibitorsMax": "Los expositores máximos son 10"
+      }
+    },
+    "list": {
+      "label": "Listado",
+      "title": "Usuarios registrados",
+      "desc": "Busca por nombre, correo o evento. Acciones rápidas a la derecha."
+    },
+    "search": {
+      "placeholder": "Buscar usuario, correo o evento",
+      "inView": "En vista",
+      "found": "{count} encontrados"
+    },
+    "table": {
+      "user": "Usuario",
+      "role": "Rol",
+      "event": "Evento",
+      "actions": "Acciones",
+      "noData": "Sin dato"
+    },
+    "empty": "No se encontraron usuarios con ese criterio.",
+    "pagination": {
+      "page": "Página {current} de {total}",
+      "prev": "Anterior",
+      "next": "Siguiente"
+    }
+  },
+  "ScanLeadsPage": {
+    "panel": "Panel",
+    "title": "Escanear leads",
+    "badge": "{count} leads",
+    "subtitle": "Escanea gafetes de visitantes, toma notas y exporta tus leads capturados.",
+    "stat": {
+      "label": "Leads",
+      "desc": "Total capturados"
+    },
+    "export": {
+      "cta": "Exportar a Excel",
+      "empty": "No hay leads para exportar",
+      "success": "Export generado"
+    },
+    "scanner": {
+      "show": "Abrir scanner",
+      "hide": "Ocultar scanner",
+      "title": "Escanea el gafete",
+      "desc": "Alinea el QR en el marco. Los datos se guardan al instante.",
+      "notice": {
+        "primary": "El escáner es solo para gafetes VISITANTE, MEDIA PARTNER, VIP.",
+        "secondary": "Scanner is only for VISITOR, MEDIA PARTNER, VIP badges."
+      },
+      "helper": "Mantén el gafete estable y a distancia media para una lectura rápida. Evita reflejos sobre el QR."
+    },
+    "actions": {
+      "close": "Cerrar",
+      "cancel": "Cancelar",
+      "submit": "Guardar"
+    },
+    "list": {
+      "label": "Listado",
+      "title": "Leads capturados",
+      "desc": "Busca por nombre, email, nacionalidad o empresa. Agrega notas por lead."
+    },
+    "search": {
+      "placeholder": "Buscar lead, correo o empresa"
+    },
+    "table": {
+      "name": "Nombre",
+      "nationality": "Nacionalidad",
+      "company": "Empresa",
+      "position": "Puesto",
+      "phone": "Teléfono",
+      "actions": "Acciones"
+    },
+    "empty": "No se encontraron leads con ese criterio.",
+    "pagination": {
+      "page": "Página {current} de {total}",
+      "prev": "Anterior",
+      "next": "Siguiente"
+    }
   }
 }

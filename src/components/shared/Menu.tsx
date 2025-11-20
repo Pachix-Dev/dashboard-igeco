@@ -24,7 +24,7 @@ export function Menu() {
       method: 'POST'
     });
     clear();
-    router.push('/', {locale});
+    router.push('/', {locale: locale as 'es' | 'en'});
   };
 
   const toggleMenu = () => setIsOpen(!isOpen);
@@ -35,9 +35,14 @@ export function Menu() {
       : pathname || '/';
 
   const getLinkClasses = (path: string) => {
-    return normalizedPath === path
-      ? 'border-blue-500 text-blue-700 bg-blue-50'
-      : 'text-gray-500 hover:border-gray-100 hover:bg-gray-50 hover:text-gray-700';
+    const base =
+      'group flex items-center justify-between gap-3 rounded-xl border px-4 py-3 text-sm font-semibold transition';
+    const active =
+      'border-blue-500/40 bg-gradient-to-r from-blue-600/20 via-blue-500/15 to-cyan-500/10 text-white shadow-lg shadow-blue-500/20';
+    const idle =
+      'border-white/5 text-slate-300 hover:border-white/15 hover:bg-white/5 hover:text-white';
+
+    return `${base} ${normalizedPath === path ? active : idle}`;
   };
 
   const switchLocale = () => {
@@ -47,34 +52,36 @@ export function Menu() {
 
   return (
     <>
-      <div className="flex items-center justify-between border-b px-4 py-2 lg:hidden">
-        <Link href="/dashboard" onClick={handleNavigate}>
+      <div className="flex items-center justify-between border-b border-white/10 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 px-4 py-3 text-white lg:hidden">
+        <Link href="/dashboard" onClick={handleNavigate} className="flex items-center gap-2">
           <Image
             src="/img/deutschemesselogo.webp"
             alt="logo"
-            width={50}
+            width={48}
             height={32}
-            className="rounded-lg"
+            className="rounded-lg shadow-lg shadow-blue-500/20"
           />
+          <span className="text-sm font-semibold text-slate-200">Dashboard</span>
         </Link>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           <button
             onClick={switchLocale}
-            className="rounded-md border px-2 py-1 text-xs font-semibold text-gray-600 hover:bg-gray-100"
+            className="rounded-xl border border-white/20 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-100 transition hover:border-blue-400/60 hover:bg-blue-500/10"
           >
             {locale.toUpperCase()}
           </button>
           <button
             onClick={toggleMenu}
-            className="text-gray-700 hover:text-gray-900 focus:outline-none"
+            aria-expanded={isOpen}
+            className="rounded-lg border border-white/10 bg-white/5 p-2 text-white transition hover:border-blue-400/60 hover:bg-blue-500/10"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={2}
-              stroke="white"
-              className="h-6 w-6"
+              stroke="currentColor"
+              className="h-5 w-5"
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
             </svg>
@@ -82,14 +89,21 @@ export function Menu() {
         </div>
       </div>
 
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-30 bg-black/50 backdrop-blur-sm lg:hidden"
+          onClick={toggleMenu}
+        />
+      )}
+
       <aside
-        className={`flex h-screen flex-col justify-between border-r bg-white transition-transform lg:block ${
-          isOpen ? 'block' : 'hidden'
+        className={`fixed inset-y-0 left-0 z-40 flex flex-col justify-between w-[280px] border-r border-white/10 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100 shadow-2xl shadow-blue-500/10 transition-transform duration-200 lg:static lg:translate-x-0 ${
+          isOpen ? 'translate-x-0' : '-translate-x-full lg:block'
         }`}
       >
-        <ul>
-          <li className="hidden items-center justify-center py-4 lg:flex">
-            <Link href="/dashboard" onClick={handleNavigate}>
+        <div className="flex-1 space-y-6 overflow-y-auto px-4 py-5">
+          <div className="hidden items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3 lg:flex">
+            <Link href="/dashboard" onClick={handleNavigate} className="flex items-center gap-3">
               <Image
                 src="/img/deutschemesselogo.webp"
                 alt="logo"
@@ -98,190 +112,307 @@ export function Menu() {
                 className="rounded-lg"
                 priority
               />
+              <div>
+                <p className="text-xs font-semibold text-slate-400">Dashboard</p>
+                <p className="text-sm font-bold text-white">{t('profile')}</p>
+              </div>
             </Link>
-          </li>
-          <li className="hidden px-4 pb-2 lg:block">
             <button
               onClick={switchLocale}
-              className="w-full rounded-md border px-3 py-2 text-xs font-semibold text-gray-600 hover:bg-gray-100"
+              className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-slate-100 transition hover:border-blue-400/60 hover:bg-blue-500/10"
             >
               {locale === 'es' ? 'ES' : 'EN'}
             </button>
-          </li>
+          </div>
 
           {userSession?.role === 'admin' && (
             <>
-              <li>
-                <Link
-                  onClick={handleNavigate}
-                  href="/dashboard/usuarios"
-                  className={`flex items-center gap-2 border-s-[3px] px-4 py-3 ${getLinkClasses('/dashboard/usuarios')}`}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="size-6"
+              <p className="px-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
+                Admin
+              </p>
+              <ul className="space-y-3">
+                <li>
+                  <Link
+                    onClick={handleNavigate}
+                    href="/dashboard/usuarios"
+                    className={getLinkClasses('/dashboard/usuarios')}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"
-                    />
-                  </svg>
-                  <span className="text-sm font-medium">{t('users')}</span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  onClick={handleNavigate}
-                  href="/dashboard/ponentes"
-                  className={`flex items-center gap-2 border-s-[3px] px-4 py-3 ${getLinkClasses('/dashboard/ponentes')}`}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="size-5 opacity-75"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
+                    <div className="flex items-center gap-3">
+                      <span className="grid h-9 w-9 place-items-center rounded-xl bg-white/5 text-slate-200 ring-1 ring-white/10">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="h-5 w-5"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"
+                          />
+                        </svg>
+                      </span>
+                      <span>{t('users')}</span>
+                    </div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="h-4 w-4 text-slate-500 transition group-hover:text-blue-300"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="m9 5 7 7-7 7" />
+                    </svg>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    onClick={handleNavigate}
+                    href="/dashboard/ponentes"
+                    className={getLinkClasses('/dashboard/ponentes')}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                    />
-                  </svg>
-
-                  <span className="text-sm font-medium">{t('speakers')}</span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  onClick={handleNavigate}
-                  href="/dashboard/exhibitors"
-                  className={`flex items-center gap-2 border-s-[3px] px-4 py-3 ${getLinkClasses('/dashboard/exhibitors')}`}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="size-5 opacity-75"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
+                    <div className="flex items-center gap-3">
+                      <span className="grid h-9 w-9 place-items-center rounded-xl bg-white/5 text-slate-200 ring-1 ring-white/10">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                          />
+                        </svg>
+                      </span>
+                      <span>{t('speakers')}</span>
+                    </div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="h-4 w-4 text-slate-500 transition group-hover:text-blue-300"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="m9 5 7 7-7 7" />
+                    </svg>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    onClick={handleNavigate}
+                    href="/dashboard/exhibitors"
+                    className={getLinkClasses('/dashboard/exhibitors')}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                    />
-                  </svg>
-
-                  <span className="text-sm font-medium">{t('exhibitors')}</span>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  onClick={handleNavigate}
-                  href="/dashboard/programa"
-                  className={`flex items-center gap-2 border-s-[3px] px-4 py-3 ${getLinkClasses('/dashboard/programa')}`}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="size-5 opacity-75"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
+                    <div className="flex items-center gap-3">
+                      <span className="grid h-9 w-9 place-items-center rounded-xl bg-white/5 text-slate-200 ring-1 ring-white/10">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                          />
+                        </svg>
+                      </span>
+                      <span>{t('exhibitors')}</span>
+                    </div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="h-4 w-4 text-slate-500 transition group-hover:text-blue-300"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="m9 5 7 7-7 7" />
+                    </svg>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    onClick={handleNavigate}
+                    href="/dashboard/programa"
+                    className={getLinkClasses('/dashboard/programa')}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                    />
-                  </svg>
-
-                  <span className="text-sm font-medium">{t('program')}</span>
-                </Link>
-              </li>
+                    <div className="flex items-center gap-3">
+                      <span className="grid h-9 w-9 place-items-center rounded-xl bg-white/5 text-slate-200 ring-1 ring-white/10">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                          />
+                        </svg>
+                      </span>
+                      <span>{t('program')}</span>
+                    </div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="h-4 w-4 text-slate-500 transition group-hover:text-blue-300"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="m9 5 7 7-7 7" />
+                    </svg>
+                  </Link>
+                </li>
+              </ul>
             </>
           )}
 
           {(userSession?.role === 'exhibitorplus' || userSession?.role === 'admin') && (
+            <>
+              <p className="px-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
+                Leads
+              </p>
+              <ul className="space-y-3">
+                <li>
+                  <Link
+                    onClick={handleNavigate}
+                    href="/dashboard/scan-leads"
+                    className={getLinkClasses('/dashboard/scan-leads')}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="grid h-9 w-9 place-items-center rounded-xl bg-white/5 text-slate-200 ring-1 ring-white/10">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={1.5}
+                          stroke="currentColor"
+                          className="h-5 w-5"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 3.75 9.375v-4.5ZM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 0 1-1.125-1.125v-4.5ZM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 13.5 9.375v-4.5Z"
+                          />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M6.75 6.75h.75v.75h-.75v-.75ZM6.75 16.5h.75v.75h-.75v-.75ZM16.5 6.75h.75v.75h-.75v-.75ZM13.5 13.5h.75v.75h-.75v-.75ZM13.5 19.5h.75v.75h-.75v-.75ZM19.5 13.5h.75v.75h-.75v-.75ZM19.5 19.5h.75v.75h-.75v-.75ZM16.5 16.5h.75v.75h-.75v-.75Z"
+                          />
+                        </svg>
+                      </span>
+                      <span>{t('scanLeads')}</span>
+                    </div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="h-4 w-4 text-slate-500 transition group-hover:text-blue-300"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="m9 5 7 7-7 7" />
+                    </svg>
+                  </Link>
+                </li>
+              </ul>
+            </>
+          )}
+
+          <p className="px-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
+            Cuenta
+          </p>
+          <ul className="space-y-3">
             <li>
               <Link
                 onClick={handleNavigate}
-                href="/dashboard/scan-leads"
-                className={`flex items-center gap-2 border-s-[3px] px-4 py-3 ${getLinkClasses('/dashboard/scan-leads')}`}
+                href="/dashboard/profile"
+                className={getLinkClasses('/dashboard/profile')}
               >
+                <div className="flex items-center gap-3">
+                  <span className="grid h-9 w-9 place-items-center rounded-xl bg-white/5 text-slate-200 ring-1 ring-white/10">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                      />
+                    </svg>
+                  </span>
+                  <span>{t('profile')}</span>
+                </div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
                   stroke="currentColor"
-                  className="size-6"
+                  className="h-4 w-4 text-slate-500 transition group-hover:text-blue-300"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="m9 5 7 7-7 7" />
+                </svg>
+              </Link>
+            </li>
+          </ul>
+
+          <button
+            onClick={handleLogout}
+            className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-slate-200 transition hover:border-red-400/40 hover:bg-red-500/10 hover:text-white"
+          >
+            <span className="flex items-center gap-3">
+              <span className="grid h-9 w-9 place-items-center rounded-xl bg-white/5 text-rose-200 ring-1 ring-white/10">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="h-5 w-5"
                 >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 3.75 9.375v-4.5ZM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 0 1-1.125-1.125v-4.5ZM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 13.5 9.375v-4.5Z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6.75 6.75h.75v.75h-.75v-.75ZM6.75 16.5h.75v.75h-.75v-.75ZM16.5 6.75h.75v.75h-.75v-.75ZM13.5 13.5h.75v.75h-.75v-.75ZM13.5 19.5h.75v.75h-.75v-.75ZM19.5 13.5h.75v.75h-.75v-.75ZM19.5 19.5h.75v.75h-.75v-.75ZM16.5 16.5h.75v.75h-.75v-.75Z"
+                    d="M5.636 5.636a9 9 0 1 0 12.728 0M12 3v9"
                   />
                 </svg>
-                <span className="text-sm font-medium">{t('scanLeads')}</span>
-              </Link>
-            </li>
-          )}
-
-          <li>
-            <Link
-              onClick={handleNavigate}
-              href="/dashboard/profile"
-              className={`flex items-center gap-2 border-s-[3px] px-4 py-3 ${getLinkClasses('/dashboard/profile')}`}
+              </span>
+              {t('logout')}
+            </span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="h-4 w-4"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="size-5 opacity-75"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
-              </svg>
-
-              <span className="text-sm font-medium">{t('profile')}</span>
-            </Link>
-          </li>
-        </ul>
-
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-2 border-s-[3px] border-transparent px-4 py-3 text-gray-500 hover:border-gray-100 hover:bg-gray-50 hover:text-gray-700"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5.636 5.636a9 9 0 1 0 12.728 0M12 3v9" />
-          </svg>
-          {t('logout')}
-        </button>
+              <path strokeLinecap="round" strokeLinejoin="round" d="m9 5 7 7-7 7" />
+            </svg>
+          </button>
+        </div>        
       </aside>
     </>
   );

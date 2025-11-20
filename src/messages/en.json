@@ -44,5 +44,206 @@
   },
   "Exhibitors": {
     "heading": "Manage stages and days"
+  },
+  "ExhibitorsPage": {
+    "panel": "Panel",
+    "title": "Exhibitors",
+    "badge": "{count} active",
+    "subtitle": "Manage exhibitors, credentials and nationalities from a clean panel.",
+    "stat": {
+      "label": "Exhibitors",
+      "desc": "Total registered"
+    },
+    "cta": {
+      "add": "Add exhibitor"
+    },
+    "modal": {
+      "title": "New exhibitor",
+      "desc": "Fill the details to register the exhibitor and generate their QR later."
+    },
+    "actions": {
+      "close": "Close",
+      "cancel": "Cancel",
+      "submit": "Create exhibitor"
+    },
+    "toast": {
+      "success": "Exhibitor created successfully",
+      "error": "Failed to create exhibitor"
+    },
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "e.g. Jane",
+      "lastname": "Lastname",
+      "lastnamePlaceholder": "e.g. Doe",
+      "email": "Email",
+      "emailPlaceholder": "email@company.com",
+      "position": "Position",
+      "positionPlaceholder": "e.g. Sales Manager",
+      "nationality": "Nationality",
+      "select": "Select an option",
+      "errors": {
+        "required": "Required field",
+        "email": "Invalid email format"
+      }
+    },
+    "list": {
+      "label": "Listing",
+      "title": "Exhibitors",
+      "desc": "Search by name, email or nationality. Quick actions on the right."
+    },
+    "search": {
+      "placeholder": "Search exhibitor, email or nationality",
+      "inView": "In view",
+      "found": "{count} found"
+    },
+    "table": {
+      "exhibitor": "Exhibitor",
+      "email": "Email",
+      "position": "Position",
+      "nationality": "Nationality",
+      "prints": "Prints",
+      "actions": "Actions",
+      "noData": "No data"
+    },
+    "empty": "No exhibitors matched that query.",
+    "pagination": {
+      "page": "Page {current} of {total}",
+      "prev": "Previous",
+      "next": "Next"
+    }
+  },
+  "ScanLeadsPage": {
+    "panel": "Panel",
+    "title": "Scan leads",
+    "badge": "{count} leads",
+    "subtitle": "Scan visitor badges, take notes and export your captured leads.",
+    "stat": {
+      "label": "Leads",
+      "desc": "Total captured"
+    },
+    "export": {
+      "cta": "Export to Excel",
+      "empty": "No leads to export",
+      "success": "Export generated"
+    },
+    "scanner": {
+      "show": "Open scanner",
+      "hide": "Hide scanner",
+      "title": "Scan visitor badge",
+      "desc": "Align the QR within the frame. Data will be recorded instantly.",
+      "notice": {
+        "primary": "Scanner is only for VISITOR, MEDIA PARTNER, VIP badges.",
+        "secondary": "El escaner es solo para gafetes VISITANTE, MEDIA PARTNER, VIP."
+      },
+      "helper": "Keep the badge stable and at a medium distance for a faster read. Avoid glare on the QR."
+    },
+    "actions": {
+      "close": "Close",
+      "cancel": "Cancel",
+      "submit": "Save"
+    },
+    "list": {
+      "label": "Listing",
+      "title": "Captured leads",
+      "desc": "Search by name, email, nationality or company. Add notes per lead."
+    },
+    "search": {
+      "placeholder": "Search lead, email or company"
+    },
+    "table": {
+      "name": "Name",
+      "nationality": "Nationality",
+      "company": "Company",
+      "position": "Position",
+      "phone": "Phone",
+      "actions": "Actions"
+    },
+    "empty": "No leads matched that query.",
+    "pagination": {
+      "page": "Page {current} of {total}",
+      "prev": "Previous",
+      "next": "Next"
+    }
+  },
+  "UsersPage": {
+    "panel": "Panel",
+    "title": "Users",
+    "badge": "{count} active",
+    "subtitle": "Manage access, roles and events from a clean panel.",
+    "stat": {
+      "label": "Users",
+      "desc": "Total active for this event"
+    },
+    "cta": {
+      "add": "Add user"
+    },
+    "modal": {
+      "title": "New user",
+      "desc": "Fill the fields to invite a user. Required fields keep current validation."
+    },
+    "actions": {
+      "close": "Close",
+      "cancel": "Cancel",
+      "submit": "Create user"
+    },
+    "toast": {
+      "success": "User created successfully",
+      "error": "Failed to create user"
+    },
+    "form": {
+      "name": "Company name",
+      "namePlaceholder": "e.g. IGECO Team",
+      "email": "Email",
+      "emailPlaceholder": "email@company.com",
+      "password": "Password",
+      "passwordPlaceholder": "At least 6 characters",
+      "role": "Role",
+      "sessions": "Max sessions",
+      "exhibitors": "Max exhibitors",
+      "event": "Event",
+      "select": "Select an option",
+      "roles": {
+        "exhibitor": "Exhibitor",
+        "exhibitorplus": "Exhibitor + Scanner"
+      },
+      "events": {
+        "ecomondo": "Ecomondo",
+        "replus": "Replus"
+      },
+      "errors": {
+        "required": "Required field",
+        "email": "Invalid email format",
+        "passwordLength": "Password must be at least 6 characters",
+        "passwordPattern": "Password must include letters and numbers",
+        "number": "Only numbers allowed",
+        "sessionsMin": "Sessions must be at least 2",
+        "sessionsMax": "Sessions maximum is 10",
+        "exhibitorsMin": "Exhibitors must be at least 2",
+        "exhibitorsMax": "Exhibitors maximum is 10"
+      }
+    },
+    "list": {
+      "label": "Listing",
+      "title": "Registered users",
+      "desc": "Search by name, email or event. Quick actions on the right."
+    },
+    "search": {
+      "placeholder": "Search user, email or event",
+      "inView": "In view",
+      "found": "{count} found"
+    },
+    "table": {
+      "user": "User",
+      "role": "Role",
+      "event": "Event",
+      "actions": "Actions",
+      "noData": "No data"
+    },
+    "empty": "No users matched that query.",
+    "pagination": {
+      "page": "Page {current} of {total}",
+      "prev": "Previous",
+      "next": "Next"
+    }
   }
 }

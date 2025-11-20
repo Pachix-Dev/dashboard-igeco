@@ -1,22 +1,28 @@
+import {getTranslations} from 'next-intl/server';
+import {AddEscenario} from 'app/components/programa/AddEscenario';
+import {Adddias} from 'app/components/programa/Adddias';
+import {SelectRelacion} from 'app/components/programa/SelectRelacion';
+import {fetchEscenarios, fetchDias} from 'app/lib/db';
 
-import { Exhibitor } from 'app/lib/definitions';
-import {AddExhibitor} from 'app/components/exhibitors/AddExhibitor'
-import { fetchExhibitors } from 'app/lib/db';
-import { unstable_noStore as noStore } from 'next/cache';
-import {ListExhibitors} from 'app/components/exhibitors/ListExhibitors'
+export default async function Escenarios({
+  params
+}: {
+  params: {locale: string};
+}) {
+  const {locale} = params;
+  const t = await getTranslations({locale, namespace: 'Exhibitors'});
 
-export default async function Exhibitors(){
-    noStore();
-    const exhibitors: Exhibitor[] = await fetchExhibitors();
-    return (
-        <>      
-            <section className="container mx-auto w-full max-w-full md:max-w-5xl grid gap-10">
-                <div className="flex justify-between items-center gap-20">
-                    <h1 className="text-center font-extrabold text-2xl">Exhibitors</h1>                    
-                    <AddExhibitor />
-                </div>                 
-                <ListExhibitors exhibitors={exhibitors} />
-            </section>     
-        </>
-    )
+  const escenarios = await fetchEscenarios();
+  const dias = await fetchDias();
+
+  return (
+    <section className="container mx-auto grid w-full max-w-full gap-10 md:max-w-5xl">
+      <div className="flex items-center justify-between gap-20">
+        <h1 className="text-center text-2xl font-extrabold">{t('heading')}</h1>
+      </div>
+      <AddEscenario />
+      <Adddias />
+      <SelectRelacion escenarios={escenarios} dias={dias} />
+    </section>
+  );
 }

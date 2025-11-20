@@ -1,30 +1,28 @@
 'use client'
 
-import { useState } from 'react'
-import { AddNotes } from './AddNotes'
+import {useState} from 'react'
+import {useTranslations} from 'next-intl'
+import {AddNotes} from './AddNotes'
 
-export function FetchLeads({ leads }) {
+export function FetchLeads({leads}) {
+  const t = useTranslations('ScanLeadsPage')
   const [currentPage, setCurrentPage] = useState(1)
   const [searchTerm, setSearchTerm] = useState('')
   const itemsPerPage = 10
 
-  // Calculate total pages
-  const totalPages = Math.ceil(leads.length / itemsPerPage)
-
-  // Filter leads based on search term
   const filteredLeads = leads.filter((lead) =>
     `${lead.name} ${lead.paternSurname} ${lead.maternSurname} ${lead.email} ${lead.nacionality} ${lead.company} ${lead.position}`
       .toLowerCase()
       .includes(searchTerm.toLowerCase())
   )
 
-  // Get the current page items
+  const totalPages = Math.max(1, Math.ceil(filteredLeads.length / itemsPerPage))
+
   const currentLeads = filteredLeads.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   )
 
-  // Handle page navigation
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1))
   }
@@ -33,122 +31,113 @@ export function FetchLeads({ leads }) {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages))
   }
 
-  // Handle search input change
   const handleSearch = (term) => {
     setSearchTerm(term)
-    setCurrentPage(1) // Reset to first page on search
+    setCurrentPage(1)
   }
 
   return (
-    <>
-      <div className='w-full overflow-x-auto overflow-y-auto lg:max-h-[560px] bg-[#212136] p-5 rounded-md shadow-md'>
-        <div className='relative my-5'>
-          <label htmlFor='Search' className='sr-only'>
-            {' '}
-            Search{' '}
-          </label>
-
+    <div className="space-y-5">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="space-y-1">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">{t('list.label')}</p>
+          <h3 className="text-xl font-bold text-white">{t('list.title')}</h3>
+          <p className="text-sm text-slate-400">{t('list.desc')}</p>
+        </div>
+        <div className="relative w-full sm:w-80">
           <input
-            type='text'
-            id='Search'
-            placeholder='Search for...'
+            type="text"
+            id="Search"
+            placeholder={t('search.placeholder')}
             onChange={(e) => handleSearch(e.target.value)}
-            className='w-full rounded-md border-gray-200 py-2.5 ps-2 pe-10 shadow-xs sm:text-sm text-black'
+            className="w-full rounded-xl border border-white/10 bg-slate-900/70 py-2.5 pl-10 pr-3 text-sm text-white placeholder-slate-500 shadow-inner shadow-blue-500/10 transition focus:border-blue-400/60 focus:outline-none"
           />
-
-          <span className='absolute inset-y-0 end-0 grid w-10 place-content-center'>
-            <button type='button' className='text-gray-600 hover:text-gray-700'>
-              <span className='sr-only'>Search</span>
-
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                fill='none'
-                viewBox='0 0 24 24'
-                strokeWidth='1.5'
-                stroke='currentColor'
-                className='size-4'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z'
-                />
-              </svg>
-            </button>
+          <span className="pointer-events-none absolute inset-y-0 left-0 grid w-10 place-content-center text-slate-500">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="h-4 w-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+              />
+            </svg>
           </span>
         </div>
+      </div>
 
-        <table className='m-0 w-max min-w-full border-separate border-spacing-0 border-none p-0 text-left md:w-full'>
-          <thead>
-            <tr className='bg-[#0A0A14] rounded-lg h-8'>
-              <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'>
-                Name
-              </th>
-              <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'>
-                Nationality
-              </th>
-
-              <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'>
-                Company
-              </th>
-              <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'>
-                Position
-              </th>
-              <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'>
-                Phone
-              </th>
-              <th className='h-8 border-b border-t border-slate-6 px-3 text-xs font-semibold text-slate-11 first:rounded-l-md first:border-l last:rounded-r-md last:border-r'></th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentLeads.map((lead, index) => (
-              <tr key={index}>
-                <td className='py-3 border-slate-6 h-10 w-fit overflow-hidden text-ellipsis whitespace-nowrap border-b px-3 text-sm sm:text-xs font-bold'>
-                  {lead.name} {lead.paternSurname} {lead.maternSurname} <br />
-                  <span className='font-thin text-slate-300'>{lead.email}</span>
-                </td>
-                <td className='py-3 border-slate-6 h-10 w-fit overflow-hidden text-ellipsis whitespace-nowrap border-b px-3 text-sm sm:text-xs'>
-                  {lead.nacionality}
-                </td>
-
-                <td className='py-3 border-slate-6 h-10 w-fit overflow-hidden text-ellipsis whitespace-nowrap border-b px-3 text-sm sm:text-xs'>
-                  {lead.company}
-                </td>
-                <td className='py-3 border-slate-6 h-10 w-fit overflow-hidden text-ellipsis whitespace-nowrap border-b px-3 text-sm sm:text-xs'>
-                  {lead.position}
-                </td>
-                <td className='py-3 border-slate-6 h-10 w-fit overflow-hidden text-ellipsis whitespace-nowrap border-b px-3 text-sm sm:text-xs'>
-                  {lead.phone}
-                </td>
-                <td className='py-3 border-slate-6 h-10 w-fit text-ellipsis whitespace-nowrap border-b px-3 text-sm sm:text-xs'>
-                  <AddNotes lead={lead} />
-                </td>
+      <div className="overflow-hidden rounded-2xl border border-white/10 bg-slate-950/50 shadow-inner shadow-blue-500/5">
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-white/5">
+            <thead className="bg-white/5 text-left text-xs font-semibold uppercase tracking-wide text-slate-300">
+              <tr>
+                <th className="px-4 py-3">{t('table.name')}</th>
+                <th className="px-4 py-3">{t('table.nationality')}</th>
+                <th className="px-4 py-3">{t('table.company')}</th>
+                <th className="px-4 py-3">{t('table.position')}</th>
+                <th className="px-4 py-3">{t('table.phone')}</th>
+                <th className="px-4 py-3 text-right">{t('table.actions')}</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className='flex justify-between items-center mt-4'>
-        <button
-          onClick={handlePreviousPage}
-          disabled={currentPage === 1}
-          className='px-4 py-2 text-sm font-semibold text-white bg-gray-800 rounded hover:bg-gray-700 disabled:opacity-50'
-        >
-          Previous
-        </button>
+            </thead>
+            <tbody className="divide-y divide-white/5">
+              {currentLeads.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="px-4 py-6 text-center text-sm text-slate-400">
+                    {t('empty')}
+                  </td>
+                </tr>
+              ) : (
+                currentLeads.map((lead, index) => (
+                  <tr key={`${lead.email}-${index}`} className="transition hover:bg-white/5">
+                    <td className="px-4 py-3">
+                      <div className="font-semibold text-white">
+                        {lead.name} {lead.paternSurname} {lead.maternSurname}
+                      </div>
+                      <p className="text-xs text-slate-400">{lead.email}</p>
+                    </td>
+                    <td className="px-4 py-3 text-sm text-slate-200">{lead.nacionality}</td>
+                    <td className="px-4 py-3 text-sm text-slate-200">{lead.company}</td>
+                    <td className="px-4 py-3 text-sm text-slate-200">{lead.position}</td>
+                    <td className="px-4 py-3 text-sm text-slate-200">{lead.phone}</td>
+                    <td className="px-4 py-3">
+                      <div className="flex justify-end">
+                        <AddNotes lead={lead} />
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
 
-        <span className='text-sm text-gray-600'>
-          Page {currentPage} of {totalPages}
-        </span>
-
-        <button
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-          className='px-4 py-2 text-sm font-semibold text-white bg-gray-800 rounded hover:bg-gray-700 disabled:opacity-50'
-        >
-          Next
-        </button>
+        <div className="flex flex-col gap-3 border-t border-white/10 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="text-sm text-slate-400">
+            {t('pagination.page', {current: currentPage, total: totalPages})}
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handlePreviousPage}
+              disabled={currentPage === 1}
+              className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              {t('pagination.prev')}
+            </button>
+            <button
+              onClick={handleNextPage}
+              disabled={currentPage === totalPages}
+              className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              {t('pagination.next')}
+            </button>
+          </div>
+        </div>
       </div>
-    </>
+    </div>
   )
 }
