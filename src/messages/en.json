@@ -45,6 +45,78 @@
   "Exhibitors": {
     "heading": "Manage stages and days"
   },
+  "SpeakersPage": {
+    "panel": "Panel",
+    "title": "Speakers",
+    "badge": "{count} active",
+    "subtitle": "Manage speakers, bios and credentials from a clean panel.",
+    "stat": {
+      "label": "Speakers",
+      "desc": "Total registered"
+    },
+    "cta": {
+      "add": "Add speaker"
+    },
+    "modal": {
+      "title": "New speaker",
+      "desc": "Fill the speaker details, upload a photo and save in both languages."
+    },
+    "actions": {
+      "close": "Close",
+      "cancel": "Cancel",
+      "submit": "Create speaker"
+    },
+    "toast": {
+      "success": "Speaker added successfully",
+      "error": "Failed to add speaker",
+      "uploadError": "Image upload failed"
+    },
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "e.g. Jane Doe",
+      "position": "Position",
+      "positionPlaceholder": "e.g. CTO",
+      "company": "Company",
+      "companyPlaceholder": "e.g. IGECO",
+      "linkedin": "LinkedIn URL",
+      "phone": "Phone",
+      "email": "Email",
+      "emailPlaceholder": "email@company.com",
+      "upload": "Upload image",
+      "bioEs": "Bio (Spanish)",
+      "bioEsPlaceholder": "Escribe la bio en español...",
+      "bioEn": "Bio (English)",
+      "bioEnPlaceholder": "Write the bio in English...",
+      "errors": {
+        "required": "Required field",
+        "email": "Invalid email format"
+      }
+    },
+    "list": {
+      "label": "Listing",
+      "title": "Speakers",
+      "desc": "Search by name, email, company or role. Quick actions and QR on the right."
+    },
+    "search": {
+      "placeholder": "Search speaker, email or company",
+      "inView": "In view",
+      "found": "{count} found"
+    },
+    "table": {
+      "speaker": "Speaker",
+      "company": "Company",
+      "email": "Email",
+      "prints": "Prints",
+      "actions": "Actions",
+      "noData": "No data"
+    },
+    "empty": "No speakers matched that query.",
+    "pagination": {
+      "page": "Page {current} of {total}",
+      "prev": "Previous",
+      "next": "Next"
+    }
+  },
   "ExhibitorsPage": {
     "panel": "Panel",
     "title": "Exhibitors",

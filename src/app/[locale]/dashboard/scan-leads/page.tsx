@@ -29,20 +29,10 @@ export default async function ScanLeads() {
             <p className="text-sm text-slate-400">{t('subtitle')}</p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="hidden items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 shadow-lg shadow-blue-500/10 sm:flex">
-              <div className="grid h-12 w-12 place-items-center rounded-xl bg-blue-500/15 text-lg font-semibold text-blue-200">
-                {totalLeads}
-              </div>
-              <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
-                  {t('stat.label')}
-                </p>
-                <p className="text-sm font-semibold text-white">{t('stat.desc')}</p>
-              </div>
-            </div>
+          <div className="flex flex-wrap items-center gap-3">            
             <ExportExcel leads={leads} />
             <QrScanner />
+            
           </div>
         </header>
 

@@ -21,7 +21,7 @@ export default function SessionLimit() {
       });
 
       if (response.ok) {
-        router.push('/', {locale});
+        router.push('/', { locale: locale as 'es' | 'en' | undefined });
       }
     } catch (error) {
       console.error('Error: no se pudo cerrar sesiones');

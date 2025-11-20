@@ -68,7 +68,8 @@
     },
     "toast": {
       "success": "Expositor creado correctamente",
-      "error": "No se pudo crear el expositor"
+      "error": "No se pudo crear el expositor",
+      "uploadError": "Error al subir la imagen"
     },
     "form": {
       "name": "Nombre",
@@ -240,6 +241,78 @@
       "actions": "Acciones"
     },
     "empty": "No se encontraron leads con ese criterio.",
+    "pagination": {
+      "page": "Página {current} de {total}",
+      "prev": "Anterior",
+      "next": "Siguiente"
+    }
+  },
+  "SpeakersPage": {
+    "panel": "Panel",
+    "title": "Ponentes",
+    "badge": "{count} activos",
+    "subtitle": "Administra ponentes, bios y credenciales desde un panel limpio.",
+    "stat": {
+      "label": "Ponentes",
+      "desc": "Total registrados"
+    },
+    "cta": {
+      "add": "Agregar ponente"
+    },
+    "modal": {
+      "title": "Nuevo ponente",
+      "desc": "Completa los datos, sube foto y guarda en ambos idiomas."
+    },
+    "actions": {
+      "close": "Cerrar",
+      "cancel": "Cancelar",
+      "submit": "Crear ponente"
+    },
+    "toast": {
+      "success": "Ponente agregado correctamente",
+      "error": "No se pudo agregar el ponente",
+      "uploadError": "Error al subir la imagen"
+    },
+    "form": {
+      "name": "Nombre",
+      "namePlaceholder": "Ej: Jane Doe",
+      "position": "Cargo",
+      "positionPlaceholder": "Ej: CTO",
+      "company": "Empresa",
+      "companyPlaceholder": "Ej: IGECO",
+      "linkedin": "URL de LinkedIn",
+      "phone": "Teléfono",
+      "email": "Email",
+      "emailPlaceholder": "correo@empresa.com",
+      "upload": "Subir imagen",
+      "bioEs": "Bio (Español)",
+      "bioEsPlaceholder": "Escribe la bio en Español...",
+      "bioEn": "Bio (Inglés)",
+      "bioEnPlaceholder": "Escribe la bio en Inglés...",
+      "errors": {
+        "required": "Campo requerido",
+        "email": "Formato de email inválido"
+      }
+    },
+    "list": {
+      "label": "Listado",
+      "title": "Ponentes",
+      "desc": "Busca por nombre, email, empresa o rol. Acciones rápidas y QR a la derecha."
+    },
+    "search": {
+      "placeholder": "Buscar ponente, correo o empresa",
+      "inView": "En vista",
+      "found": "{count} encontrados"
+    },
+    "table": {
+      "speaker": "Ponente",
+      "company": "Empresa",
+      "email": "Correo",
+      "prints": "Impresiones",
+      "actions": "Acciones",
+      "noData": "Sin dato"
+    },
+    "empty": "No se encontraron ponentes con ese criterio.",
     "pagination": {
       "page": "Página {current} de {total}",
       "prev": "Anterior",
