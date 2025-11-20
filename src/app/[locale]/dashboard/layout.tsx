@@ -1,11 +1,15 @@
 import {Menu} from 'app/components/shared/Menu';
+import {setRequestLocale} from 'next-intl/server';
 import type {ReactNode} from 'react';
 
 type DashboardLayoutProps = {
   children: ReactNode;
+  params: {locale: string};
 };
 
-export default function DashboardLayout({children}: DashboardLayoutProps) {
+export default function DashboardLayout({children, params}: DashboardLayoutProps) {
+  setRequestLocale(params.locale);
+  
   return (
     <section className="relative min-h-screen bg-slate-950 text-slate-50 lg:flex">
       <Menu />

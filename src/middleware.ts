@@ -29,7 +29,7 @@ export async function middleware(req: NextRequest) {
   const token = req.cookies.get('access_token')?.value;
   const locale = req.nextUrl.locale ?? defaultLocale;
   const pathname = req.nextUrl.pathname;
-  const pathnameWithoutLocale = pathname.replace(/^\/(es|en)(?=\/|$)/, '') || '/';
+  const pathnameWithoutLocale = pathname.replace(/^\/(es|en|it)(?=\/|$)/, '') || '/';
 
   if (!pathnameWithoutLocale.startsWith('/dashboard')) {
     return intlResponse ?? NextResponse.next();

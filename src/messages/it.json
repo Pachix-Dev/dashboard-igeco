@@ -1,0 +1,322 @@
+{
+  "Common": {
+    "continue": "Continua",
+    "logout": "Esci",
+    "loading": "Caricamento..."
+  },
+  "Login": {
+    "title": "Benvenuto in IGECO",
+    "subtitle": "Accedi al tuo account",
+    "emailLabel": "Email",
+    "emailPlaceholder": "utente@esempio.com",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "********",
+    "submit": "Continua",
+    "privacyPrefix": "Accedendo accetti la",
+    "privacyLink": "Informativa sulla privacy",
+    "serverError": "Errore di connessione al server",
+    "footer": "© 2026 IGECO. Tutti i diritti riservati."
+  },
+  "Dashboard": {
+    "welcome": "Benvenuto {name}!",
+    "important": "Punti importanti:",
+    "points": {
+      "1": "I badge per gli espositori saranno consegnati il giorno dell'evento al modulo di registrazione individualmente per gli espositori; ricorda che devi presentare un documento d'identità ufficiale.",
+      "2": "Non sono consentite ristampe dei badge, quindi è importante conservare il badge durante i giorni dell'evento; in caso contrario, avrà un costo aggiuntivo.",
+      "3": "Se hai bisogno di registrare più espositori di quelli consentiti, contatta il tuo consulente di vendita.",
+      "4": "Se hai bisogno di attivare il servizio scanner per raccogliere dati dai visitatori del tuo stand, contatta il tuo consulente di vendita. (Ricorda che questo servizio può essere utilizzato solo all'interno del tuo stand; in caso contrario, verranno applicate le politiche del contratto stabilito)."
+    }
+  },
+  "Menu": {
+    "users": "Utenti",
+    "speakers": "Relatori",
+    "exhibitors": "Espositori",
+    "scanLeads": "Scansiona lead",
+    "profile": "Profilo",
+    "program": "Programma",
+    "logout": "Esci"
+  },
+  "SessionLimit": {
+    "title": "Limite di sessioni",
+    "description1": "Hai raggiunto il limite di sessioni attive.",
+    "description2": "Chiudi tutte le sessioni per continuare o contatta il tuo fornitore per contrattare un pacchetto aggiuntivo.",
+    "closeAll": "Chiudi tutte le sessioni"
+  },
+  "Exhibitors": {
+    "heading": "Gestione Scenari e Giorni"
+  },
+  "ExhibitorsPage": {
+    "panel": "Pannello",
+    "title": "Espositori",
+    "badge": "{count} attivi",
+    "subtitle": "Gestisci espositori, credenziali e nazionalità da un pannello pulito.",
+    "stat": {
+      "label": "Espositori",
+      "desc": "Totale registrati"
+    },
+    "cta": {
+      "add": "Aggiungi espositore"
+    },
+    "modal": {
+      "title": "Nuovo espositore",
+      "desc": "Completa i dati per registrare l'espositore e generare il suo QR più tardi."
+    },
+    "actions": {
+      "close": "Chiudi",
+      "cancel": "Annulla",
+      "submit": "Crea espositore"
+    },
+    "toast": {
+      "success": "Espositore creato correttamente",
+      "error": "Non è stato possibile creare l'espositore",
+      "uploadError": "Errore nel caricamento dell'immagine"
+    },
+    "form": {
+      "name": "Nome",
+      "namePlaceholder": "Es: Jane",
+      "lastname": "Cognome",
+      "lastnamePlaceholder": "Es: Doe",
+      "email": "Email",
+      "emailPlaceholder": "email@azienda.com",
+      "position": "Ruolo",
+      "positionPlaceholder": "Es: Sales Manager",
+      "nationality": "Nazionalità",
+      "select": "Seleziona un'opzione",
+      "errors": {
+        "required": "Campo obbligatorio",
+        "email": "Formato email non valido"
+      }
+    },
+    "list": {
+      "label": "Elenco",
+      "title": "Espositori",
+      "desc": "Cerca per nome, email o nazionalità. Azioni rapide a destra."
+    },
+    "search": {
+      "placeholder": "Cerca espositore, email o nazionalità",
+      "inView": "In vista",
+      "found": "{count} trovati"
+    },
+    "table": {
+      "exhibitor": "Espositore",
+      "email": "Email",
+      "position": "Ruolo",
+      "nationality": "Nazionalità",
+      "prints": "Stampe",
+      "actions": "Azioni",
+      "noData": "Nessun dato"
+    },
+    "empty": "Nessun espositore trovato con questo criterio.",
+    "pagination": {
+      "page": "Pagina {current} di {total}",
+      "prev": "Precedente",
+      "next": "Successivo"
+    }
+  },
+  "UsersPage": {
+    "panel": "Pannello",
+    "title": "Utenti",
+    "badge": "{count} attivi",
+    "subtitle": "Gestisci accessi, ruoli ed eventi da un pannello pulito.",
+    "stat": {
+      "label": "Utenti",
+      "desc": "Totale attivi in questo evento"
+    },
+    "cta": {
+      "add": "Aggiungi utente"
+    },
+    "modal": {
+      "title": "Nuovo utente",
+      "desc": "Completa i campi per invitare alla piattaforma. I campi obbligatori mantengono la validazione attuale."
+    },
+    "actions": {
+      "close": "Chiudi",
+      "cancel": "Annulla",
+      "submit": "Crea utente"
+    },
+    "toast": {
+      "success": "Utente creato correttamente",
+      "error": "Non è stato possibile creare l'utente"
+    },
+    "form": {
+      "name": "Nome dell'azienda",
+      "namePlaceholder": "Es: IGECO Team",
+      "email": "Email",
+      "emailPlaceholder": "email@azienda.com",
+      "password": "Password",
+      "passwordPlaceholder": "Minimo 6 caratteri",
+      "role": "Profilo",
+      "sessions": "Sessioni massime",
+      "exhibitors": "Espositori massimi",
+      "event": "Evento",
+      "select": "Seleziona un'opzione",
+      "roles": {
+        "exhibitor": "Espositore",
+        "exhibitorplus": "Espositore + Scanner"
+      },
+      "events": {
+        "ecomondo": "Ecomondo",
+        "replus": "Replus"
+      },
+      "errors": {
+        "required": "Campo obbligatorio",
+        "email": "Formato email non valido",
+        "passwordLength": "La password deve avere almeno 6 caratteri",
+        "passwordPattern": "La password deve includere lettere e numeri",
+        "number": "Solo numeri consentiti",
+        "sessionsMin": "Le sessioni devono essere almeno 2",
+        "sessionsMax": "Le sessioni massime sono 10",
+        "exhibitorsMin": "Gli espositori devono essere almeno 2",
+        "exhibitorsMax": "Gli espositori massimi sono 10"
+      }
+    },
+    "list": {
+      "label": "Elenco",
+      "title": "Utenti registrati",
+      "desc": "Cerca per nome, email o evento. Azioni rapide a destra."
+    },
+    "search": {
+      "placeholder": "Cerca utente, email o evento",
+      "inView": "In vista",
+      "found": "{count} trovati"
+    },
+    "table": {
+      "user": "Utente",
+      "role": "Ruolo",
+      "event": "Evento",
+      "actions": "Azioni",
+      "noData": "Nessun dato"
+    },
+    "empty": "Nessun utente trovato con questo criterio.",
+    "pagination": {
+      "page": "Pagina {current} di {total}",
+      "prev": "Precedente",
+      "next": "Successivo"
+    }
+  },
+  "ScanLeadsPage": {
+    "panel": "Pannello",
+    "title": "Scansiona lead",
+    "badge": "{count} lead",
+    "subtitle": "Scansiona i badge dei visitatori, prendi appunti ed esporta i tuoi lead acquisiti.",
+    "stat": {
+      "label": "Lead",
+      "desc": "Totale acquisiti"
+    },
+    "export": {
+      "cta": "Esporta in Excel",
+      "empty": "Nessun lead da esportare",
+      "success": "Esportazione generata"
+    },
+    "scanner": {
+      "show": "Apri scanner",
+      "hide": "Nascondi scanner",
+      "title": "Scansiona il badge",
+      "desc": "Allinea il QR nella cornice. I dati vengono salvati istantaneamente.",
+      "notice": {
+        "primary": "Lo scanner è solo per badge VISITATORE, MEDIA PARTNER, VIP.",
+        "secondary": "Scanner is only for VISITOR, MEDIA PARTNER, VIP badges."
+      },
+      "helper": "Mantieni il badge stabile e a distanza media per una lettura rapida. Evita riflessi sul QR."
+    },
+    "actions": {
+      "close": "Chiudi",
+      "cancel": "Annulla",
+      "submit": "Salva"
+    },
+    "list": {
+      "label": "Elenco",
+      "title": "Lead acquisiti",
+      "desc": "Cerca per nome, email, nazionalità o azienda. Aggiungi note per lead."
+    },
+    "search": {
+      "placeholder": "Cerca lead, email o azienda"
+    },
+    "table": {
+      "name": "Nome",
+      "nationality": "Nazionalità",
+      "company": "Azienda",
+      "position": "Posizione",
+      "phone": "Telefono",
+      "actions": "Azioni"
+    },
+    "empty": "Nessun lead trovato con questo criterio.",
+    "pagination": {
+      "page": "Pagina {current} di {total}",
+      "prev": "Precedente",
+      "next": "Successivo"
+    }
+  },
+  "SpeakersPage": {
+    "panel": "Pannello",
+    "title": "Relatori",
+    "badge": "{count} attivi",
+    "subtitle": "Gestisci relatori, biografie e credenziali da un pannello pulito.",
+    "stat": {
+      "label": "Relatori",
+      "desc": "Totale registrati"
+    },
+    "cta": {
+      "add": "Aggiungi relatore"
+    },
+    "modal": {
+      "title": "Nuovo relatore",
+      "desc": "Completa i dati, carica foto e salva in entrambe le lingue."
+    },
+    "actions": {
+      "close": "Chiudi",
+      "cancel": "Annulla",
+      "submit": "Crea relatore"
+    },
+    "toast": {
+      "success": "Relatore aggiunto correttamente",
+      "error": "Non è stato possibile aggiungere il relatore",
+      "uploadError": "Errore nel caricamento dell'immagine"
+    },
+    "form": {
+      "name": "Nome",
+      "namePlaceholder": "Es: Jane Doe",
+      "position": "Ruolo",
+      "positionPlaceholder": "Es: CTO",
+      "company": "Azienda",
+      "companyPlaceholder": "Es: IGECO",
+      "linkedin": "URL LinkedIn",
+      "phone": "Telefono",
+      "email": "Email",
+      "emailPlaceholder": "email@azienda.com",
+      "upload": "Carica immagine",
+      "bioEs": "Bio (Spagnolo)",
+      "bioEsPlaceholder": "Scrivi la bio in Spagnolo...",
+      "bioEn": "Bio (Inglese)",
+      "bioEnPlaceholder": "Scrivi la bio in Inglese...",
+      "errors": {
+        "required": "Campo obbligatorio",
+        "email": "Formato email non valido"
+      }
+    },
+    "list": {
+      "label": "Elenco",
+      "title": "Relatori",
+      "desc": "Cerca per nome, email, azienda o ruolo. Azioni rapide e QR a destra."
+    },
+    "search": {
+      "placeholder": "Cerca relatore, email o azienda",
+      "inView": "In vista",
+      "found": "{count} trovati"
+    },
+    "table": {
+      "speaker": "Relatore",
+      "company": "Azienda",
+      "email": "Email",
+      "prints": "Stampe",
+      "actions": "Azioni",
+      "noData": "Nessun dato"
+    },
+    "empty": "Nessun relatore trovato con questo criterio.",
+    "pagination": {
+      "page": "Pagina {current} di {total}",
+      "prev": "Precedente",
+      "next": "Successivo"
+    }
+  }
+}
