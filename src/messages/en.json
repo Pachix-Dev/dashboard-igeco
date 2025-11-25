@@ -246,10 +246,11 @@
     }
   },
   "UsersPage": {
+    "loading": "Loading users...",
     "panel": "Panel",
     "title": "Users",
     "badge": "{count} active",
-    "subtitle": "Manage access, roles and events from a clean panel.",
+    "subtitle": "Manage access, roles, and events from a clean panel.",
     "stat": {
       "label": "Users",
       "desc": "Total active for this event"

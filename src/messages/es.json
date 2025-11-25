@@ -122,6 +122,7 @@
     }
   },
   "UsersPage": {
+    "loading": "Cargando usuarios...",
     "panel": "Panel",
     "title": "Usuarios",
     "badge": "{count} activos",

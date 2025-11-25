@@ -2,6 +2,7 @@
 
 import {AddUser} from 'app/components/users/AddUser';
 import {ListUsers} from 'app/components/users/ListUsers';
+import {PageLoading} from 'app/components/shared/PageLoading';
 import {useTranslations} from 'next-intl';
 import {useState, useEffect} from 'react';
 
@@ -60,16 +61,7 @@ export default function Usuarios() {
   const totalUsers = users.length;
 
   if (isLoading) {
-    return (
-      <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50">
-        <div className="flex min-h-screen items-center justify-center">
-          <div className="text-center">
-            <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
-            <p className="mt-4 text-sm text-slate-400">Cargando usuarios...</p>
-          </div>
-        </div>
-      </main>
-    );
+    return <PageLoading message={t('loading')} />;
   }
 
   return (
