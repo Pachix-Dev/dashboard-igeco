@@ -55,7 +55,8 @@ export function AddPonentes({ onPonenteAdded }) {
       const ponenteData = await ponenteResponse.json()
 
       if (!ponenteResponse.ok) {
-        notify(t('toast.error'), 'error')
+        // Mostrar mensaje de error específico del servidor
+        notify(ponenteData.message || t('toast.error'), 'error')
         return
       }
 
@@ -117,7 +118,8 @@ export function AddPonentes({ onPonenteAdded }) {
         photo: '',
       })
     } catch (error) {
-      notify(t('toast.error'), 'error')
+      console.error('Error:', error)
+      notify('Error de conexión. Por favor, intenta nuevamente.', 'error')
     }
   }
 

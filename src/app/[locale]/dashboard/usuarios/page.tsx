@@ -1,15 +1,76 @@
+'use client';
+
 import {AddUser} from 'app/components/users/AddUser';
 import {ListUsers} from 'app/components/users/ListUsers';
-import {User} from 'app/lib/definitions';
-import {fetchUsers} from 'app/lib/db';
-import {getTranslations} from 'next-intl/server';
-import {unstable_noStore as noStore} from 'next/cache';
+import {useTranslations} from 'next-intl';
+import {useState, useEffect} from 'react';
 
-export default async function Usuarios() {
-  noStore();
-  const t = await getTranslations('UsersPage');
-  const users: User[] = await fetchUsers();
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  maxsessions: number;
+  maxexhibitors: number;
+  event: string;
+}
+
+export default function Usuarios() {
+  const t = useTranslations('UsersPage');
+  const [users, setUsers] = useState<User[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await fetch('/api/users');
+      if (response.ok) {
+        const data = await response.json();
+        // Filtrar usuarios admin de la lista
+        const filteredData = Array.isArray(data) 
+          ? data.filter((user: User) => user.role !== 'admin') 
+          : [];
+        setUsers(filteredData);
+      }
+    } catch (error) {
+      console.error('Error fetching users:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleUserAdded = (newUser: User) => {
+    // Solo agregar si no es admin
+    if (newUser.role !== 'admin') {
+      setUsers(prevUsers => [newUser, ...prevUsers]);
+    }
+  };
+
+  const handleUserUpdated = (updatedUser: User) => {
+    setUsers(prevUsers => 
+      prevUsers.map(user => 
+        user.id === updatedUser.id ? updatedUser : user
+      ).filter(user => user.role !== 'admin') // Remover si cambió a admin
+    );
+  };
+
   const totalUsers = users.length;
+
+  if (isLoading) {
+    return (
+      <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50">
+        <div className="flex min-h-screen items-center justify-center">
+          <div className="text-center">
+            <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
+            <p className="mt-4 text-sm text-slate-400">Cargando usuarios...</p>
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50">
@@ -40,12 +101,12 @@ export default async function Usuarios() {
                 <p className="text-sm font-semibold text-white">{t('stat.desc')}</p>
               </div>
             </div>
-            <AddUser />
+            <AddUser onUserAdded={handleUserAdded} />
           </div>
         </header>
 
         <div className="rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl shadow-blue-500/5 backdrop-blur">
-          <ListUsers users={users} />
+          <ListUsers users={users} onUserUpdated={handleUserUpdated} />
         </div>
       </section>
     </main>

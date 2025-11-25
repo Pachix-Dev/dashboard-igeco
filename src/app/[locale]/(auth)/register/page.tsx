@@ -52,9 +52,9 @@ export default function Register() {
         setSuccess(true);
         setTimeout(() => {
           router.push('/login', {locale: locale as 'es' | 'en' | 'it'});
-        }, 2000);
+        }, 4000);
       } else {
-        setError(data.message);
+        setError(data.message || t('errors.serverError'));
       }
     } catch (error) {
       setError(t('errors.serverError'));
@@ -76,9 +76,20 @@ export default function Register() {
         <p className="mb-8 text-center text-sm text-gray-300">{t('subtitle')}</p>
 
         {success ? (
-          <div className="rounded-lg border border-green-500 border-opacity-50 bg-green-500 bg-opacity-20 p-4">
-            <p className="text-center text-sm font-medium text-green-300">
-              {t('success')}
+          <div className="space-y-4 rounded-lg border border-green-500 border-opacity-50 bg-green-500 bg-opacity-20 p-6">
+            <div className="flex justify-center">
+              <svg className="h-16 w-16 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <p className="text-center text-base font-semibold text-green-300">
+              ¡Registro exitoso!
+            </p>
+            <p className="text-center text-sm text-green-200">
+              Hemos enviado tus credenciales de acceso a <strong>{formData.email}</strong>
+            </p>
+            <p className="text-center text-xs text-green-300">
+              Redirigiendo al inicio de sesión...
             </p>
           </div>
         ) : (
@@ -140,7 +151,7 @@ export default function Register() {
                 />
               </div>
             </div>
-            
+
             <div className="group">
               <label className="mb-2 block text-sm font-semibold text-gray-200">
                 {t('event')}

@@ -3,7 +3,7 @@ import { useToaster } from 'app/context/ToasterContext'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-export function EditUser({ user }) {
+export function EditUser({ user, onUserUpdated }) {
   const [isOpen, setIsOpen] = useState(false)
   const handleOpen = () => setIsOpen(true)
   const handleClose = () => setIsOpen(false)
@@ -29,19 +29,35 @@ export function EditUser({ user }) {
     })
   }, [user, reset])
   const handleUser = async (data) => {
-    const response = await fetch(`/api/users/${user.id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    })
+    try {
+      const response = await fetch(`/api/users/${user.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      })
 
-    if (response.ok) {
-      notify('User edited successfully', 'success')
-    } else {
-      notify('Failed to edit user', 'error')
+      const responseData = await response.json()
+
+      if (response.ok) {
+        notify(
+          responseData.message || 'Usuario editado exitosamente',
+          'success'
+        )
+
+        // Notificar al componente padre con los datos actualizados
+        if (onUserUpdated) {
+          onUserUpdated({ ...user, ...data })
+        }
+
+        handleClose()
+      } else {
+        // Mostrar mensaje de error específico del servidor
+        notify(responseData.message || 'Error al editar el usuario', 'error')
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      notify('Error de conexión. Por favor, intenta nuevamente.', 'error')
     }
-
-    handleClose()
   }
 
   return (

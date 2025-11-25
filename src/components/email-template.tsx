@@ -67,59 +67,94 @@ export function EmailTemplate({ name, email, password }: EmailTemplateProps) {
               </Column>
             </Row>
 
-            <Heading className="text-center text-xl font-bold my-4">Welcome to IGECO</Heading>
+            <Heading className="text-center text-xl font-bold my-4">¡Bienvenido a IGECO!</Heading>
 
             <Section>
-              <Text className="text-base">¡Felicitaciones, {name}! Tu cuenta ha sido creada, ahora formas parte de la comunidad de IGECO.</Text>
-              <Text className="text-base mt-2">Aquí te explicamos cómo empezar:</Text>
+              <Text className="text-base" style={{ fontSize: '16px', lineHeight: '1.6', color: '#333333', marginBottom: '10px' }}>
+                ¡Hola <strong>{name}</strong>! 🎉
+              </Text>
+              <Text className="text-base" style={{ fontSize: '16px', lineHeight: '1.6', color: '#333333', marginBottom: '10px' }}>
+                Tu cuenta ha sido creada exitosamente. Ahora eres parte de la comunidad de IGECO y tienes acceso a nuestra plataforma de expositores.
+              </Text>
+              <Text className="text-base" style={{ fontSize: '16px', lineHeight: '1.6', color: '#333333', marginBottom: '20px' }}>
+                A continuación encontrarás tus credenciales de acceso:
+              </Text>
             </Section>
 
-            <ul className="text-left mx-auto w-fit my-5">
-              <li className="mb-2"><strong>Nombre de usuario:</strong> {email}</li>
-              <li className="mb-2"><strong>Password:</strong> {password}</li>
-            </ul>
-
-            <Section className="mt-6">
+            <Section style={{ backgroundColor: '#f8f9fa', padding: '20px', borderRadius: '8px', margin: '20px 0' }}>
+              <Text style={{ fontSize: '14px', color: '#666', marginBottom: '10px', textAlign: 'left' }}>
+                <strong style={{ color: '#2250f4' }}>Usuario:</strong><br />
+                <span style={{ fontSize: '16px', color: '#333' }}>{email}</span>
+              </Text>
+              <Text style={{ fontSize: '14px', color: '#666', marginBottom: '0', textAlign: 'left' }}>
+                <strong style={{ color: '#2250f4' }}>Contraseña:</strong><br />
+                <span style={{ fontSize: '16px', color: '#333', fontFamily: 'monospace' }}>{password}</span>
+              </Text>
+            </Section>
+            
+            <Section className="mt-6" style={{ textAlign: 'center', margin: '30px 0' }}>
               <Button
                 href="https://dashboard.igeco.mx/"
                 className="bg-brand text-white font-bold py-3 px-6 rounded-md"
                 style={{
                   backgroundColor: '#2250f4',
                   color: '#ffffff',
-                  padding: '12px 24px',
-                  borderRadius: '6px',
+                  padding: '14px 32px',
+                  borderRadius: '8px',
                   textDecoration: 'none',
                   fontWeight: 'bold',
-                  display: 'inline-block'
+                  display: 'inline-block',
+                  fontSize: '16px',
+                  boxShadow: '0 4px 6px rgba(34, 80, 244, 0.3)'
                 }}
               >
-                Inicia sesión
+                🚀 Acceder al Dashboard
               </Button>
             </Section>
 
-            <Section className="mt-6">
+            <Section style={{ borderTop: '1px solid #e5e7eb', paddingTop: '20px', marginTop: '30px' }}>
+              <Text style={{ fontSize: '14px', color: '#666', textAlign: 'center', marginBottom: '15px' }}>
+                ¿Necesitas ayuda? Estamos aquí para ti:
+              </Text>
+            </Section>
+
+            <Section className="mt-6" style={{ marginTop: '20px' }}>
               <Row className="justify-center">
-                <Column>
-                  <Link href="https://igeco.mx/" className="text-black underline font-bold">
-                    Enterate de nuestros eventos
+                <Column align="center" style={{ padding: '10px' }}>
+                  <Link 
+                    href="https://igeco.mx/" 
+                    style={{ 
+                      color: '#2250f4', 
+                      textDecoration: 'none', 
+                      fontWeight: '600',
+                      fontSize: '14px'
+                    }}
+                  >
+                    🌐 Visita nuestro sitio web
                   </Link>
-                  <span className="text-green-500"> →</span>
                 </Column>
-                <Column>
-                  <Link href="https://igeco.mx/aviso-de-privacidad" className="text-black underline font-bold">
-                    Lee nuestro aviso de privacidad
+                <Column align="center" style={{ padding: '10px' }}>
+                  <Link 
+                    href="https://igeco.mx/aviso-de-privacidad" 
+                    style={{ 
+                      color: '#2250f4', 
+                      textDecoration: 'none', 
+                      fontWeight: '600',
+                      fontSize: '14px'
+                    }}
+                  >
+                    🔒 Aviso de privacidad
                   </Link>
-                  <span className="text-green-500"> →</span>
                 </Column>
               </Row>
             </Section>
 
-            <Container className="mt-6">
-              <Section>
-               
-              </Section>
-              <Text className="text-center text-gray-400 text-xs mt-4">
-                IGECO, Blvrd Francisco Villa 102-piso 14, Oriental, 37510 León, Guanajuato, México.
+            <Container className="mt-6" style={{ marginTop: '30px', paddingTop: '20px', borderTop: '1px solid #e5e7eb' }}>
+              <Text className="text-center text-gray-400 text-xs mt-4" style={{ fontSize: '12px', color: '#9ca3af', marginBottom: '5px' }}>
+                IGECO - Italian German Exhibition Company México
+              </Text>
+              <Text className="text-center text-gray-400 text-xs" style={{ fontSize: '11px', color: '#9ca3af' }}>
+                Blvrd Francisco Villa 102-piso 14, Oriental, 37510 León, Guanajuato, México
               </Text>
             </Container>
           </Container>

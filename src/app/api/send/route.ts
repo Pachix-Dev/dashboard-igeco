@@ -7,14 +7,19 @@ export async function POST(req: Request) {
   const { name, email, password } = await req.json();  
 
   try {
-    await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from: 'IGECO <noreply@igeco.mx>',
       to: email,
-      subject: 'Te damos la bienvenida a IGECO para Expositores',
+      subject: '¡Bienvenido a IGECO! - Tus credenciales de acceso',
       react: EmailTemplate({ name, email, password }),
     });
 
-    return Response.json({ message: 'Gracias por registrarte, te hemos enviado las credenciales a tu correo electronico', status: true }, { status: 201 });
+    if (error) {
+      console.error('Resend error:', error);
+      return Response.json({ message: 'No pudimos enviar el email. Por favor, verifica tu correo.', status: false }, { status: 500 });
+    }
+
+    return Response.json({ message: 'Email de bienvenida enviado exitosamente. Revisa tu bandeja de entrada.', status: true }, { status: 200 });
    
   } catch (error) {
     console.error(error);

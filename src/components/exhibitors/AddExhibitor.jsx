@@ -202,34 +202,40 @@ export function AddExhibitor({ onExhibitorAdded }) {
   }
 
   const handleUser = async () => {
-    const response = await fetch('/api/exhibitors', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ user_id: userSession.id, ...formData }),
-    })
-
-    if (response.ok) {
-      const newExhibitor = await response.json()
-      
-      if (onExhibitorAdded) {
-        onExhibitorAdded(newExhibitor)
-      }
-      
-      notify(t('toast.success'), 'success')
-      handleClose()
-      
-      // Resetear formulario
-      setFormData({
-        name: '',
-        lastname: '',
-        email: '',
-        position: '',
-        nationality: '',
+    try {
+      const response = await fetch('/api/exhibitors', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user_id: userSession.id, ...formData }),
       })
-    } else {
-      notify(t('toast.error'), 'error')
+
+      const data = await response.json()
+
+      if (response.ok) {
+        if (onExhibitorAdded) {
+          onExhibitorAdded(data)
+        }
+
+        notify(t('toast.success'), 'success')
+        handleClose()
+
+        // Resetear formulario
+        setFormData({
+          name: '',
+          lastname: '',
+          email: '',
+          position: '',
+          nationality: '',
+        })
+      } else {
+        // Mostrar mensaje de error específico del servidor
+        notify(data.message || t('toast.error'), 'error')
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      notify('Error de conexión. Por favor, intenta nuevamente.', 'error')
     }
   }
 

@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import db from '../../../lib/db';
 import bcrypt from 'bcryptjs';
+import { Resend } from 'resend';
+import { EmailTemplate } from '../../../components/email-template';
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: NextRequest) {
   try {
@@ -53,10 +57,23 @@ export async function POST(req: NextRequest) {
       [company, email, hashedPassword, 'exhibitor', 1, 1, event]
     );
 
+    // Enviar email de bienvenida
+    try {
+      await resend.emails.send({
+        from: 'IGECO <noreply@igeco.mx>',
+        to: email,
+        subject: '¡Bienvenido a IGECO! - Tus credenciales de acceso',
+        react: EmailTemplate({ name, email, password }),
+      });
+    } catch (emailError) {
+      console.error('Error sending welcome email:', emailError);
+      // No fallar el registro si el email no se puede enviar
+    }
+
     return NextResponse.json(
       { 
         status: true,
-        message: 'Usuario registrado exitosamente' 
+        message: 'Usuario registrado exitosamente. Revisa tu correo para obtener tus credenciales.' 
       },
       { status: 201 }
     );
