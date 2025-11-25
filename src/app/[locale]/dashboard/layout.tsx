@@ -4,11 +4,12 @@ import type {ReactNode} from 'react';
 
 type DashboardLayoutProps = {
   children: ReactNode;
-  params: {locale: string};
+  params: Promise<{locale: string}>;
 };
 
-export default function DashboardLayout({children, params}: DashboardLayoutProps) {
-  setRequestLocale(params.locale);
+export default async function DashboardLayout({children, params}: DashboardLayoutProps) {
+  const {locale} = await params;
+  setRequestLocale(locale);
   
   return (
     <section className="relative min-h-screen bg-slate-950 text-slate-50 lg:flex">

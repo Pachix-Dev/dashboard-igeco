@@ -1,12 +1,21 @@
 import { NextResponse } from 'next/server';
 import db from '../../../lib/db';
 import bcrypt from 'bcryptjs';
+import { isValidEmail, validateStrongPassword, sanitizeString, isValidRole } from '../../../lib/validation';
+
+interface DbRow {
+  [key: string]: any;
+}
+
+interface InsertResult {
+  insertId: number;
+}
 
 export async function GET() {
   try {
-    const [users]: any = await db.query(
+    const [users] = await db.query(
       'SELECT id, name, email, role, maxsessions, maxexhibitors, event FROM users ORDER BY id DESC'
-    );
+    ) as [DbRow[], any];
     return NextResponse.json(users);
   } catch (error) {
     console.error('Error fetching users:', error);
@@ -29,28 +38,48 @@ export async function POST(req: Request) {
       );
     }
 
-    // Validar formato de email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    // Sanitizar nombre
+    const sanitizedName = sanitizeString(name, 100);
+    if (!sanitizedName || sanitizedName.length < 2) {
+      return NextResponse.json(
+        { message: 'El nombre debe tener al menos 2 caracteres' },
+        { status: 400 }
+      );
+    }
+
+    // Validar email
+    if (!isValidEmail(email)) {
       return NextResponse.json(
         { message: 'El formato del email no es válido' },
         { status: 400 }
       );
     }
 
-    // Validar longitud de contraseña
-    if (password.length < 6) {
+    // Validar role
+    if (!isValidRole(role)) {
       return NextResponse.json(
-        { message: 'La contraseña debe tener al menos 6 caracteres' },
+        { message: 'El rol especificado no es válido' },
+        { status: 400 }
+      );
+    }
+
+    // Validar contraseña fuerte
+    const passwordValidation = validateStrongPassword(password);
+    if (!passwordValidation.valid) {
+      return NextResponse.json(
+        { 
+          message: 'La contraseña no cumple con los requisitos de seguridad',
+          errors: passwordValidation.errors
+        },
         { status: 400 }
       );
     }
 
     // Verificar si el email ya existe
-    const [existingUsers]: any = await db.query(
+    const [existingUsers] = await db.query(
       'SELECT id FROM users WHERE email = ?',
       [email]
-    );
+    ) as [DbRow[], any];
 
     if (existingUsers.length > 0) {
       return NextResponse.json(
@@ -63,10 +92,10 @@ export async function POST(req: Request) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Crear usuario
-    const [result]: any = await db.query(
+    const [result] = await db.query(
       'INSERT INTO users (name, email, password, role, maxsessions, maxexhibitors, event) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [name, email, hashedPassword, role, maxsessions || 1, maxexhibitors || 1, event]
-    );
+      [sanitizedName, email, hashedPassword, role, maxsessions || 1, maxexhibitors || 1, event]
+    ) as [InsertResult, any];
 
     return NextResponse.json(
       { 
@@ -96,11 +125,32 @@ export async function POST(req: Request) {
 export async function PUT(req: Request) {
   const { id, password } = await req.json();  
   try{
+    if (!id || !password) {
+      return NextResponse.json(
+        { message: 'ID y contraseña son requeridos', status: false },
+        { status: 400 }
+      );
+    }
+
+    // Validar contraseña fuerte
+    const passwordValidation = validateStrongPassword(password);
+    if (!passwordValidation.valid) {
+      return NextResponse.json(
+        { 
+          message: 'La contraseña no cumple con los requisitos de seguridad',
+          errors: passwordValidation.errors,
+          status: false
+        },
+        { status: 400 }
+      );
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);    
     await db.query('UPDATE users SET password = ? WHERE id = ?', [hashedPassword, id]);
     return NextResponse.json({ message: 'Password updated sucess', status: true }, {status: 200});
   }
   catch(err){
+    console.error('Error updating password:', err);
     return NextResponse.json({ message: 'Error try later', status: false }, { status: 500 });
   }
  

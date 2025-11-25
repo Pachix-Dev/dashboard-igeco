@@ -7,9 +7,9 @@ import {fetchEscenarios, fetchDias} from 'app/lib/db';
 export default async function Escenarios({
   params
 }: {
-  params: {locale: string};
+  params: Promise<{locale: string}>;
 }) {
-  const {locale} = params;
+  const {locale} = await params;
   const t = await getTranslations({locale, namespace: 'Exhibitors'});
 
   const escenarios = await fetchEscenarios();

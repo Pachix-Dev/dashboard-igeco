@@ -59,13 +59,24 @@ export async function fetchDias(): Promise<Dia[]> {
     }
 }
 
+interface JWTPayload {
+  id: number;
+  email: string;
+  role: string;
+  maxsessions: number;
+}
+
 export async function fetchExhibitors(): Promise<Exhibitor[]> {  
     const cookieStore = cookies();
     const token = cookieStore.get('access_token')?.value; 
     if (!token) {
         throw new Error('No access token found');
-    } 
-    const {payload} = await jwtVerify(token, new TextEncoder().encode("tu_secreto_jwt"));
+    }
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+    if (!secret || !process.env.JWT_SECRET) {
+        throw new Error('JWT_SECRET is not configured');
+    }
+    const {payload} = await jwtVerify(token, secret) as { payload: JWTPayload };
     const userId = payload.id;
     try {
         const query = payload.role === 'admin' 
@@ -107,7 +118,11 @@ export async function fetchRecordsByUserId(): Promise<Lead[]> {
     if (!token) {
         throw new Error('No access token found');
     }
-    const { payload } = await jwtVerify(token, new TextEncoder().encode("tu_secreto_jwt"));
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+    if (!secret || !process.env.JWT_SECRET) {
+        throw new Error('JWT_SECRET is not configured');
+    }
+    const { payload } = await jwtVerify(token, secret) as { payload: JWTPayload };
     const userId = payload.id;
     try {
 
@@ -122,18 +137,29 @@ export async function fetchRecordsByUserId(): Promise<Lead[]> {
         // If no record IDs, return early to prevent SQL errors
         if (recordIds.length === 0) return [];
 
-        const placeholders = recordIds.map(() => '?').join(',');
+        // Validate UUID format for security
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+        const validRecordIds = recordIds.filter((uuid: string) => 
+            typeof uuid === 'string' && uuid.length <= 36 && uuidRegex.test(uuid)
+        );
+
+        if (validRecordIds.length === 0) return [];
+
+        // Limit to prevent abuse (max 100 UUIDs)
+        const limitedRecordIds = validRecordIds.slice(0, 100);
+
+        const placeholders = limitedRecordIds.map(() => '?').join(',');
 
         // Fetch from `users` table
         const [users]: [any[], any] = await db_re_eco.query(
             `SELECT * FROM users WHERE uuid IN (${placeholders})`,
-            recordIds
+            limitedRecordIds
         );
 
         // Fetch from `users_ecomondo` table
         const [usersEcomondo]: [any[], any] = await db_re_eco.query(
             `SELECT * FROM users_ecomondo WHERE uuid IN (${placeholders})`,
-            recordIds
+            limitedRecordIds
         );
 
         // Merge both results into one array
@@ -145,7 +171,6 @@ export async function fetchRecordsByUserId(): Promise<Lead[]> {
             return { ...record, notes: lead?.notes };
         });
 
-        console.log('Records:', recordsWithNotes);
         return recordsWithNotes as Lead[];
 
     } catch (error) {

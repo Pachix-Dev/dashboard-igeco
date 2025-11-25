@@ -40,42 +40,40 @@ export async function middleware(req: NextRequest) {
   }
 
   try {
-    const {payload}: any = await jwtVerify(token, new TextEncoder().encode('tu_secreto_jwt'));
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+    if (!secret || !process.env.JWT_SECRET) {
+      console.error('JWT_SECRET is not configured');
+      const localizedPath = getLocalizedPath(locale, '/');
+      const redirectUrl = `${req.nextUrl.origin}${localizedPath}`;
+      return NextResponse.redirect(redirectUrl);
+    }
+
+    interface JWTPayload {
+      id: number;
+      email: string;
+      role: string;
+      maxsessions: number;
+    }
+
+    const {payload} = await jwtVerify(token, secret) as { payload: JWTPayload };
     const userRole = payload.role;
     const userId = payload.id;
     const maxSessions = payload.maxsessions;
 
-    if (pathnameWithoutLocale.startsWith('/dashboard/scan-leads')) {
-      const apiUrl = new URL('/api/check-sessions', req.nextUrl.origin);
-      const response = await fetch(apiUrl.toString(), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({userId, maxSessions, token})
-      });
-
-      const data = await response.json();
-
-      if (data.limitReached) {
-        const localizedPath = getLocalizedPath(locale, '/session-limit');
-        const redirectUrl = `${req.nextUrl.origin}${localizedPath}`;
-        return NextResponse.redirect(redirectUrl);
-      }
-    }
+   
 
     const allowedRoutes = roles[userRole as keyof typeof roles];
 
     if (!allowedRoutes) {
       console.error('Invalid user role:', userRole);
       const localizedPath = getLocalizedPath(locale, '/');
-      const redirectUrl = `${req.nextUrl.origin}${localizedPath}`;
+      const redirectUrl = `${req.nextUrl.origin}${localizedPath}`;     
       return NextResponse.redirect(redirectUrl);
     }
 
     if (!allowedRoutes.includes(pathnameWithoutLocale)) {
-      const localizedPath = getLocalizedPath(locale, '/dashboard');
-      const redirectUrl = `${req.nextUrl.origin}${localizedPath}`;
+      const localizedPath = getLocalizedPath(locale, 'dashboard');
+      const redirectUrl = `${req.nextUrl.origin}${localizedPath}`;      
       return NextResponse.redirect(redirectUrl);
     }
 

@@ -20,13 +20,63 @@ interface EmailTemplateProps {
   name: string;
   email: string;
   password: string;
+  locale?: 'es' | 'en' | 'it';
 }
 
-export function EmailTemplate({ name, email, password }: EmailTemplateProps) {
+const translations = {
+  es: {
+    preview: 'Bienvenido a IGECO',
+    title: '¡Bienvenido a IGECO!',
+    greeting: '¡Hola',
+    accountCreated: 'Tu cuenta ha sido creada exitosamente. Ahora eres parte de la comunidad de IGECO y tienes acceso a nuestra plataforma de expositores.',
+    credentialsTitle: 'A continuación encontrarás tus credenciales de acceso:',
+    userLabel: 'Usuario:',
+    passwordLabel: 'Contraseña:',
+    securityNote: 'Por tu seguridad, te recomendamos cambiar tu contraseña después de tu primer inicio de sesión.',
+    buttonText: '🚀 Acceder al Dashboard',
+    helpText: '¿Necesitas ayuda? Estamos aquí para ti:',
+    websiteLink: '🌐 Visita nuestro sitio web',
+    privacyLink: '🔒 Aviso de privacidad',
+    companyName: 'IGECO - Italian German Exhibition Company México',
+  },
+  en: {
+    preview: 'Welcome to IGECO',
+    title: 'Welcome to IGECO!',
+    greeting: 'Hello',
+    accountCreated: 'Your account has been successfully created. You are now part of the IGECO community and have access to our exhibitor platform.',
+    credentialsTitle: 'Below you will find your access credentials:',
+    userLabel: 'Username:',
+    passwordLabel: 'Password:',
+    securityNote: 'For your security, we recommend changing your password after your first login.',
+    buttonText: '🚀 Access Dashboard',
+    helpText: 'Need help? We are here for you:',
+    websiteLink: '🌐 Visit our website',
+    privacyLink: '🔒 Privacy policy',
+    companyName: 'IGECO - Italian German Exhibition Company México',
+  },
+  it: {
+    preview: 'Benvenuto in IGECO',
+    title: 'Benvenuto in IGECO!',
+    greeting: 'Ciao',
+    accountCreated: 'Il tuo account è stato creato con successo. Ora fai parte della comunità IGECO e hai accesso alla nostra piattaforma per espositori.',
+    credentialsTitle: 'Di seguito troverai le tue credenziali di accesso:',
+    userLabel: 'Utente:',
+    passwordLabel: 'Password:',
+    securityNote: 'Per la tua sicurezza, ti consigliamo di cambiare la password dopo il primo accesso.',
+    buttonText: '🚀 Accedi alla Dashboard',
+    helpText: 'Hai bisogno di aiuto? Siamo qui per te:',
+    websiteLink: '🌐 Visita il nostro sito web',
+    privacyLink: '🔒 Informativa sulla privacy',
+    companyName: 'IGECO - Italian German Exhibition Company México',
+  },
+};
+
+export function EmailTemplate({ name, email, password, locale = 'es' }: EmailTemplateProps) {
+  const t = translations[locale];
   return (
     <Html>
       <Head />
-      <Preview>Igeco Welcome</Preview>
+      <Preview>{t.preview}</Preview>
       <Tailwind
         config={{
           theme: {
@@ -67,31 +117,31 @@ export function EmailTemplate({ name, email, password }: EmailTemplateProps) {
               </Column>
             </Row>
 
-            <Heading className="text-center text-xl font-bold my-4">¡Bienvenido a IGECO!</Heading>
+            <Heading className="text-center text-xl font-bold my-4">{t.title}</Heading>
 
             <Section>
               <Text className="text-base" style={{ fontSize: '16px', lineHeight: '1.6', color: '#333333', marginBottom: '10px' }}>
-                ¡Hola <strong>{name}</strong>! 🎉
+                {t.greeting} <strong>{name}</strong>! 🎉
               </Text>
               <Text className="text-base" style={{ fontSize: '16px', lineHeight: '1.6', color: '#333333', marginBottom: '10px' }}>
-                Tu cuenta ha sido creada exitosamente. Ahora eres parte de la comunidad de IGECO y tienes acceso a nuestra plataforma de expositores.
+                {t.accountCreated}
               </Text>
               <Text className="text-base" style={{ fontSize: '16px', lineHeight: '1.6', color: '#333333', marginBottom: '20px' }}>
-                A continuación encontrarás tus credenciales de acceso:
+                {t.credentialsTitle}
               </Text>
             </Section>
 
             <Section style={{ backgroundColor: '#f8f9fa', padding: '20px', borderRadius: '8px', margin: '20px 0' }}>
               <Text style={{ fontSize: '14px', color: '#666', marginBottom: '10px', textAlign: 'left' }}>
-                <strong style={{ color: '#2250f4' }}>Usuario:</strong><br />
+                <strong style={{ color: '#2250f4' }}>{t.userLabel}</strong><br />
                 <span style={{ fontSize: '16px', color: '#333' }}>{email}</span>
               </Text>
               <Text style={{ fontSize: '14px', color: '#666', marginBottom: '0', textAlign: 'left' }}>
-                <strong style={{ color: '#2250f4' }}>Contraseña:</strong><br />
+                <strong style={{ color: '#2250f4' }}>{t.passwordLabel}</strong><br />
                 <span style={{ fontSize: '16px', color: '#333', fontFamily: 'monospace' }}>{password}</span>
               </Text>
             </Section>
-            
+
             <Section className="mt-6" style={{ textAlign: 'center', margin: '30px 0' }}>
               <Button
                 href="https://dashboard.igeco.mx/"
@@ -108,13 +158,13 @@ export function EmailTemplate({ name, email, password }: EmailTemplateProps) {
                   boxShadow: '0 4px 6px rgba(34, 80, 244, 0.3)'
                 }}
               >
-                🚀 Acceder al Dashboard
+                {t.buttonText}
               </Button>
             </Section>
 
             <Section style={{ borderTop: '1px solid #e5e7eb', paddingTop: '20px', marginTop: '30px' }}>
               <Text style={{ fontSize: '14px', color: '#666', textAlign: 'center', marginBottom: '15px' }}>
-                ¿Necesitas ayuda? Estamos aquí para ti:
+                {t.helpText}
               </Text>
             </Section>
 
@@ -130,7 +180,7 @@ export function EmailTemplate({ name, email, password }: EmailTemplateProps) {
                       fontSize: '14px'
                     }}
                   >
-                    🌐 Visita nuestro sitio web
+                    {t.websiteLink}
                   </Link>
                 </Column>
                 <Column align="center" style={{ padding: '10px' }}>
@@ -143,12 +193,12 @@ export function EmailTemplate({ name, email, password }: EmailTemplateProps) {
                       fontSize: '14px'
                     }}
                   >
-                    🔒 Aviso de privacidad
+                    {t.privacyLink}
                   </Link>
                 </Column>
               </Row>
             </Section>
-
+            
             <Container className="mt-6" style={{ marginTop: '30px', paddingTop: '20px', borderTop: '1px solid #e5e7eb' }}>
               <Text className="text-center text-gray-400 text-xs mt-4" style={{ fontSize: '12px', color: '#9ca3af', marginBottom: '5px' }}>
                 IGECO - Italian German Exhibition Company México

@@ -4,6 +4,11 @@
     "logout": "Log out",
     "loading": "Loading..."
   },
+  "NotFound": {
+    "title": "Page not found",
+    "description": "Sorry, the page you are looking for does not exist.",
+    "backHome": "Back to home"
+  },
   "Login": {
     "title": "Welcome to IGECO",
     "subtitle": "Sign in to access your account",
@@ -254,12 +259,15 @@
     },
     "modal": {
       "title": "New user",
-      "desc": "Fill the fields to invite a user. Required fields keep current validation."
+      "desc": "Fill the fields to invite a user. Required fields keep current validation.",
+      "editTitle": "Edit user",
+      "editDesc": "Update user information."
     },
     "actions": {
       "close": "Close",
       "cancel": "Cancel",
-      "submit": "Create user"
+      "submit": "Create user",
+      "update": "Update"
     },
     "toast": {
       "success": "User created successfully",

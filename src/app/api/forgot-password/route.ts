@@ -2,17 +2,36 @@ import { NextRequest, NextResponse } from 'next/server';
 import db from '../../../lib/db';
 import { v4 as uuidv4 } from 'uuid';
 import { Resend } from 'resend';
+import { checkRateLimit, getClientIp, RATE_LIMITS } from '../../../lib/rate-limiter';
+import { isValidEmail } from '../../../lib/validation';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: NextRequest) {
   try {
+    // Rate limiting
+    const clientIp = getClientIp(req);
+    const rateLimitResult = checkRateLimit(clientIp, RATE_LIMITS.PASSWORD_RESET);
+
+    if (!rateLimitResult.success) {
+      return NextResponse.json(
+        { 
+          message: 'Demasiados intentos. Por favor, intenta más tarde.',
+          retryAfter: Math.ceil((rateLimitResult.reset - Date.now()) / 1000)
+        },
+        { status: 429 }
+      );
+    }
+
     const { email } = await req.json();
 
-    if (!email) {
+    if (!email || !isValidEmail(email)) {
       return NextResponse.json(
-        { message: 'El email es requerido' },
-        { status: 400 }
+        { 
+          status: true,
+          message: 'Si el email existe, recibirás un enlace de recuperación' 
+        },
+        { status: 200 }
       );
     }
 

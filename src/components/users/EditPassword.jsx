@@ -1,9 +1,11 @@
 'use client'
 import { useToaster } from 'app/context/ToasterContext'
+import { useLocale } from 'next-intl'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 export function EditPassword({ user }) {
+  const locale = useLocale()
   const [showPassword, setShowPassword] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const handleOpen = () => setIsOpen(true)
@@ -32,7 +34,12 @@ export function EditPassword({ user }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name: user.name, email: user.email, password }),
+        body: JSON.stringify({
+          name: user.name,
+          email: user.email,
+          password,
+          locale,
+        }),
       })
       const sendResponse = await send.json()
       if (sendResponse.status) {

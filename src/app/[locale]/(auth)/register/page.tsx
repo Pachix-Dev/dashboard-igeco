@@ -42,7 +42,8 @@ export default function Register() {
           company: formData.company,
           email: formData.email,
           password: formData.password,
-          event: formData.event
+          event: formData.event,
+          locale: locale
         })
       });
 

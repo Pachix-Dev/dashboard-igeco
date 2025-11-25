@@ -1,12 +1,14 @@
 'use client'
 
 import { useToaster } from 'app/context/ToasterContext'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { LoadingOverlay } from '../shared/Loading'
 
 export function AddUser({ onUserAdded }) {
   const t = useTranslations('UsersPage')
+  const locale = useLocale()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -16,6 +18,7 @@ export function AddUser({ onUserAdded }) {
   const [maxexhibitors, setMaxexhibitors] = useState('')
   const [event, setevent] = useState('')
   const [isOpen, setIsOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const { notify } = useToaster()
 
   const isExhibitorPlus = role === 'exhibitorplus'
@@ -27,9 +30,11 @@ export function AddUser({ onUserAdded }) {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm()
 
   const handleUser = async () => {
+    setIsLoading(true)
     try {
       const response = await fetch('/api/users', {
         method: 'POST',
@@ -59,7 +64,7 @@ export function AddUser({ onUserAdded }) {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email, name, password }),
+            body: JSON.stringify({ email, name, password, locale }),
           })
 
           const sendData = await sendResponse.json()
@@ -92,7 +97,8 @@ export function AddUser({ onUserAdded }) {
           onUserAdded(newUser)
         }
 
-        // Resetear formulario
+        // Resetear formulario completamente
+        reset()
         setName('')
         setEmail('')
         setPassword('')
@@ -101,7 +107,10 @@ export function AddUser({ onUserAdded }) {
         setMaxexhibitors('')
         setevent('')
 
-        handleClose()
+        // Cerrar modal después de un breve delay para que el usuario vea el éxito
+        setTimeout(() => {
+          handleClose()
+        }, 500)
       } else {
         // Mostrar mensaje de error específico del servidor
         notify(data.message || t('toast.error'), 'error')
@@ -109,6 +118,8 @@ export function AddUser({ onUserAdded }) {
     } catch (error) {
       console.error('Error:', error)
       notify('Error de conexión. Por favor, intenta nuevamente.', 'error')
+    } finally {
+      setIsLoading(false)
     }
   }
   return (
@@ -126,7 +137,8 @@ export function AddUser({ onUserAdded }) {
       {isOpen && (
         <div className='fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm transition'>
           <div className='flex min-h-full items-center justify-center px-4 py-10'>
-            <div className='w-full max-w-3xl rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 p-8 shadow-2xl shadow-blue-500/20'>
+            <div className='relative w-full max-w-3xl rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 p-8 shadow-2xl shadow-blue-500/20'>
+              {isLoading && <LoadingOverlay message="Creando usuario..." />}
               <div className='mb-6 flex items-start justify-between gap-4'>
                 <div>
                   <h2 className='text-2xl font-bold text-white'>
@@ -408,13 +420,15 @@ export function AddUser({ onUserAdded }) {
                   <button
                     type='button'
                     onClick={handleClose}
-                    className='rounded-xl border border-white/10 bg-white/0 px-4 py-2.5 text-sm font-semibold text-slate-200 transition hover:bg-white/5'
+                    disabled={isLoading}
+                    className='rounded-xl border border-white/10 bg-white/0 px-4 py-2.5 text-sm font-semibold text-slate-200 transition hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-50'
                   >
                     {t('actions.cancel')}
                   </button>
                   <button
                     type='submit'
-                    className='inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 via-sky-500 to-cyan-400 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition hover:scale-[1.01] focus:outline-none focus:ring-2 focus:ring-blue-400/60 focus:ring-offset-2 focus:ring-offset-slate-950'
+                    disabled={isLoading}
+                    className='inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 via-sky-500 to-cyan-400 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition hover:scale-[1.01] focus:outline-none focus:ring-2 focus:ring-blue-400/60 focus:ring-offset-2 focus:ring-offset-slate-950 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100'
                   >
                     <svg
                       xmlns='http://www.w3.org/2000/svg'

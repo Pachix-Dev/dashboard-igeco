@@ -1,10 +1,20 @@
 import { NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
 import db from '../../../lib/db';
+import { isValidEmail, sanitizeString } from '../../../lib/validation';
+
+interface ExhibitorData {
+  user_id: number;
+  name: string;
+  lastname: string;
+  email: string;
+  position?: string;
+  nationality?: string;
+}
 
 export async function POST(req: Request) {
   try {
-    const { user_id, name, lastname, email, position, nationality } = await req.json();
+    const { user_id, name, lastname, email, position, nationality } = await req.json() as ExhibitorData;
 
     // Validar campos requeridos
     if (!user_id || !name || !lastname || !email) {
@@ -14,9 +24,14 @@ export async function POST(req: Request) {
       );
     }
 
+    // Sanitizar inputs
+    const sanitizedName = sanitizeString(name, 100);
+    const sanitizedLastname = sanitizeString(lastname, 100);
+    const sanitizedPosition = position ? sanitizeString(position, 100) : null;
+    const sanitizedNationality = nationality ? sanitizeString(nationality, 50) : null;
+
     // Validar formato de email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!isValidEmail(email)) {
       return NextResponse.json(
         { message: 'El formato del email no es válido' },
         { status: 400 }
@@ -37,10 +52,15 @@ export async function POST(req: Request) {
     }
 
     const uuid = uuidv4(); // Generar UUID único
-    const [result]: any = await db.query(
+    
+    interface InsertResult {
+      insertId: number;
+    }
+    
+    const [result] = await db.query(
       'INSERT INTO exhibitors (user_id, name, lastname, email, position, nationality, uuid) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [user_id, name, lastname, email, position, nationality, uuid]
-    );
+      [user_id, sanitizedName, sanitizedLastname, email, sanitizedPosition, sanitizedNationality, uuid]
+    ) as [InsertResult, any];
 
     // Retornar el exhibitor creado con su ID
     const newExhibitor = {

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import db from '../../../lib/db';
 import bcrypt from 'bcryptjs';
+import { validateStrongPassword } from '../../../lib/validation';
 
 export async function POST(req: NextRequest) {
   try {
@@ -13,9 +14,14 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (password.length < 6) {
+    // Validar contraseña fuerte
+    const passwordValidation = validateStrongPassword(password);
+    if (!passwordValidation.valid) {
       return NextResponse.json(
-        { message: 'La contraseña debe tener al menos 6 caracteres' },
+        { 
+          message: 'La contraseña no cumple con los requisitos de seguridad',
+          errors: passwordValidation.errors
+        },
         { status: 400 }
       );
     }

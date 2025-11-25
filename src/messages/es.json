@@ -4,6 +4,11 @@
     "logout": "Cerrar sesión",
     "loading": "Cargando..."
   },
+  "NotFound": {
+    "title": "Página no encontrada",
+    "description": "Lo sentimos, la página que buscas no existe.",
+    "backHome": "Volver al inicio"
+  },
   "Login": {
     "title": "Bienvenido a IGECO",
     "subtitle": "Inicia sesión para acceder a tu cuenta",
@@ -130,12 +135,15 @@
     },
     "modal": {
       "title": "Nuevo usuario",
-      "desc": "Completa los campos para invitar a la plataforma. Los campos obligatorios mantienen la validación actual."
+      "desc": "Completa los campos para invitar a la plataforma. Los campos obligatorios mantienen la validación actual.",
+      "editTitle": "Editar usuario",
+      "editDesc": "Actualiza la información del usuario."
     },
     "actions": {
       "close": "Cerrar",
       "cancel": "Cancelar",
-      "submit": "Crear usuario"
+      "submit": "Crear usuario",
+      "update": "Actualizar"
     },
     "toast": {
       "success": "Usuario creado correctamente",

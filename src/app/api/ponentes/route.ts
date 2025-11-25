@@ -1,10 +1,20 @@
 import { NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
 import db from '../../../lib/db';
+import { sanitizeString, sanitizeHTML } from '../../../lib/validation';
+
+interface PonenteData {
+  name: string;
+  position: string;
+  company: string;
+  bio_esp?: string;
+  bio_eng?: string;
+  photo?: string;
+}
 
 export async function POST(req: Request) {
   try {
-    const { name, position, company, bio_esp, bio_eng, photo } = await req.json();
+    const { name, position, company, bio_esp, bio_eng, photo } = await req.json() as PonenteData;
 
     // Validar campos requeridos
     if (!name || !position || !company) {
@@ -14,8 +24,15 @@ export async function POST(req: Request) {
       );
     }
 
+    // Sanitizar inputs
+    const sanitizedName = sanitizeString(name, 100);
+    const sanitizedPosition = sanitizeString(position, 100);
+    const sanitizedCompany = sanitizeString(company, 100);
+    const sanitizedBioEsp = bio_esp ? sanitizeHTML(bio_esp, 5000) : null;
+    const sanitizedBioEng = bio_eng ? sanitizeHTML(bio_eng, 5000) : null;
+
     // Validar que las biografías no estén vacías si se proporcionan
-    if ((bio_esp && bio_esp.trim().length === 0) || (bio_eng && bio_eng.trim().length === 0)) {
+    if ((sanitizedBioEsp && sanitizedBioEsp.trim().length === 0) || (sanitizedBioEng && sanitizedBioEng.trim().length === 0)) {
       return NextResponse.json(
         { message: 'Las biografías no pueden estar vacías' },
         { status: 400 }
@@ -26,7 +43,7 @@ export async function POST(req: Request) {
 
     await db.query(
       'INSERT INTO ponentes (name, position, company, bio_esp, bio_eng, photo, uuid) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [name, position, company, bio_esp, bio_eng, photo, uuid]
+      [sanitizedName, sanitizedPosition, sanitizedCompany, sanitizedBioEsp, sanitizedBioEng, photo, uuid]
     );
 
     return NextResponse.json(
