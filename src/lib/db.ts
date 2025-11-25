@@ -25,8 +25,8 @@ export {db_re_eco};
 
 export const roles = {
     admin: ['/dashboard', '/dashboard/usuarios', '/dashboard/exhibitors', '/dashboard/profile', '/dashboard/scan-leads', '/dashboard/ponentes', '/dashboard/programa'],
-    exhibitor: ['/dashboard', '/dashboard/profile'],
-    exhibitorplus: ['/dashboard', '/dashboard/profile', '/dashboard/scan-leads'],    
+    exhibitor: ['/dashboard', '/dashboard/profile', '/dashboard/exhibitors'],
+    exhibitorplus: ['/dashboard', '/dashboard/profile', '/dashboard/exhibitors', '/dashboard/scan-leads'],    
 };
 
 export async function fetchUsers(): Promise<User[]> {    
@@ -86,7 +86,7 @@ export async function fetchPonenetes(): Promise<Ponentes[]> {
     try {
         // Asegúrate de que la consulta esté completa, especificando de dónde obtener los datos.
         const query = 
-        'SELECT s.id AS speaker_id, s.uuid, s.name AS speaker_name, s.position, s.company, s.email, s.impresiones, s.bio_esp, s.bio_eng, s.photo, s.linkedin ' + 
+        'SELECT s.id, s.uuid, s.name AS speaker_name, s.position, s.company, s.bio_esp, s.bio_eng, s.photo, s.impresiones ' + 
         'FROM ponentes s';  // Aquí especificamos la tabla 'ponentes' de la que obtener los datos.
         
         // Ejecutamos la consulta a la base de datos.

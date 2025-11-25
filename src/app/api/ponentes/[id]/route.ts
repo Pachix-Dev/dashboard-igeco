@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import db from '../../../../lib/db';
 
 export async function PUT(req: Request, { params }: { params: { id: number } }) {
-  const { name, position, company, bio_esp, bio_eng, photo, linkedin, email, phone } = await req.json();
+  const { name, position, company, bio_esp, bio_eng, photo } = await req.json();
 
   try {
     // Obtener el UUID actual del ponente
@@ -18,13 +18,13 @@ export async function PUT(req: Request, { params }: { params: { id: number } }) 
     let updatedPhoto = photo;
     if (photo && !photo.includes(uuid)) {
       const extension = photo.split('.').pop();
-      updatedPhoto = `/Ponentes/${uuid}.${extension}`;
+      updatedPhoto = `/ponentes/${uuid}.${extension}`;
     }
 
     // Actualizar los datos en la base de datos
     await db.query(
-      'UPDATE ponentes SET name = ?, position = ?, company = ?, bio_esp = ?, bio_eng = ?, linkedin = ?, email = ?, phone = ? WHERE id = ?',
-      [name, position, company, bio_esp, bio_eng,  linkedin, email, phone, params.id]
+      'UPDATE ponentes SET name = ?, position = ?, company = ?, bio_esp = ?, bio_eng = ?, photo = ? WHERE id = ?',
+      [name, position, company, bio_esp, bio_eng, updatedPhoto, params.id]
     );
 
     return NextResponse.json({ message: 'User updated' });

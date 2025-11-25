@@ -5,6 +5,7 @@ import {useLocale, useTranslations} from 'next-intl';
 import {useState} from 'react';
 import {Link, usePathname, useRouter} from 'app/i18n/routing';
 import {useSessionUser} from 'app/store/session-user';
+import LanguageSelector from './LanguageSelector';
 
 export function Menu() {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,11 +46,6 @@ export function Menu() {
     return `${base} ${normalizedPath === path ? active : idle}`;
   };
 
-  const switchLocale = () => {
-    const nextLocale = locale === 'es' ? 'en' : 'es';
-    router.replace(pathname || '/', {locale: nextLocale});
-  };
-
   return (
     <>
       <div className="flex items-center justify-between border-b border-white/10 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 px-4 py-3 text-white lg:hidden">
@@ -58,18 +54,14 @@ export function Menu() {
             src="/img/deutschemesselogo.webp"
             alt="logo"
             width={48}
-            height={32}
+            height={48}
             className="rounded-lg shadow-lg shadow-blue-500/20"
+            style={{ width: 'auto', height: 32 }}
           />
           <span className="text-sm font-semibold text-slate-200">Dashboard</span>
         </Link>
         <div className="flex items-center gap-2">
-          <button
-            onClick={switchLocale}
-            className="rounded-xl border border-white/20 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-100 transition hover:border-blue-400/60 hover:bg-blue-500/10"
-          >
-            {locale.toUpperCase()}
-          </button>
+          <LanguageSelector />
           <button
             onClick={toggleMenu}
             aria-expanded={isOpen}
@@ -102,14 +94,15 @@ export function Menu() {
         }`}
       >
         <div className="flex-1 space-y-6 overflow-y-auto px-4 py-5">
-          <div className="hidden items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3 lg:flex">
-            <Link href="/dashboard" onClick={handleNavigate} className="flex items-center gap-3">
+          <div className="hidden flex-col gap-3 lg:flex">
+            <Link href="/dashboard" onClick={handleNavigate} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
               <Image
                 src="/img/deutschemesselogo.webp"
                 alt="logo"
                 width={50}
-                height={32}
+                height={50}
                 className="rounded-lg"
+                style={{ width: 'auto', height: 32 }}
                 priority
               />
               <div>
@@ -117,12 +110,7 @@ export function Menu() {
                 <p className="text-sm font-bold text-white">{t('profile')}</p>
               </div>
             </Link>
-            <button
-              onClick={switchLocale}
-              className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-slate-100 transition hover:border-blue-400/60 hover:bg-blue-500/10"
-            >
-              {locale === 'es' ? 'ES' : 'EN'}
-            </button>
+            <LanguageSelector />
           </div>
 
           {userSession?.role === 'admin' && (
@@ -266,6 +254,53 @@ export function Menu() {
                         </svg>
                       </span>
                       <span>{t('program')}</span>
+                    </div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="currentColor"
+                      className="h-4 w-4 text-slate-500 transition group-hover:text-blue-300"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="m9 5 7 7-7 7" />
+                    </svg>
+                  </Link>
+                </li>
+              </ul>
+            </>
+          )}
+
+          {(userSession?.role === 'exhibitor' || userSession?.role === 'exhibitorplus') && (
+            <>
+              <p className="px-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
+                Exhibitors
+              </p>
+              <ul className="space-y-3">
+                <li>
+                  <Link
+                    onClick={handleNavigate}
+                    href="/dashboard/exhibitors"
+                    className={getLinkClasses('/dashboard/exhibitors')}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="grid h-9 w-9 place-items-center rounded-xl bg-white/5 text-slate-200 ring-1 ring-white/10">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                          />
+                        </svg>
+                      </span>
+                      <span>{t('exhibitors')}</span>
                     </div>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

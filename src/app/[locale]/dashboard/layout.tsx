@@ -13,8 +13,8 @@ export default function DashboardLayout({children, params}: DashboardLayoutProps
   return (
     <section className="relative min-h-screen bg-slate-950 text-slate-50 lg:flex">
       <Menu />
-      <main className="w-full flex-1 px-4  lg:px-8 xl:px-12">
-        <div className="mx-auto max-w-9xl">{children}</div>
+      <main className="w-full flex-1">
+        <div className="mx-auto ">{children}</div>
       </main>
     </section>
   );

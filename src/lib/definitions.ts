@@ -30,13 +30,21 @@ export type Exhibitor = {
 
 export type Ponentes = {
     id: number;
-    name: string;
-    lastname: string;
-    companny: string;
-    categoria: string;
-    escenario: string;
-    email: string;    
-    event: string;
+    uuid?: string;
+    speaker_name?: string;
+    position?: string;
+    company?: string;
+    email?: string;
+    bio_esp?: string;
+    bio_eng?: string;
+    photo?: string;
+    impresiones?: number;
+    name?: string;
+    lastname?: string;
+    companny?: string;
+    categoria?: string;
+    escenario?: string;
+    event?: string;
 };
 
 export type Lead = {

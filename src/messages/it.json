@@ -12,6 +12,9 @@
     "passwordLabel": "Password",
     "passwordPlaceholder": "********",
     "submit": "Continua",
+    "forgotPassword": "Hai dimenticato la password?",
+    "noAccount": "Non hai un account?",
+    "registerLink": "Registrati",
     "privacyPrefix": "Accedendo accetti la",
     "privacyLink": "Informativa sulla privacy",
     "serverError": "Errore di connessione al server",
@@ -317,6 +320,62 @@
       "page": "Pagina {current} di {total}",
       "prev": "Precedente",
       "next": "Successivo"
+    }
+  },
+  "Register": {
+    "title": "Crea account",
+    "subtitle": "Registrati per accedere al dashboard",
+    "name": "Nome completo",
+    "namePlaceholder": "Es: Mario Rossi",
+    "company": "Azienda",
+    "companyPlaceholder": "Es: IGECO",
+    "email": "Email",
+    "emailPlaceholder": "esempio@email.com",
+    "password": "Password",
+    "passwordPlaceholder": "Minimo 6 caratteri",
+    "confirmPassword": "Conferma password",
+    "confirmPasswordPlaceholder": "Ripeti la tua password",
+    "event": "Evento",
+    "selectEvent": "Seleziona un evento",
+    "submit": "Crea account",
+    "loading": "Caricamento...",
+    "success": "Account creato con successo! Reindirizzamento al login...",
+    "hasAccount": "Hai già un account?",
+    "loginLink": "Accedi",
+    "footer": "© 2025 IGECO. Tutti i diritti riservati.",
+    "errors": {
+      "passwordMismatch": "Le password non corrispondono",
+      "serverError": "Errore del server. Riprova più tardi."
+    }
+  },
+  "ForgotPassword": {
+    "title": "Hai dimenticato la password?",
+    "subtitle": "Inserisci la tua email e ti invieremo un link di recupero",
+    "email": "Email",
+    "emailPlaceholder": "esempio@email.com",
+    "submit": "Invia link",
+    "loading": "Caricamento...",
+    "success": "Se l'email esiste nel nostro sistema, riceverai un link di recupero nella tua casella di posta.",
+    "backToLogin": "Torna al login",
+    "backToLoginShort": "← Torna al login",
+    "footer": "© 2025 IGECO. Tutti i diritti riservati."
+  },
+  "ResetPassword": {
+    "title": "Reimposta password",
+    "subtitle": "Inserisci la tua nuova password",
+    "newPassword": "Nuova password",
+    "passwordPlaceholder": "Minimo 6 caratteri",
+    "confirmPassword": "Conferma password",
+    "confirmPasswordPlaceholder": "Ripeti la tua password",
+    "submit": "Reimposta password",
+    "loading": "Caricamento...",
+    "success": "Password aggiornata con successo! Reindirizzamento al login...",
+    "backToLogin": "← Torna al login",
+    "footer": "© 2025 IGECO. Tutti i diritti riservati.",
+    "errors": {
+      "invalidToken": "Token non valido o mancante",
+      "passwordMismatch": "Le password non corrispondono",
+      "serverError": "Errore del server. Riprova più tardi."
     }
   }
 }

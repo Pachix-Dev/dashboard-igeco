@@ -6,7 +6,7 @@ import { useTranslations } from 'next-intl'
 import { useSessionUser } from 'app/store/session-user'
 import { useToaster } from 'app/context/ToasterContext'
 
-export function AddExhibitor() {
+export function AddExhibitor({ onExhibitorAdded }) {
   const t = useTranslations('ExhibitorsPage')
 
   const nationalities = [
@@ -211,15 +211,27 @@ export function AddExhibitor() {
     })
 
     if (response.ok) {
+      const newExhibitor = await response.json()
+      
+      if (onExhibitorAdded) {
+        onExhibitorAdded(newExhibitor)
+      }
+      
       notify(t('toast.success'), 'success')
+      handleClose()
+      
+      // Resetear formulario
+      setFormData({
+        name: '',
+        lastname: '',
+        email: '',
+        position: '',
+        nationality: '',
+      })
     } else {
       notify(t('toast.error'), 'error')
     }
-
-    handleClose()
   }
-
-  if (userSession?.role !== 'admin') return null
 
   return (
     <>

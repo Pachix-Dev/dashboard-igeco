@@ -12,6 +12,9 @@
     "passwordLabel": "Password",
     "passwordPlaceholder": "********",
     "submit": "Continue",
+    "forgotPassword": "Forgot your password?",
+    "noAccount": "Don't have an account?",
+    "registerLink": "Sign up",
     "privacyPrefix": "By signing in, you accept the",
     "privacyLink": "Privacy Policy",
     "serverError": "Unable to reach the server",
@@ -95,17 +98,17 @@
     "list": {
       "label": "Listing",
       "title": "Speakers",
-      "desc": "Search by name, email, company or role. Quick actions and QR on the right."
+      "desc": "Search by name, company or position. Quick actions and QR on the right."
     },
     "search": {
-      "placeholder": "Search speaker, email or company",
+      "placeholder": "Search speaker, position or company",
       "inView": "In view",
       "found": "{count} found"
     },
     "table": {
       "speaker": "Speaker",
       "company": "Company",
-      "email": "Email",
+      "position": "Position",
       "prints": "Prints",
       "actions": "Actions",
       "noData": "No data"
@@ -316,6 +319,62 @@
       "page": "Page {current} of {total}",
       "prev": "Previous",
       "next": "Next"
+    }
+  },
+  "Register": {
+    "title": "Create account",
+    "subtitle": "Sign up to access the dashboard",
+    "name": "Full name",
+    "namePlaceholder": "e.g. John Doe",
+    "company": "Company",
+    "companyPlaceholder": "e.g. IGECO",
+    "email": "Email",
+    "emailPlaceholder": "example@email.com",
+    "password": "Password",
+    "passwordPlaceholder": "At least 6 characters",
+    "confirmPassword": "Confirm password",
+    "confirmPasswordPlaceholder": "Repeat your password",
+    "event": "Event",
+    "selectEvent": "Select an event",
+    "submit": "Create account",
+    "loading": "Loading...",
+    "success": "Account created successfully! Redirecting to login...",
+    "hasAccount": "Already have an account?",
+    "loginLink": "Sign in",
+    "footer": "© 2025 IGECO. All rights reserved.",
+    "errors": {
+      "passwordMismatch": "Passwords do not match",
+      "serverError": "Server error. Please try again."
+    }
+  },
+  "ForgotPassword": {
+    "title": "Forgot your password?",
+    "subtitle": "Enter your email and we'll send you a recovery link",
+    "email": "Email",
+    "emailPlaceholder": "example@email.com",
+    "submit": "Send link",
+    "loading": "Loading...",
+    "success": "If the email exists in our system, you'll receive a recovery link in your inbox.",
+    "backToLogin": "Back to login",
+    "backToLoginShort": "← Back to login",
+    "footer": "© 2025 IGECO. All rights reserved."
+  },
+  "ResetPassword": {
+    "title": "Reset password",
+    "subtitle": "Enter your new password",
+    "newPassword": "New password",
+    "passwordPlaceholder": "At least 6 characters",
+    "confirmPassword": "Confirm password",
+    "confirmPasswordPlaceholder": "Repeat your password",
+    "submit": "Reset password",
+    "loading": "Loading...",
+    "success": "Password updated successfully! Redirecting to login...",
+    "backToLogin": "← Back to login",
+    "footer": "© 2025 IGECO. All rights reserved.",
+    "errors": {
+      "invalidToken": "Invalid or missing token",
+      "passwordMismatch": "Passwords do not match",
+      "serverError": "Server error. Please try again."
     }
   }
 }

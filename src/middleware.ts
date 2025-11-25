@@ -36,7 +36,7 @@ export async function middleware(req: NextRequest) {
   }
 
   if (!token) {
-    return NextResponse.redirect(new URL(getLocalizedPath(locale, '/'), req.url));
+    return NextResponse.redirect(new URL('/', req.url));
   }
 
   try {
@@ -46,7 +46,8 @@ export async function middleware(req: NextRequest) {
     const maxSessions = payload.maxsessions;
 
     if (pathnameWithoutLocale.startsWith('/dashboard/scan-leads')) {
-      const response = await fetch(new URL('/api/check-sessions', req.url).toString(), {
+      const apiUrl = new URL('/api/check-sessions', req.nextUrl.origin);
+      const response = await fetch(apiUrl.toString(), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -57,22 +58,33 @@ export async function middleware(req: NextRequest) {
       const data = await response.json();
 
       if (data.limitReached) {
-        return NextResponse.redirect(
-          new URL(getLocalizedPath(locale, '/session-limit'), req.url)
-        );
+        const localizedPath = getLocalizedPath(locale, '/session-limit');
+        const redirectUrl = `${req.nextUrl.origin}${localizedPath}`;
+        return NextResponse.redirect(redirectUrl);
       }
     }
 
-    const allowedRoutes = roles[userRole as keyof typeof roles] as string[];
+    const allowedRoutes = roles[userRole as keyof typeof roles];
+
+    if (!allowedRoutes) {
+      console.error('Invalid user role:', userRole);
+      const localizedPath = getLocalizedPath(locale, '/');
+      const redirectUrl = `${req.nextUrl.origin}${localizedPath}`;
+      return NextResponse.redirect(redirectUrl);
+    }
 
     if (!allowedRoutes.includes(pathnameWithoutLocale)) {
-      return NextResponse.redirect(new URL(getLocalizedPath(locale, '/dashboard'), req.url));
+      const localizedPath = getLocalizedPath(locale, '/dashboard');
+      const redirectUrl = `${req.nextUrl.origin}${localizedPath}`;
+      return NextResponse.redirect(redirectUrl);
     }
 
     return intlResponse ?? NextResponse.next();
   } catch (error) {
     console.error('Error:', error);
-    return NextResponse.redirect(new URL(getLocalizedPath(locale, '/'), req.url));
+    const localizedPath = getLocalizedPath(locale, '/');
+    const redirectUrl = `${req.nextUrl.origin}${localizedPath}`;
+    return NextResponse.redirect(redirectUrl);
   }
 }
 
