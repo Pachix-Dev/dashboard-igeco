@@ -28,7 +28,7 @@ export function QrScanner({ onNewLead }) {
       window.location.href = '/session-limit'
     }*/
     const data = await response.json()
-    console.log('QR Scan Response:', data)
+    console.log('QR Scan Response:', response)
     if (response.ok) {
       // Map status codes to translated messages
       if (data.status === 201) {
@@ -49,10 +49,7 @@ export function QrScanner({ onNewLead }) {
       }
       setShowScanner(false)
     } else {
-      // fallback to message from API
-      if (![400, 500].includes(response.status)) {
-        notify(t('scanner.leads.secondary'), 'error')
-      }
+      notify(t('scanner.leads.secondary'), 'error')
       setShowScanner(false)
     }
   }

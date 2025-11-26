@@ -22,7 +22,7 @@ export async function POST(req: Request) {
   try{
     // Validar UUID
     if (!isValidUUID(uuid)) {
-      return NextResponse.json({ message: 'UUID inválido' }, { status: 400 });
+      return NextResponse.json({ message: 'No se encuentra o es inválido' }, { status: 400 });
     }
 
     /*const [existSession] = await db.query(
