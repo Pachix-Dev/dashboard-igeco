@@ -310,6 +310,11 @@
         "primary": "Scanner is only for VISITOR, MEDIA PARTNER, VIP badges.",
         "secondary": "El escaner es solo para gafetes VISITANTE, MEDIA PARTNER, VIP."
       },
+      "leads": {
+        "primary": "Lead found",
+        "secondary": "Lead not found or invalid QR",
+        "tertiary": "Lead already registered"
+      },
       "helper": "Keep the badge stable and at a medium distance for a faster read. Avoid glare on the QR."
     },
     "actions": {

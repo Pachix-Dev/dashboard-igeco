@@ -351,6 +351,11 @@
         "primary": "Lo scanner è solo per badge VISITATORE, MEDIA PARTNER, VIP.",
         "secondary": "Scanner is only for VISITOR, MEDIA PARTNER, VIP badges."
       },
+      "leads": {
+        "primary": "Lead trovato",
+        "secondary": "Lead non trovato o QR non valido",
+        "tertiary": "Il lead è già registrato"
+      },
       "helper": "Mantieni il badge stabile e a distanza media per una lettura rapida. Evita riflessi sul QR."
     },
     "actions": {

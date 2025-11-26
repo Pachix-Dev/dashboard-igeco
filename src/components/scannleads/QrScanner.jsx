@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { useSessionUser } from 'app/store/session-user'
 import { useToaster } from 'app/context/ToasterContext'
 
-export function QrScanner() {
+export function QrScanner({ onNewLead }) {
   const t = useTranslations('ScanLeadsPage')
   const [showScanner, setShowScanner] = useState(false)
   const { notify } = useToaster()
@@ -24,16 +24,35 @@ export function QrScanner() {
         token: userSession.token,
       }),
     })
-    if (response.status === 401) {
+    /*if (response.status === 401) {
       window.location.href = '/session-limit'
-    }
+    }*/
     const data = await response.json()
+    console.log('QR Scan Response:', data)
     if (response.ok) {
-      notify(data.message, 'success')
+      // Map status codes to translated messages
+      if (data.status === 201) {
+        notify(t('scanner.leads.primary'), 'success')
+      } else if (data.status === 400) {
+        notify(t('scanner.leads.tertiary'), 'success')
+      } else if (data.status === 404) {
+        notify(t('scanner.leads.secondary'), 'error')
+      }
+      // If the API returned the created/updated lead, notify parent to update state
+      const newLead = data.lead || data.record || data.data || null
+      if (onNewLead && newLead) {
+        try {
+          onNewLead(newLead)
+        } catch (e) {
+          // ignore callback errors
+        }
+      }
       setShowScanner(false)
-      window.location.reload()
     } else {
-      notify(data.message, 'error')
+      // fallback to message from API
+      if (![400, 500].includes(response.status)) {
+        notify(t('scanner.leads.secondary'), 'error')
+      }
       setShowScanner(false)
     }
   }
@@ -75,7 +94,9 @@ export function QrScanner() {
           <div className='flex h-full w-full max-w-5xl flex-col gap-4 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 px-4 py-4 shadow-2xl shadow-emerald-500/20 sm:h-auto sm:max-h-[90vh] sm:px-6 sm:py-6'>
             <div className='flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between'>
               <div>
-                <h3 className='text-xl font-bold text-white'>{t('scanner.title')}</h3>
+                <h3 className='text-xl font-bold text-white'>
+                  {t('scanner.title')}
+                </h3>
                 <p className='text-sm text-slate-400'>{t('scanner.desc')}</p>
               </div>
               <button

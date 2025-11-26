@@ -26,14 +26,12 @@ export default async function ScanLeads({params}: {params: Promise<{locale: stri
               </span>
             </div>
             <p className="text-sm text-slate-400">{t('subtitle')}</p>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-3">
-            <ScanLeadsClient initialLeads={leads} />
-          </div>
+          </div>          
         </header>
-
-        {/* FetchLeads is now rendered inside ScanLeadsClient (client-side wrapper) */}
+        <div className="">
+          <ScanLeadsClient initialLeads={leads} />
+        </div>
+        
         <div />
       </section>
     </main>
