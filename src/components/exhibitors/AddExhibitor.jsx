@@ -22,6 +22,7 @@ export function AddExhibitor({
     name: '',
     lastname: '',
     email: '',
+    phone: '',
     position: '',
     company: '',
   })
@@ -69,6 +70,7 @@ export function AddExhibitor({
           name: '',
           lastname: '',
           email: '',
+          phone: '',
           position: '',
           company: '',
         }
@@ -189,30 +191,56 @@ export function AddExhibitor({
                   </div>
                 </div>
 
+                <div className='space-y-2'>
+                  <label className='text-sm font-semibold text-slate-200'>
+                    {t('form.email')}
+                  </label>
+                  <input
+                    type='email'
+                    name='email'
+                    {...register('email', {
+                      required: t('form.errors.required'),
+                      pattern: {
+                        value:
+                          /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                        message: t('form.errors.email'),
+                      },
+                      onChange: handleChange,
+                    })}
+                    defaultValue={formData.email}
+                    className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                    placeholder={t('form.emailPlaceholder')}
+                  />
+                  {errors.email && (
+                    <p className='text-sm text-rose-400'>
+                      {errors.email.message}
+                    </p>
+                  )}
+                </div>
+
                 <div className='grid gap-4 md:grid-cols-[2fr,1fr]'>
                   <div className='space-y-2'>
                     <label className='text-sm font-semibold text-slate-200'>
-                      {t('form.email')}
+                      {t('form.phone')}
                     </label>
                     <input
-                      type='email'
-                      name='email'
-                      {...register('email', {
+                      type='tel'
+                      name='phone'
+                      {...register('phone', {
                         required: t('form.errors.required'),
                         pattern: {
-                          value:
-                            /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                          message: t('form.errors.email'),
+                          value: /^[0-9]{10}$/,
+                          message: t('form.errors.phone'),
                         },
                         onChange: handleChange,
                       })}
-                      defaultValue={formData.email}
+                      defaultValue={formData.phone}
                       className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
-                      placeholder={t('form.emailPlaceholder')}
+                      placeholder={t('form.phonePlaceholder')}
                     />
-                    {errors.email && (
+                    {errors.phone && (
                       <p className='text-sm text-rose-400'>
-                        {errors.email.message}
+                        {errors.phone.message}
                       </p>
                     )}
                   </div>

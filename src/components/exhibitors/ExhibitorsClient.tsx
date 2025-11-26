@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { useSessionUser } from 'app/store/session-user'
 import { AddExhibitor } from './AddExhibitor'
+import { BuyExhibitors } from './BuyExhibitors'
 import { ListExhibitors } from './ListExhibitors'
 import type { Exhibitor } from 'app/lib/definitions'
 
@@ -24,6 +25,11 @@ export function ExhibitorsClient({ initialExhibitors }: ExhibitorsClientProps) {
     setExhibitors((prev) =>
       prev.map((e) => (e.id === updatedExhibitor.id ? updatedExhibitor : e))
     )
+  }
+
+  const handlePurchaseComplete = () => {
+    // Recargar la página para actualizar el límite desde el servidor
+    window.location.reload()
   }
 
   const totalExhibitors = exhibitors.length
@@ -127,8 +133,13 @@ export function ExhibitorsClient({ initialExhibitors }: ExhibitorsClientProps) {
             </div>
           </div>
 
-          {/* Action button */}
-          <div className="flex justify-end">
+          {/* Action buttons */}
+          <div className="flex flex-wrap justify-end gap-3">
+            <BuyExhibitors
+              currentTotal={totalExhibitors}
+              maxExhibitors={maxExhibitors}
+              onPurchaseComplete={handlePurchaseComplete}
+            />
             <AddExhibitor 
               onExhibitorAdded={handleExhibitorAdded}
               maxExhibitors={maxExhibitors}

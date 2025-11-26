@@ -104,7 +104,7 @@ export default function Profile() {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-white">{userSession?.maxsessions || 1}</p>
+                    <p className="text-2xl font-bold text-white">{userSession?.maxsessions || 0}</p>
                     <p className="text-xs text-slate-400">{t('stats.sessions')}</p>
                   </div>
                 </div>
@@ -118,7 +118,7 @@ export default function Profile() {
                     </svg>
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-white">{userSession?.maxexhibitors || 1}</p>
+                    <p className="text-2xl font-bold text-white">{userSession?.maxexhibitors || 0}</p>
                     <p className="text-xs text-slate-400">{t('stats.exhibitors')}</p>
                   </div>
                 </div>

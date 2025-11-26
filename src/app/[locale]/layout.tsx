@@ -1,7 +1,7 @@
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages} from 'next-intl/server';
 import {notFound} from 'next/navigation';
-import {setRequestLocale} from 'next-intl/server';
+// import {setRequestLocale} from 'next-intl/server';
 import type {ReactNode} from 'react';
 import {ToasterProvider} from 'app/context/ToasterContext';
 import {locales} from 'app/i18n/routing';
@@ -24,7 +24,7 @@ export default async function LocaleLayout({
   }
 
   // Enable static rendering
-  setRequestLocale(locale);
+  // setRequestLocale(locale);
 
   const messages = await getMessages();
 
