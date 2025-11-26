@@ -47,7 +47,7 @@ export async function POST(req: Request) {
     }
 
     if (existingRecord.length === 0) {
-      return NextResponse.json({ message: 'Record not found' }, { status: 404 });
+      return NextResponse.json({ message: 'Record not found', status: 404 }, { status: 404 });
     }
 
     const record = existingRecord[0];
@@ -56,14 +56,16 @@ export async function POST(req: Request) {
     const [existingLead] = await db.query('SELECT * FROM leads WHERE user_id = ? AND uuid = ?', [user_id, record.uuid]) as [DbRow[], any];
    
     if(existingLead.length > 0){
-      return NextResponse.json({ message: 'Lead already exists' }, { status: 400 });
+      // Return the existing lead and the source record so client can decide
+      return NextResponse.json({ message: 'Lead already exists', status: 400, lead: existingLead[0], record }, { status: 400 });
     }
 
     await db.query('INSERT INTO leads (uuid, user_id) VALUES (?, ?)', [record.uuid, user_id]);
-    return NextResponse.json({ message: 'Lead created' }, { status: 201 });
+    // Return the source record as the created lead payload so the client can insert it locally
+    return NextResponse.json({ message: 'Lead created', status: 201, lead: record }, { status: 201 });
   }catch(err){
     console.error(err);
-    return NextResponse.json({ message: 'Lead not created' }, { status: 500 });
+    return NextResponse.json({ message: 'Lead not created', status: 500 }, { status: 500 });
   }
 }
 
@@ -79,9 +81,9 @@ export async function PUT(req: Request) {
     const sanitizedNotes = notes ? notes.slice(0, 1000) : '';
          
     await db.query('UPDATE leads SET notes = ? WHERE uuid = ?', [sanitizedNotes, uuid]);
-    return NextResponse.json({ message: 'Lead updated' });
+    return NextResponse.json({ message: 'Lead updated', status: 200, uuid });
   }catch(err){
     console.error('Error updating lead:', err);
-    return NextResponse.json({ message: 'Lead not updated' }, { status: 500 });
+    return NextResponse.json({ message: 'Lead not updated', status: 500 }, { status: 500 });
   }
 }

@@ -13,42 +13,78 @@ export function QrScanner({ onNewLead }) {
   const { userSession } = useSessionUser()
 
   const handleScan = async (result) => {
-    const response = await fetch('/api/scanleads', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        uuid: result[0].rawValue,
-        user_id: userSession.id,
-        token: userSession.token,
-      }),
-    })
-    /*if (response.status === 401) {
-      window.location.href = '/session-limit'
-    }*/
-    const data = await response.json()
-    console.log('QR Scan Response:', response)
-    if (response.ok) {
-      // Map status codes to translated messages
-      if (data.status === 201) {
+    // Basic validation
+    if (!result || !Array.isArray(result) || result.length === 0) return
+
+    const uuid = result[0]?.rawValue
+    if (!uuid) return
+
+    try {
+      const response = await fetch('/api/scanleads', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          uuid,
+          user_id: userSession?.id,
+          token: userSession?.token,
+        }),
+      })
+
+      let data = {}
+      try {
+        data = await response.json()
+      } catch (e) {
+        // ignore parse errors
+      }
+
+      const logicalStatus = data?.status
+      const newLead = data?.lead || data?.record || data?.data || null
+
+      if (logicalStatus === 201) {
         notify(t('scanner.leads.primary'), 'success')
-      } else if (data.status === 400) {
+        if (onNewLead && newLead) {
+          try {
+            onNewLead(newLead)
+          } catch (e) {}
+        }
+        setShowScanner(false)
+        return
+      }
+
+      if (logicalStatus === 400) {
         notify(t('scanner.leads.tertiary'), 'success')
-      } else if (data.status === 404) {
+        if (onNewLead && newLead) {
+          try {
+            onNewLead(newLead)
+          } catch (e) {}
+        }
+        setShowScanner(false)
+        return
+      }
+
+      if (logicalStatus === 500) {
+        notify(t('scanner.leads.secondary'), 'error')
+        setShowScanner(false)
+        return
+      }
+
+      // Fallbacks
+      if (response.ok) {
+        notify(t('scanner.leads.primary'), 'success')
+        if (onNewLead && newLead) {
+          try {
+            onNewLead(newLead)
+          } catch (e) {}
+        }
+      } else {
         notify(t('scanner.leads.secondary'), 'error')
       }
-      // If the API returned the created/updated lead, notify parent to update state
-      const newLead = data.lead || data.record || data.data || null
-      if (onNewLead && newLead) {
-        try {
-          onNewLead(newLead)
-        } catch (e) {
-          // ignore callback errors
-        }
-      }
+
       setShowScanner(false)
-    } else {
+    } catch (err) {
+      console.error('Error scanning QR:', err)
       notify(t('scanner.leads.secondary'), 'error')
       setShowScanner(false)
     }

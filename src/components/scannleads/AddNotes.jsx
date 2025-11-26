@@ -27,10 +27,18 @@ export function AddNotes({ lead, onUpdate }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ uuid: lead.uuid, notes }),
       })
+      let data = {}
+      try {
+        data = await response.json()
+      } catch (e) {
+        // ignore parse errors
+      }
 
-      const data = await response.json()
+      // Prefer logical status returned in the body (data.status)
+      const logicalStatus =
+        data?.status || (response.ok ? 200 : response.status)
 
-      if (response.ok) {
+      if (logicalStatus === 200) {
         notify(t('success'), 'success')
         // Actualizar el lead en el componente padre sin recargar
         if (onUpdate) {
@@ -38,7 +46,7 @@ export function AddNotes({ lead, onUpdate }) {
         }
         handleClose()
       } else {
-        notify(data.message || t('error'), 'error')
+        notify(data?.message || t('error'), 'error')
       }
     } catch (error) {
       console.error('Error updating note:', error)
