@@ -1,6 +1,6 @@
 import type {Metadata} from 'next';
-import {getLocale} from 'next-intl/server';
 import './globals.css';
+import {defaultLocale} from 'app/i18n/routing';
 
 export const metadata: Metadata = {
   title: 'IGECO | Dashboard',
@@ -12,15 +12,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const locale = await getLocale();
-
   return (
-    <html lang={locale}>
+    <html lang={defaultLocale}>
       <body>{children}</body>
     </html>
   );

@@ -455,6 +455,7 @@
     "table": {
       "speaker": "Relatore",
       "company": "Azienda",
+      "position": "Ruolo",
       "email": "Email",
       "prints": "Stampe",
       "actions": "Azioni",

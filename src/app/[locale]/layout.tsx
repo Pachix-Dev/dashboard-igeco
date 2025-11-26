@@ -1,5 +1,5 @@
 import {NextIntlClientProvider} from 'next-intl';
-import {getMessages} from 'next-intl/server';
+import {getMessages, unstable_setRequestLocale} from 'next-intl/server';
 import {notFound} from 'next/navigation';
 import type {ReactNode} from 'react';
 import {ToasterProvider} from 'app/context/ToasterContext';
@@ -13,14 +13,15 @@ export default async function LocaleLayout({
   params
 }: {
   children: ReactNode;
-  params: Promise<{locale: string}>;
+  params: {locale: string};
 }) {
-  const {locale} = await params;
+  const {locale} = params;
 
   if (!locales.includes(locale as (typeof locales)[number])) {
     notFound();
   }
 
+  unstable_setRequestLocale(locale);
   const messages = await getMessages();
 
   return (
