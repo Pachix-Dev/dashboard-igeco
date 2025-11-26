@@ -1,6 +1,8 @@
 import {Menu} from 'app/components/shared/Menu';
-// import {setRequestLocale} from 'next-intl/server';
 import type {ReactNode} from 'react';
+
+// Forzar renderizado dinámico (requiere autenticación)
+export const dynamic = 'force-dynamic';
 
 type DashboardLayoutProps = {
   children: ReactNode;
@@ -9,7 +11,6 @@ type DashboardLayoutProps = {
 
 export default async function DashboardLayout({children, params}: DashboardLayoutProps) {
   const {locale} = await params;
-  // setRequestLocale(locale);
   
   return (
     <section className="relative min-h-screen bg-slate-950 text-slate-50 lg:flex">

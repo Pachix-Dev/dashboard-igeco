@@ -4,11 +4,27 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Deshabilitar generación estática para rutas con next-intl
+  // Configuración para next-intl con renderizado dinámico
+  // output: 'standalone', // Comentado para permitir renderizado dinámico con next-intl
+  
+  // Deshabilitar generación estática (app requiere autenticación dinámica)
   experimental: {
-    // Permitir renderizado dinámico
+    // Permitir que todas las rutas sean dinámicas
   },
-  output: 'standalone',
+  
+  // Configuración de imágenes
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'dashboard.igeco.mx',
+        pathname: '/**',
+      },
+    ],
+    // Deshabilitar optimización para todas las imágenes (por compatibilidad)
+    unoptimized: true,
+  },
+  
   // Configurar headers de caché para recursos estáticos y seguridad
   async headers() {
     return [

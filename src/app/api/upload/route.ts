@@ -6,7 +6,7 @@ import fs from "fs/promises";
 const allowedExtensions = [".jpg", ".jpeg", ".png", ".webp"];
 
 // Directorio donde se guardarán las imágenes
-const uploadDir = path.join(process.cwd(), "public/Ponentes");
+const uploadDir = path.join(process.cwd(), "public/ponentes");
 
 // Asegurar que el directorio existe
 async function ensureUploadDir() {
@@ -47,10 +47,8 @@ export async function POST(req: NextRequest) {
     const fileBuffer = new Uint8Array(await file.arrayBuffer());
     await fs.writeFile(filePath, fileBuffer);
 
-    // Ruta accesible desde el frontend
-    const publicPath = `/Ponentes/${uniqueName}`;
-
-    return NextResponse.json({ path: publicPath }, { status: 200 });
+    // Solo devolver el nombre del archivo, la ruta se agrega en el frontend
+    return NextResponse.json({ path: uniqueName }, { status: 200 });
 
   } catch (error) {
     console.error("Upload error:", error);

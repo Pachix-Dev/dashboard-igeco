@@ -18,7 +18,7 @@ export async function PUT(req: Request, { params }: { params: { id: number } }) 
     let updatedPhoto = photo;
     if (photo && !photo.includes(uuid)) {
       const extension = photo.split('.').pop();
-      updatedPhoto = `/ponentes/${uuid}.${extension}`;
+      updatedPhoto = `${uuid}.${extension}`;
     }
 
     // Actualizar los datos en la base de datos

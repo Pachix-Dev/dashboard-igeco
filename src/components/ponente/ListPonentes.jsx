@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useTranslations } from 'next-intl'
 
 import { QrPrinterPonente } from './QrPrinterPonentes'
@@ -15,30 +15,33 @@ export function ListPonentes({ ponente, onPonenteUpdated }) {
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 6
 
-  const searchResults = (query) => {
-    setSearchTerm(query)
+  const searchResults = useCallback(
+    (query) => {
+      setSearchTerm(query)
 
-    if (query.trim() === '') {
-      setFilteredPonentes(ponente)
+      if (query.trim() === '') {
+        setFilteredPonentes(ponente)
+        setCurrentPage(1)
+        return
+      }
+
+      const lowerQuery = query.toLowerCase()
+      const results = ponente.filter(
+        (item) =>
+          item.speaker_name?.toLowerCase().includes(lowerQuery) ||
+          item.position?.toLowerCase().includes(lowerQuery) ||
+          item.company?.toLowerCase().includes(lowerQuery)
+      )
+
+      setFilteredPonentes(results)
       setCurrentPage(1)
-      return
-    }
-
-    const lowerQuery = query.toLowerCase()
-    const results = ponente.filter(
-      (item) =>
-        item.speaker_name?.toLowerCase().includes(lowerQuery) ||
-        item.position?.toLowerCase().includes(lowerQuery) ||
-        item.company?.toLowerCase().includes(lowerQuery)
-    )
-
-    setFilteredPonentes(results)
-    setCurrentPage(1)
-  }
+    },
+    [ponente]
+  )
 
   useEffect(() => {
     searchResults(searchTerm)
-  }, [ponente])
+  }, [ponente, searchTerm, searchResults])
 
   const totalPages = Math.max(
     1,
@@ -139,7 +142,11 @@ export function ListPonentes({ ponente, onPonenteUpdated }) {
                         <div className='h-12 w-12 overflow-hidden rounded-full border border-white/10 bg-white/5 flex items-center justify-center'>
                           {item.photo ? (
                             <Image
-                              src={item.photo}
+                              src={
+                                item.photo.startsWith('/')
+                                  ? item.photo
+                                  : `/ponentes/${item.photo}`
+                              }
                               className='h-full w-full object-cover'
                               alt={item.speaker_name || 'Ponente'}
                               width={128}

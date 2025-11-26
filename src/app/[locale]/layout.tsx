@@ -1,14 +1,12 @@
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages} from 'next-intl/server';
 import {notFound} from 'next/navigation';
-// import {setRequestLocale} from 'next-intl/server';
 import type {ReactNode} from 'react';
 import {ToasterProvider} from 'app/context/ToasterContext';
 import {locales} from 'app/i18n/routing';
 
-export function generateStaticParams() {
-  return locales.map((locale) => ({locale}));
-}
+// Forzar renderizado dinámico (app requiere autenticación con middleware)
+export const dynamic = 'force-dynamic';
 
 export default async function LocaleLayout({
   children,
@@ -22,9 +20,6 @@ export default async function LocaleLayout({
   if (!locales.includes(locale as (typeof locales)[number])) {
     notFound();
   }
-
-  // Enable static rendering
-  // setRequestLocale(locale);
 
   const messages = await getMessages();
 

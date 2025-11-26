@@ -286,7 +286,11 @@ export function AddPonentes({ onPonenteAdded }) {
                 {formData.photo && typeof formData.photo === 'string' && (
                   <div className='flex justify-center'>
                     <Image
-                      src={formData.photo}
+                      src={
+                        formData.photo.startsWith('/')
+                          ? formData.photo
+                          : `/ponentes/${formData.photo}`
+                      }
                       alt='Uploaded preview'
                       className='mt-2 h-32 w-32 rounded-lg object-cover'
                       width={128}

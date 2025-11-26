@@ -295,14 +295,21 @@ export function EditPonentes({ ponente, onPonenteUpdated }) {
                             <div className='flex justify-center'>
                               <div className='relative group'>
                                 {formData.previewUrl ? (
-                                  <img
+                                  <Image
                                     src={formData.previewUrl}
                                     alt='Vista previa'
                                     className='w-32 h-32 object-cover rounded-xl border-2 border-slate-700'
+                                    width={128}
+                                    height={128}
+                                    unoptimized
                                   />
                                 ) : (
                                   <Image
-                                    src={formData.photo}
+                                    src={
+                                      formData.photo.startsWith('/')
+                                        ? formData.photo
+                                        : `/ponentes/${formData.photo}`
+                                    }
                                     alt='Vista previa'
                                     className='w-32 h-32 object-cover rounded-xl border-2 border-slate-700'
                                     width={128}

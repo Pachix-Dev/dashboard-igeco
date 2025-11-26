@@ -6,7 +6,8 @@ import {fetchRecordsByUserId} from 'app/lib/db';
 import {getTranslations} from 'next-intl/server';
 import {unstable_noStore as noStore} from 'next/cache';
 
-export default async function ScanLeads() {
+export default async function ScanLeads({params}: {params: Promise<{locale: string}>}) {
+  const {locale} = await params;
   noStore();
   const t = await getTranslations('ScanLeadsPage');
   const leads: Lead[] = await fetchRecordsByUserId();
