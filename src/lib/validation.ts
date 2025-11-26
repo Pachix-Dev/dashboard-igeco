@@ -33,8 +33,8 @@ export function validateStrongPassword(password: string): PasswordValidationResu
     return { valid: false, errors: ['La contraseña es requerida'] };
   }
 
-  if (password.length < 8) {
-    errors.push('La contraseña debe tener al menos 8 caracteres');
+  if (password.length < 6) {
+    errors.push('La contraseña debe tener al menos 6 caracteres');
   }
 
   if (password.length > 128) {

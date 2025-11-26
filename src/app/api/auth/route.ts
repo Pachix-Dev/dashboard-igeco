@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
     const clientIp = getClientIp(req);
     const rateLimitResult = checkRateLimit(clientIp, RATE_LIMITS.AUTH);
 
-    if (!rateLimitResult.success) {
+    /*if (!rateLimitResult.success) {
       return NextResponse.json(
         { 
           message: 'Demasiados intentos de inicio de sesión. Por favor, intenta más tarde.',
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
           }
         }
       );
-    }
+    }*/
 
     // Parse request body
     const { email, password } = await req.json();
@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
 
     // Generate JWT token
     const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.role, maxsessions: user.maxsessions },
+      { id: user.id, email: user.email, role: user.role, maxsessions: user.maxsessions, event: user.event, company: user.company  },
       process.env.JWT_SECRET || 'tu_secreto_jwt', // Use an environment variable for the secret
       { expiresIn: '7d' }
     );
@@ -99,6 +99,8 @@ export async function POST(req: NextRequest) {
           role: user.role,
           maxsessions: user.maxsessions,
           maxexhibitors: user.maxexhibitors,
+          event: user.event,
+          company: user.company,
           token: token,
         },
       },

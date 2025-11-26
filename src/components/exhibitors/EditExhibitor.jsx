@@ -6,180 +6,13 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 export function EditExhibitor({ exhibitor, onExhibitorUpdated }) {
-  const nationalities = [
-    'Afghan',
-    'Albanian',
-    'Algerian',
-    'American',
-    'Andorran',
-    'Angolan',
-    'Argentine',
-    'Armenian',
-    'Australian',
-    'Austrian',
-    'Azerbaijani',
-    'Bahamian',
-    'Bahraini',
-    'Bangladeshi',
-    'Barbadian',
-    'Belarusian',
-    'Belgian',
-    'Belizean',
-    'Beninese',
-    'Bhutanese',
-    'Bolivian',
-    'Bosnian',
-    'Botswanan',
-    'Brazilian',
-    'British',
-    'Bruneian',
-    'Bulgarian',
-    'Burkinabe',
-    'Burmese',
-    'Burundian',
-    'Cambodian',
-    'Cameroonian',
-    'Canadian',
-    'Cape Verdean',
-    'Central African',
-    'Chadian',
-    'Chilean',
-    'Chinese',
-    'Colombian',
-    'Comorian',
-    'Congolese',
-    'Costa Rican',
-    'Croatian',
-    'Cuban',
-    'Cypriot',
-    'Czech',
-    'Danish',
-    'Djiboutian',
-    'Dominican',
-    'Dutch',
-    'Ecuadorian',
-    'Egyptian',
-    'Emirati',
-    'Equatorial Guinean',
-    'Eritrean',
-    'Estonian',
-    'Ethiopian',
-    'Fijian',
-    'Finnish',
-    'French',
-    'Gabonese',
-    'Gambian',
-    'Georgian',
-    'German',
-    'Ghanaian',
-    'Greek',
-    'Grenadian',
-    'Guatemalan',
-    'Guinean',
-    'Guyanese',
-    'Haitian',
-    'Honduran',
-    'Hungarian',
-    'Icelandic',
-    'Indian',
-    'Indonesian',
-    'Iranian',
-    'Iraqi',
-    'Irish',
-    'Israeli',
-    'Italian',
-    'Ivorian',
-    'Jamaican',
-    'Japanese',
-    'Jordanian',
-    'Kazakh',
-    'Kenyan',
-    'Kuwaiti',
-    'Kyrgyz',
-    'Lao',
-    'Latvian',
-    'Lebanese',
-    'Liberian',
-    'Libyan',
-    'Lithuanian',
-    'Luxembourgish',
-    'Malagasy',
-    'Malawian',
-    'Malaysian',
-    'Malian',
-    'Maltese',
-    'Mauritanian',
-    'Mauritian',
-    'Mexican',
-    'Moldovan',
-    'Monacan',
-    'Mongolian',
-    'Montenegrin',
-    'Moroccan',
-    'Mozambican',
-    'Namibian',
-    'Nepalese',
-    'New Zealander',
-    'Nicaraguan',
-    'Nigerian',
-    'North Korean',
-    'Norwegian',
-    'Omani',
-    'Pakistani',
-    'Palestinian',
-    'Panamanian',
-    'Paraguayan',
-    'Peruvian',
-    'Philippine',
-    'Polish',
-    'Portuguese',
-    'Qatari',
-    'Romanian',
-    'Russian',
-    'Rwandan',
-    'Salvadoran',
-    'Saudi',
-    'Scottish',
-    'Senegalese',
-    'Serbian',
-    'Singaporean',
-    'Slovak',
-    'Slovenian',
-    'Somali',
-    'South African',
-    'South Korean',
-    'Spanish',
-    'Sri Lankan',
-    'Sudanese',
-    'Swedish',
-    'Swiss',
-    'Syrian',
-    'Taiwanese',
-    'Tajik',
-    'Tanzanian',
-    'Thai',
-    'Togolese',
-    'Tunisian',
-    'Turkish',
-    'Turkmen',
-    'Ukrainian',
-    'Uruguayan',
-    'Uzbek',
-    'Venezuelan',
-    'Vietnamese',
-    'Welsh',
-    'Yemeni',
-    'Zambian',
-    'Zimbabwean',
-  ]
-
   const [formData, setFormData] = useState({
     id: exhibitor.id,
     name: exhibitor.name,
     lastname: exhibitor.lastname,
     email: exhibitor.email,
     position: exhibitor.position,
-    nationality: exhibitor.nationality,
+    company: exhibitor.company,
   })
 
   const [isOpen, setIsOpen] = useState(false)
@@ -207,7 +40,7 @@ export function EditExhibitor({ exhibitor, onExhibitorUpdated }) {
     if (response.ok) {
       const updatedExhibitor = {
         ...exhibitor,
-        ...formData
+        ...formData,
       }
 
       if (onExhibitorUpdated) {
@@ -325,28 +158,20 @@ export function EditExhibitor({ exhibitor, onExhibitorUpdated }) {
                 )}
               </div>
               <div className='mb-4'>
-                <label className='block text-[#f1f7feb5]'>Nationality</label>
-                <select
-                  name='nationality'
-                  {...register('nationality', {
-                    required: 'Nationality is required',
+                <label className='block text-[#f1f7feb5]'>Company</label>
+                <input
+                  type='text'
+                  name='company'
+                  {...register('company', {
+                    required: 'Company is required',
                     onChange: (e) => handleChange(e),
                   })}
-                  defaultValue={formData.nationality}
-                  className='w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 bg-[#16171c] text-white'
-                >
-                  <option value='' disabled>
-                    Select your nationality
-                  </option>
-                  {nationalities.map((nation, index) => (
-                    <option key={index} value={nation}>
-                      {nation}
-                    </option>
-                  ))}
-                </select>
-                {errors.nationality && (
+                  defaultValue={formData.company}
+                  className='w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 bg-[#16171c]'
+                />
+                {errors.company && (
                   <p className='text-red-500 text-sm mt-1'>
-                    {errors.nationality.message}
+                    {errors.company.message}
                   </p>
                 )}
               </div>

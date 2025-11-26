@@ -18,7 +18,7 @@ interface DbRow {
 }
 
 export async function POST(req: Request) {
-  const {uuid, user_id, token} = await req.json() as ScanLeadRequest;as ScanLeadRequest;  
+  const {uuid, user_id, token} = await req.json() as ScanLeadRequest;
   try{
     // Validar UUID
     if (!isValidUUID(uuid)) {

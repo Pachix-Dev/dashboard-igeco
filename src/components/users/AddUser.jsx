@@ -43,6 +43,7 @@ export function AddUser({ onUserAdded }) {
         },
         body: JSON.stringify({
           name,
+          company,
           email,
           password,
           role,
@@ -85,6 +86,7 @@ export function AddUser({ onUserAdded }) {
         const newUser = {
           id: data.id || Date.now(), // ID temporal si no viene del servidor
           name,
+          company,
           email,
           role,
           maxsessions: maxsessions || 1,
@@ -100,6 +102,7 @@ export function AddUser({ onUserAdded }) {
         // Resetear formulario completamente
         reset()
         setName('')
+        setCompany('')
         setEmail('')
         setPassword('')
         setRole('')
@@ -138,7 +141,7 @@ export function AddUser({ onUserAdded }) {
         <div className='fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm transition'>
           <div className='flex min-h-full items-center justify-center px-4 py-10'>
             <div className='relative w-full max-w-3xl rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 p-8 shadow-2xl shadow-blue-500/20'>
-              {isLoading && <LoadingOverlay message="Creando usuario..." />}
+              {isLoading && <LoadingOverlay message='Creando usuario...' />}
               <div className='mb-6 flex items-start justify-between gap-4'>
                 <div>
                   <h2 className='text-2xl font-bold text-white'>

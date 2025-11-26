@@ -6,182 +6,24 @@ import { useTranslations } from 'next-intl'
 import { useSessionUser } from 'app/store/session-user'
 import { useToaster } from 'app/context/ToasterContext'
 
-export function AddExhibitor({ onExhibitorAdded }) {
+export function AddExhibitor({
+  onExhibitorAdded,
+  maxExhibitors = 0,
+  currentTotal = 0,
+}) {
   const t = useTranslations('ExhibitorsPage')
 
-  const nationalities = [
-    'Afghan',
-    'Albanian',
-    'Algerian',
-    'American',
-    'Andorran',
-    'Angolan',
-    'Argentine',
-    'Armenian',
-    'Australian',
-    'Austrian',
-    'Azerbaijani',
-    'Bahamian',
-    'Bahraini',
-    'Bangladeshi',
-    'Barbadian',
-    'Belarusian',
-    'Belgian',
-    'Belizean',
-    'Beninese',
-    'Bhutanese',
-    'Bolivian',
-    'Bosnian',
-    'Botswanan',
-    'Brazilian',
-    'British',
-    'Bruneian',
-    'Bulgarian',
-    'Burkinabe',
-    'Burmese',
-    'Burundian',
-    'Cambodian',
-    'Cameroonian',
-    'Canadian',
-    'Cape Verdean',
-    'Central African',
-    'Chadian',
-    'Chilean',
-    'Chinese',
-    'Colombian',
-    'Comorian',
-    'Congolese',
-    'Costa Rican',
-    'Croatian',
-    'Cuban',
-    'Cypriot',
-    'Czech',
-    'Danish',
-    'Djiboutian',
-    'Dominican',
-    'Dutch',
-    'Ecuadorian',
-    'Egyptian',
-    'Emirati',
-    'Equatorial Guinean',
-    'Eritrean',
-    'Estonian',
-    'Ethiopian',
-    'Fijian',
-    'Finnish',
-    'French',
-    'Gabonese',
-    'Gambian',
-    'Georgian',
-    'German',
-    'Ghanaian',
-    'Greek',
-    'Grenadian',
-    'Guatemalan',
-    'Guinean',
-    'Guyanese',
-    'Haitian',
-    'Honduran',
-    'Hungarian',
-    'Icelandic',
-    'Indian',
-    'Indonesian',
-    'Iranian',
-    'Iraqi',
-    'Irish',
-    'Israeli',
-    'Italian',
-    'Ivorian',
-    'Jamaican',
-    'Japanese',
-    'Jordanian',
-    'Kazakh',
-    'Kenyan',
-    'Kuwaiti',
-    'Kyrgyz',
-    'Lao',
-    'Latvian',
-    'Lebanese',
-    'Liberian',
-    'Libyan',
-    'Lithuanian',
-    'Luxembourgish',
-    'Malagasy',
-    'Malawian',
-    'Malaysian',
-    'Malian',
-    'Maltese',
-    'Mauritanian',
-    'Mauritian',
-    'Mexican',
-    'Moldovan',
-    'Monacan',
-    'Mongolian',
-    'Montenegrin',
-    'Moroccan',
-    'Mozambican',
-    'Namibian',
-    'Nepalese',
-    'New Zealander',
-    'Nicaraguan',
-    'Nigerian',
-    'North Korean',
-    'Norwegian',
-    'Omani',
-    'Pakistani',
-    'Palestinian',
-    'Panamanian',
-    'Paraguayan',
-    'Peruvian',
-    'Philippine',
-    'Polish',
-    'Portuguese',
-    'Qatari',
-    'Romanian',
-    'Russian',
-    'Rwandan',
-    'Salvadoran',
-    'Saudi',
-    'Scottish',
-    'Senegalese',
-    'Serbian',
-    'Singaporean',
-    'Slovak',
-    'Slovenian',
-    'Somali',
-    'South African',
-    'South Korean',
-    'Spanish',
-    'Sri Lankan',
-    'Sudanese',
-    'Swedish',
-    'Swiss',
-    'Syrian',
-    'Taiwanese',
-    'Tajik',
-    'Tanzanian',
-    'Thai',
-    'Togolese',
-    'Tunisian',
-    'Turkish',
-    'Turkmen',
-    'Ukrainian',
-    'Uruguayan',
-    'Uzbek',
-    'Venezuelan',
-    'Vietnamese',
-    'Welsh',
-    'Yemeni',
-    'Zambian',
-    'Zimbabwean',
-  ]
+  // Verificar si se alcanzó el límite o no tiene permiso
+  const isLimitReached = currentTotal >= maxExhibitors
+  const hasNoPermission = maxExhibitors === 0
+  const isDisabled = hasNoPermission || isLimitReached
 
   const [formData, setFormData] = useState({
     name: '',
     lastname: '',
     email: '',
     position: '',
-    nationality: '',
+    company: '',
   })
 
   const { userSession } = useSessionUser()
@@ -194,6 +36,7 @@ export function AddExhibitor({ onExhibitorAdded }) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm()
 
@@ -221,14 +64,16 @@ export function AddExhibitor({ onExhibitorAdded }) {
         notify(t('toast.success'), 'success')
         handleClose()
 
-        // Resetear formulario
-        setFormData({
+        // Resetear formulario completamente
+        const resetData = {
           name: '',
           lastname: '',
           email: '',
           position: '',
-          nationality: '',
-        })
+          company: '',
+        }
+        setFormData(resetData)
+        reset(resetData)
       } else {
         // Mostrar mensaje de error específico del servidor
         notify(data.message || t('toast.error'), 'error')
@@ -241,15 +86,41 @@ export function AddExhibitor({ onExhibitorAdded }) {
 
   return (
     <>
-      <button
-        className='group inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-indigo-500 via-blue-500 to-cyan-500 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition hover:scale-[1.01] focus:outline-none focus:ring-2 focus:ring-blue-400/60 focus:ring-offset-2 focus:ring-offset-slate-950'
-        onClick={handleOpen}
-      >
-        <span className='grid h-6 w-6 place-items-center rounded-lg bg-white/20 text-xs font-bold'>
-          +
-        </span>
-        <span>{t('cta.add')}</span>
-      </button>
+      <div className='group relative'>
+        {isDisabled && (
+          <div className='pointer-events-none absolute -top-12 right-0 z-10 whitespace-nowrap rounded-xl bg-gradient-to-r from-slate-800 to-slate-900 px-3 py-2 text-xs font-medium text-white opacity-0 shadow-lg transition-all duration-200 group-hover:opacity-100'>
+            {hasNoPermission ? (
+              <span>🔒 {t('limit.noPermission')}</span>
+            ) : (
+              <span>
+                ⚠️{' '}
+                {t('limit.reached', {
+                  current: currentTotal,
+                  max: maxExhibitors,
+                })}
+              </span>
+            )}
+          </div>
+        )}
+        <button
+          className={`inline-flex items-center gap-2 rounded-2xl px-4 py-3 text-sm font-semibold shadow-lg transition focus:outline-none ${
+            isDisabled
+              ? 'cursor-not-allowed bg-slate-700 text-slate-400 opacity-50'
+              : 'bg-gradient-to-r from-indigo-500 via-blue-500 to-cyan-500 text-white shadow-blue-500/30 hover:scale-[1.01] focus:ring-2 focus:ring-blue-400/60 focus:ring-offset-2 focus:ring-offset-slate-950'
+          }`}
+          onClick={isDisabled ? undefined : handleOpen}
+          disabled={isDisabled}
+        >
+          <span
+            className={`grid h-6 w-6 place-items-center rounded-lg text-xs font-bold ${
+              isDisabled ? 'bg-slate-600' : 'bg-white/20'
+            }`}
+          >
+            +
+          </span>
+          <span>{t('cta.add')}</span>
+        </button>
+      </div>
 
       {isOpen && (
         <div className='absolute inset-0 z-50 bg-slate-950/80 backdrop-blur-sm transition'>
@@ -371,29 +242,22 @@ export function AddExhibitor({ onExhibitorAdded }) {
 
                 <div className='space-y-2'>
                   <label className='text-sm font-semibold text-slate-200'>
-                    {t('form.nationality')}
+                    {t('form.company')}
                   </label>
-                  <select
-                    name='nationality'
-                    {...register('nationality', {
+                  <input
+                    type='text'
+                    name='company'
+                    {...register('company', {
                       required: t('form.errors.required'),
                       onChange: handleChange,
                     })}
-                    defaultValue={formData.nationality}
-                    className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white ring-0 transition focus:border-blue-400/60 focus:outline-none *:text-slate-900'
-                  >
-                    <option value='' disabled>
-                      {t('form.select')}
-                    </option>
-                    {nationalities.map((nation) => (
-                      <option key={nation} value={nation}>
-                        {nation}
-                      </option>
-                    ))}
-                  </select>
-                  {errors.nationality && (
+                    defaultValue={formData.company}
+                    className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                    placeholder={t('form.companyPlaceholder')}
+                  />
+                  {errors.company && (
                     <p className='text-sm text-rose-400'>
-                      {errors.nationality.message}
+                      {errors.company.message}
                     </p>
                   )}
                 </div>

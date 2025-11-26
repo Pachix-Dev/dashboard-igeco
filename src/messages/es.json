@@ -57,13 +57,23 @@
     "panel": "Panel",
     "title": "Expositores",
     "badge": "{count} activos",
-    "subtitle": "Administra expositores, credenciales y nacionalidades desde un panel limpio.",
+    "subtitle": "Administra expositores, credenciales y empresas desde un panel limpio.",
     "stat": {
       "label": "Expositores",
       "desc": "Total registrados"
     },
+    "stats": {
+      "registered": "Registrados",
+      "limit": "Límite total",
+      "remaining": "Disponibles",
+      "usage": "Uso"
+    },
     "cta": {
       "add": "Agregar expositor"
+    },
+    "limit": {
+      "noPermission": "Sin permiso para agregar expositores. Contacta a tu asesor de ventas.",
+      "reached": "Límite alcanzado ({current}/{max}). Contacta a tu asesor de ventas para aumentarlo."
     },
     "modal": {
       "title": "Nuevo expositor",
@@ -89,6 +99,8 @@
       "position": "Cargo",
       "positionPlaceholder": "Ej: Sales Manager",
       "nationality": "Nacionalidad",
+      "company": "Empresa",
+      "companyPlaceholder": "Ej: IGECO Mexico",
       "select": "Selecciona una opción",
       "errors": {
         "required": "Campo requerido",
@@ -98,10 +110,10 @@
     "list": {
       "label": "Listado",
       "title": "Expositores",
-      "desc": "Busca por nombre, correo o nacionalidad. Acciones rápidas a la derecha."
+      "desc": "Busca por nombre, correo o empresa. Acciones rápidas a la derecha."
     },
     "search": {
-      "placeholder": "Buscar expositor, correo o nacionalidad",
+      "placeholder": "Buscar expositor, correo o empresa",
       "inView": "En vista",
       "found": "{count} encontrados"
     },
@@ -109,7 +121,7 @@
       "exhibitor": "Expositor",
       "email": "Correo",
       "position": "Cargo",
-      "nationality": "Nacionalidad",
+      "company": "Empresa",
       "prints": "Impresiones",
       "actions": "Acciones",
       "noData": "Sin dato"
@@ -119,6 +131,33 @@
       "page": "Página {current} de {total}",
       "prev": "Anterior",
       "next": "Siguiente"
+    }
+  },
+  "ProfilePage": {
+    "header": {
+      "subtitle": "Mi Cuenta",
+      "title": "Perfil de Usuario",
+      "description": "Gestiona tu información personal y configuración de cuenta"
+    },
+    "roles": {
+      "admin": "Administrador",
+      "exhibitor": "Expositor",
+      "exhibitorPlus": "Expositor Plus"
+    },
+    "stats": {
+      "sessions": "Sesiones Máx.",
+      "exhibitors": "Expositores Máx.",
+      "event": "Evento"
+    },
+    "info": {
+      "email": "Correo Electrónico",
+      "verified": "Verificado",
+      "company": "Empresa",
+      "userId": "ID de Usuario"
+    },
+    "banner": {
+      "title": "Información",
+      "message": "Si necesitas actualizar tu información o tienes algún problema, contacta a tu asesor de ventas."
     }
   },
   "UsersPage": {
@@ -236,6 +275,20 @@
       "cancel": "Cancelar",
       "submit": "Guardar"
     },
+    "notes": {
+      "tooltip": "Agregar nota",
+      "title": "Notas del Lead",
+      "subtitle": "Agrega o edita información relevante",
+      "leadInfo": "Información del Lead",
+      "label": "Notas",
+      "placeholder": "Escribe aquí tus observaciones sobre este lead...",
+      "required": "Las notas son obligatorias",
+      "cancel": "Cancelar",
+      "save": "Guardar cambios",
+      "saving": "Guardando...",
+      "success": "Nota actualizada correctamente",
+      "error": "Error al actualizar la nota"
+    },
     "list": {
       "label": "Listado",
       "title": "Leads capturados",
@@ -344,6 +397,14 @@
     "passwordPlaceholder": "Mínimo 6 caracteres",
     "confirmPassword": "Confirmar contraseña",
     "confirmPasswordPlaceholder": "Repite tu contraseña",
+    "passwordRequirements": {
+      "title": "La contraseña debe contener:",
+      "minLength": "Mínimo 6 caracteres",
+      "uppercase": "Al menos una letra mayúscula (A-Z)",
+      "lowercase": "Al menos una letra minúscula (a-z)",
+      "number": "Al menos un número (0-9)",
+      "special": "Al menos un carácter especial (!@#$%...)"
+    },
     "event": "Evento",
     "selectEvent": "Selecciona un evento",
     "submit": "Crear cuenta",

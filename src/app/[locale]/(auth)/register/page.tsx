@@ -249,6 +249,38 @@ export default function Register() {
                   placeholder={t('passwordPlaceholder')}
                 />
               </div>
+              
+              {/* Requisitos de contraseña */}
+              <div className="mt-3 rounded-lg border border-blue-500 border-opacity-30 bg-blue-500 bg-opacity-10 p-3">
+                <p className="mb-2 flex items-center gap-2 text-xs font-semibold text-blue-300">
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  {t('passwordRequirements.title')}
+                </p>
+                <ul className="space-y-1 text-xs text-gray-300">
+                  <li className={`flex items-center gap-2 ${formData.password.length >= 6 ? 'text-green-400' : ''}`}>
+                    <span className={`text-lg ${formData.password.length >= 6 ? '✓' : '•'}`}></span>
+                    {t('passwordRequirements.minLength')}
+                  </li>
+                  <li className={`flex items-center gap-2 ${/[A-Z]/.test(formData.password) ? 'text-green-400' : ''}`}>
+                    <span className={`text-lg ${/[A-Z]/.test(formData.password) ? '✓' : '•'}`}></span>
+                    {t('passwordRequirements.uppercase')}
+                  </li>
+                  <li className={`flex items-center gap-2 ${/[a-z]/.test(formData.password) ? 'text-green-400' : ''}`}>
+                    <span className={`text-lg ${/[a-z]/.test(formData.password) ? '✓' : '•'}`}></span>
+                    {t('passwordRequirements.lowercase')}
+                  </li>
+                  <li className={`flex items-center gap-2 ${/[0-9]/.test(formData.password) ? 'text-green-400' : ''}`}>
+                    <span className={`text-lg ${/[0-9]/.test(formData.password) ? '✓' : '•'}`}></span>
+                    {t('passwordRequirements.number')}
+                  </li>
+                  <li className={`flex items-center gap-2 ${/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(formData.password) ? 'text-green-400' : ''}`}>
+                    <span className={`text-lg ${/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(formData.password) ? '✓' : '•'}`}></span>
+                    {t('passwordRequirements.special')}
+                  </li>
+                </ul>
+              </div>
             </div>
 
             <div className="group">

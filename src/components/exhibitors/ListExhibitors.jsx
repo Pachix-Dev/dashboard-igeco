@@ -18,7 +18,8 @@ export function ListExhibitors({ exhibitors, onExhibitorUpdated }) {
   const [filteredExhibitors, setFilteredExhibitors] = useState(exhibitors)
 
   useEffect(() => {
-    searchResults(searchTerm)
+    setFilteredExhibitors(exhibitors)
+    setSearchTerm('')
   }, [exhibitors])
 
   const searchResults = (query) => {
@@ -36,7 +37,7 @@ export function ListExhibitors({ exhibitors, onExhibitorUpdated }) {
         item.name?.toLowerCase().includes(lowerQuery) ||
         item.lastname?.toLowerCase().includes(lowerQuery) ||
         item.email?.toLowerCase().includes(lowerQuery) ||
-        item.nationality?.toLowerCase().includes(lowerQuery)
+        item.company?.toLowerCase().includes(lowerQuery)
     )
 
     setFilteredExhibitors(results)
@@ -124,7 +125,7 @@ export function ListExhibitors({ exhibitors, onExhibitorUpdated }) {
                 <th className='px-6 py-3'>{t('table.exhibitor')}</th>
                 <th className='px-6 py-3'>{t('table.email')}</th>
                 <th className='px-6 py-3'>{t('table.position')}</th>
-                <th className='px-6 py-3'>{t('table.nationality')}</th>
+                <th className='px-6 py-3'>{t('table.company')}</th>
                 {role === 'admin' && (
                   <th className='px-6 py-3'>{t('table.prints')}</th>
                 )}
@@ -163,8 +164,8 @@ export function ListExhibitors({ exhibitors, onExhibitorUpdated }) {
                     </td>
                     <td className='px-6 py-4'>
                       <span className='inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-100'>
-                        <span className='h-2 w-2 rounded-full bg-emerald-400'></span>
-                        {exhibitor.nationality || t('table.noData')}
+                        <span className='h-2 w-2 rounded-full bg-blue-400'></span>
+                        {exhibitor.company || t('table.noData')}
                       </span>
                     </td>
                     {role === 'admin' && (

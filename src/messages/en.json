@@ -129,13 +129,23 @@
     "panel": "Panel",
     "title": "Exhibitors",
     "badge": "{count} active",
-    "subtitle": "Manage exhibitors, credentials and nationalities from a clean panel.",
+    "subtitle": "Manage exhibitors, credentials and companies from a clean panel.",
     "stat": {
       "label": "Exhibitors",
       "desc": "Total registered"
     },
+    "stats": {
+      "registered": "Registered",
+      "limit": "Total limit",
+      "remaining": "Available",
+      "usage": "Usage"
+    },
     "cta": {
       "add": "Add exhibitor"
+    },
+    "limit": {
+      "noPermission": "No permission to add exhibitors. Contact your sales advisor.",
+      "reached": "Limit reached ({current}/{max}). Contact your sales advisor to increase it."
     },
     "modal": {
       "title": "New exhibitor",
@@ -160,6 +170,8 @@
       "position": "Position",
       "positionPlaceholder": "e.g. Sales Manager",
       "nationality": "Nationality",
+      "company": "Company",
+      "companyPlaceholder": "e.g. IGECO Mexico",
       "select": "Select an option",
       "errors": {
         "required": "Required field",
@@ -169,10 +181,10 @@
     "list": {
       "label": "Listing",
       "title": "Exhibitors",
-      "desc": "Search by name, email or nationality. Quick actions on the right."
+      "desc": "Search by name, email or company. Quick actions on the right."
     },
     "search": {
-      "placeholder": "Search exhibitor, email or nationality",
+      "placeholder": "Search exhibitor, email or company",
       "inView": "In view",
       "found": "{count} found"
     },
@@ -180,7 +192,7 @@
       "exhibitor": "Exhibitor",
       "email": "Email",
       "position": "Position",
-      "nationality": "Nationality",
+      "company": "Company",
       "prints": "Prints",
       "actions": "Actions",
       "noData": "No data"
@@ -222,6 +234,20 @@
       "cancel": "Cancel",
       "submit": "Save"
     },
+    "notes": {
+      "tooltip": "Add note",
+      "title": "Lead Notes",
+      "subtitle": "Add or edit relevant information",
+      "leadInfo": "Lead Information",
+      "label": "Notes",
+      "placeholder": "Write your observations about this lead here...",
+      "required": "Notes are required",
+      "cancel": "Cancel",
+      "save": "Save changes",
+      "saving": "Saving...",
+      "success": "Note updated successfully",
+      "error": "Failed to update note"
+    },
     "list": {
       "label": "Listing",
       "title": "Captured leads",
@@ -243,6 +269,33 @@
       "page": "Page {current} of {total}",
       "prev": "Previous",
       "next": "Next"
+    }
+  },
+  "ProfilePage": {
+    "header": {
+      "subtitle": "My Account",
+      "title": "User Profile",
+      "description": "Manage your personal information and account settings"
+    },
+    "roles": {
+      "admin": "Administrator",
+      "exhibitor": "Exhibitor",
+      "exhibitorPlus": "Exhibitor Plus"
+    },
+    "stats": {
+      "sessions": "Max Sessions",
+      "exhibitors": "Max Exhibitors",
+      "event": "Event"
+    },
+    "info": {
+      "email": "Email Address",
+      "verified": "Verified",
+      "company": "Company",
+      "userId": "User ID"
+    },
+    "banner": {
+      "title": "Information",
+      "message": "If you need to update your information or have any issues, please contact your sales advisor."
     }
   },
   "UsersPage": {
@@ -340,9 +393,17 @@
     "email": "Email",
     "emailPlaceholder": "example@email.com",
     "password": "Password",
-    "passwordPlaceholder": "At least 6 characters",
+    "passwordPlaceholder": "Minimum 6 characters",
     "confirmPassword": "Confirm password",
     "confirmPasswordPlaceholder": "Repeat your password",
+    "passwordRequirements": {
+      "title": "Password must contain:",
+      "minLength": "At least 6 characters",
+      "uppercase": "At least one uppercase letter (A-Z)",
+      "lowercase": "At least one lowercase letter (a-z)",
+      "number": "At least one number (0-9)",
+      "special": "At least one special character (!@#$%...)"
+    },
     "event": "Event",
     "selectEvent": "Select an event",
     "submit": "Create account",

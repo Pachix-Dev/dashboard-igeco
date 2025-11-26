@@ -9,12 +9,12 @@ interface ExhibitorData {
   lastname: string;
   email: string;
   position?: string;
-  nationality?: string;
+  company?: string;
 }
 
 export async function POST(req: Request) {
   try {
-    const { user_id, name, lastname, email, position, nationality } = await req.json() as ExhibitorData;
+    const { user_id, name, lastname, email, position, company } = await req.json() as ExhibitorData;
 
     // Validar campos requeridos
     if (!user_id || !name || !lastname || !email) {
@@ -28,13 +28,52 @@ export async function POST(req: Request) {
     const sanitizedName = sanitizeString(name, 100);
     const sanitizedLastname = sanitizeString(lastname, 100);
     const sanitizedPosition = position ? sanitizeString(position, 100) : null;
-    const sanitizedNationality = nationality ? sanitizeString(nationality, 50) : null;
+    const sanitizedCompany = company ? sanitizeString(company, 200) : null;
 
     // Validar formato de email
     if (!isValidEmail(email)) {
       return NextResponse.json(
         { message: 'El formato del email no es válido' },
         { status: 400 }
+      );
+    }
+
+    // Obtener información del usuario y verificar límite de expositores
+    const [users]: any = await db.query(
+      'SELECT maxexhibitors FROM users WHERE id = ?',
+      [user_id]
+    );
+
+    if (users.length === 0) {
+      return NextResponse.json(
+        { message: 'Usuario no encontrado' },
+        { status: 404 }
+      );
+    }
+
+    const maxExhibitors = users[0].maxexhibitors;
+
+    // Verificar si el usuario tiene permiso para agregar expositores
+    if (maxExhibitors === 0) {
+      return NextResponse.json(
+        { message: 'No tienes permiso para agregar expositores. Contacta al administrador para activar esta funcionalidad.' },
+        { status: 403 }
+      );
+    }
+
+    // Contar cuántos expositores tiene actualmente el usuario
+    const [countResult]: any = await db.query(
+      'SELECT COUNT(*) as total FROM exhibitors WHERE user_id = ?',
+      [user_id]
+    );
+
+    const currentTotal = countResult[0].total;
+
+    // Verificar si ya alcanzó el límite permitido
+    if (currentTotal >= maxExhibitors) {
+      return NextResponse.json(
+        { message: `Has alcanzado el límite de expositores permitidos (${currentTotal}/${maxExhibitors}). Contacta al administrador para aumentar tu límite.` },
+        { status: 403 }
       );
     }
 
@@ -58,8 +97,8 @@ export async function POST(req: Request) {
     }
     
     const [result] = await db.query(
-      'INSERT INTO exhibitors (user_id, name, lastname, email, position, nationality, uuid) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [user_id, sanitizedName, sanitizedLastname, email, sanitizedPosition, sanitizedNationality, uuid]
+      'INSERT INTO exhibitors (user_id, name, lastname, email, position, company, uuid) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      [user_id, sanitizedName, sanitizedLastname, email, sanitizedPosition, sanitizedCompany, uuid]
     ) as [InsertResult, any];
 
     // Retornar el exhibitor creado con su ID
@@ -70,7 +109,7 @@ export async function POST(req: Request) {
       lastname,
       email,
       position,
-      nationality,
+      company,
       uuid,
       impresiones: 0,
     };

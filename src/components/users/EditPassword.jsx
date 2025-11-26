@@ -8,8 +8,13 @@ export function EditPassword({ user }) {
   const locale = useLocale()
   const [showPassword, setShowPassword] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const handleOpen = () => setIsOpen(true)
-  const handleClose = () => setIsOpen(false)
+  const handleClose = () => {
+    setIsOpen(false)
+    setPassword('')
+    reset()
+  }
 
   const [password, setPassword] = useState('')
   const { notify } = useToaster()
@@ -17,54 +22,89 @@ export function EditPassword({ user }) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm()
 
   const handleUser = async () => {
-    const response = await fetch(`/api/users`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: user.id, password }),
-    })
-
-    if (response.ok) {
-      notify('User Edit successfully', 'success')
-      const send = await fetch('/api/send', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: user.name,
-          email: user.email,
-          password,
-          locale,
-        }),
+    setIsLoading(true)
+    try {
+      const response = await fetch(`/api/users`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: user.id, password }),
       })
-      const sendResponse = await send.json()
-      if (sendResponse.status) {
-        notify(sendResponse.message, 'success')
-      } else {
-        notify(sendResponse.message, 'error')
-      }
-    } else {
-      notify('Failed to edit user', 'error')
-    }
 
-    handleClose()
+      const data = await response.json()
+
+      if (response.ok) {
+        notify('Contraseña actualizada correctamente', 'success')
+
+        const send = await fetch('/api/send', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: user.name,
+            email: user.email,
+            password,
+            locale,
+          }),
+        })
+
+        const sendResponse = await send.json()
+        if (sendResponse.status) {
+          notify('Credenciales enviadas exitosamente', 'success')
+        } else {
+          notify(
+            sendResponse.message || 'Error al enviar credenciales',
+            'error'
+          )
+        }
+      } else {
+        notify(data.message || 'Error al actualizar contraseña', 'error')
+        if (data.errors) {
+          data.errors.forEach((err) => notify(err, 'error'))
+        }
+      }
+    } catch (error) {
+      notify('Error de conexión. Intenta nuevamente', 'error')
+    } finally {
+      setIsLoading(false)
+      handleClose()
+    }
   }
 
   return (
     <>
-      <div className='group relative flex justify-center'>
-        <span className='absolute top-[-5px] right-12 scale-0 transition-all rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100'>
-          📨 Enviar credenciales
-        </span>
+      {/* Botón trigger con tooltip mejorado */}
+      <div className='group relative inline-flex'>
+        <div className='absolute -top-10 right-0 scale-0 transition-all duration-200 rounded-xl bg-slate-800/95 backdrop-blur-sm px-3 py-2 text-xs font-medium text-white shadow-xl group-hover:scale-100 whitespace-nowrap z-50 border border-slate-700/50'>
+          <span className='flex items-center gap-2'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              fill='none'
+              viewBox='0 0 24 24'
+              strokeWidth={1.5}
+              stroke='currentColor'
+              className='w-4 h-4'
+            >
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75'
+              />
+            </svg>
+            Enviar credenciales
+          </span>
+          <div className='absolute -bottom-1 right-4 h-2 w-2 rotate-45 bg-slate-800/95 border-r border-b border-slate-700/50'></div>
+        </div>
         <button
           onClick={handleOpen}
-          className='h-6 w-6 rounded bg-transparent border-none text-slate-11 hover:bg-slate-5 cursor-pointer align-middle'
+          className='h-8 w-8 rounded-lg bg-transparent border border-slate-700/50 text-slate-400 hover:text-blue-400 hover:bg-slate-800/50 hover:border-blue-500/50 cursor-pointer transition-all duration-200 flex items-center justify-center'
           type='button'
-          aria-label='More actions'
+          aria-label='Enviar credenciales'
         >
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -72,7 +112,7 @@ export function EditPassword({ user }) {
             viewBox='0 0 24 24'
             strokeWidth={1.5}
             stroke='currentColor'
-            className='size-6'
+            className='w-4 h-4'
           >
             <path
               strokeLinecap='round'
@@ -82,40 +122,131 @@ export function EditPassword({ user }) {
           </svg>
         </button>
       </div>
+
+      {/* Modal mejorado */}
       {isOpen && (
-        <div className='fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-10'>
-          <div className='bg-[#05050a] p-6 rounded-lg shadow-lg w-96'>
-            <h2 className='text-xl font-semibold mb-4'>Send Credentials</h2>
-            <form onSubmit={handleSubmit(handleUser)}>
-              <div className='mb-4'>
-                <label className='block text-[#f1f7feb5]'>
-                  Enter New Password
+        <div className='fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex justify-center items-center z-50 p-4 animate-in fade-in duration-200'>
+          <div className='bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 border border-slate-700/50 rounded-2xl shadow-2xl w-full max-w-md transform transition-all animate-in zoom-in-95 duration-200'>
+            {/* Header */}
+            <div className='relative p-6 border-b border-slate-700/50'>
+              <div className='flex items-center gap-3 mb-2'>
+                <div className='p-2 rounded-xl bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border border-blue-500/30'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    strokeWidth={1.5}
+                    stroke='currentColor'
+                    className='w-5 h-5 text-blue-400'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      d='M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75'
+                    />
+                  </svg>
+                </div>
+                <div className='flex-1'>
+                  <h2 className='text-xl font-bold text-white'>
+                    Enviar Credenciales
+                  </h2>
+                  <p className='text-sm text-slate-400 mt-0.5'>
+                    Para: {user.email}
+                  </p>
+                </div>
+                <button
+                  onClick={handleClose}
+                  className='p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all duration-200'
+                  type='button'
+                  aria-label='Cerrar'
+                >
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    strokeWidth={2}
+                    stroke='currentColor'
+                    className='w-5 h-5'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      d='M6 18 18 6M6 6l12 12'
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {/* Body */}
+            <form onSubmit={handleSubmit(handleUser)} className='p-6 space-y-5'>
+              {/* Info box */}
+              <div className='p-4 rounded-xl bg-blue-500/10 border border-blue-500/20'>
+                <div className='flex gap-3'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    strokeWidth={1.5}
+                    stroke='currentColor'
+                    className='w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      d='m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z'
+                    />
+                  </svg>
+                  <div className='flex-1'>
+                    <p className='text-sm text-blue-200 font-medium mb-1'>
+                      Requisitos de seguridad
+                    </p>
+                    <ul className='text-xs text-blue-300/80 space-y-1'>
+                      <li>• Mínimo 6 caracteres</li>
+                      <li>• Al menos una mayúscula y una minúscula</li>
+                      <li>• Al menos un número y un carácter especial</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              {/* Password input */}
+              <div className='space-y-2'>
+                <label
+                  htmlFor='password'
+                  className='block text-sm font-medium text-slate-300'
+                >
+                  Nueva Contraseña
                 </label>
                 <div className='relative'>
                   <input
                     id='password'
                     type={showPassword ? 'text' : 'password'}
                     {...register('password', {
-                      required: 'Password is required',
+                      required: 'La contraseña es requerida',
                       onChange: (e) => setPassword(e.target.value),
                       minLength: {
                         value: 6,
-                        message: 'Password must be at least 6 characters',
+                        message: 'Mínimo 6 caracteres',
                       },
                       pattern: {
-                        value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
-                        message: 'Password must contain letters and numbers',
+                        value:
+                          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
+                        message: 'Debe cumplir los requisitos de seguridad',
                       },
                     })}
                     defaultValue={password}
-                    className='w-full mt-2 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-300 bg-[#16171c]'
-                    placeholder='••••••••••••'
-                    autoComplete='off'
+                    className='w-full px-4 py-3 pr-12 bg-slate-800/50 border border-slate-700/50 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-200'
+                    placeholder='Ingresa una contraseña segura'
+                    autoComplete='new-password'
                   />
                   <button
                     type='button'
                     onClick={() => setShowPassword(!showPassword)}
-                    className='absolute inset-y-0 end-0 flex items-center z-20 px-3 cursor-pointer text-gray-400 rounded-e-md focus:outline-none focus:text-blue-600 dark:text-neutral-600 dark:focus:text-blue-500'
+                    className='absolute right-3 top-1/2 -translate-y-1/2 p-2 text-slate-400 hover:text-white transition-colors duration-200 rounded-lg hover:bg-slate-700/50'
+                    aria-label={
+                      showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'
+                    }
                   >
                     {showPassword ? (
                       <svg
@@ -124,7 +255,7 @@ export function EditPassword({ user }) {
                         viewBox='0 0 24 24'
                         strokeWidth={1.5}
                         stroke='currentColor'
-                        className='size-6'
+                        className='w-5 h-5'
                       >
                         <path
                           strokeLinecap='round'
@@ -144,7 +275,7 @@ export function EditPassword({ user }) {
                         viewBox='0 0 24 24'
                         strokeWidth={1.5}
                         stroke='currentColor'
-                        className='size-6'
+                        className='w-5 h-5'
                       >
                         <path
                           strokeLinecap='round'
@@ -156,24 +287,84 @@ export function EditPassword({ user }) {
                   </button>
                 </div>
                 {errors.password && (
-                  <p className='text-red-500 text-sm mt-1'>
-                    {errors.password.message}
-                  </p>
+                  <div className='flex items-center gap-2 text-red-400 text-sm mt-2 p-2 rounded-lg bg-red-500/10 border border-red-500/20'>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                      strokeWidth={1.5}
+                      stroke='currentColor'
+                      className='w-4 h-4 flex-shrink-0'
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        d='M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z'
+                      />
+                    </svg>
+                    <span>{errors.password.message}</span>
+                  </div>
                 )}
               </div>
-              <div className='flex justify-end'>
+
+              {/* Footer buttons */}
+              <div className='flex gap-3 pt-2'>
                 <button
                   type='button'
                   onClick={handleClose}
-                  className='mr-2 px-4 py-2 hover:bg-[#d9edfe25] text-white rounded-lg'
+                  disabled={isLoading}
+                  className='flex-1 px-4 py-3 text-sm font-medium text-slate-300 hover:text-white bg-slate-800/50 hover:bg-slate-800 border border-slate-700/50 hover:border-slate-600 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed'
                 >
-                  Cancel
+                  Cancelar
                 </button>
                 <button
                   type='submit'
-                  className='px-4 py-2 bg-[#ffffffe6] hover:bg-[#ffffff] opacity-60 hover:opacity-100 text-black rounded-lg'
+                  disabled={isLoading}
+                  className='flex-1 px-4 py-3 text-sm font-semibold text-white bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-600 hover:from-blue-600 hover:via-cyan-600 hover:to-blue-700 rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2'
                 >
-                  Send
+                  {isLoading ? (
+                    <>
+                      <svg
+                        className='animate-spin h-4 w-4'
+                        xmlns='http://www.w3.org/2000/svg'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                      >
+                        <circle
+                          className='opacity-25'
+                          cx='12'
+                          cy='12'
+                          r='10'
+                          stroke='currentColor'
+                          strokeWidth='4'
+                        ></circle>
+                        <path
+                          className='opacity-75'
+                          fill='currentColor'
+                          d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                        ></path>
+                      </svg>
+                      Enviando...
+                    </>
+                  ) : (
+                    <>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        strokeWidth={1.5}
+                        stroke='currentColor'
+                        className='w-4 h-4'
+                      >
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          d='M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5'
+                        />
+                      </svg>
+                      Enviar Credenciales
+                    </>
+                  )}
                 </button>
               </div>
             </form>
