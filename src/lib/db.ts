@@ -3,8 +3,6 @@ import { User, Exhibitor, Lead, Ponentes, Escenarios, Dia } from './definitions'
 import { cookies } from 'next/headers';
 import { jwtVerify } from 'jose';
 
-
-
 const db = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
@@ -152,18 +150,23 @@ export async function fetchRecordsByUserId(): Promise<Lead[]> {
 
         // Fetch from `users` table
         const [users]: [any[], any] = await db_re_eco.query(
-            `SELECT * FROM users WHERE uuid IN (${placeholders})`,
+            `SELECT * FROM users_2026 WHERE uuid IN (${placeholders})`,
             limitedRecordIds
         );
 
         // Fetch from `users_ecomondo` table
         const [usersEcomondo]: [any[], any] = await db_re_eco.query(
-            `SELECT * FROM users_ecomondo WHERE uuid IN (${placeholders})`,
+            `SELECT * FROM users_ecomondo_2026 WHERE uuid IN (${placeholders})`,
+            limitedRecordIds
+        );
+
+        const [usersExhibitors]: [any[], any] = await db.query(
+            `SELECT * FROM exhibitors WHERE uuid IN (${placeholders})`,
             limitedRecordIds
         );
 
         // Merge both results into one array
-        const records = [...users, ...usersEcomondo];
+        const records = [...users, ...usersEcomondo, ...usersExhibitors];
 
         // Add notes to the records
         const recordsWithNotes = records.map(record => {

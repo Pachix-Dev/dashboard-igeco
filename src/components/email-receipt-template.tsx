@@ -153,13 +153,26 @@ export default function ReceiptEmail({
         <Container style={container}>
           {/* Logo */}
           <Section style={logoSection}>
-            <Img
-              src="https://igeco.mx/wp-content/uploads/2023/03/logo-igeco-2023-1.png"
-              width="180"
-              height="60"
-              alt="IGECO Logo"
-              style={logo}
-            />
+            <Row>
+                <Column align="right">
+                  <Img
+                    src="https://dashboard.igeco.mx/img/italian.png"
+                    width="40"
+                    height="41"
+                    alt="IEG"
+                    
+                  />
+                </Column>                
+                <Column align="left">
+                  <Img
+                    src="https://dashboard.igeco.mx/img/deutschemesselogo.webp"
+                    width="40"
+                    height="40"
+                    alt="Deutsche Messe"                    
+                  />
+                </Column>
+              </Row>            
+            
           </Section>
 
           {/* Header */}
