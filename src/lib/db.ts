@@ -78,7 +78,7 @@ export async function fetchExhibitors(): Promise<Exhibitor[]> {
     const userId = payload.id;
     try {
         const query = payload.role === 'admin' 
-            ? 'SELECT e.*, u.name AS company FROM exhibitors e LEFT JOIN users u ON e.user_id = u.id' 
+            ? 'SELECT * FROM exhibitors' 
             : 'SELECT * FROM exhibitors WHERE user_id = ?';    
         const params = payload.role === 'admin' ? [] : [userId];
         const [rows] = await db.query(query, params);

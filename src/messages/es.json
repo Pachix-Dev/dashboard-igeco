@@ -73,7 +73,7 @@
     },
     "limit": {
       "noPermission": "Sin permiso para agregar expositores. Contacta a tu asesor de ventas.",
-      "reached": "Límite alcanzado ({current}/{max}). Contacta a tu asesor de ventas para aumentarlo."
+      "reached": "Límite alcanzado ({current}/{max}), compra más gafetes adicionales."
     },
     "buy": {
       "button": "Comprar más espacios",

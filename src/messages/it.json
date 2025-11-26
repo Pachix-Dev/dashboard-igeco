@@ -102,7 +102,7 @@
     },
     "limit": {
       "noPermission": "Nessun permesso per aggiungere espositori. Contatta il tuo consulente di vendita.",
-      "reached": "Limite raggiunto ({current}/{max}). Contatta il tuo consulente di vendita per aumentarlo."
+      "reached": "Limite raggiunto ({current}/{max}), acquista più spazi aggiuntivi."
     },
     "buy": {
       "button": "Acquista più spazi",

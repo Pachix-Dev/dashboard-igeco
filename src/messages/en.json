@@ -174,7 +174,7 @@
     },
     "limit": {
       "noPermission": "No permission to add exhibitors. Contact your sales advisor.",
-      "reached": "Limit reached ({current}/{max}). Contact your sales advisor to increase it."
+      "reached": "Limit reached ({current}/{max}), buy more additional badges."
     },
     "buy": {
       "button": "Buy more slots",
