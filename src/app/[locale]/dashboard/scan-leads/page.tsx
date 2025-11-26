@@ -1,6 +1,4 @@
-import {ExportExcel} from 'app/components/scannleads/ExportExcel';
-import {FetchLeads} from 'app/components/scannleads/FetchLeads';
-import {QrScanner} from 'app/components/scannleads/QrScanner';
+import {ScanLeadsClient} from 'app/components/scannleads/ScanLeadsClient';
 import {Lead} from 'app/lib/definitions';
 import {fetchRecordsByUserId} from 'app/lib/db';
 import {getTranslations} from 'next-intl/server';
@@ -30,16 +28,13 @@ export default async function ScanLeads({params}: {params: Promise<{locale: stri
             <p className="text-sm text-slate-400">{t('subtitle')}</p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">            
-            <ExportExcel leads={leads} />
-            <QrScanner />
-            
+          <div className="flex flex-wrap items-center gap-3">
+            <ScanLeadsClient initialLeads={leads} />
           </div>
         </header>
 
-        <div className="rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl shadow-blue-500/5 backdrop-blur">
-          <FetchLeads leads={leads} />
-        </div>
+        {/* FetchLeads is now rendered inside ScanLeadsClient (client-side wrapper) */}
+        <div />
       </section>
     </main>
   );

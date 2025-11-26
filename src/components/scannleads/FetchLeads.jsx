@@ -1,14 +1,17 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import { AddNotes } from './AddNotes'
 
-export function FetchLeads({ leads }) {
+export function FetchLeads({ leads, onLeadsChange }) {
   const t = useTranslations('ScanLeadsPage')
   const [currentPage, setCurrentPage] = useState(1)
   const [searchTerm, setSearchTerm] = useState('')
   const [leadsData, setLeadsData] = useState(leads)
+  useEffect(() => {
+    setLeadsData(leads)
+  }, [leads])
   const itemsPerPage = 10
 
   const handleUpdateNote = (uuid, newNotes) => {
@@ -17,6 +20,9 @@ export function FetchLeads({ leads }) {
         lead.uuid === uuid ? { ...lead, notes: newNotes } : lead
       )
     )
+    if (typeof onLeadsChange === 'function') {
+      onLeadsChange(uuid, newNotes)
+    }
   }
 
   const filteredLeads = leadsData.filter((lead) =>
