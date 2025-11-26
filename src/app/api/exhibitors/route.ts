@@ -10,16 +10,17 @@ interface ExhibitorData {
   email: string;
   position?: string;
   company?: string;
+  phone?: string;
 }
 
 export async function POST(req: Request) {
   try {
-    const { user_id, name, lastname, email, position, company } = await req.json() as ExhibitorData;
+    const { user_id, name, lastname, email, position, company, phone } = await req.json() as ExhibitorData;
 
     // Validar campos requeridos
-    if (!user_id || !name || !lastname || !email) {
+    if (!user_id || !name || !lastname || !email || !phone) {
       return NextResponse.json(
-        { message: 'Los campos nombre, apellido y email son requeridos' },
+        { message: 'Los campos nombre, apellido, email y teléfono son requeridos' },
         { status: 400 }
       );
     }
@@ -29,6 +30,7 @@ export async function POST(req: Request) {
     const sanitizedLastname = sanitizeString(lastname, 100);
     const sanitizedPosition = position ? sanitizeString(position, 100) : null;
     const sanitizedCompany = company ? sanitizeString(company, 200) : null;
+    const sanitizedPhone = phone ? sanitizeString(phone, 20) : null;
 
     // Validar formato de email
     if (!isValidEmail(email)) {
@@ -97,8 +99,8 @@ export async function POST(req: Request) {
     }
     
     const [result] = await db.query(
-      'INSERT INTO exhibitors (user_id, name, lastname, email, position, company, uuid) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [user_id, sanitizedName, sanitizedLastname, email, sanitizedPosition, sanitizedCompany, uuid]
+      'INSERT INTO exhibitors (user_id, name, lastname, email, position, company, phone, uuid) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+      [user_id, sanitizedName, sanitizedLastname, email, sanitizedPosition, sanitizedCompany, sanitizedPhone, uuid]
     ) as [InsertResult, any];
 
     // Retornar el exhibitor creado con su ID
@@ -110,6 +112,7 @@ export async function POST(req: Request) {
       email,
       position,
       company,
+      phone,
       uuid,
       impresiones: 0,
     };
