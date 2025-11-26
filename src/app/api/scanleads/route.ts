@@ -25,15 +25,15 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: 'UUID inválido' }, { status: 400 });
     }
 
-    const [existSession] = await db.query(
+    /*const [existSession] = await db.query(
       'SELECT * FROM user_sessions WHERE user_id = ? AND session_token = ?',
       [user_id, token]
     ) as [DbRow[], any];
 
     if (existSession.length === 0) {
       return NextResponse.json({ message: 'Superaste el limite de sesiones / no tienes sesión' }, { status: 401 });
-    }
-    
+    }*/
+
     // Search in `users` table first, then `users_ecomondo`, then `exhibitors`.
     // Try each source sequentially and only return 404 if none match.
     let [existingRecord] = await db_re_eco.query('SELECT * FROM users_2026 WHERE uuid = ? LIMIT 1', [uuid]) as [DbRow[], any];
