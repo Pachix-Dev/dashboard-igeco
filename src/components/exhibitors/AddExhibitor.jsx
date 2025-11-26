@@ -125,7 +125,7 @@ export function AddExhibitor({
       </div>
 
       {isOpen && (
-        <div className='absolute inset-0 z-50 bg-slate-950/80 backdrop-blur-sm transition'>
+        <div className='absolute inset-0 z-50 bg-slate-950/80 backdrop-blur-sm transition '>
           <div className='flex md:h-full items-center justify-center px-4'>
             <div className='w-full max-w-3xl rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 p-4 shadow-2xl shadow-blue-500/20'>
               <div className='mb-6 flex items-start justify-between gap-4'>

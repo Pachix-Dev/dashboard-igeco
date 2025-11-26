@@ -138,7 +138,7 @@ export function AddUser({ onUserAdded }) {
       </button>
 
       {isOpen && (
-        <div className='fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm transition'>
+        <div className='absolute inset-0 z-50 bg-slate-950/80 backdrop-blur-sm transition'>
           <div className='flex min-h-full items-center justify-center px-4 py-10'>
             <div className='relative w-full max-w-3xl rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 p-8 shadow-2xl shadow-blue-500/20'>
               {isLoading && <LoadingOverlay message='Creando usuario...' />}

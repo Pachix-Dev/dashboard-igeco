@@ -94,7 +94,6 @@ export function FetchLeads({ leads, onLeadsChange }) {
             <thead className='bg-white/5 text-left text-xs font-semibold uppercase tracking-wide text-slate-300'>
               <tr>
                 <th className='px-4 py-3'>{t('table.name')}</th>
-                <th className='px-4 py-3'>{t('table.nationality')}</th>
                 <th className='px-4 py-3'>{t('table.company')}</th>
                 <th className='px-4 py-3'>{t('table.position')}</th>
                 <th className='px-4 py-3'>{t('table.phone')}</th>
@@ -122,9 +121,6 @@ export function FetchLeads({ leads, onLeadsChange }) {
                         {lead.name} {lead.paternSurname} {lead.maternSurname}
                       </div>
                       <p className='text-xs text-slate-400'>{lead.email}</p>
-                    </td>
-                    <td className='px-4 py-3 text-sm text-slate-200'>
-                      {lead.nacionality}
                     </td>
                     <td className='px-4 py-3 text-sm text-slate-200'>
                       {lead.company}
