@@ -33,16 +33,21 @@ export async function POST(req: Request) {
     if (existSession.length === 0) {
       return NextResponse.json({ message: 'Superaste el limite de sesiones / no tienes sesión' }, { status: 401 });
     }
-    // Search in `users` table first
-    let [existingRecord] = await db_re_eco.query('SELECT * FROM users WHERE uuid = ? LIMIT 1', [uuid]) as [DbRow[], any];
+    
+    // Search in `users` table first, then `users_ecomondo`, then `exhibitors`.
+    // Try each source sequentially and only return 404 if none match.
+    let [existingRecord] = await db_re_eco.query('SELECT * FROM users_2026 WHERE uuid = ? LIMIT 1', [uuid]) as [DbRow[], any];
 
-    // If not found, search in `users_ecomondo`
     if (existingRecord.length === 0) {
-      [existingRecord] = await db_re_eco.query('SELECT * FROM users_ecomondo WHERE uuid = ? LIMIT 1', [uuid]) as [DbRow[], any];
-      
-      if (existingRecord.length === 0) {
-        return NextResponse.json({ message: 'Record not found' }, { status: 404 });
-      }
+      [existingRecord] = await db_re_eco.query('SELECT * FROM users_ecomondo_2026 WHERE uuid = ? LIMIT 1', [uuid]) as [DbRow[], any];
+    }
+
+    if (existingRecord.length === 0) {
+      [existingRecord] = await db.query('SELECT * FROM exhibitors WHERE uuid = ? LIMIT 1', [uuid]) as [DbRow[], any];
+    }
+
+    if (existingRecord.length === 0) {
+      return NextResponse.json({ message: 'Record not found' }, { status: 404 });
     }
 
     const record = existingRecord[0];
