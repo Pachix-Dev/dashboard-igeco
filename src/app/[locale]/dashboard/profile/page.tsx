@@ -2,6 +2,7 @@
 
 import { useSessionUser } from "app/store/session-user";
 import { useTranslations } from "next-intl";
+import { useEffect, useState } from 'react';
 
 export default function Profile() {
   const { userSession } = useSessionUser();
@@ -39,6 +40,25 @@ export default function Profile() {
   };
 
   const currentRole = roleConfig[userSession?.role as keyof typeof roleConfig] || roleConfig.exhibitor;
+
+  const [dbCounts, setDbCounts] = useState<{ totalUsers: number; percentage: number; totalStudents: number; goal: number } | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    async function loadCounts() {
+      if (userSession?.role !== 'admin') return;
+      try {
+        const res = await fetch('/api/dbcounts');
+        if (!res.ok) return;
+        const data = await res.json();
+        if (mounted) setDbCounts(data);
+      } catch (err) {
+        console.error('Error fetching db counts', err);
+      }
+    }
+    loadCounts();
+    return () => { mounted = false; };
+  }, [userSession?.role]);
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50">
@@ -94,6 +114,26 @@ export default function Profile() {
               </div>
             </div>
 
+            {/* DB totals - admin only */}
+            {userSession?.role === 'admin' && dbCounts && (
+              <div className="mt-6 p-4 rounded-xl bg-slate-800/50 border border-slate-700/50">
+                <h3 className="text-xl text-slate-400 mb-3">Registros globales</h3>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                  <div className="flex-1">
+                    <p className="text-6xl font-bold text-white">{dbCounts.totalUsers.toLocaleString()}</p>
+                    <p className="text-xs text-slate-400 font-bold">Total registros visitantes (RE+ MEXICO + ECOMONDO)</p>
+                  </div>                  
+                  <div className="sm:flex-1">
+                    <p className="text-sm text-white mb-2">Progreso hacia meta ({dbCounts.goal.toLocaleString()})</p>
+                    <div className="w-full bg-slate-700 rounded-full h-3 overflow-hidden">
+                      <div className="h-3 bg-emerald-400" style={{ width: `${Math.min(100, dbCounts.percentage)}%` }} />
+                    </div>
+                    <p className="text-2xl text-white mt-2">{dbCounts.percentage}% alcanzado</p>
+                  </div>
+                </div>                
+              </div>
+            )}
+
             {/* Stats cards */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
               <div className="p-4 rounded-xl bg-slate-800/50 border border-slate-700/50">
@@ -138,6 +178,8 @@ export default function Profile() {
                 </div>
               </div>
             </div>
+
+            
 
             {/* Info sections */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-6">
