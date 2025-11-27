@@ -1,7 +1,7 @@
 'use client';
 
 import {useLocale, useTranslations} from 'next-intl';
-import {useRouter} from 'app/i18n/routing';
+import {useRouter} from '@/i18n/routing';
 import {useState} from 'react';
 import Link from 'next/link';
 

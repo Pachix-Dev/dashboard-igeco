@@ -1,6 +1,6 @@
 import type {Metadata} from 'next';
 import './globals.css';
-import {defaultLocale} from 'app/i18n/routing';
+import {defaultLocale} from '@/i18n/routing';
 
 export const metadata: Metadata = {
   title: 'IGECO | Dashboard',

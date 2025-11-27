@@ -1,28 +1,17 @@
-import {getTranslations} from 'next-intl/server';
-import {AddEscenario} from 'app/components/programa/AddEscenario';
-import {Adddias} from 'app/components/programa/Adddias';
-import {SelectRelacion} from 'app/components/programa/SelectRelacion';
-import {fetchEscenarios, fetchDias} from 'app/lib/db';
+import { getTranslations } from 'next-intl/server'
+import { ProgramaClient } from '@/components/programa/ProgramaClient'
 
-export default async function Escenarios({
+export default async function ProgramaPage({
   params
 }: {
-  params: Promise<{locale: string}>;
+  params: Promise<{ locale: string }>
 }) {
-  const {locale} = await params;
-  const t = await getTranslations({locale, namespace: 'Exhibitors'});
-
-  const escenarios = await fetchEscenarios();
-  const dias = await fetchDias();
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'ProgramaPage' })
 
   return (
-    <section className="container mx-auto grid w-full max-w-full gap-10 md:max-w-5xl">
-      <div className="flex items-center justify-between gap-20">
-        <h1 className="text-center text-2xl font-extrabold">{t('heading')}</h1>
-      </div>
-      <AddEscenario />
-      <Adddias />
-      <SelectRelacion escenarios={escenarios} dias={dias} />
+    <section className='container mx-auto w-full max-w-7xl space-y-6 px-4 py-6'>
+      <ProgramaClient />
     </section>
-  );
+  )
 }

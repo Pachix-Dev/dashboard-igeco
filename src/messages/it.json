@@ -273,8 +273,10 @@
       "error": "Non è stato possibile creare l'utente"
     },
     "form": {
-      "name": "Nome dell'azienda",
-      "namePlaceholder": "Es: IGECO Team",
+      "name": "Nome completo",
+      "namePlaceholder": "Es: Mario Rossi",
+      "company": "Azienda",
+      "companyPlaceholder": "Es: IGECO Mexico",
       "email": "Email",
       "emailPlaceholder": "email@azienda.com",
       "password": "Password",
@@ -285,6 +287,8 @@
       "event": "Evento",
       "select": "Seleziona un'opzione",
       "roles": {
+        "admin": "Amministratore",
+        "editor": "Editor",
         "exhibitor": "Espositore",
         "exhibitorplus": "Espositore + Scanner"
       },
@@ -296,12 +300,12 @@
         "required": "Campo obbligatorio",
         "email": "Formato email non valido",
         "passwordLength": "La password deve avere almeno 6 caratteri",
-        "passwordPattern": "La password deve includere lettere e numeri",
+        "passwordPattern": "La password deve includere  1 maiuscola, 1 minuscola, 1 numero e 1 simbolo",
         "number": "Solo numeri consentiti",
-        "sessionsMin": "Le sessioni devono essere almeno 2",
-        "sessionsMax": "Le sessioni massime sono 10",
-        "exhibitorsMin": "Gli espositori devono essere almeno 2",
-        "exhibitorsMax": "Gli espositori massimi sono 10"
+        "sessionsMin": "Le sessioni devono essere almeno 1",
+        "sessionsMax": "Le sessioni massime sono 100",
+        "exhibitorsMin": "Gli espositori devono essere almeno 1",
+        "exhibitorsMax": "Gli espositori massimi sono 100"
       }
     },
     "list": {
@@ -535,6 +539,173 @@
       "invalidToken": "Token non valido o mancante",
       "passwordMismatch": "Le password non corrispondono",
       "serverError": "Errore del server. Riprova più tardi."
+    }
+  },
+  "ProgramaPage": {
+    "panel": "Pannello",
+    "title": "Programma Conferenze",
+    "badge": "{count} attivo",
+    "subtitle": "Gestisci scenari, giorni, conferenze e relatori da un pannello unificato.",
+    "tabs": {
+      "escenarios": "Scenari",
+      "dias": "Giorni",
+      "conferencias": "Conferenze",
+      "vista": "Vista Completa"
+    },
+    "escenarios": {
+      "title": "Scenari",
+      "subtitle": "Spazi dove si svolgono le conferenze",
+      "add": "Aggiungi Scenario",
+      "edit": "Modifica Scenario",
+      "delete": "Elimina Scenario",
+      "form": {
+        "name": "Nome dello scenario",
+        "namePlaceholder": "Es: Sala Principale",
+        "description": "Descrizione",
+        "descriptionPlaceholder": "Breve descrizione dello spazio...",
+        "location": "Ubicazione",
+        "locationPlaceholder": "Es: Piano 1, Ala Nord",
+        "capacity": "Capacità",
+        "capacityPlaceholder": "Numero di persone",
+        "errors": {
+          "required": "Campo obbligatorio",
+          "number": "Deve essere un numero"
+        }
+      },
+      "table": {
+        "noData": "Nessuno scenario configurato"
+      },
+      "toast": {
+        "success": "Scenario salvato correttamente",
+        "error": "Errore nel salvataggio dello scenario",
+        "deleteSuccess": "Scenario eliminato",
+        "deleteError": "Errore nell'eliminazione"
+      }
+    },
+    "dias": {
+      "title": "Giorni del Programma",
+      "subtitle": "Date delle attività per scenario",
+      "add": "Aggiungi Giorno",
+      "edit": "Modifica Giorno",
+      "delete": "Elimina Giorno",
+      "form": {
+        "escenario": "Scenario",
+        "selectEscenario": "Seleziona uno scenario",
+        "date": "Data",
+        "name": "Nome del giorno",
+        "namePlaceholder": "Es: Giorno 1 - Apertura",
+        "description": "Descrizione",
+        "descriptionPlaceholder": "Descrizione del giorno...",
+        "errors": {
+          "required": "Campo obbligatorio",
+          "duplicate": "Questo giorno esiste già per lo scenario"
+        }
+      },
+      "filters": {
+        "allEscenarios": "Tutti gli scenari"
+      },
+      "table": {
+        "date": "Data",
+        "name": "Nome",
+        "escenario": "Scenario",
+        "actions": "Azioni",
+        "noData": "Nessun giorno configurato"
+      },
+      "toast": {
+        "success": "Giorno salvato correttamente",
+        "error": "Errore nel salvataggio del giorno",
+        "deleteSuccess": "Giorno eliminato",
+        "deleteError": "Errore nell'eliminazione"
+      }
+    },
+    "conferencias": {
+      "title": "Conferenze",
+      "subtitle": "Sessioni e attività del programma",
+      "add": "Aggiungi Conferenza",
+      "edit": "Modifica Conferenza",
+      "delete": "Elimina Conferenza",
+      "filters": {
+        "allEscenarios": "Tutti gli scenari",
+        "allDias": "Tutti i giorni"
+      },
+      "table": {
+        "noData": "Nessuna conferenza configurata",
+        "ponentes": "relatori"
+      },
+      "form": {
+        "dia": "Giorno",
+        "selectDia": "Seleziona un giorno",
+        "title": "Titolo",
+        "titlePlaceholder": "Es: Innovazione nelle Energie Rinnovabili",
+        "description": "Descrizione",
+        "descriptionPlaceholder": "Descrizione dettagliata della conferenza...",
+        "startTime": "Ora inizio",
+        "endTime": "Ora fine",
+        "type": "Tipo",
+        "types": {
+          "presentation": "Presentazione",
+          "keynote": "Conferenza Magistrale",
+          "panel": "Panel",
+          "workshop": "Workshop",
+          "networking": "Networking",
+          "other": "Altro"
+        },
+        "room": "Sala",
+        "roomPlaceholder": "Es: Sala A",
+        "capacity": "Capacità",
+        "capacityPlaceholder": "Numero di persone",
+        "ponentes": {
+          "label": "Relatori",
+          "add": "Aggiungi Relatore",
+          "noData": "Nessun relatore aggiunto",
+          "selectPonente": "Seleziona un relatore",
+          "order": "Ordine",
+          "remove": "Elimina",
+          "roles": {
+            "speaker": "Relatore",
+            "moderator": "Moderatore",
+            "panelist": "Panelista",
+            "guest": "Ospite"
+          }
+        },
+        "errors": {
+          "required": "Campo obbligatorio"
+        }
+      },
+      "toast": {
+        "success": "Conferenza salvata correttamente",
+        "error": "Errore nel salvataggio della conferenza",
+        "deleteSuccess": "Conferenza eliminata",
+        "deleteError": "Errore nell'eliminazione"
+      }
+    },
+    "vista": {
+      "title": "Programma Completo",
+      "subtitle": "Vista generale del programma conferenze",
+      "loading": "Caricamento programma...",
+      "capacity": "Capacità",
+      "conferencesCount": "conferenze",
+      "stats": {
+        "escenarios": "Scenari",
+        "dias": "Giorni",
+        "conferencias": "Conferenze",
+        "ponentes": "Relatori"
+      },
+      "noData": "Nessun programma configurato",
+      "emptyDay": "Nessuna conferenza programmata"
+    },
+    "actions": {
+      "close": "Chiudi",
+      "cancel": "Annulla",
+      "save": "Salva",
+      "saving": "Salvataggio...",
+      "edit": "Modifica",
+      "delete": "Elimina",
+      "view": "Visualizza"
+    },
+    "delete": {
+      "title": "Conferma eliminazione",
+      "message": "Sei sicuro di voler eliminare questo elemento?"
     }
   }
 }

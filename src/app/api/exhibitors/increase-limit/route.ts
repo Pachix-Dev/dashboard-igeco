@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
-import db from '../../../../lib/db';
-import ReceiptEmail from '../../../../components/email-receipt-template';
+import db from '@/lib/db';
+import ReceiptEmail from '@/components/email-receipt-template';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 

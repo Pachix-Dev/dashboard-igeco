@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import db from '../../../lib/db';
+import db from '@/lib/db';
 import bcrypt from 'bcryptjs';
-import { isValidEmail, validateStrongPassword, sanitizeString, isValidRole } from '../../../lib/validation';
+import { isValidEmail, validateStrongPassword, sanitizeString, isValidRole } from '@/lib/validation';
 
 interface DbRow {
   [key: string]: any;

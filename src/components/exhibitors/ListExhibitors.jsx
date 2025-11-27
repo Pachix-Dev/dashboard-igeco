@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import { EditExhibitor } from '../exhibitors/EditExhibitor'
 import { QrPrinter } from '../exhibitors/QrPrinter'
-import { useSessionUser } from 'app/store/session-user'
+import { useSessionUser } from '@/store/session-user'
 
 export function ListExhibitors({ exhibitors, onExhibitorUpdated }) {
   const t = useTranslations('ExhibitorsPage')

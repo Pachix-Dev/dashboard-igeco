@@ -1,7 +1,7 @@
 'use client';
 
 import {Img} from '@react-email/components';
-import LanguageSelector from '../../../components/shared/LanguageSelector';
+import LanguageSelector from '@/components/shared/LanguageSelector';
 
 export default function AuthLayout({children}: {children: React.ReactNode}) {
   return (

@@ -1,7 +1,7 @@
 'use client';
 
-import {useSessionUser} from 'app/store/session-user';
-import {useRouter} from 'app/i18n/routing';
+import {useSessionUser} from '@/store/session-user';
+import {useRouter} from '@/i18n/routing';
 import {useLocale, useTranslations} from 'next-intl';
 
 export default function SessionLimit() {

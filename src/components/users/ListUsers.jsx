@@ -33,23 +33,6 @@ export function ListUsers({ users: initialUsers, onUserUpdated }) {
 
   const totalPages = Math.max(1, Math.ceil(filteredUsers.length / itemsPerPage))
 
-  // Actualizar usuarios cuando cambie el prop
-  const updateUsers = (newUsers) => {
-    setUsers(newUsers)
-    if (searchTerm.trim() === '') {
-      setFilteredUsers(newUsers)
-    } else {
-      const lowerQuery = searchTerm.toLowerCase()
-      const results = newUsers.filter(
-        (item) =>
-          item.name?.toLowerCase().includes(lowerQuery) ||
-          item.email?.toLowerCase().includes(lowerQuery) ||
-          item.event?.toLowerCase().includes(lowerQuery)
-      )
-      setFilteredUsers(results)
-    }
-  }
-
   const searchResults = (query) => {
     setSearchTerm(query)
 

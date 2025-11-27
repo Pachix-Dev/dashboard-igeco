@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { AddPonentes } from './AddPonentes.jsx'
 import { ListPonentes } from './ListPonentes'
-import type { Ponentes } from 'app/lib/definitions'
+import type { Ponentes } from '@/lib/definitions'
 
 interface PonentesClientProps {
   initialPonentes: Ponentes[]

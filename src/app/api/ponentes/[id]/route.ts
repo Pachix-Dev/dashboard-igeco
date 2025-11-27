@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import db from '../../../../lib/db';
+import db from '@/lib/db';
 
 export async function PUT(req: Request, { params }: { params: { id: number } }) {
   const { name, position, company, bio_esp, bio_eng, photo } = await req.json();

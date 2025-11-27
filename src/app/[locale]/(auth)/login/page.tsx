@@ -1,9 +1,9 @@
 'use client';
 
 import {useLocale, useTranslations} from 'next-intl';
-import {useRouter} from 'app/i18n/routing';
+import {useRouter} from '@/i18n/routing';
 import {useState} from 'react';
-import {useSessionUser} from 'app/store/session-user';
+import {useSessionUser} from '@/store/session-user';
 import Link from 'next/link';
 
 export default function Login() {

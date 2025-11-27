@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
-import db from '../../../lib/db';
-import { isValidEmail, sanitizeString } from '../../../lib/validation';
+import db from '@/lib/db';
+import { isValidEmail, sanitizeString } from '@/lib/validation';
 
 interface ExhibitorData {
   user_id: number;

@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import db from '../../../lib/db';
+import db from '@/lib/db';
 import { v4 as uuidv4 } from 'uuid';
 import { Resend } from 'resend';
-import { checkRateLimit, getClientIp, RATE_LIMITS } from '../../../lib/rate-limiter';
-import { isValidEmail } from '../../../lib/validation';
+import { checkRateLimit, getClientIp, RATE_LIMITS } from '@/lib/rate-limiter';
+import { isValidEmail } from '@/lib/validation';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import db, {db_re_eco} from '../../../lib/db';
-import { isValidUUID } from '../../../lib/validation';
+import db, {db_re_eco} from '@/lib/db';
+import { isValidUUID } from '@/lib/validation';
 
 interface ScanLeadRequest {
   uuid: string;

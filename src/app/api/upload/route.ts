@@ -5,6 +5,12 @@ import fs from "fs/promises";
 // Extensiones permitidas
 const allowedExtensions = [".jpg", ".jpeg", ".png", ".webp"];
 
+// Tipos MIME permitidos
+const allowedMimeTypes = ["image/jpeg", "image/png", "image/webp"];
+
+// Tamaño máximo: 5MB (en bytes)
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
+
 // Directorio donde se guardarán las imágenes
 const uploadDir = path.join(process.cwd(), "public/ponentes");
 
@@ -26,17 +32,33 @@ export async function POST(req: NextRequest) {
     const uuid = formData.get("uuid") as string | null;
 
     if (!file) {
-      return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
+      return NextResponse.json({ error: "No se ha subido ningún archivo" }, { status: 400 });
     }
 
     if (!uuid) {
-      return NextResponse.json({ error: "UUID is required" }, { status: 400 });
+      return NextResponse.json({ error: "UUID es requerido" }, { status: 400 });
+    }
+
+    // Validar el tamaño del archivo
+    if (file.size > MAX_FILE_SIZE) {
+      return NextResponse.json({ 
+        error: `El archivo es demasiado grande. Tamaño máximo permitido: ${MAX_FILE_SIZE / 1024 / 1024}MB` 
+      }, { status: 400 });
+    }
+
+    // Validar el tipo MIME del archivo
+    if (!allowedMimeTypes.includes(file.type)) {
+      return NextResponse.json({ 
+        error: "Tipo de archivo no permitido. Solo se aceptan imágenes JPG, PNG y WebP" 
+      }, { status: 400 });
     }
 
     // Validar la extensión
     const extension = path.extname(file.name).toLowerCase();
     if (!allowedExtensions.includes(extension)) {
-      return NextResponse.json({ error: "Invalid file type" }, { status: 400 });
+      return NextResponse.json({ 
+        error: "Extensión de archivo no válida" 
+      }, { status: 400 });
     }
 
     // Usar el UUID proporcionado para el nombre del archivo

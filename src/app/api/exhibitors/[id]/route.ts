@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import db from '../../../../lib/db';
+import db from '@/lib/db';
 
 export async function GET(req: Request, { params }: { params: { id: number } }) {
   const [user] = await db.query('SELECT * FROM exhibitors WHERE id = ?', [params.id]);

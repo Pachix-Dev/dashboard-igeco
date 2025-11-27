@@ -1,6 +1,6 @@
 'use client'
 
-import { useToaster } from 'app/context/ToasterContext'
+import { useToaster } from '@/context/ToasterContext'
 import { useTranslations, useLocale } from 'next-intl'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -10,6 +10,7 @@ export function AddUser({ onUserAdded }) {
   const t = useTranslations('UsersPage')
   const locale = useLocale()
   const [name, setName] = useState('')
+  const [company, setCompany] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -125,6 +126,7 @@ export function AddUser({ onUserAdded }) {
       setIsLoading(false)
     }
   }
+
   return (
     <>
       <button
@@ -184,6 +186,30 @@ export function AddUser({ onUserAdded }) {
 
                   <div className='space-y-2'>
                     <label className='text-sm font-semibold text-slate-200'>
+                      {t('form.company')}
+                    </label>
+                    <input
+                      type='text'
+                      name='company'
+                      {...register('company', {
+                        required: t('form.errors.required'),
+                        onChange: (e) => setCompany(e.target.value),
+                      })}
+                      defaultValue={company}
+                      className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                      placeholder={t('form.companyPlaceholder')}
+                    />
+                    {errors.company && (
+                      <p className='text-sm text-rose-400'>
+                        {errors.company.message}
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                <div className='grid gap-4 md:grid-cols-2'>
+                  <div className='space-y-2'>
+                    <label className='text-sm font-semibold text-slate-200'>
                       {t('form.email')}
                     </label>
                     <input
@@ -219,7 +245,6 @@ export function AddUser({ onUserAdded }) {
                       <input
                         id='password'
                         type={showPassword ? 'text' : 'password'}
-                        name='password'
                         {...register('password', {
                           required: t('form.errors.required'),
                           onChange: (e) => setPassword(e.target.value),
@@ -228,15 +253,17 @@ export function AddUser({ onUserAdded }) {
                             message: t('form.errors.passwordLength'),
                           },
                           pattern: {
-                            value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/,
+                            value:
+                              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
                             message: t('form.errors.passwordPattern'),
                           },
                         })}
                         defaultValue={password}
-                        className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 pr-12 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                        className='w-full px-4 py-3 pr-12 bg-slate-800/50 border border-slate-700/50 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-200'
                         placeholder={t('form.passwordPlaceholder')}
-                        autoComplete='off'
+                        autoComplete='new-password'
                       />
+
                       <button
                         type='button'
                         onClick={() => setShowPassword(!showPassword)}
@@ -335,11 +362,11 @@ export function AddUser({ onUserAdded }) {
                             message: t('form.errors.number'),
                           },
                           min: {
-                            value: 2,
+                            value: 1,
                             message: t('form.errors.sessionsMin'),
                           },
                           max: {
-                            value: 10,
+                            value: 100,
                             message: t('form.errors.sessionsMax'),
                           },
                           onChange: (e) => setMaxsessions(e.target.value),
@@ -372,11 +399,11 @@ export function AddUser({ onUserAdded }) {
                           message: t('form.errors.number'),
                         },
                         min: {
-                          value: 2,
+                          value: 1,
                           message: t('form.errors.exhibitorsMin'),
                         },
                         max: {
-                          value: 10,
+                          value: 100,
                           message: t('form.errors.exhibitorsMax'),
                         },
                         onChange: (e) => setMaxexhibitors(e.target.value),

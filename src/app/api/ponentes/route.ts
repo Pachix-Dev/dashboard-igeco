@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
-import db from '../../../lib/db';
-import { sanitizeString, sanitizeHTML } from '../../../lib/validation';
+import db from '@/lib/db';
+import { sanitizeString, sanitizeHTML } from '@/lib/validation';
+import { RowDataPacket } from 'mysql2';
 
 interface PonenteData {
   name: string;
@@ -10,6 +11,25 @@ interface PonenteData {
   bio_esp?: string;
   bio_eng?: string;
   photo?: string;
+}
+
+export async function GET() {
+  try {
+    const [rows] = await db.query<RowDataPacket[]>(
+      'SELECT id, name, position, company, photo FROM ponentes ORDER BY name ASC'
+    );
+
+    return NextResponse.json(
+      { ponentes: rows },
+      { status: 200 }
+    );
+  } catch (err: any) {
+    console.error('Error fetching ponentes:', err);
+    return NextResponse.json(
+      { message: 'Error al obtener los ponentes', ponentes: [] },
+      { status: 500 }
+    );
+  }
 }
 
 export async function POST(req: Request) {

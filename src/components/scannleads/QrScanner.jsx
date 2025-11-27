@@ -3,8 +3,8 @@
 import { Scanner } from '@yudiel/react-qr-scanner'
 import { useTranslations } from 'next-intl'
 import { useState } from 'react'
-import { useSessionUser } from 'app/store/session-user'
-import { useToaster } from 'app/context/ToasterContext'
+import { useSessionUser } from '@/store/session-user'
+import { useToaster } from '@/context/ToasterContext'
 
 export function QrScanner({ onNewLead }) {
   const t = useTranslations('ScanLeadsPage')

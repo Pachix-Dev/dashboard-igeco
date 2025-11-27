@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { db_re_eco } from '../../../lib/db';
+import { db_re_eco } from '@/lib/db';
 
 
 // Meta objetivo

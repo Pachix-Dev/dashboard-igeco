@@ -1,7 +1,7 @@
 'use client';
 
 import {useLocale} from 'next-intl';
-import {useRouter} from 'app/i18n/routing';
+import {useRouter} from '@/i18n/routing';
 import {useEffect} from 'react';
 
 export default function Home() {

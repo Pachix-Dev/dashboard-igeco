@@ -3,8 +3,8 @@
 import { useState } from 'react'
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js'
 import { useTranslations, useLocale } from 'next-intl'
-import { useToaster } from 'app/context/ToasterContext'
-import { useSessionUser } from 'app/store/session-user'
+import { useToaster } from '@/context/ToasterContext'
+import { useSessionUser } from '@/store/session-user'
 
 interface BuyExhibitorsProps {
   currentTotal: number

@@ -1,6 +1,6 @@
-import {ExhibitorsClient} from 'app/components/exhibitors/ExhibitorsClient';
-import {Exhibitor} from 'app/lib/definitions';
-import {fetchExhibitors} from 'app/lib/db';
+import {ExhibitorsClient} from '@/components/exhibitors/ExhibitorsClient';
+import {Exhibitor} from '@/lib/definitions';
+import {fetchExhibitors} from '@/lib/db';
 import {unstable_noStore as noStore} from 'next/cache';
 
 export default async function Exhibitors() {

@@ -1,7 +1,7 @@
 'use client'
 
-import { useToaster } from 'app/context/ToasterContext'
-import { useSessionUser } from 'app/store/session-user'
+import { useToaster } from '@/context/ToasterContext'
+import { useSessionUser } from '@/store/session-user'
 import Image from 'next/image'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'

@@ -1,4 +1,4 @@
-import {Menu} from 'app/components/shared/Menu';
+import {Menu} from '@/components/shared/Menu';
 import type {ReactNode} from 'react';
 
 // Forzar renderizado dinámico (requiere autenticación)

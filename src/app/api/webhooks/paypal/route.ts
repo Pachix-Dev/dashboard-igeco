@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { render } from '@react-email/components';
-import db from '../../../../lib/db';
+import db from '@/lib/db';
 import crypto from 'crypto';
-import ReceiptEmail from '../../../../components/email-receipt-template';
+import ReceiptEmail from '@/components/email-receipt-template';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 

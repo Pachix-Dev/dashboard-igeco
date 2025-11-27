@@ -1,4 +1,4 @@
-import { useSessionUser } from 'app/store/session-user'
+import { useSessionUser } from '@/store/session-user'
 import { useState } from 'react'
 import QRCode from 'react-qr-code'
 

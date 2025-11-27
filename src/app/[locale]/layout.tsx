@@ -2,8 +2,8 @@ import {NextIntlClientProvider} from 'next-intl';
 import {getMessages, unstable_setRequestLocale} from 'next-intl/server';
 import {notFound} from 'next/navigation';
 import type {ReactNode} from 'react';
-import {ToasterProvider} from 'app/context/ToasterContext';
-import {locales} from 'app/i18n/routing';
+import {ToasterProvider} from '@/context/ToasterContext';
+import {locales} from '@/i18n/routing';
 
 // Forzar renderizado dinámico (app requiere autenticación con middleware)
 export const dynamic = 'force-dynamic';

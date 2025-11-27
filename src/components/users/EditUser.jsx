@@ -1,5 +1,5 @@
 'use client'
-import { useToaster } from 'app/context/ToasterContext'
+import { useToaster } from '@/context/ToasterContext'
 import { useTranslations } from 'next-intl'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'

@@ -7,7 +7,13 @@ const db = mysql.createPool({
     host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
+    database: process.env.DB_NAME,
+    connectionLimit: 10, // Máximo 10 conexiones simultáneas
+    waitForConnections: true, // Esperar si no hay conexiones disponibles
+    queueLimit: 0, // Sin límite de cola
+    enableKeepAlive: true,
+    keepAliveInitialDelay: 0,
+    connectTimeout: 10000, // 10 segundos para conectar
 });
 
 export default db;
@@ -16,13 +22,20 @@ const db_re_eco = mysql.createPool({
     host: process.env.DB_HOST2,
     user: process.env.DB_USER2,
     password: process.env.DB_PASSWORD2,
-    database: process.env.DB_NAME2
+    database: process.env.DB_NAME2,
+    connectionLimit: 10,
+    waitForConnections: true,
+    queueLimit: 0,
+    enableKeepAlive: true,
+    keepAliveInitialDelay: 0,
+    connectTimeout: 10000,
 });
 
 export {db_re_eco};
 
 export const roles = {
     admin: ['/dashboard', '/dashboard/usuarios', '/dashboard/exhibitors', '/dashboard/profile', '/dashboard/scan-leads', '/dashboard/ponentes', '/dashboard/programa'],
+    editor: ['/dashboard', '/dashboard/profile', '/dashboard/programa'],
     exhibitor: ['/dashboard', '/dashboard/profile', '/dashboard/exhibitors'],
     exhibitorplus: ['/dashboard', '/dashboard/profile', '/dashboard/exhibitors', '/dashboard/scan-leads'],    
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import { useSessionUser } from "app/store/session-user";
+import { useSessionUser } from "@/store/session-user";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from 'react';
 

@@ -416,8 +416,10 @@
       "error": "Failed to create user"
     },
     "form": {
-      "name": "Company name",
-      "namePlaceholder": "e.g. IGECO Team",
+      "name": "Full name",
+      "namePlaceholder": "e.g. John Doe",
+      "company": "Company",
+      "companyPlaceholder": "e.g. IGECO Mexico",
       "email": "Email",
       "emailPlaceholder": "email@company.com",
       "password": "Password",
@@ -428,6 +430,8 @@
       "event": "Event",
       "select": "Select an option",
       "roles": {
+        "admin": "Administrator",
+        "editor": "Editor",
         "exhibitor": "Exhibitor",
         "exhibitorplus": "Exhibitor + Scanner"
       },
@@ -439,12 +443,12 @@
         "required": "Required field",
         "email": "Invalid email format",
         "passwordLength": "Password must be at least 6 characters",
-        "passwordPattern": "Password must include letters and numbers",
+        "passwordPattern": "Password must include  1 uppercase letter, 1 lowercase letter, 1 number, and 1 symbol",
         "number": "Only numbers allowed",
-        "sessionsMin": "Sessions must be at least 2",
-        "sessionsMax": "Sessions maximum is 10",
-        "exhibitorsMin": "Exhibitors must be at least 2",
-        "exhibitorsMax": "Exhibitors maximum is 10"
+        "sessionsMin": "Sessions must be at least 1",
+        "sessionsMax": "Sessions maximum is 100",
+        "exhibitorsMin": "Exhibitors must be at least 1",
+        "exhibitorsMax": "Exhibitors maximum is 100"
       }
     },
     "list": {
@@ -533,6 +537,173 @@
       "invalidToken": "Invalid or missing token",
       "passwordMismatch": "Passwords do not match",
       "serverError": "Server error. Please try again."
+    }
+  },
+  "ProgramaPage": {
+    "panel": "Panel",
+    "title": "Conference Program",
+    "badge": "{count} active",
+    "subtitle": "Manage stages, days, conferences and speakers from a unified panel.",
+    "tabs": {
+      "escenarios": "Stages",
+      "dias": "Days",
+      "conferencias": "Conferences",
+      "vista": "Full View"
+    },
+    "escenarios": {
+      "title": "Stages",
+      "subtitle": "Spaces where conferences take place",
+      "add": "Add Stage",
+      "edit": "Edit Stage",
+      "delete": "Delete Stage",
+      "form": {
+        "name": "Stage name",
+        "namePlaceholder": "e.g.: Main Hall",
+        "description": "Description",
+        "descriptionPlaceholder": "Brief description of the space...",
+        "location": "Location",
+        "locationPlaceholder": "e.g.: Floor 1, North Wing",
+        "capacity": "Capacity",
+        "capacityPlaceholder": "Number of people",
+        "errors": {
+          "required": "Required field",
+          "number": "Must be a number"
+        }
+      },
+      "table": {
+        "noData": "No stages configured"
+      },
+      "toast": {
+        "success": "Stage saved successfully",
+        "error": "Error saving stage",
+        "deleteSuccess": "Stage deleted",
+        "deleteError": "Error deleting"
+      }
+    },
+    "dias": {
+      "title": "Program Days",
+      "subtitle": "Activity dates by stage",
+      "add": "Add Day",
+      "edit": "Edit Day",
+      "delete": "Delete Day",
+      "form": {
+        "escenario": "Stage",
+        "selectEscenario": "Select a stage",
+        "date": "Date",
+        "name": "Day name",
+        "namePlaceholder": "e.g.: Day 1 - Opening",
+        "description": "Description",
+        "descriptionPlaceholder": "Day description...",
+        "errors": {
+          "required": "Required field",
+          "duplicate": "This day already exists for the stage"
+        }
+      },
+      "filters": {
+        "allEscenarios": "All stages"
+      },
+      "table": {
+        "date": "Date",
+        "name": "Name",
+        "escenario": "Stage",
+        "actions": "Actions",
+        "noData": "No days configured"
+      },
+      "toast": {
+        "success": "Day saved successfully",
+        "error": "Error saving day",
+        "deleteSuccess": "Day deleted",
+        "deleteError": "Error deleting"
+      }
+    },
+    "conferencias": {
+      "title": "Conferences",
+      "subtitle": "Program sessions and activities",
+      "add": "Add Conference",
+      "edit": "Edit Conference",
+      "delete": "Delete Conference",
+      "filters": {
+        "allEscenarios": "All stages",
+        "allDias": "All days"
+      },
+      "table": {
+        "noData": "No conferences configured",
+        "ponentes": "speakers"
+      },
+      "form": {
+        "dia": "Day",
+        "selectDia": "Select a day",
+        "title": "Title",
+        "titlePlaceholder": "e.g.: Innovation in Renewable Energy",
+        "description": "Description",
+        "descriptionPlaceholder": "Detailed conference description...",
+        "startTime": "Start time",
+        "endTime": "End time",
+        "type": "Type",
+        "types": {
+          "presentation": "Presentation",
+          "keynote": "Keynote",
+          "panel": "Panel",
+          "workshop": "Workshop",
+          "networking": "Networking",
+          "other": "Other"
+        },
+        "room": "Room",
+        "roomPlaceholder": "e.g.: Room A",
+        "capacity": "Capacity",
+        "capacityPlaceholder": "Number of people",
+        "ponentes": {
+          "label": "Speakers",
+          "add": "Add Speaker",
+          "noData": "No speakers added",
+          "selectPonente": "Select a speaker",
+          "order": "Order",
+          "remove": "Remove",
+          "roles": {
+            "speaker": "Speaker",
+            "moderator": "Moderator",
+            "panelist": "Panelist",
+            "guest": "Guest"
+          }
+        },
+        "errors": {
+          "required": "Required field"
+        }
+      },
+      "toast": {
+        "success": "Conference saved successfully",
+        "error": "Error saving conference",
+        "deleteSuccess": "Conference deleted",
+        "deleteError": "Error deleting"
+      }
+    },
+    "vista": {
+      "title": "Full Program",
+      "subtitle": "General view of the conference program",
+      "loading": "Loading program...",
+      "capacity": "Capacity",
+      "conferencesCount": "conferences",
+      "stats": {
+        "escenarios": "Stages",
+        "dias": "Days",
+        "conferencias": "Conferences",
+        "ponentes": "Speakers"
+      },
+      "noData": "No program configured",
+      "emptyDay": "No conferences scheduled"
+    },
+    "actions": {
+      "close": "Close",
+      "cancel": "Cancel",
+      "save": "Save",
+      "saving": "Saving...",
+      "edit": "Edit",
+      "delete": "Delete",
+      "view": "View"
+    },
+    "delete": {
+      "title": "Confirm deletion",
+      "message": "Are you sure you want to delete this item?"
     }
   }
 }

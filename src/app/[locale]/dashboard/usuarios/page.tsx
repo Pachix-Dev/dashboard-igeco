@@ -1,8 +1,8 @@
 'use client';
 
-import {AddUser} from 'app/components/users/AddUser';
-import {ListUsers} from 'app/components/users/ListUsers';
-import {PageLoading} from 'app/components/shared/PageLoading';
+import {AddUser} from '@/components/users/AddUser';
+import {ListUsers} from '@/components/users/ListUsers';
+import {PageLoading} from '@/components/shared/PageLoading';
 import {useTranslations} from 'next-intl';
 import {useState, useEffect} from 'react';
 

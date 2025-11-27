@@ -1,7 +1,7 @@
 'use client';
 
 import {useLocale} from 'next-intl';
-import {usePathname, useRouter} from 'app/i18n/routing';
+import {usePathname, useRouter} from '@/i18n/routing';
 import {useState} from 'react';
 
 export default function LanguageSelector() {

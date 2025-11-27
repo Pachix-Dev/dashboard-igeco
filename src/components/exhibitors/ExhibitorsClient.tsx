@@ -2,11 +2,11 @@
 
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { useSessionUser } from 'app/store/session-user'
+import { useSessionUser } from '@/store/session-user'
 import { AddExhibitor } from './AddExhibitor'
 import { BuyExhibitors } from './BuyExhibitors'
 import { ListExhibitors } from './ListExhibitors'
-import type { Exhibitor } from 'app/lib/definitions'
+import type { Exhibitor } from '@/lib/definitions'
 
 interface ExhibitorsClientProps {
   initialExhibitors: Exhibitor[]

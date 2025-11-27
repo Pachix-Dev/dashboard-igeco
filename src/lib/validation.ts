@@ -160,6 +160,6 @@ export function isPositiveNumber(value: any): boolean {
  * Validar role permitido
  */
 export function isValidRole(role: string): boolean {
-  const validRoles = ['admin', 'exhibitor', 'exhibitorplus'];
+  const validRoles = ['admin', 'editor', 'exhibitor', 'exhibitorplus'];
   return validRoles.includes(role);
 }

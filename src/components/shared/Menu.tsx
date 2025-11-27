@@ -3,8 +3,8 @@
 import Image from 'next/image';
 import {useLocale, useTranslations} from 'next-intl';
 import {useState} from 'react';
-import {Link, usePathname, useRouter} from 'app/i18n/routing';
-import {useSessionUser} from 'app/store/session-user';
+import {Link, usePathname, useRouter} from '@/i18n/routing';
+import {useSessionUser} from '@/store/session-user';
 import LanguageSelector from './LanguageSelector';
 
 export function Menu() {

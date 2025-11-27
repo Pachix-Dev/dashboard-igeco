@@ -1,7 +1,7 @@
 'use client';
 
 import {useTranslations} from 'next-intl';
-import {useSessionUser} from 'app/store/session-user';
+import {useSessionUser} from '@/store/session-user';
 
 export default function Dashboard() {
   const t = useTranslations('Dashboard');

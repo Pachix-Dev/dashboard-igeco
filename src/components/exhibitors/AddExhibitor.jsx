@@ -3,8 +3,8 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslations } from 'next-intl'
-import { useSessionUser } from 'app/store/session-user'
-import { useToaster } from 'app/context/ToasterContext'
+import { useSessionUser } from '@/store/session-user'
+import { useToaster } from '@/context/ToasterContext'
 
 export function AddExhibitor({
   onExhibitorAdded,

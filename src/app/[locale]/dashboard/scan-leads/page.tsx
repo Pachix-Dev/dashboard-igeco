@@ -1,6 +1,6 @@
-import {ScanLeadsClient} from 'app/components/scannleads/ScanLeadsClient';
-import {Lead} from 'app/lib/definitions';
-import {fetchRecordsByUserId} from 'app/lib/db';
+import {ScanLeadsClient} from '@/components/scannleads/ScanLeadsClient';
+import {Lead} from '@/lib/definitions';
+import {fetchRecordsByUserId} from '@/lib/db';
 import {getTranslations} from 'next-intl/server';
 import {unstable_noStore as noStore} from 'next/cache';
 
