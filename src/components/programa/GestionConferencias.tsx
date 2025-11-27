@@ -78,12 +78,9 @@ export function GestionConferencias({ escenarios, dias, conferencias, onUpdate }
     setLoadingPonentes(true)
     try {
       const response = await fetch('/api/ponentes')
-      const data = await response.json()
-      console.log('📋 Respuesta de ponentes:', data)
-      console.log('📋 Ponentes array:', data.ponentes)
+      const data = await response.json()    
       if (response.ok && data.ponentes) {
-        setPonentes(data.ponentes)
-        console.log('✅ Ponentes cargados:', data.ponentes.length)
+        setPonentes(data.ponentes)        
       } else {
         console.warn('⚠️ No se encontraron ponentes o error en respuesta')
       }

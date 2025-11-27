@@ -86,12 +86,7 @@ export function VistaCompleta({ escenarios }: Props) {
                   {escenario.location && (
                     <p className='mt-1 text-sm text-slate-400'>📍 {escenario.location}</p>
                   )}
-                </div>
-                {escenario.capacity && (
-                  <span className='rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-300'>
-                    {t('capacity')}: {escenario.capacity}
-                  </span>
-                )}
+                </div>                
               </div>
 
               {/* Días */}

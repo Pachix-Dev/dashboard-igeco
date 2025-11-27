@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import db from '@/lib/db'
 import type { ProgramaDia } from '@/types/programa'
+import { RowDataPacket } from 'mysql2'
 
 // GET - Obtener días por escenario o todos
 export async function GET(req: Request) {
@@ -20,12 +21,11 @@ export async function GET(req: Request) {
       query += ' AND pd.escenario_id = ?'
       params.push(escenarioId)
     }
-
     query += ' ORDER BY pd.date ASC'
 
-    const [rows] = await db.query<ProgramaDia[]>(query, params)
+    const [rows] = await db.query<RowDataPacket[]>(query, params)
 
-    return NextResponse.json({
+    return NextResponse.json({    
       message: 'Días obtenidos correctamente',
       status: 200,
       data: rows,

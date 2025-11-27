@@ -1,20 +1,19 @@
 import { NextResponse } from 'next/server'
 import db from '@/lib/db'
 import type { Escenario } from '@/types/programa'
+import type { RowDataPacket } from 'mysql2'
 
-// GET - Obtener todos los escenarios
 export async function GET() {
   try {
-    const [rows] = await db.query<Escenario[]>(
+    const [rows] = await db.query<RowDataPacket[]>(
       'SELECT * FROM escenarios WHERE active = 1 ORDER BY name ASC'
     )
-
     return NextResponse.json({
       message: 'Escenarios obtenidos correctamente',
       status: 200,
-      data: rows,
+      data: rows as Escenario[],
     })
-  } catch (error) {
+    }catch (error) {
     console.error('Error al obtener escenarios:', error)
     return NextResponse.json(
       { message: 'Error al obtener escenarios', status: 500 },
