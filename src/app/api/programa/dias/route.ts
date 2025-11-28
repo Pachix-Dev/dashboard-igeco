@@ -3,6 +3,10 @@ import db from '@/lib/db'
 import type { ProgramaDia } from '@/types/programa'
 import { RowDataPacket } from 'mysql2'
 
+// Forzar renderizado dinámico
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 // GET - Obtener días por escenario o todos
 export async function GET(req: Request) {
   try {

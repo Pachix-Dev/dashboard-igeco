@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server'
 import db from '@/lib/db'
 
+// Forzar renderizado dinámico
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 // GET - Obtener el programa completo organizado por escenarios, días y conferencias
 export async function GET(req: Request) {
   try {
@@ -60,7 +64,7 @@ export async function GET(req: Request) {
     if (conferenciaIds.length > 0) {
       const [ponentesResult]: any = await db.query(
         `SELECT pcp.conferencia_id, pcp.role, pcp.order_index,
-                p.id, p.name, p.position, p.company, p.photo
+                p.id, p.name, p.position, p.company, p.photo, p.bio_esp, p.bio_eng
          FROM programa_conferencia_ponentes pcp
          LEFT JOIN ponentes p ON pcp.ponente_id = p.id
          WHERE pcp.conferencia_id IN (?)

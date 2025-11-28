@@ -254,7 +254,7 @@ export function AddUser({ onUserAdded }) {
                           },
                           pattern: {
                             value:
-                              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
+                              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/,
                             message: t('form.errors.passwordPattern'),
                           },
                         })}

@@ -3,6 +3,10 @@ import db from '@/lib/db'
 import type { Escenario } from '@/types/programa'
 import type { RowDataPacket } from 'mysql2'
 
+// Forzar renderizado dinámico
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export async function GET() {
   try {
     const [rows] = await db.query<RowDataPacket[]>(

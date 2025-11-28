@@ -236,7 +236,7 @@ export function EditPassword({ user }) {
                         },
                         pattern: {
                           value:
-                            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
+                            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/,
                           message: 'Debe cumplir los requisitos de seguridad',
                         },
                       })}
