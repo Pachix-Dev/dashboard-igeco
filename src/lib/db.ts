@@ -35,7 +35,7 @@ export {db_re_eco};
 
 export const roles = {
     admin: ['/dashboard', '/dashboard/usuarios', '/dashboard/exhibitors', '/dashboard/profile', '/dashboard/scan-leads', '/dashboard/ponentes', '/dashboard/programa'],
-    editor: ['/dashboard', '/dashboard/profile', '/dashboard/programa'],
+    editor: ['/dashboard', '/dashboard/profile', '/dashboard/ponentes', '/dashboard/programa'],
     exhibitor: ['/dashboard', '/dashboard/profile', '/dashboard/exhibitors'],
     exhibitorplus: ['/dashboard', '/dashboard/profile', '/dashboard/exhibitors', '/dashboard/scan-leads'],    
 };
