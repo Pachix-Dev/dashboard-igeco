@@ -30,24 +30,17 @@ export async function POST(req: NextRequest) {
 
     const formData = await req.formData();
     const file = formData.get("image") as File | null;
-    const uuid = formData.get("uuid") as string | null;
 
     console.log('📋 Datos recibidos:', {
       hasFile: !!file,
       fileName: file?.name,
       fileSize: file?.size,
-      fileType: file?.type,
-      uuid: uuid
+      fileType: file?.type
     });
 
     if (!file) {
       console.error('❌ No se recibió archivo');
       return NextResponse.json({ error: "No se ha subido ningún archivo" }, { status: 400 });
-    }
-
-    if (!uuid) {
-      console.error('❌ No se recibió UUID');
-      return NextResponse.json({ error: "UUID es requerido" }, { status: 400 });
     }
 
     // Validar el tamaño del archivo
@@ -72,8 +65,9 @@ export async function POST(req: NextRequest) {
       }, { status: 400 });
     }
 
-    // Usar el UUID proporcionado para el nombre del archivo
-    const uniqueName = `${uuid}${extension}`;
+    // Generar UUID único para evitar problemas de caché
+    const newUuid = crypto.randomUUID();
+    const uniqueName = `${newUuid}${extension}`;
     const filePath = path.join(uploadDir, uniqueName);
 
     console.log('💾 Guardando archivo en:', filePath);

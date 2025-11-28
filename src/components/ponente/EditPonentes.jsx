@@ -50,7 +50,6 @@ export function EditPonentes({ ponente, onPonenteUpdated }) {
     if (formData.photo instanceof File) {
       const formDataFile = new FormData()
       formDataFile.append('image', formData.photo)
-      formDataFile.append('uuid', ponente.uuid)
 
       const uploadResponse = await fetch('/api/upload', {
         method: 'POST',
@@ -60,6 +59,7 @@ export function EditPonentes({ ponente, onPonenteUpdated }) {
       const uploadData = await uploadResponse.json()
       if (uploadResponse.ok) {
         imagePath = uploadData.path
+        console.log('✅ Imagen actualizada:', imagePath)
       } else {
         notify(uploadData.error || 'Error al subir la imagen', 'error')
         setIsSubmitting(false)

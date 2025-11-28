@@ -64,7 +64,6 @@ export function AddPonentes({ onPonenteAdded }) {
       if (formData.photo instanceof File) {
         const formDataFile = new FormData()
         formDataFile.append('image', formData.photo)
-        formDataFile.append('uuid', uuid)
 
         const uploadResponse = await fetch('/api/upload', {
           method: 'POST',
@@ -74,6 +73,7 @@ export function AddPonentes({ onPonenteAdded }) {
         const uploadData = await uploadResponse.json()
         if (uploadResponse.ok) {
           imagePath = uploadData.path
+          console.log('✅ Imagen subida:', imagePath)
         } else {
           notify(uploadData.error || t('toast.uploadError'), 'error')
           return
