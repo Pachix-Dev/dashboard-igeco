@@ -58,12 +58,12 @@ export function AddPonentes({ onPonenteAdded }) {
         return
       }
 
-      const uuid = ponenteData.uuid
       let imagePath = ''
 
       if (formData.photo instanceof File) {
         const formDataFile = new FormData()
         formDataFile.append('image', formData.photo)
+        formDataFile.append('uuid', crypto.randomUUID())
 
         const uploadResponse = await fetch('/api/upload', {
           method: 'POST',
@@ -85,11 +85,11 @@ export function AddPonentes({ onPonenteAdded }) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ uuid, photo: imagePath }),
+        body: JSON.stringify({ uuid: ponenteData.uuid, photo: imagePath }),
       })
 
       const newPonente = {
-        uuid,
+        uuid: ponenteData.uuid,
         speaker_name: data.name,
         position: data.position,
         company: data.company,

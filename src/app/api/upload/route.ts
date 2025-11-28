@@ -30,6 +30,7 @@ export async function POST(req: NextRequest) {
 
     const formData = await req.formData();
     const file = formData.get("image") as File | null;
+    const newUuid = formData.get("uuid") as string;
 
     console.log('📋 Datos recibidos:', {
       hasFile: !!file,
@@ -65,8 +66,7 @@ export async function POST(req: NextRequest) {
       }, { status: 400 });
     }
 
-    // Generar UUID único para evitar problemas de caché
-    const newUuid = crypto.randomUUID();
+    
     const uniqueName = `${newUuid}${extension}`;
     const filePath = path.join(uploadDir, uniqueName);
 

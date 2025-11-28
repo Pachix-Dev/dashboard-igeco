@@ -50,6 +50,7 @@ export function EditPonentes({ ponente, onPonenteUpdated }) {
     if (formData.photo instanceof File) {
       const formDataFile = new FormData()
       formDataFile.append('image', formData.photo)
+      formDataFile.append('uuid', crypto.randomUUID())
 
       const uploadResponse = await fetch('/api/upload', {
         method: 'POST',
