@@ -4,7 +4,6 @@ import QRCode from 'react-qr-code'
 
 export function QrPrinterPonente({ ponente }) {
   const [showQr, setShowQr] = useState(false)
-  const { userSession } = useSessionUser()
   const Modal = () => {
     setShowQr(!showQr)
   }

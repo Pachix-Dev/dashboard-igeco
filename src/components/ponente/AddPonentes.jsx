@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslations } from 'next-intl'
-import { useSessionUser } from '@/store/session-user'
 import { useToaster } from '@/context/ToasterContext'
 import Image from 'next/image'
 
