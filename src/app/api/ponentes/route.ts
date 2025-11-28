@@ -61,13 +61,13 @@ export async function POST(req: Request) {
 
     const uuid = uuidv4(); // Generar UUID único
 
-    await db.query(
+    const [result]: any = await db.query(
       'INSERT INTO ponentes (name, position, company, bio_esp, bio_eng, photo, uuid) VALUES (?, ?, ?, ?, ?, ?, ?)',
       [sanitizedName, sanitizedPosition, sanitizedCompany, sanitizedBioEsp, sanitizedBioEng, photo, uuid]
     );
-
+         
     return NextResponse.json(
-      { message: 'Ponente creado exitosamente', uuid },
+      { message: 'Ponente creado exitosamente', uuid, id: result.insertId },
       { status: 201 }
     );
   } catch (err: any) {

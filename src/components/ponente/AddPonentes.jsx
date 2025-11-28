@@ -89,7 +89,7 @@ export function AddPonentes({ onPonenteAdded }) {
       })
 
       const newPonente = {
-        uuid: ponenteData.uuid,
+        ...ponenteData,
         speaker_name: data.name,
         position: data.position,
         company: data.company,
@@ -99,6 +99,8 @@ export function AddPonentes({ onPonenteAdded }) {
         photo: imagePath,
         impresiones: 0,
       }
+
+      console.log('Nuevo ponente agregado:', newPonente)
 
       if (onPonenteAdded) {
         onPonenteAdded(newPonente)

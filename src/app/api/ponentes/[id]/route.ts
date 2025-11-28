@@ -11,20 +11,11 @@ export async function PUT(req: Request, { params }: { params: { id: number } }) 
     if (!rows || rows.length === 0) {
       return NextResponse.json({ message: 'User not found' }, { status: 404 });
     }
-
-    const uuid = rows[0].uuid; // Extraer correctamente el UUID
-
-    // Si hay una nueva imagen, asegurarnos de que se actualiza con el mismo UUID
-    let updatedPhoto = photo;
-    if (photo && !photo.includes(uuid)) {
-      const extension = photo.split('.').pop();
-      updatedPhoto = `${uuid}.${extension}`;
-    }
-
+    
     // Actualizar los datos en la base de datos
     await db.query(
       'UPDATE ponentes SET name = ?, position = ?, company = ?, bio_esp = ?, bio_eng = ?, photo = ? WHERE id = ?',
-      [name, position, company, bio_esp, bio_eng, updatedPhoto, params.id]
+      [name, position, company, bio_esp, bio_eng, photo, params.id]
     );
 
     return NextResponse.json({ message: 'User updated' });
