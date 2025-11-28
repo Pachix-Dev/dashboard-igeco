@@ -8,7 +8,6 @@ import { useForm } from 'react-hook-form'
 import { createPortal } from 'react-dom'
 
 export function EditPonentes({ ponente, onPonenteUpdated }) {
-  const { userSession } = useSessionUser()
   const { notify } = useToaster()
   const [isOpen, setIsOpen] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -98,8 +97,6 @@ export function EditPonentes({ ponente, onPonenteUpdated }) {
 
     setIsSubmitting(false)
   }
-
-  if (userSession?.role !== 'admin') return null
 
   return (
     <>

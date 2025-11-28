@@ -18,7 +18,6 @@ export function AddPonentes({ onPonenteAdded }) {
     photo: '',
   })
 
-  const { userSession } = useSessionUser()
   const [isOpen, setIsOpen] = useState(false)
   const { notify } = useToaster()
 
@@ -122,8 +121,6 @@ export function AddPonentes({ onPonenteAdded }) {
       notify('Error de conexión. Por favor, intenta nuevamente.', 'error')
     }
   }
-
-  if (userSession?.role !== 'admin') return null
 
   return (
     <>

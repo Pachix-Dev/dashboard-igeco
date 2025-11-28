@@ -25,7 +25,7 @@ export function SearchExhibitors({ exhibitors }) {
     setMessage('estos son los resultados')
     setSearchTerm(results)
   }
-  console.log(searchTerm)
+
   return (
     <>
       <div className='relative w-3/5 mx-auto'>
