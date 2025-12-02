@@ -142,11 +142,7 @@ export function ListPonentes({ ponente, onPonenteUpdated }) {
                         <div className='h-12 w-12 overflow-hidden rounded-full border border-white/10 bg-white/5 flex items-center justify-center'>
                           {item.photo ? (
                             <Image
-                              src={
-                                item.photo.startsWith('/')
-                                  ? item.photo
-                                  : `/ponentes/${item.photo}`
-                              }
+                              src={`/ponentes/${item.photo}`}
                               className='h-full w-full object-cover'
                               alt={item.speaker_name || 'Ponente'}
                               width={128}
