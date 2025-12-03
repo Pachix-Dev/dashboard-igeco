@@ -9,26 +9,38 @@ import { GestionConferencias } from './GestionConferencias'
 import { VistaCompleta } from './VistaCompleta'
 import type { Escenario, ProgramaDia, Conferencia } from '@/types/programa'
 
-export function ProgramaClient() {
+type ProgramaClientProps = {
+  initialEscenarios?: Escenario[]
+  initialDias?: ProgramaDia[]
+}
+
+export function ProgramaClient({ initialEscenarios = [], initialDias = [] }: ProgramaClientProps) {
   const t = useTranslations('ProgramaPage')
   const [activeTab, setActiveTab] = useState('escenarios')
   
 
   // Estados para datos
-  const [escenarios, setEscenarios] = useState<Escenario[]>([])
-  const [dias, setDias] = useState<ProgramaDia[]>([])
+  const [escenarios, setEscenarios] = useState<Escenario[]>(initialEscenarios)
+  const [dias, setDias] = useState<ProgramaDia[]>(initialDias)
   const [conferencias, setConferencias] = useState<Conferencia[]>([])
 
   // Cargar datos iniciales
   useEffect(() => {
-    loadEscenarios()
-    loadDias() // Cargar días al inicio para que estén disponibles en conferencias
-  }, [])
+    if (!initialEscenarios?.length) {
+      loadEscenarios()
+    }
+    if (!initialDias?.length) {
+      loadDias() // Cargar días al inicio para que estén disponibles en conferencias
+    }
+  }, [initialEscenarios?.length, initialDias?.length])
 
   // Cargar días cuando se cambia a la pestaña de conferencias
   useEffect(() => {
     if (activeTab === 'conferencias' && dias.length === 0) {
       loadDias()
+    }
+    if (activeTab === 'conferencias' && conferencias.length === 0) {
+      loadConferencias()
     }
   }, [activeTab, dias.length])
 

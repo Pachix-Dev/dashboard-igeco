@@ -84,13 +84,13 @@ export default function Register() {
               </svg>
             </div>
             <p className="text-center text-base font-semibold text-green-300">
-              ¡Registro exitoso!
+              {t('successTitle')}
             </p>
             <p className="text-center text-sm text-green-200">
-              Hemos enviado tus credenciales de acceso a <strong>{formData.email}</strong>
+              {t('successMessage', {email: formData.email})}
             </p>
             <p className="text-center text-xs text-green-300">
-              Redirigiendo al inicio de sesión...
+              {t('successRedirect')}
             </p>
           </div>
         ) : (
@@ -361,3 +361,5 @@ export default function Register() {
     </>
   );
 }
+
+

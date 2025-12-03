@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import db from '@/lib/db';
 import bcrypt from 'bcryptjs';
-import { isValidEmail, validateStrongPassword, sanitizeString, isValidRole } from '@/lib/validation';
+import { isValidEmail, validateStrongPassword, sanitizeString } from '@/lib/validation';
 
 interface DbRow {
   [key: string]: any;
@@ -14,7 +14,7 @@ interface InsertResult {
 export async function GET() {
   try {
     const [users] = await db.query(
-      'SELECT id, name, email, role, maxsessions, maxexhibitors, event FROM users ORDER BY id DESC'
+      'SELECT id, name, email, role, maxsessions, maxexhibitors, company, event, stand FROM users ORDER BY id DESC'
     ) as [DbRow[], any];
     return NextResponse.json(users);
   } catch (error) {
@@ -28,10 +28,10 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const { name, email, password, role, maxsessions, maxexhibitors, event } = await req.json();
+    const { name, email, password, maxsessions, maxexhibitors, event, company, stand } = await req.json();
 
     // Validar campos requeridos
-    if (!name || !email || !password || !role || !event) {
+    if (!name || !email || !password || !event || !company || !maxexhibitors) {
       return NextResponse.json(
         { message: 'Todos los campos son requeridos' },
         { status: 400 }
@@ -54,15 +54,7 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
-
-    // Validar role
-    if (!isValidRole(role)) {
-      return NextResponse.json(
-        { message: 'El rol especificado no es válido' },
-        { status: 400 }
-      );
-    }
-
+    
     // Validar contraseña fuerte
     const passwordValidation = validateStrongPassword(password);
     if (!passwordValidation.valid) {
@@ -93,8 +85,8 @@ export async function POST(req: Request) {
 
     // Crear usuario
     const [result] = await db.query(
-      'INSERT INTO users (name, email, password, role, maxsessions, maxexhibitors, event) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [sanitizedName, email, hashedPassword, role, maxsessions || 1, maxexhibitors || 1, event]
+      'INSERT INTO users (name, email, password, role, maxsessions, maxexhibitors, event, company, stand, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [sanitizedName, email, hashedPassword, 'exhibitor', maxsessions || 0, maxexhibitors || 0, event, company, stand, 1]
     ) as [InsertResult, any];
 
     return NextResponse.json(

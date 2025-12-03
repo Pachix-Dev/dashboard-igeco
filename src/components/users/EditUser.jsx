@@ -29,10 +29,11 @@ export function EditUser({ user, onUserUpdated }) {
     reset({
       name: user.name,
       email: user.email,
-      role: user.role,
       maxsessions: user.maxsessions,
       maxexhibitors: user.maxexhibitors,
       event: user.event,
+      company: user.company,
+      stand: user.stand,
     })
   }, [user, reset])
 
@@ -186,66 +187,48 @@ export function EditUser({ user, onUserUpdated }) {
                     </div>
                   </div>
 
-                  <div className='space-y-2'>
-                    <label className='text-sm font-semibold text-slate-200'>
-                      {t('form.role')}
-                    </label>
-                    <select
-                      {...register('role', {
-                        required: t('form.errors.required'),
-                      })}
-                      className='mt-0 w-full rounded-xl border border-white/10 bg-slate-900/60 p-3 text-sm text-white ring-0 transition focus:border-blue-400/60 focus:outline-none *:text-slate-900'
-                    >
-                      <option value='' disabled>
-                        {t('form.select')}
-                      </option>
-                      <option value='exhibitor'>
-                        {t('form.roles.exhibitor')}
-                      </option>
-                      <option value='exhibitorplus'>
-                        {t('form.roles.exhibitorplus')}
-                      </option>
-                    </select>
-                    {errors.role && (
-                      <p className='text-sm text-rose-400'>
-                        {errors.role.message}
-                      </p>
-                    )}
+                  <div className='grid gap-4 md:grid-cols-2'>
+                    <div className='space-y-2'>
+                      <label className='text-sm font-semibold text-slate-200'>
+                        {t('form.company')}
+                      </label>
+                      <input
+                        type='text'
+                        {...register('company', {
+                          required: t('form.errors.required'),
+                        })}
+                        className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                        placeholder={t('form.companyPlaceholder')}
+                      />
+                      {errors.company && (
+                        <p className='text-sm text-rose-400'>
+                          {errors.company.message}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className='space-y-2'>
+                      <label className='text-sm font-semibold text-slate-200'>
+                        {t('form.stand')}
+                      </label>
+                      <input
+                        type='text'
+                        {...register('stand', {
+                          required: t('form.errors.required'),
+                        })}
+                        className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                        placeholder={t('form.standPlaceholder')}
+                      />
+                      {errors.stand && (
+                        <p className='text-sm text-rose-400'>
+                          {errors.stand.message}
+                        </p>
+                      )}
+                    </div>
                   </div>
 
-                  <div className='grid gap-4 md:grid-cols-3'>
-                    {isExhibitorPlus && (
-                      <div className='space-y-2'>
-                        <label className='text-sm font-semibold text-slate-200'>
-                          {t('form.sessions')}
-                        </label>
-                        <input
-                          type='number'
-                          {...register('maxsessions', {
-                            required: t('form.errors.required'),
-                            min: {
-                              value: 2,
-                              message: t('form.errors.sessionsMin'),
-                            },
-                            max: {
-                              value: 10,
-                              message: t('form.errors.sessionsMax'),
-                            },
-                          })}
-                          className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
-                          placeholder='2 - 10'
-                        />
-                        {errors.maxsessions && (
-                          <p className='text-sm text-rose-400'>
-                            {errors.maxsessions.message}
-                          </p>
-                        )}
-                      </div>
-                    )}
-
-                    <div
-                      className={`space-y-2 ${isExhibitorPlus ? '' : 'md:col-span-2'}`}
-                    >
+                  <div className='grid gap-4 md:grid-cols-2'>
+                    <div className='pace-y-2'>
                       <label className='text-sm font-semibold text-slate-200'>
                         {t('form.exhibitors')}
                       </label>
@@ -254,20 +237,47 @@ export function EditUser({ user, onUserUpdated }) {
                         {...register('maxexhibitors', {
                           required: t('form.errors.required'),
                           min: {
-                            value: 2,
+                            value: 1,
                             message: t('form.errors.exhibitorsMin'),
                           },
                           max: {
-                            value: 10,
+                            value: 100,
                             message: t('form.errors.exhibitorsMax'),
                           },
                         })}
                         className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
-                        placeholder='2 - 10'
+                        placeholder='1 - 100'
                       />
                       {errors.maxexhibitors && (
                         <p className='text-sm text-rose-400'>
                           {errors.maxexhibitors.message}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className='space-y-2'>
+                      <label className='text-sm font-semibold text-slate-200'>
+                        {t('form.sessions')}
+                      </label>
+                      <input
+                        type='number'
+                        {...register('maxsessions', {
+                          required: t('form.errors.required'),
+                          min: {
+                            value: 0,
+                            message: t('form.errors.sessionsMin'),
+                          },
+                          max: {
+                            value: 100,
+                            message: t('form.errors.sessionsMax'),
+                          },
+                        })}
+                        className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                        placeholder='0 - 100'
+                      />
+                      {errors.maxsessions && (
+                        <p className='text-sm text-rose-400'>
+                          {errors.maxsessions.message}
                         </p>
                       )}
                     </div>

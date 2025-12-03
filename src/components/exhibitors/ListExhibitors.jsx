@@ -4,12 +4,14 @@ import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import { EditExhibitor } from '../exhibitors/EditExhibitor'
 import { QrPrinter } from '../exhibitors/QrPrinter'
-import { useSessionUser } from '@/store/session-user'
 
-export function ListExhibitors({ exhibitors, onExhibitorUpdated }) {
+export function ListExhibitors({
+  exhibitors,
+  userId,
+  role,
+  onExhibitorUpdated,
+}) {
   const t = useTranslations('ExhibitorsPage')
-  const { userSession } = useSessionUser()
-  const role = userSession ? userSession.role : null
 
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 6
@@ -100,20 +102,6 @@ export function ListExhibitors({ exhibitors, onExhibitorUpdated }) {
               </svg>
             </span>
           </div>
-
-          <div className='flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-200 shadow-lg shadow-blue-500/10'>
-            <div className='grid h-10 w-10 place-items-center rounded-xl bg-blue-500/15 text-base font-semibold text-blue-200'>
-              {filteredExhibitors.length}
-            </div>
-            <div>
-              <p className='text-[11px] uppercase tracking-[0.2em] text-slate-400'>
-                {t('search.inView')}
-              </p>
-              <p className='font-semibold text-white'>
-                {t('search.found', { count: filteredExhibitors.length })}
-              </p>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -177,6 +165,7 @@ export function ListExhibitors({ exhibitors, onExhibitorUpdated }) {
                       <div className='flex flex-wrap justify-end gap-2'>
                         <EditExhibitor
                           exhibitor={exhibitor}
+                          userId={userId}
                           onExhibitorUpdated={onExhibitorUpdated}
                         />
                         <QrPrinter exhibitor={exhibitor} />

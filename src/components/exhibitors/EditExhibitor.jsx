@@ -5,8 +5,9 @@ import { useTranslations } from 'next-intl'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { createPortal } from 'react-dom'
+import { updateExhibitor } from '@/lib/actions/exhibitors'
 
-export function EditExhibitor({ exhibitor, onExhibitorUpdated }) {
+export function EditExhibitor({ exhibitor, userId, onExhibitorUpdated }) {
   const t = useTranslations('ExhibitorsPage.edit')
   const [formData, setFormData] = useState({
     id: exhibitor.id,
@@ -37,26 +38,24 @@ export function EditExhibitor({ exhibitor, onExhibitorUpdated }) {
   const handleUser = async () => {
     setIsLoading(true)
     try {
-      const response = await fetch(`/api/exhibitors/${formData.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData }),
+      const result = await updateExhibitor(formData.id, userId, {
+        name: formData.name,
+        lastname: formData.lastname,
+        email: formData.email,
+        phone: formData.phone,
+        position: formData.position,
+        company: formData.company,
       })
 
-      if (response.ok) {
-        const updatedExhibitor = {
-          ...exhibitor,
-          ...formData,
-        }
-
+      if (result.success) {
         if (onExhibitorUpdated) {
-          onExhibitorUpdated(updatedExhibitor)
+          onExhibitorUpdated(result.data)
         }
 
         notify(t('success'), 'success')
         handleClose()
       } else {
-        notify(t('error'), 'error')
+        notify(result.error || t('error'), 'error')
       }
     } catch (error) {
       notify(t('error'), 'error')

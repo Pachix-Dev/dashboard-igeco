@@ -1,7 +1,5 @@
-'use client';
-
-import {Img} from '@react-email/components';
 import LanguageSelector from '@/components/shared/LanguageSelector';
+import Image from 'next/image';
 
 export default function AuthLayout({children}: {children: React.ReactNode}) {
   return (
@@ -11,19 +9,21 @@ export default function AuthLayout({children}: {children: React.ReactNode}) {
       </div>
 
       <section className="mx-auto w-full max-w-md px-4">
-        <div className="mb-8 flex justify-center gap-4">
-          <div className="rounded-2xl bg-white p-2 shadow-lg">
-            <Img
+        <div className="mb-8 flex items-center justify-center gap-2">
+          <div className="rounded-xl w-12 h-12 bg-white p-2 shadow-lg">
+            <Image
               src="/img/italian.png"
               alt="Italian Logo"
-              className="h-20 w-20 rounded-xl object-contain"
+              width={40}
+              height={40}              
             />
           </div>
-          <div className="rounded-2xl bg-white p-2 shadow-lg">
-            <Img
+          <div className="rounded-xl w-12 h-12 bg-white p-2 shadow-lg">
+            <Image
               src="/img/deutschemesselogo.webp"
               alt="Deutsche Messe Logo"
-              className="h-20 w-20 rounded-xl object-contain"
+              width={40}
+              height={40}            
             />
           </div>
         </div>

@@ -1,5 +1,5 @@
-import {PageLoading} from '@/components/shared/PageLoading';
+import ProfileSkeleton from '@/components/profile/ProfileSkeleton';
 
 export default function Loading() {
-  return <PageLoading message="Cargando perfil..." />;
+  return <ProfileSkeleton />;
 }

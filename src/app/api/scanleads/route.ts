@@ -24,7 +24,19 @@ export async function POST(req: Request) {
     if (!isValidUUID(uuid)) {
       return NextResponse.json({ message: 'No se encuentra o es inválido' }, { status: 400 });
     }
+    // Obtener información del usuario y verificar límite de expositores
+    const [users]: any = await db.query(
+      'SELECT maxexhibitors FROM users WHERE id = ?',
+      [user_id]
+    );
 
+    if (users.length === 0) {
+      return NextResponse.json(
+        { message: 'Usuario no encontrado' },
+        { status: 404 }
+      );
+    }
+    
     /*const [existSession] = await db.query(
       'SELECT * FROM user_sessions WHERE user_id = ? AND session_token = ?',
       [user_id, token]

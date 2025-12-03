@@ -81,6 +81,7 @@ export default function Login() {
                 required
                 className="w-full rounded-lg border border-white border-opacity-30 bg-white bg-opacity-10 py-3 pl-10 pr-4 text-white placeholder-gray-400 transition-all focus:border-blue-500 focus:bg-opacity-20 focus:outline-none"
                 placeholder={t('emailPlaceholder')}
+                autoComplete="username"
               />
             </div>
           </div>

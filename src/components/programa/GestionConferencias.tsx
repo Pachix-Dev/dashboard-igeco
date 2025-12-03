@@ -6,6 +6,7 @@ import { useToaster } from '@/context/ToasterContext'
 import { useForm, useFieldArray } from 'react-hook-form'
 import { createPortal } from 'react-dom'
 import type { Escenario, ProgramaDia, Conferencia, ConferenciaForm } from '@/types/programa'
+import { addConferencia, updateConferencia, deleteConferencia, getConferencias, getConferenciaById } from '@/lib/actions/programa'
 
 interface Props {
   escenarios: Escenario[]
@@ -117,10 +118,8 @@ export function GestionConferencias({ escenarios, dias, conferencias, onUpdate }
 
   const loadConferenciaCompleta = async (id: number) => {
     try {
-      const response = await fetch(`/api/programa/conferencias?id=${id}`)
-      const data = await response.json()
-      if (response.ok && data.data) {
-        const conf = data.data
+      const conf = await getConferenciaById(id)
+      if (conf) {
         reset({
           dia_id: conf.dia_id,
           title: conf.title,
@@ -155,26 +154,14 @@ export function GestionConferencias({ escenarios, dias, conferencias, onUpdate }
   const onSubmit = async (data: ConferenciaForm) => {
     setIsLoading(true)
     try {
-      const method = editingConferencia ? 'PUT' : 'POST'
-      const body = editingConferencia 
-        ? { ...data, id: editingConferencia.id, active: editingConferencia.active }
-        : data
-
-      const response = await fetch('/api/programa/conferencias', {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      })
-
-      const result = await response.json()
-
-      if (response.ok) {
+      if (editingConferencia) {
+        await updateConferencia(editingConferencia.id, { active: editingConferencia.active, ...data } as any)
+      } else {
+        await addConferencia(data as any)
+      }
         notify(t('toast.success'), 'success')
         handleClose()
         onUpdate(filterDia || undefined)
-      } else {
-        notify(result.message || t('toast.error'), 'error')
-      }
     } catch (error) {
       console.error('Error:', error)
       notify(t('toast.error'), 'error')
@@ -187,16 +174,9 @@ export function GestionConferencias({ escenarios, dias, conferencias, onUpdate }
     if (!confirm(tDelete('message'))) return
 
     try {
-      const response = await fetch(`/api/programa/conferencias?id=${id}`, {
-        method: 'DELETE',
-      })
-
-      if (response.ok) {
+      await deleteConferencia(id)
         notify(t('toast.deleteSuccess'), 'success')
         onUpdate(filterDia || undefined)
-      } else {
-        notify(t('toast.deleteError'), 'error')
-      }
     } catch (error) {
       console.error('Error:', error)
       notify(t('toast.deleteError'), 'error')

@@ -9,20 +9,21 @@ import { LoadingOverlay } from '../shared/Loading'
 export function AddUser({ onUserAdded }) {
   const t = useTranslations('UsersPage')
   const locale = useLocale()
-  const [name, setName] = useState('')
-  const [company, setCompany] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
-  const [role, setRole] = useState('')
-  const [maxsessions, setMaxsessions] = useState('')
-  const [maxexhibitors, setMaxexhibitors] = useState('')
-  const [event, setevent] = useState('')
+  const [formData, setFormData] = useState({
+    name: '',
+    company: '',
+    email: '',
+    password: '',
+    showPassword: '',
+    maxsessions: '',
+    maxexhibitors: '',
+    event: '',
+    stand: '',
+  })
+
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const { notify } = useToaster()
-
-  const isExhibitorPlus = role === 'exhibitorplus'
 
   const handleOpen = () => setIsOpen(true)
   const handleClose = () => setIsOpen(false)
@@ -34,6 +35,10 @@ export function AddUser({ onUserAdded }) {
     reset,
   } = useForm()
 
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
+
   const handleUser = async () => {
     setIsLoading(true)
     try {
@@ -43,14 +48,15 @@ export function AddUser({ onUserAdded }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name,
-          company,
-          email,
-          password,
-          role,
-          maxsessions,
-          maxexhibitors,
-          event,
+          name: formData.name,
+          company: formData.company,
+          email: formData.email,
+          password: formData.password,
+          role: formData.role,
+          maxsessions: formData.maxsessions,
+          maxexhibitors: formData.maxexhibitors,
+          event: formData.event,
+          stand: formData.stand,
         }),
       })
 
@@ -66,7 +72,12 @@ export function AddUser({ onUserAdded }) {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email, name, password, locale }),
+            body: JSON.stringify({
+              email: formData.email,
+              name: formData.name,
+              password: formData.password,
+              locale,
+            }),
           })
 
           const sendData = await sendResponse.json()
@@ -86,13 +97,14 @@ export function AddUser({ onUserAdded }) {
         // Crear objeto del nuevo usuario para agregar a la lista
         const newUser = {
           id: data.id || Date.now(), // ID temporal si no viene del servidor
-          name,
-          company,
-          email,
-          role,
-          maxsessions: maxsessions || 1,
-          maxexhibitors: maxexhibitors || 1,
-          event,
+          name: formData.name,
+          company: formData.company,
+          email: formData.email,
+          role: 'exhibitor',
+          maxsessions: formData.maxsessions || 0,
+          maxexhibitors: formData.maxexhibitors || 0,
+          event: formData.event,
+          stand: formData.stand,
         }
 
         // Notificar al componente padre
@@ -102,14 +114,18 @@ export function AddUser({ onUserAdded }) {
 
         // Resetear formulario completamente
         reset()
-        setName('')
-        setCompany('')
-        setEmail('')
-        setPassword('')
-        setRole('')
-        setMaxsessions('')
-        setMaxexhibitors('')
-        setevent('')
+        setFormData({
+          name: '',
+          company: '',
+          email: '',
+          password: '',
+          showPassword: false,
+          role: '',
+          maxsessions: '',
+          maxexhibitors: '',
+          event: '',
+          stand: '',
+        })
 
         // Cerrar modal después de un breve delay para que el usuario vea el éxito
         setTimeout(() => {
@@ -171,9 +187,9 @@ export function AddUser({ onUserAdded }) {
                       name='name'
                       {...register('name', {
                         required: t('form.errors.required'),
-                        onChange: (e) => setName(e.target.value),
+                        onChange: handleChange,
                       })}
-                      defaultValue={name}
+                      defaultValue={formData.name}
                       className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
                       placeholder={t('form.namePlaceholder')}
                     />
@@ -193,9 +209,9 @@ export function AddUser({ onUserAdded }) {
                       name='company'
                       {...register('company', {
                         required: t('form.errors.required'),
-                        onChange: (e) => setCompany(e.target.value),
+                        onChange: handleChange,
                       })}
-                      defaultValue={company}
+                      defaultValue={formData.company}
                       className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
                       placeholder={t('form.companyPlaceholder')}
                     />
@@ -222,15 +238,38 @@ export function AddUser({ onUserAdded }) {
                             /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                           message: t('form.errors.email'),
                         },
-                        onChange: (e) => setEmail(e.target.value),
+                        onChange: handleChange,
                       })}
-                      defaultValue={email}
+                      defaultValue={formData.email}
                       className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
                       placeholder={t('form.emailPlaceholder')}
                     />
                     {errors.email && (
                       <p className='text-sm text-rose-400'>
                         {errors.email.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className='space-y-2'>
+                    <label className='text-sm font-semibold text-slate-200'>
+                      {t('form.stand')}
+                    </label>
+                    <input
+                      type='text'
+                      name='stand'
+                      {...register('stand', {
+                        required: t('form.errors.required'),
+                        onChange: handleChange,
+                      })}
+                      defaultValue={formData.stand}
+                      className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                      placeholder={t('form.standPlaceholder')}
+                      autoComplete='false'
+                    />
+                    {errors.stand && (
+                      <p className='text-sm text-rose-400'>
+                        {errors.stand.message}
                       </p>
                     )}
                   </div>
@@ -244,10 +283,10 @@ export function AddUser({ onUserAdded }) {
                     <div className='relative'>
                       <input
                         id='password'
-                        type={showPassword ? 'text' : 'password'}
+                        type={formData.showPassword ? 'text' : 'password'}
                         {...register('password', {
                           required: t('form.errors.required'),
-                          onChange: (e) => setPassword(e.target.value),
+                          onChange: handleChange,
                           minLength: {
                             value: 6,
                             message: t('form.errors.passwordLength'),
@@ -258,7 +297,7 @@ export function AddUser({ onUserAdded }) {
                             message: t('form.errors.passwordPattern'),
                           },
                         })}
-                        defaultValue={password}
+                        defaultValue={formData.password}
                         className='w-full px-4 py-3 pr-12 bg-slate-800/50 border border-slate-700/50 rounded-xl text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-200'
                         placeholder={t('form.passwordPlaceholder')}
                         autoComplete='new-password'
@@ -266,10 +305,15 @@ export function AddUser({ onUserAdded }) {
 
                       <button
                         type='button'
-                        onClick={() => setShowPassword(!showPassword)}
+                        onClick={() =>
+                          setFormData({
+                            ...formData,
+                            showPassword: !formData.showPassword,
+                          })
+                        }
                         className='absolute inset-y-0 right-2 flex items-center rounded-lg px-3 text-slate-400 transition hover:text-white focus:outline-none'
                       >
-                        {showPassword ? (
+                        {formData.showPassword ? (
                           <svg
                             xmlns='http://www.w3.org/2000/svg'
                             fill='none'
@@ -317,75 +361,33 @@ export function AddUser({ onUserAdded }) {
 
                   <div className='space-y-2'>
                     <label className='text-sm font-semibold text-slate-200'>
-                      {t('form.role')}
+                      {t('form.event')}
                     </label>
                     <select
-                      name='role'
-                      {...register('role', {
+                      name='event'
+                      {...register('event', {
                         required: t('form.errors.required'),
-                        onChange: (e) => setRole(e.target.value),
+                        onChange: handleChange,
                       })}
-                      defaultValue={role}
+                      defaultValue={formData.event}
                       className='mt-0 w-full rounded-xl border border-white/10 bg-slate-900/60 p-3 text-sm text-white ring-0 transition focus:border-blue-400/60 focus:outline-none *:text-slate-900'
                     >
                       <option value='' disabled>
                         {t('form.select')}
                       </option>
-                      <option value='exhibitor'>
-                        {t('form.roles.exhibitor')}
-                      </option>
-                      <option value='exhibitorplus'>
-                        {t('form.roles.exhibitorplus')}
-                      </option>
+                      <option value='ECOMONDO'>ECOMONDO</option>
+                      <option value='RE+ MEXICO'>RE+ MEXICO</option>
                     </select>
-                    {errors.role && (
+                    {errors.event && (
                       <p className='text-sm text-rose-400'>
-                        {errors.role.message}
+                        {errors.event.message}
                       </p>
                     )}
                   </div>
                 </div>
 
                 <div className='grid gap-4 md:grid-cols-3'>
-                  {isExhibitorPlus && (
-                    <div className='space-y-2'>
-                      <label className='text-sm font-semibold text-slate-200'>
-                        {t('form.sessions')}
-                      </label>
-                      <input
-                        type='number'
-                        name='sessions'
-                        {...register('sessions', {
-                          required: t('form.errors.required'),
-                          pattern: {
-                            value: /^[0-9]*$/,
-                            message: t('form.errors.number'),
-                          },
-                          min: {
-                            value: 1,
-                            message: t('form.errors.sessionsMin'),
-                          },
-                          max: {
-                            value: 100,
-                            message: t('form.errors.sessionsMax'),
-                          },
-                          onChange: (e) => setMaxsessions(e.target.value),
-                        })}
-                        defaultValue={maxsessions}
-                        className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
-                        placeholder='2 - 10'
-                      />
-                      {errors.sessions && (
-                        <p className='text-sm text-rose-400'>
-                          {errors.sessions.message}
-                        </p>
-                      )}
-                    </div>
-                  )}
-
-                  <div
-                    className={`space-y-2 ${isExhibitorPlus ? '' : 'md:col-span-2'}`}
-                  >
+                  <div className='space-y-2'>
                     <label className='text-sm font-semibold text-slate-200'>
                       {t('form.exhibitors')}
                     </label>
@@ -406,11 +408,11 @@ export function AddUser({ onUserAdded }) {
                           value: 100,
                           message: t('form.errors.exhibitorsMax'),
                         },
-                        onChange: (e) => setMaxexhibitors(e.target.value),
+                        onChange: handleChange,
                       })}
-                      defaultValue={maxexhibitors}
+                      defaultValue={formData.maxexhibitors}
                       className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
-                      placeholder='2 - 10'
+                      placeholder='1 - 100'
                     />
                     {errors.maxexhibitors && (
                       <p className='text-sm text-rose-400'>
@@ -421,26 +423,34 @@ export function AddUser({ onUserAdded }) {
 
                   <div className='space-y-2'>
                     <label className='text-sm font-semibold text-slate-200'>
-                      {t('form.event')}
+                      {t('form.sessions')}
                     </label>
-                    <select
-                      name='event'
-                      {...register('event', {
+                    <input
+                      type='number'
+                      name='maxsessions'
+                      {...register('maxsessions', {
                         required: t('form.errors.required'),
-                        onChange: (e) => setevent(e.target.value),
+                        pattern: {
+                          value: /^[0-9]*$/,
+                          message: t('form.errors.number'),
+                        },
+                        min: {
+                          value: 0,
+                          message: t('form.errors.sessionsMin'),
+                        },
+                        max: {
+                          value: 100,
+                          message: t('form.errors.sessionsMax'),
+                        },
+                        onChange: handleChange,
                       })}
-                      defaultValue={event}
-                      className='mt-0 w-full rounded-xl border border-white/10 bg-slate-900/60 p-3 text-sm text-white ring-0 transition focus:border-blue-400/60 focus:outline-none *:text-slate-900'
-                    >
-                      <option value='' disabled>
-                        {t('form.select')}
-                      </option>
-                      <option value='ECOMONDO'>ECOMONDO</option>
-                      <option value='RE+ MEXICO'>RE+ MEXICO</option>
-                    </select>
-                    {errors.event && (
+                      defaultValue={formData.maxsessions}
+                      className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                      placeholder='0 - 100'
+                    />
+                    {errors.maxsessions && (
                       <p className='text-sm text-rose-400'>
-                        {errors.event.message}
+                        {errors.maxsessions.message}
                       </p>
                     )}
                   </div>

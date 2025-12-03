@@ -26,19 +26,41 @@
     "footer": "© 2026 IGECO. Todos los derechos reservados."
   },
   "Dashboard": {
+    "panel": "Panel",
     "welcome": "Bienvenido {name}!",
+    "subtitle": "Tu centro de gestión y control del evento",
     "important": "Puntos importantes:",
+    "profileAlert": {
+      "title": "Completa tu perfil",
+      "description": "Para aprovechar todas las funcionalidades, completa la información de tu empresa y stand.",
+      "action": "Completar perfil"
+    },
+    "stats": {
+      "event": "Evento",
+      "exhibitors": "Expositores",
+      "sessions": "Sesiones",
+      "dates": "Fechas",
+      "eventDates": "14 - 16 de abril 2026",
+      "venue": "Expo Guadalajara, Jalisco",
+      "noData": "No asignado"
+    },
     "points": {
       "1": "Los gafetes a expositores se entregarán el día del evento en el módulo de registro de forma individual para expositores; recuerda que debes presentar una identificación oficial.",
-      "2": "No se permiten reimpresiones de gafetes, por lo que es importante que conserves tu gafete durante los días del evento; de lo contrario, tendrá un costo adicional.",
-      "3": "Si requieres registrar a más expositores de los permitidos, por favor contacta a tu asesor de ventas.",
-      "4": "Si requieres activar el servicio de escáner para recopilar datos de los visitantes a tu stand, contacta a tu asesor de ventas. (Recuerda que este servicio solo lo puedes usar dentro de tu stand; de lo contrario, se cumplirán las políticas del contrato establecido)."
+      "2": "No se permiten reimpresiones de gafetes, por lo que es importante que conserves tu gafete durante los días del evento de lo contrario, tendrás que comprar un gafete adicional."
+      
+    },
+    "globalStats": {
+      "title": "Registros globales",
+      "totalUsers": "Total de usuarios",
+      "totalStudents": "Total de estudiantes",
+      "goal": "Meta objetivo",
+      "percentage": "Progreso"
     }
   },
   "Menu": {
     "users": "Usuarios",
     "speakers": "Ponentes",
-    "exhibitors": "Expositores",
+    "badges": "Gafetes de expositores",
     "scanLeads": "Escanear leads",
     "profile": "Perfil",
     "program": "Programa",
@@ -55,7 +77,7 @@
   },
   "ExhibitorsPage": {
     "panel": "Panel",
-    "title": "Expositores",
+    "title": "Gafetes de expositores",
     "badge": "{count} activos",
     "subtitle": "Administra expositores, credenciales y empresas desde un panel limpio.",
     "stat": {
@@ -76,27 +98,27 @@
       "reached": "Límite alcanzado ({current}/{max}), compra más gafetes adicionales."
     },
     "buy": {
-      "button": "Comprar más espacios",
+      "button": "Comprar más gafetes",
       "title": "Aumentar límite de expositores",
-      "subtitle": "Compra espacios adicionales para registrar más expositores",
+      "subtitle": "Compra gafetes adicionales para registrar más expositores",
       "close": "Cerrar",
       "current": "Uso actual",
-      "quantity": "Cantidad de espacios",
-      "maxQuantity": "Máximo 50 espacios por compra",
-      "pricePerSlot": "Precio por espacio",
-      "slots": "Espacios",
+      "quantity": "Cantidad de gafetes",
+      "maxQuantity": "Máximo 50 gafetes por compra",
+      "pricePerSlot": "Precio por gafete",
+      "slots": "Gafetes",
       "total": "Total",
       "cancel": "Cancelar",
       "processing": "Procesando pago...",
-      "success": "¡Límite aumentado! Ahora tienes {quantity} espacios adicionales",
+      "success": "¡Límite aumentado! Ahora tienes {quantity} gafetes adicionales",
       "pending": "Pago pendiente de confirmación",
-      "pendingMessage": "Tu pago está siendo procesado por PayPal. Te notificaremos por correo cuando se complete y los espacios sean activados.",
+      "pendingMessage": "Tu pago está siendo procesado por PayPal. Te notificaremos por correo cuando se complete y los gafetes sean activados.",
       "error": "Error al procesar el pago. Intenta nuevamente",
       "paymentError": "Error en el pago. Por favor verifica tu método de pago"
     },
     "receipt": {
-      "subject": "Recibo de compra - Espacios de expositores IGECO",
-      "subjectPending": "Pago confirmado - Espacios de expositores IGECO",
+      "subject": "Recibo de compra - Gafetes de expositores IGECO",
+      "subjectPending": "Pago confirmado - Gafetes de expositores IGECO",
       "thankYou": "¡Gracias por tu compra!",
       "description": "Tu pago ha sido procesado exitosamente. A continuación encontrarás los detalles de tu compra.",
       "purchaseDetails": "Detalles de la compra",
@@ -109,7 +131,7 @@
       "quantity": "Cantidad",
       "unitPrice": "Precio Unit.",
       "total": "Total",
-      "itemDescription": "Espacios de expositores adicionales",
+      "itemDescription": "Gafetes de expositores adicionales",
       "totalPaid": "Total pagado",
       "limitUpdate": "Actualización de límite",
       "previousLimit": "Límite anterior",
@@ -186,7 +208,8 @@
       "select": "Selecciona una opción",
       "errors": {
         "required": "Campo requerido",
-        "email": "Formato de email inválido"
+        "email": "Formato de email inválido",
+        "phone": "Debe contener 10 dígitos"
       }
     },
     "list": {
@@ -213,9 +236,56 @@
       "page": "Página {current} de {total}",
       "prev": "Anterior",
       "next": "Siguiente"
-    }
+    }    
   },
   "ProfilePage": {
+    "title": "Mi Perfil",
+    "subtitle": "Información de tu cuenta y configuración",
+    "edit": "Editar Perfil",
+    "status": {
+      "active": "Activa",
+      "disabled": "Cuenta deshabilitada contacta a tu asesor de ventas para terminar el proceso de contratación"
+    },
+    "fields": {
+      "company": "Empresa",
+      "event": "Evento",
+      "stand": "Stand",
+      "address": "Dirección",
+      "webpage": "Sitio Web",
+      "description": "Descripción",
+      "description_en": "Descripción (EN)",
+      "noDescription": "Sin descripción"
+
+    },
+    "modal": {
+      "title": "Editar Perfil",
+      "changeLogo": "Cambiar Logo",
+      "uploading": "Subiendo...",
+      "cancel": "Cancelar",
+      "save": "Guardar Cambios",
+      "saving": "Guardando...",
+      "form": {
+        "name": "Nombre",
+        "nameRequired": "Nombre es requerido",
+        "company": "Empresa",
+        "companyRequired": "Empresa es requerida",
+        "event": "Evento",
+        "eventRequired": "Evento es requerido",
+        "eventSelect": "--",
+        "stand": "Stand",
+        "address": "Dirección",
+        "description": "Descripción (Español)",
+        "description_en": "Descripción (Inglés)",
+        "webpage": "Sitio Web",
+        "webpageRequired": "El sitio web debe comenzar con http:// o https://"
+      },
+      "toast": {
+        "logoSuccess": "Logo cargado",
+        "logoError": "Error al subir logo",
+        "updateSuccess": "Perfil actualizado",
+        "updateError": "Error al actualizar"
+      }
+    },
     "header": {
       "subtitle": "Mi Cuenta",
       "title": "Perfil de Usuario",
@@ -240,7 +310,37 @@
     "banner": {
       "title": "Información",
       "message": "Si necesitas actualizar tu información o tienes algún problema, contacta a tu asesor de ventas."
+    },
+    "alert": {
+      "title": "Completa tu perfil",
+      "description": "Para aprovechar todas las funcionalidades, completa la información de tu empresa y stand."
+    },    
+    "form": {
+      "name": "Nombre",
+      "company": "Empresa",
+      "event": "Evento",
+      "description": "Descripción (ES)",
+      "descriptionEn": "Descripción (EN)",
+      "address": "Dirección",
+      "webpage": "Sitio Web",
+      "photo": "Foto (URL)",
+      "save": "Guardar cambios",
+      "saving": "Guardando...",
+      "success": "Perfil actualizado",
+      "error": "No se pudo actualizar el perfil"
+    },
+    "formErrors": {
+      "nameRequired": "El nombre es obligatorio",
+      "companyRequired": "La empresa es obligatoria",
+      "eventRequired": "El evento es obligatorio",
+      "photoInvalid": "La URL de la foto no es válida",
+      "fixErrors": "Corrige los errores del formulario"
     }
+  },
+  "AccountDisabled": {
+    "title": "Cuenta no habilitada",
+    "message": "Tu cuenta no está habilitada aún, termina el proceso de contratación contacta a tu asesor de ventas.",
+    "contact": "Contacta a tu asesor de ventas para activar tu cuenta"
   },
   "UsersPage": {
     "loading": "Cargando usuarios...",
@@ -278,11 +378,13 @@
       "companyPlaceholder": "Ej: IGECO Mexico",
       "email": "Email",
       "emailPlaceholder": "correo@empresa.com",
+      "stand": "Stand",
+      "standPlaceholder": "Ej: A-123",
       "password": "Password",
       "passwordPlaceholder": "Mínimo 6 caracteres",
       "role": "Perfil",
-      "sessions": "Max sesiones",
-      "exhibitors": "Max expositores",
+      "sessions": "Numero de sesiones scanner",
+      "exhibitors": "Numero de gafetes",
       "event": "Evento",
       "select": "Selecciona una opción",
       "roles": {
@@ -320,6 +422,7 @@
     "table": {
       "user": "Usuario",
       "role": "Rol",
+      "company": "Empresa",
       "event": "Evento",
       "actions": "Acciones",
       "noData": "Sin dato"
@@ -500,7 +603,10 @@
     "selectEvent": "Selecciona un evento",
     "submit": "Crear cuenta",
     "loading": "Cargando...",
-    "success": "¡Cuenta creada exitosamente! Redirigiendo al login...",
+    "success": "A?Cuenta creada exitosamente! Redirigiendo al login...",
+      "successTitle": "A?Registro exitoso!",
+      "successMessage": "Hemos enviado tus credenciales de acceso a {email}.",
+      "successRedirect": "Redirigiendo al inicio de sesiA3n...",
     "hasAccount": "¿Ya tienes cuenta?",
     "loginLink": "Inicia sesión",
     "footer": "© 2025 IGECO. Todos los derechos reservados.",
@@ -705,5 +811,6 @@
       "title": "Confirmar eliminación",
       "message": "¿Estás seguro de que deseas eliminar este elemento?"
     }
-  }
+  }  
 }
+

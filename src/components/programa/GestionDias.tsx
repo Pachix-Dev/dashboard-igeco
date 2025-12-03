@@ -6,6 +6,7 @@ import { useToaster } from '@/context/ToasterContext'
 import { useForm } from 'react-hook-form'
 import { createPortal } from 'react-dom'
 import type { Escenario, ProgramaDia, DiaForm } from '@/types/programa'
+import { addDia, updateDia, deleteDia } from '@/lib/actions/programa'
 
 interface Props {
   escenarios: Escenario[]
@@ -60,25 +61,16 @@ export function GestionDias({ escenarios, dias, onUpdate }: Props) {
   const onSubmit = async (data: DiaForm) => {
     setIsLoading(true)
     try {
-      const method = editingDia ? 'PUT' : 'POST'
-      const body = editingDia 
-        ? { ...data, id: editingDia.id, active: editingDia.active }
-        : data
+      const result = editingDia
+        ? await updateDia(editingDia.id, { ...data, active: editingDia.active })
+        : await addDia(data)
 
-      const response = await fetch('/api/programa/dias', {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      })
-
-      const result = await response.json()
-
-      if (response.ok) {
+      if (result?.success) {
         notify(t('toast.success'), 'success')
         handleClose()
         onUpdate(filterEscenario || undefined)
       } else {
-        notify(result.message || t('toast.error'), 'error')
+        notify(result?.error || t('toast.error'), 'error')
       }
     } catch (error) {
       console.error('Error:', error)
@@ -92,11 +84,8 @@ export function GestionDias({ escenarios, dias, onUpdate }: Props) {
     if (!confirm(tDelete('message'))) return
 
     try {
-      const response = await fetch(`/api/programa/dias?id=${id}`, {
-        method: 'DELETE',
-      })
-
-      if (response.ok) {
+      const res = await deleteDia(id)
+      if (res?.success) {
         notify(t('toast.deleteSuccess'), 'success')
         onUpdate(filterEscenario || undefined)
       } else {

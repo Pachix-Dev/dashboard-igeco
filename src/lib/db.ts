@@ -8,7 +8,7 @@ const db = mysql.createPool({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    connectionLimit: 10, // Máximo 10 conexiones simultáneas
+    connectionLimit: 100, // Máximo 10 conexiones simultáneas
     waitForConnections: true, // Esperar si no hay conexiones disponibles
     queueLimit: 0, // Sin límite de cola
     enableKeepAlive: true,
@@ -23,7 +23,7 @@ const db_re_eco = mysql.createPool({
     user: process.env.DB_USER2,
     password: process.env.DB_PASSWORD2,
     database: process.env.DB_NAME2,
-    connectionLimit: 10,
+    connectionLimit: 100,
     waitForConnections: true,
     queueLimit: 0,
     enableKeepAlive: true,
@@ -36,8 +36,7 @@ export {db_re_eco};
 export const roles = {
     admin: ['/dashboard', '/dashboard/usuarios', '/dashboard/exhibitors', '/dashboard/profile', '/dashboard/scan-leads', '/dashboard/ponentes', '/dashboard/programa'],
     editor: ['/dashboard', '/dashboard/profile', '/dashboard/ponentes', '/dashboard/programa'],
-    exhibitor: ['/dashboard', '/dashboard/profile', '/dashboard/exhibitors'],
-    exhibitorplus: ['/dashboard', '/dashboard/profile', '/dashboard/exhibitors', '/dashboard/scan-leads'],    
+    exhibitor: ['/dashboard', '/dashboard/profile', '/dashboard/exhibitors', '/dashboard/scan-leads'],    
 };
 
 export async function fetchUsers(): Promise<User[]> {    
@@ -67,6 +66,53 @@ export async function fetchDias(): Promise<Dia[]> {
     } catch (error) {
         console.error('Database Error: ', error);
         throw new Error('Error fetching escenarios');
+    }
+}
+
+// Versión específica para el módulo Programa con tipos compatibles
+import type { Escenario as ProgramaEscenario, ProgramaDia as ProgramaDiaType } from '@/types/programa'
+
+export async function fetchProgramaEscenarios(): Promise<ProgramaEscenario[]> {
+    try {
+        const [rows] = await db.query<any[]>(
+            'SELECT id, name, description, location, capacity, active, created_at, updated_at FROM escenarios'
+        );
+        return rows.map((r) => ({
+            id: r.id,
+            name: r.name,
+            description: r.description ?? undefined,
+            location: r.location ?? undefined,
+            capacity: r.capacity ?? undefined,
+            active: !!r.active,
+            created_at: String(r.created_at),
+            updated_at: String(r.updated_at),
+        })) as ProgramaEscenario[];
+    } catch (error) {
+        console.error('Database Error: ', error);
+        throw new Error('Error fetching programa escenarios');
+    }
+}
+
+export async function fetchProgramaDias(escenarioId?: number): Promise<ProgramaDiaType[]> {
+    try {
+        let query = `
+            SELECT pd.id, pd.escenario_id, pd.date, pd.name, pd.description, pd.active, pd.created_at,
+                   e.name as escenario_name, e.location as escenario_location
+            FROM programa_dias pd
+            LEFT JOIN escenarios e ON pd.escenario_id = e.id
+            WHERE pd.active = 1
+        `;
+        const params: any[] = [];
+        if (escenarioId) {
+            query += ' AND pd.escenario_id = ?';
+            params.push(escenarioId);
+        }
+        query += ' ORDER BY pd.date ASC';
+        const [rows] = await db.query<any[]>(query, params);
+        return rows as any;
+    } catch (error) {
+        console.error('Database Error: ', error);
+        throw new Error('Error fetching programa dias');
     }
 }
 

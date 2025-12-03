@@ -3,10 +3,11 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useTranslations } from 'next-intl'
-import { useSessionUser } from '@/store/session-user'
 import { useToaster } from '@/context/ToasterContext'
+import { addExhibitor } from '@/lib/actions/exhibitors'
 
 export function AddExhibitor({
+  userId,
   onExhibitorAdded,
   maxExhibitors = 0,
   currentTotal = 0,
@@ -27,7 +28,6 @@ export function AddExhibitor({
     company: '',
   })
 
-  const { userSession } = useSessionUser()
   const [isOpen, setIsOpen] = useState(false)
   const { notify } = useToaster()
 
@@ -47,19 +47,14 @@ export function AddExhibitor({
 
   const handleUser = async () => {
     try {
-      const response = await fetch('/api/exhibitors', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ user_id: userSession.id, ...formData }),
+      const result = await addExhibitor({
+        user_id: userId,
+        ...formData,
       })
 
-      const data = await response.json()
-
-      if (response.ok) {
+      if (result.success) {
         if (onExhibitorAdded) {
-          onExhibitorAdded(data)
+          onExhibitorAdded(result.data)
         }
 
         notify(t('toast.success'), 'success')
@@ -78,7 +73,7 @@ export function AddExhibitor({
         reset(resetData)
       } else {
         // Mostrar mensaje de error específico del servidor
-        notify(data.message || t('toast.error'), 'error')
+        notify(result.error || t('toast.error'), 'error')
       }
     } catch (error) {
       console.error('Error:', error)

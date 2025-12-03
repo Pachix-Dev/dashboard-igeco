@@ -1,5 +1,5 @@
-import {PageLoading} from '@/components/shared/PageLoading';
+import ExhibitorsSkeleton from '@/components/exhibitors/ExhibitorsSkeleton';
 
 export default function Loading() {
-  return <PageLoading message="Cargando expositores..." />;
+  return <ExhibitorsSkeleton />;
 }

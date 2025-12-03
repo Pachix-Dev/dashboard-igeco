@@ -26,19 +26,41 @@
     "footer": "© 2026 IGECO. All rights reserved."
   },
   "Dashboard": {
+    "panel": "Panel",
     "welcome": "Welcome {name}!",
+    "subtitle": "Your event management and control center",
     "important": "Important points:",
+    "profileAlert": {
+      "title": "Complete your profile",
+      "description": "To take advantage of all features, complete your company and stand information.",
+      "action": "Complete profile"
+    },
+    "stats": {
+      "event": "Event",
+      "exhibitors": "Exhibitors",
+      "sessions": "Sessions",
+      "dates": "Dates",
+      "eventDates": "April 14 - 16, 2026",
+      "venue": "Expo Guadalajara, Jalisco",
+      "noData": "Not assigned"
+    },
     "points": {
       "1": "Exhibitor badges will be delivered on the day of the event at the registration module individually. Remember to bring an official ID.",
-      "2": "Badge reprints are not allowed, so keep your badge during the days of the event; otherwise, there will be an additional cost.",
-      "3": "If you need to register more exhibitors than allowed, please contact your sales advisor.",
-      "4": "If you need to activate the scanner service to collect data from visitors to your stand, contact your sales advisor. (This service can only be used within your stand; otherwise, the contract policies will apply)."
+      "2": "Badge reprints are not allowed, so keep your badge during the days of the event otherwise, there will be an additional cost."
+      
+    },
+    "globalStats": {
+      "title": "Global Records",
+      "totalUsers": "Total Users",
+      "totalStudents": "Total Students",
+      "goal": "Target Goal",
+      "percentage": "Progress"
     }
   },
   "Menu": {
     "users": "Users",
     "speakers": "Speakers",
-    "exhibitors": "Exhibitors",
+    "badges": "Exhibitor badges",
     "scanLeads": "Scan leads",
     "profile": "Profile",
     "program": "Program",
@@ -127,7 +149,7 @@
   },
   "ExhibitorsPage": {
     "panel": "Panel",
-    "title": "Exhibitors",
+    "title": "Exhibitor badges",
     "edit": {
       "title": "Edit exhibitor",
       "subtitle": "Update the registered exhibitor information",
@@ -177,27 +199,27 @@
       "reached": "Limit reached ({current}/{max}), buy more additional badges."
     },
     "buy": {
-      "button": "Buy more slots",
+      "button": "Buy more badges",
       "title": "Increase exhibitor limit",
-      "subtitle": "Purchase additional slots to register more exhibitors",
+      "subtitle": "Purchase additional badges to register more exhibitors",
       "close": "Close",
       "current": "Current usage",
-      "quantity": "Number of slots",
-      "maxQuantity": "Maximum 50 slots per purchase",
-      "pricePerSlot": "Price per slot",
-      "slots": "Slots",
+      "quantity": "Number of badges",
+      "maxQuantity": "Maximum 50 badges per purchase",
+      "pricePerSlot": "Price per badge",
+      "slots": "Badges",
       "total": "Total",
       "cancel": "Cancel",
       "processing": "Processing payment...",
-      "success": "Limit increased! You now have {quantity} additional slots",
+      "success": "Limit increased! You now have {quantity} additional badges",
       "pending": "Payment pending confirmation",
-      "pendingMessage": "Your payment is being processed by PayPal. We will notify you by email when it is completed and the slots are activated.",
+      "pendingMessage": "Your payment is being processed by PayPal. We will notify you by email when it is completed and the badges are activated.",
       "error": "Error processing payment. Please try again",
       "paymentError": "Payment error. Please check your payment method"
     },
     "receipt": {
-      "subject": "Purchase Receipt - IGECO Exhibitor Slots",
-      "subjectPending": "Payment Confirmed - IGECO Exhibitor Slots",
+      "subject": "Purchase Receipt - IGECO Exhibitor badges",
+      "subjectPending": "Payment Confirmed - IGECO Exhibitor badges",
       "thankYou": "Thank you for your purchase!",
       "description": "Your payment has been successfully processed. Below you will find the details of your purchase.",
       "purchaseDetails": "Purchase Details",
@@ -210,7 +232,7 @@
       "quantity": "Quantity",
       "unitPrice": "Unit Price",
       "total": "Total",
-      "itemDescription": "Additional exhibitor slots",
+      "itemDescription": "Additional exhibitor badges",
       "totalPaid": "Total Paid",
       "limitUpdate": "Limit Update",
       "previousLimit": "Previous Limit",
@@ -285,7 +307,12 @@
       "page": "Page {current} of {total}",
       "prev": "Previous",
       "next": "Next"
-    }
+    }    
+  },
+  "AccountDisabled": {
+    "title": "Account not enabled",
+    "message": "Your account is not yet enabled, complete the hiring process and contact your sales advisor.",
+    "contact": "Contact your sales advisor to activate your account"
   },
   "ScanLeadsPage": {
     "panel": "Panel",
@@ -360,6 +387,13 @@
     }
   },
   "ProfilePage": {
+    "title": "My Profile",
+    "subtitle": "Your account information and settings",  
+     "edit": "Edit Profile",
+    "status": {
+      "active": "Active",
+      "disabled": "Account disabled, contact your sales advisor to complete the hiring process"
+    },
     "header": {
       "subtitle": "My Account",
       "title": "User Profile",
@@ -367,8 +401,7 @@
     },
     "roles": {
       "admin": "Administrator",
-      "exhibitor": "Exhibitor",
-      "exhibitorPlus": "Exhibitor Plus"
+      "exhibitor": "Exhibitor"      
     },
     "stats": {
       "sessions": "Max Sessions",
@@ -384,6 +417,71 @@
     "banner": {
       "title": "Information",
       "message": "If you need to update your information or have any issues, please contact your sales advisor."
+    },
+    "alert": {
+      "title": "Complete your profile",
+      "description": "To take advantage of all features, complete your company and stand information."
+    },
+      
+    "form": {
+      "name": "Name",
+      "company": "Company",
+      "event": "Event",
+      "description": "Description (ES)",
+      "descriptionEn": "Description (EN)",
+      "address": "Address",
+      "photo": "Photo (URL)",
+      "save": "Save changes",
+      "saving": "Saving...",
+      "success": "Profile updated",
+      "error": "Could not update profile"
+    },
+    "formErrors": {
+      "nameRequired": "Name is required",
+      "companyRequired": "Company is required",
+      "eventRequired": "Event is required",
+      "photoInvalid": "Photo URL is invalid",
+      "fixErrors": "Please fix the form errors"
+    },
+    
+    "fields": {
+      "company": "Company",
+      "event": "Event",
+      "stand": "Stand",
+      "address": "Address",
+      "webpage": "Website",
+      "description": "Description",
+      "description_en": "Description (EN)",
+      "noDescription": "No description"
+    },
+    "modal": {
+      "title": "Edit Profile",
+      "changeLogo": "Change Logo",
+      "uploading": "Uploading...",
+      "cancel": "Cancel",
+      "save": "Save Changes",
+      "saving": "Saving...",
+      "form": {
+        "name": "Name",
+        "nameRequired": "Name is required",
+        "company": "Company",
+        "companyRequired": "Company is required",
+        "event": "Event",
+        "eventRequired": "Event is required",
+        "eventSelect": "--",
+        "stand": "Stand",
+        "address": "Address",        
+        "description": "Description (ES)",
+        "description_en": "Description (EN)",
+        "webpage": "Website",
+        "webpageRequired": "Website must start with http:// or https://"
+      },
+      "toast": {
+        "logoSuccess": "Logo uploaded",
+        "logoError": "Error uploading logo",
+        "updateSuccess": "Profile updated",
+        "updateError": "Error updating"
+      }
     }
   },
   "UsersPage": {
@@ -422,11 +520,13 @@
       "companyPlaceholder": "e.g. IGECO Mexico",
       "email": "Email",
       "emailPlaceholder": "email@company.com",
+      "stand": "Stand",
+      "standPlaceholder": "e.g. A-123",
       "password": "Password",
       "passwordPlaceholder": "At least 6 characters",
       "role": "Role",
-      "sessions": "Max sessions",
-      "exhibitors": "Max exhibitors",
+      "sessions": "Max sessions scanner",
+      "exhibitors": "Max badges",
       "event": "Event",
       "select": "Select an option",
       "roles": {
@@ -464,6 +564,7 @@
     "table": {
       "user": "User",
       "role": "Role",
+      "company": "Company",
       "event": "Event",
       "actions": "Actions",
       "noData": "No data"
@@ -501,6 +602,9 @@
     "submit": "Create account",
     "loading": "Loading...",
     "success": "Account created successfully! Redirecting to login...",
+    "successTitle": "Registration successful!",
+    "successMessage": "We have sent your access credentials to {email}.",
+    "successRedirect": "Redirecting to sign in...",
     "hasAccount": "Already have an account?",
     "loginLink": "Sign in",
     "footer": "© 2025 IGECO. All rights reserved.",
@@ -705,5 +809,5 @@
       "title": "Confirm deletion",
       "message": "Are you sure you want to delete this item?"
     }
-  }
+  }  
 }

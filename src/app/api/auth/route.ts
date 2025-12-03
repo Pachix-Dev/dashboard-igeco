@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
 
     // Generate JWT token
     const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.role, maxsessions: user.maxsessions, event: user.event, company: user.company  },
+      { id: user.id, email: user.email, role: user.role, maxsessions: user.maxsessions, event: user.event, company: user.company, stand: user.stand, status: user.status },
       process.env.JWT_SECRET || 'tu_secreto_jwt', // Use an environment variable for the secret
       { expiresIn: '7d' }
     );
@@ -87,6 +87,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Detectar si la conexión es HTTPS para marcar la cookie como secure sólo cuando aplica
+    const isSecure =
+      req.headers.get('x-forwarded-proto') === 'https' ||
+      req.headers.get('referer')?.startsWith('https://') ||
+      process.env.NODE_ENV === 'production' && process.env.FORCE_SECURE_COOKIE === 'true';
+
     // Prepare successful response
     const response = NextResponse.json(
       {
@@ -101,6 +107,8 @@ export async function POST(req: NextRequest) {
           maxexhibitors: user.maxexhibitors,
           event: user.event,
           company: user.company,
+          stand: user.stand,
+          status: user.status,
           token: token,
         },
       },
@@ -110,7 +118,7 @@ export async function POST(req: NextRequest) {
     // Set HTTP-only cookie for the token
     response.cookies.set('access_token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: Boolean(isSecure),
       sameSite: 'strict',
       maxAge: 604800, // 7 days in seconds
       path: '/',

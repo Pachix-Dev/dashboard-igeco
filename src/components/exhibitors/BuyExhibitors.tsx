@@ -4,19 +4,18 @@ import { useState } from 'react'
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js'
 import { useTranslations, useLocale } from 'next-intl'
 import { useToaster } from '@/context/ToasterContext'
-import { useSessionUser } from '@/store/session-user'
 
 interface BuyExhibitorsProps {
+  userId: number
   currentTotal: number
   maxExhibitors: number
   onPurchaseComplete: () => void
 }
 
-export function BuyExhibitors({ currentTotal, maxExhibitors, onPurchaseComplete }: BuyExhibitorsProps) {
+export function BuyExhibitors({ userId, currentTotal, maxExhibitors, onPurchaseComplete }: BuyExhibitorsProps) {
   const t = useTranslations('ExhibitorsPage.buy')
   const locale = useLocale()
   const { notify } = useToaster()
-  const { userSession, updateMaxExhibitors } = useSessionUser()
   const [isOpen, setIsOpen] = useState(false)
   const [quantity, setQuantity] = useState(1)
   const [isProcessing, setIsProcessing] = useState(false)
@@ -27,10 +26,7 @@ export function BuyExhibitors({ currentTotal, maxExhibitors, onPurchaseComplete 
 
   // Map current locale to PayPal locale format
   const paypalLocale = locale === 'es' ? 'es_MX' : locale === 'en' ? 'en_US' : 'it_IT'
-
-  const isLimitReached = currentTotal >= maxExhibitors
-  const hasNoPermission = maxExhibitors === 0
-
+    
   const handleOpen = () => setIsOpen(true)
   const handleClose = () => {
     if (!isProcessing) {
@@ -68,7 +64,7 @@ export function BuyExhibitors({ currentTotal, maxExhibitors, onPurchaseComplete 
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          user_id: userSession?.id,
+          user_id: userId,
           additional_slots: quantity,
           payment_id: order.id,
           payment_status: order.status,
@@ -80,11 +76,6 @@ export function BuyExhibitors({ currentTotal, maxExhibitors, onPurchaseComplete 
 
       if (response.status === 200) {
         // Pago completado inmediatamente
-        const newLimit = responseData.new_limit
-        
-        // Actualizar el store de Zustand con el nuevo límite
-        updateMaxExhibitors(newLimit)
-        
         notify(t('success', { quantity }), 'success')
         handleClose()
         
@@ -112,27 +103,22 @@ export function BuyExhibitors({ currentTotal, maxExhibitors, onPurchaseComplete 
     setIsProcessing(false)
   }
 
-  // No mostrar el botón si no tiene permiso
-  if (hasNoPermission) {
-    return null
-  }
-
-  return (
+    return (
     <>
       {/* Botón para abrir modal - solo se muestra si llegó al límite */}
-      {isLimitReached && (
-        <button
-          onClick={handleOpen}
-          className='inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-500/30 transition hover:scale-[1.01] focus:outline-none focus:ring-2 focus:ring-emerald-400/60 focus:ring-offset-2 focus:ring-offset-slate-950'
-        >
-          <span className='grid h-6 w-6 place-items-center rounded-lg bg-white/20 text-xs font-bold'>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
-            </svg>
-          </span>
-          <span>{t('button')}</span>
-        </button>
-      )}
+      
+      <button
+        onClick={handleOpen}
+        className='inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-500/30 transition hover:scale-[1.01] focus:outline-none focus:ring-2 focus:ring-emerald-400/60 focus:ring-offset-2 focus:ring-offset-slate-950'
+      >
+        <span className='grid h-6 w-6 place-items-center rounded-lg bg-white/20 text-xs font-bold'>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+          </svg>
+        </span>
+        <span>{t('button')}</span>
+      </button>
+      
 
       {/* Modal de compra */}
       {isOpen && (

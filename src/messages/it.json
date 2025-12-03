@@ -26,19 +26,40 @@
     "footer": "© 2026 IGECO. Tutti i diritti riservati."
   },
   "Dashboard": {
+    "panel": "Pannello",
     "welcome": "Benvenuto {name}!",
+    "subtitle": "Il tuo centro di gestione e controllo dell'evento",
     "important": "Punti importanti:",
+    "profileAlert": {
+      "title": "Completa il tuo profilo",
+      "description": "Per usufruire di tutte le funzionalità, completa le informazioni sulla tua azienda e stand.",
+      "action": "Completa profilo"
+    },
+    "stats": {
+      "event": "Evento",
+      "exhibitors": "Espositori",
+      "sessions": "Sessioni",
+      "dates": "Date",
+      "eventDates": "14 - 16 aprile 2026",
+      "venue": "Expo Guadalajara, Jalisco",
+      "noData": "Non assegnato"
+    },
     "points": {
       "1": "I badge per gli espositori saranno consegnati il giorno dell'evento al modulo di registrazione individualmente per gli espositori; ricorda che devi presentare un documento d'identità ufficiale.",
-      "2": "Non sono consentite ristampe dei badge, quindi è importante conservare il badge durante i giorni dell'evento; in caso contrario, avrà un costo aggiuntivo.",
-      "3": "Se hai bisogno di registrare più espositori di quelli consentiti, contatta il tuo consulente di vendita.",
-      "4": "Se hai bisogno di attivare il servizio scanner per raccogliere dati dai visitatori del tuo stand, contatta il tuo consulente di vendita. (Ricorda che questo servizio può essere utilizzato solo all'interno del tuo stand; in caso contrario, verranno applicate le politiche del contratto stabilito)."
+      "2": "Non sono consentite ristampe dei badge, quindi è importante conservare il badge durante i giorni dell'evento in caso contrario, avrà un costo aggiuntivo."      
+    },
+    "globalStats": {
+      "title": "Registrazioni globali",
+      "totalUsers": "Totale utenti",
+      "totalStudents": "Totale studenti",
+      "goal": "Obiettivo",
+      "percentage": "Progresso"
     }
   },
   "Menu": {
     "users": "Utenti",
     "speakers": "Relatori",
-    "exhibitors": "Espositori",
+    "badges": "Badge Espositore",
     "scanLeads": "Scansiona lead",
     "profile": "Profilo",
     "program": "Programma",
@@ -55,7 +76,7 @@
   },
   "ExhibitorsPage": {
     "panel": "Pannello",
-    "title": "Espositori",
+    "title": "Badge Espositore",
     "edit": {
       "title": "Modifica espositore",
       "subtitle": "Aggiorna le informazioni dell'espositore registrato",
@@ -105,27 +126,27 @@
       "reached": "Limite raggiunto ({current}/{max}), acquista più spazi aggiuntivi."
     },
     "buy": {
-      "button": "Acquista più spazi",
+      "button": "Acquista più gafette",
       "title": "Aumenta limite espositori",
-      "subtitle": "Acquista spazi aggiuntivi per registrare più espositori",
+      "subtitle": "Acquista gafette aggiuntivi per registrare più espositori",
       "close": "Chiudi",
       "current": "Uso attuale",
-      "quantity": "Numero di spazi",
-      "maxQuantity": "Massimo 50 spazi per acquisto",
-      "pricePerSlot": "Prezzo per spazio",
-      "slots": "Spazi",
+      "quantity": "Numero di gafette",
+      "maxQuantity": "Massimo 50 gafette per acquisto",
+      "pricePerSlot": "Prezzo per gafetta",
+      "slots": "Gafette",
       "total": "Totale",
       "cancel": "Annulla",
       "processing": "Elaborazione pagamento...",
-      "success": "Limite aumentato! Ora hai {quantity} spazi aggiuntivi",
+      "success": "Limite aumentato! Ora hai {quantity} gafette aggiuntivi",
       "pending": "Pagamento in attesa di conferma",
-      "pendingMessage": "Il tuo pagamento è in fase di elaborazione da PayPal. Ti avviseremo via email quando sarà completato e gli spazi saranno attivati.",
+      "pendingMessage": "Il tuo pagamento è in fase di elaborazione da PayPal. Ti avviseremo via email quando sarà completato e le gafette saranno attivate.",
       "error": "Errore durante l'elaborazione del pagamento. Riprova",
       "paymentError": "Errore nel pagamento. Verifica il tuo metodo di pagamento"
     },
     "receipt": {
-      "subject": "Ricevuta di acquisto - Spazi espositore IGECO",
-      "subjectPending": "Pagamento confermato - Spazi espositore IGECO",
+      "subject": "Ricevuta di acquisto - Gafette espositore IGECO",
+      "subjectPending": "Pagamento confermato - Gafette espositore IGECO",
       "thankYou": "Grazie per il tuo acquisto!",
       "description": "Il tuo pagamento è stato elaborato con successo. Di seguito troverai i dettagli del tuo acquisto.",
       "purchaseDetails": "Dettagli dell'acquisto",
@@ -138,7 +159,7 @@
       "quantity": "Quantità",
       "unitPrice": "Prezzo Unit.",
       "total": "Totale",
-      "itemDescription": "Spazi espositore aggiuntivi",
+      "itemDescription": "Gafette espositore aggiuntivi",
       "totalPaid": "Totale pagato",
       "limitUpdate": "Aggiornamento limite",
       "previousLimit": "Limite precedente",
@@ -214,9 +235,60 @@
       "page": "Pagina {current} di {total}",
       "prev": "Precedente",
       "next": "Successivo"
-    }
+    }    
+  },
+  "AccountDisabled": {
+    "title": "Account non abilitato",
+    "message": "Il tuo account non è ancora abilitato, completa il processo di contrattazione e contatta il tuo consulente di vendita.",
+    "contact": "Contatta il tuo consulente di vendita per attivare il tuo account"
   },
   "ProfilePage": {
+    "title": "Il Mio Profilo",
+    "subtitle": "Informazioni del tuo account e configurazione",
+    "edit": "Modifica Profilo",
+    "status": {
+      "active": "Attivo",
+      "disabled": "Account disabilitato, contatta il tuo consulente di vendita per completare il processo di contrattazione"
+    },
+    "fields": {
+      "company": "Azienda",
+      "event": "Evento",
+      "stand": "Stand",
+      "address": "Indirizzo",
+      "webpage": "Sito Web",
+      "description": "Descrizione",
+      "descriptionEn": "Descrizione (EN)",
+      "noDescription": "Nessuna descrizione"
+    },
+    "modal": {
+      "title": "Modifica Profilo",
+      "changeLogo": "Cambia Logo",
+      "uploading": "Caricamento...",
+      "cancel": "Annulla",
+      "save": "Salva Modifiche",
+      "saving": "Salvataggio...",
+      "form": {
+        "name": "Nome",
+        "nameRequired": "Nome è richiesto",
+        "company": "Azienda",
+        "companyRequired": "Azienda è richiesta",
+        "event": "Evento",
+        "eventRequired": "Evento è richiesto",
+        "eventSelect": "--",
+        "stand": "Stand",
+        "address": "Indirizzo",        
+        "description": "Descrizione (ES)",
+        "description_en": "Descrizione (EN)",
+        "webpage": "Sito Web",
+        "webpageRequired": "Sito Web deve iniziare con http:// o https://"
+      },
+      "toast": {
+        "logoSuccess": "Logo caricato",
+        "logoError": "Errore nel caricamento del logo",
+        "updateSuccess": "Profilo aggiornato",
+        "updateError": "Errore nell'aggiornamento"
+      }
+    },
     "header": {
       "subtitle": "Il Mio Account",
       "title": "Profilo Utente",
@@ -241,6 +313,30 @@
     "banner": {
       "title": "Informazioni",
       "message": "Se hai bisogno di aggiornare le tue informazioni o hai qualche problema, contatta il tuo consulente commerciale."
+    },
+    "alert": {
+      "title": "Completa il tuo profilo",
+      "description": "Per usufruire di tutte le funzionalità, completa le informazioni sulla tua azienda e stand."
+    },    
+    "form": {
+      "name": "Nome",
+      "company": "Azienda",
+      "event": "Evento",
+      "description": "Descrizione (IT)",
+      "descriptionEn": "Descrizione (EN)",
+      "address": "Indirizzo",
+      "photo": "Foto (URL)",
+      "save": "Salva modifiche",
+      "saving": "Salvataggio...",
+      "success": "Profilo aggiornato",
+      "error": "Impossibile aggiornare il profilo"
+    },
+    "formErrors": {
+      "nameRequired": "Il nome è obbligatorio",
+      "companyRequired": "L'azienda è obbligatoria",
+      "eventRequired": "L'evento è obbligatorio",
+      "photoInvalid": "L'URL della foto non è valido",
+      "fixErrors": "Correggi gli errori del modulo"
     }
   },
   "UsersPage": {
@@ -279,6 +375,8 @@
       "companyPlaceholder": "Es: IGECO Mexico",
       "email": "Email",
       "emailPlaceholder": "email@azienda.com",
+      "stand": "Stand",
+      "standPlaceholder": "Es: A-123",
       "password": "Password",
       "passwordPlaceholder": "Minimo 6 caratteri",
       "role": "Profilo",
@@ -321,6 +419,7 @@
     "table": {
       "user": "Utente",
       "role": "Ruolo",
+      "company": "Azienda",
       "event": "Evento",
       "actions": "Azioni",
       "noData": "Nessun dato"
@@ -503,12 +602,15 @@
     "submit": "Crea account",
     "loading": "Caricamento...",
     "success": "Account creato con successo! Reindirizzamento al login...",
-    "hasAccount": "Hai già un account?",
+    "successTitle": "Registrazione riuscita!",
+    "successMessage": "Abbiamo inviato le tue credenziali di accesso a {email}.",
+    "successRedirect": "Reindirizzamento al login...",
+    "hasAccount": "Hai giA? un account?",
     "loginLink": "Accedi",
-    "footer": "© 2025 IGECO. Tutti i diritti riservati.",
+    "footer": "Ac 2025 IGECO. Tutti i diritti riservati.",
     "errors": {
       "passwordMismatch": "Le password non corrispondono",
-      "serverError": "Errore del server. Riprova più tardi."
+      "serverError": "Errore del server. Riprova piA1 tardi."
     }
   },
   "ForgotPassword": {
@@ -707,5 +809,15 @@
       "title": "Conferma eliminazione",
       "message": "Sei sicuro di voler eliminare questo elemento?"
     }
-  }
+  }  
 }
+
+
+
+
+
+
+
+
+
+

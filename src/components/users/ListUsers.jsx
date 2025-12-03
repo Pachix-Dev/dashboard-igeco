@@ -25,7 +25,9 @@ export function ListUsers({ users: initialUsers, onUserUpdated }) {
         (item) =>
           item.name?.toLowerCase().includes(lowerQuery) ||
           item.email?.toLowerCase().includes(lowerQuery) ||
-          item.event?.toLowerCase().includes(lowerQuery)
+          item.event?.toLowerCase().includes(lowerQuery) ||
+          item.company?.toLowerCase().includes(lowerQuery) ||
+          item.stand?.toLowerCase().includes(lowerQuery)
       )
       setFilteredUsers(results)
     }
@@ -47,7 +49,9 @@ export function ListUsers({ users: initialUsers, onUserUpdated }) {
       (item) =>
         item.name?.toLowerCase().includes(lowerQuery) ||
         item.email?.toLowerCase().includes(lowerQuery) ||
-        item.event?.toLowerCase().includes(lowerQuery)
+        item.event?.toLowerCase().includes(lowerQuery) ||
+        item.company?.toLowerCase().includes(lowerQuery) ||
+        item.stand?.toLowerCase().includes(lowerQuery)
     )
 
     setFilteredUsers(results)
@@ -68,7 +72,6 @@ export function ListUsers({ users: initialUsers, onUserUpdated }) {
   }
 
   const roleLabel = (role) => {
-    if (role === 'exhibitorplus') return t('form.roles.exhibitorplus')
     if (role === 'exhibitor') return t('form.roles.exhibitor')
     return role || t('table.noData')
   }
@@ -134,6 +137,8 @@ export function ListUsers({ users: initialUsers, onUserUpdated }) {
             <thead className='bg-white/5 text-left text-xs font-semibold uppercase tracking-wide text-slate-300'>
               <tr>
                 <th className='px-6 py-3'>{t('table.user')}</th>
+                <th className='px-6 py-3'>{t('table.company')}</th>
+                <th className='px-6 py-3'>stand</th>
                 <th className='px-6 py-3'>{t('table.role')}</th>
                 <th className='px-6 py-3'>{t('table.event')}</th>
                 <th className='px-6 py-3 text-right'>{t('table.actions')}</th>
@@ -168,6 +173,12 @@ export function ListUsers({ users: initialUsers, onUserUpdated }) {
                         <p className='text-xs text-slate-400'>
                           {user.email || t('table.noData')}
                         </p>
+                      </td>
+                      <td className='px-6 py-4 text-sm text-slate-200'>
+                        {user.company || t('table.noData')}
+                      </td>
+                      <td className='px-6 py-4 text-sm text-slate-200'>
+                        {user.stand || t('table.noData')}
                       </td>
                       <td className='px-6 py-4'>
                         <span

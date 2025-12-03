@@ -4,9 +4,12 @@ import React, { useEffect, useState } from 'react'
 import { ExportExcel } from './ExportExcel'
 import { FetchLeads } from './FetchLeads'
 import { QrScanner } from './QrScanner'
+import { AccountDisable } from '@/components/shared/AccountDisable'
+import { useSessionUser } from '@/store/session-user'
 
 export function ScanLeadsClient({ initialLeads }) {
   const [leads, setLeads] = useState(initialLeads || [])
+  const { userSession } = useSessionUser()
 
   useEffect(() => {
     setLeads(initialLeads || [])
@@ -31,6 +34,9 @@ export function ScanLeadsClient({ initialLeads }) {
       }
       return [newLead, ...prev]
     })
+  }
+  if (!userSession?.status) {
+    return <AccountDisable />
   }
 
   return (

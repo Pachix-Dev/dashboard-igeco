@@ -1,11 +1,27 @@
-import {ExhibitorsClient} from '@/components/exhibitors/ExhibitorsClient';
-import {Exhibitor} from '@/lib/definitions';
-import {fetchExhibitors} from '@/lib/db';
-import {unstable_noStore as noStore} from 'next/cache';
+import { ExhibitorsClient } from '@/components/exhibitors/ExhibitorsClient';
+import { getSession, getExhibitors, getExhibitorStats } from '@/lib/actions/exhibitors';
+import { redirect } from 'next/navigation';
+
+export const dynamic = 'force-dynamic';
 
 export default async function Exhibitors() {
-  noStore();
-  const exhibitors: Exhibitor[] = await fetchExhibitors();
+  const session = await getSession();
 
-  return <ExhibitorsClient initialExhibitors={exhibitors} />;
+  if (!session) {
+    redirect('/login');
+  }
+
+  const exhibitors = await getExhibitors(session.id);
+  const stats = await getExhibitorStats(session.id);
+
+  return (
+    <ExhibitorsClient
+      initialExhibitors={exhibitors}
+      userId={session.id}
+      role={session.role}
+      status={session.status}
+      maxExhibitors={stats.maxExhibitors}
+      stats={stats}
+    />
+  );
 }

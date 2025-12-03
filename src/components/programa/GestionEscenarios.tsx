@@ -6,6 +6,7 @@ import { useToaster } from '@/context/ToasterContext'
 import { useForm } from 'react-hook-form'
 import { createPortal } from 'react-dom'
 import type { Escenario, EscenarioForm } from '@/types/programa'
+import { addEscenario, updateEscenario, deleteEscenario } from '@/lib/actions/programa'
 
 interface Props {
   escenarios: Escenario[]
@@ -53,25 +54,16 @@ export function GestionEscenarios({ escenarios, onUpdate }: Props) {
   const onSubmit = async (data: EscenarioForm) => {
     setIsLoading(true)
     try {
-      const method = editingEscenario ? 'PUT' : 'POST'
-      const body = editingEscenario 
-        ? { ...data, id: editingEscenario.id, active: editingEscenario.active }
-        : data
+      const result = editingEscenario
+        ? await updateEscenario(editingEscenario.id, { ...data, active: editingEscenario.active })
+        : await addEscenario(data)
 
-      const response = await fetch('/api/programa/escenarios', {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      })
-
-      const result = await response.json()
-
-      if (response.ok) {
+      if (result?.success) {
         notify(t('toast.success'), 'success')
         handleClose()
         onUpdate()
       } else {
-        notify(result.message || t('toast.error'), 'error')
+        notify(result?.error || t('toast.error'), 'error')
       }
     } catch (error) {
       console.error('Error:', error)
@@ -85,11 +77,8 @@ export function GestionEscenarios({ escenarios, onUpdate }: Props) {
     if (!confirm(tDelete('message'))) return
 
     try {
-      const response = await fetch(`/api/programa/escenarios?id=${id}`, {
-        method: 'DELETE',
-      })
-
-      if (response.ok) {
+      const res = await deleteEscenario(id)
+      if (res?.success) {
         notify(t('toast.deleteSuccess'), 'success')
         onUpdate()
       } else {

@@ -90,20 +90,6 @@ export function ListPonentes({ ponente, onPonenteUpdated }) {
               </svg>
             </span>
           </div>
-
-          <div className='flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-200 shadow-lg shadow-blue-500/10'>
-            <div className='grid h-10 w-10 place-items-center rounded-xl bg-blue-500/15 text-base font-semibold text-blue-200'>
-              {filteredPonentes.length}
-            </div>
-            <div>
-              <p className='text-[11px] uppercase tracking-[0.2em] text-slate-400'>
-                {t('search.inView')}
-              </p>
-              <p className='font-semibold text-white'>
-                {t('search.found', { count: filteredPonentes.length })}
-              </p>
-            </div>
-          </div>
         </div>
       </div>
 

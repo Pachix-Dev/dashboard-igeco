@@ -24,10 +24,10 @@ export async function GET(req: Request, { params }: { params: { id: number } }) 
 
 export async function PUT(req: Request, { params }: { params: { id: number } }) {
   try {
-    const { name, email, role, maxsessions, maxexhibitors, event } = await req.json();
+    const { name, email, maxsessions, maxexhibitors, event, company, stand } = await req.json();
 
     // Validar campos requeridos
-    if (!name || !email || !role || !event) {
+    if (!name || !email || !event || !company ) {
       return NextResponse.json(
         { message: 'Todos los campos son requeridos' },
         { status: 400 }
@@ -71,8 +71,8 @@ export async function PUT(req: Request, { params }: { params: { id: number } }) 
 
     // Actualizar usuario
     await db.query(
-      'UPDATE users SET name = ?, email = ?, role = ?, maxsessions = ?, maxexhibitors = ?, event = ? WHERE id = ?',
-      [name, email, role, maxsessions || 0, maxexhibitors || 0, event, params.id]
+      'UPDATE users SET name = ?, email = ?, maxsessions = ?, maxexhibitors = ?, event = ?, company = ?, stand = ? WHERE id = ?',
+      [name, email, maxsessions || 0, maxexhibitors || 0, event, company, stand, params.id]
     );
 
     return NextResponse.json({ message: 'Usuario actualizado exitosamente' });

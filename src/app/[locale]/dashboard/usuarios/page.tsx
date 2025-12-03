@@ -14,6 +14,7 @@ interface User {
   maxsessions: number;
   maxexhibitors: number;
   event: string;
+  company: string;
 }
 
 export default function Usuarios() {
@@ -30,10 +31,10 @@ export default function Usuarios() {
       const response = await fetch('/api/users');
       if (response.ok) {
         const data = await response.json();
-        // Filtrar usuarios admin de la lista
-        const filteredData = Array.isArray(data) 
-          ? data.filter((user: User) => user.role !== 'admin') 
-          : [];
+        const excludedRoles = ['admin'];
+        const filteredData = Array.isArray(data)
+          ? data.filter((user: User) => !excludedRoles.includes(user.role))
+          : [];                  
         setUsers(filteredData);
       }
     } catch (error) {
@@ -43,11 +44,8 @@ export default function Usuarios() {
     }
   };
 
-  const handleUserAdded = (newUser: User) => {
-    // Solo agregar si no es admin
-    if (newUser.role !== 'admin') {
-      setUsers(prevUsers => [newUser, ...prevUsers]);
-    }
+  const handleUserAdded = (newUser: User) => {    
+    setUsers(prevUsers => [newUser, ...prevUsers]);    
   };
 
   const handleUserUpdated = (updatedUser: User) => {
