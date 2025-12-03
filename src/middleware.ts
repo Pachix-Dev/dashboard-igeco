@@ -60,6 +60,23 @@ export async function middleware(req: NextRequest) {
     const userId = payload.id;
     const maxSessions = payload.maxsessions;
 
+    // Edge runtime no permite mysql: delegamos validación a API Node
+    const checkUrl = new URL('/api/check-sessions', req.url);
+    const resp = await fetch(checkUrl, {
+      method: 'GET',
+      headers: {
+        authorization: `Bearer ${token}`
+      }
+    });
+    if (resp.ok) {
+      const data = await resp.json();
+      if (data && data.allowed === false) {
+        const localizedPath = getLocalizedPath(locale, '/dashboard/session-limit');
+        const redirectUrl = `${req.nextUrl.origin}${localizedPath}`;
+        return NextResponse.redirect(redirectUrl);
+      }
+    }
+
    
 
     const allowedRoutes = roles[userRole as keyof typeof roles];

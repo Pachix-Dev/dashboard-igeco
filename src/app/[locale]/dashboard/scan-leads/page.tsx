@@ -1,13 +1,26 @@
 import {ScanLeadsClient} from '@/components/scannleads/ScanLeadsClient';
 import {Lead} from '@/lib/definitions';
 import {fetchRecordsByUserId} from '@/lib/db';
+import {getUserSessions} from '@/lib/actions/sessions';
 import {getTranslations} from 'next-intl/server';
 import {unstable_noStore as noStore} from 'next/cache';
+import {redirect} from 'next/navigation';
 
 export default async function ScanLeads() {
   
   noStore();
   const t = await getTranslations('ScanLeadsPage');
+  
+  // Verificar sesiones del usuario
+  const sessionData = await getUserSessions();
+  
+  if (!sessionData) {
+    redirect('/');
+  }
+
+  const {sessions, maxSessions} = sessionData;
+  const activeSessions = sessions.length;
+
   const leads: Lead[] = await fetchRecordsByUserId();
   const totalLeads = leads.length;
 
@@ -29,7 +42,11 @@ export default async function ScanLeads() {
           </div>          
         </header>
         <div className="">
-          <ScanLeadsClient initialLeads={leads} />
+          <ScanLeadsClient 
+            initialLeads={leads} 
+            maxSessions={maxSessions}
+            activeSessions={activeSessions}
+          />
         </div>
         
         <div />

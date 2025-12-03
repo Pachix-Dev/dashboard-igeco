@@ -809,5 +809,42 @@
       "title": "Confirm deletion",
       "message": "Are you sure you want to delete this item?"
     }
-  }  
+  },
+  "SessionManager": {
+    "title": "Session Management",
+    "subtitle": "Manage your active sessions across devices",
+    "loading": "Loading sessions...",
+    "sessionsUsed": "Sessions Used",
+    "limitReached": "Session limit reached",
+    "limitReachedDesc": "You have reached the maximum concurrent session limit. Close a session or buy more slots.",
+    "current": "Current",
+    "unknownDevice": "Unknown device",
+    "lastActivity": "Last activity",
+    "created": "Created",
+    "closeSession": "Close session",
+    "noSessions": "No active sessions",
+    "confirmCloseTitle": "Close this session?",
+    "confirmCloseDesc": "The device will be disconnected immediately and must sign in again.",
+    "cancel": "Cancel",
+    "confirm": "Close session",
+    "sessionClosed": "Session closed successfully",
+    "error": "Error managing session"
+  },
+  "BuySessionSlots": {
+    "buySlots": "Buy Slots",
+    "title": "Buy Session Slots",
+    "subtitle": "Increase the limit of simultaneous devices",
+    "currentSlots": "Current Slots",
+    "selectSlots": "Select the number of slots",
+    "customAmount": "Custom amount",
+    "slotsToAdd": "Slots to add",
+    "pricePerSlot": "Price per slot",
+    "total": "Total",
+    "newTotal": "New total",
+    "processing": "Processing payment...",
+    "securePayment": "Secure payment with PayPal",
+    "securePaymentDesc": "Your information is protected. Slots will be activated immediately after payment.",
+    "purchaseSuccess": "Purchase successful! {slots} slots added",
+    "purchaseError": "Error processing payment. Please try again."
+  }
 }

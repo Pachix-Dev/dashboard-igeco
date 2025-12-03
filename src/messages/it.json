@@ -809,8 +809,45 @@
       "title": "Conferma eliminazione",
       "message": "Sei sicuro di voler eliminare questo elemento?"
     }
-  }  
-}
+  },
+  "SessionManager": {
+    "title": "Gestione Sessioni",
+    "subtitle": "Gestisci le tue sessioni attive su diversi dispositivi",
+    "loading": "Caricamento sessioni...",
+    "sessionsUsed": "Sessioni utilizzate",
+    "limitReached": "Limite di sessioni raggiunto",
+    "limitReachedDesc": "Hai raggiunto il limite massimo di sessioni simultanee. Chiudi una sessione o acquista più slot.",
+    "current": "Attuale",
+    "unknownDevice": "Dispositivo sconosciuto",
+    "lastActivity": "Ultima attività",
+    "created": "Creata",
+    "closeSession": "Chiudi sessione",
+    "noSessions": "Nessuna sessione attiva",
+    "confirmCloseTitle": "Chiudere questa sessione?",
+    "confirmCloseDesc": "Il dispositivo verrà disconnesso immediatamente e dovrà accedere nuovamente.",
+    "cancel": "Annulla",
+    "confirm": "Chiudi sessione",
+    "sessionClosed": "Sessione chiusa con successo",
+    "error": "Errore nella gestione della sessione"
+  },
+  "BuySessionSlots": {
+    "buySlots": "Acquista Slot",
+    "title": "Acquista Slot di Sessione",
+    "subtitle": "Aumenta il limite di dispositivi simultanei",
+    "currentSlots": "Slot attuali",
+    "selectSlots": "Seleziona il numero di slot",
+    "customAmount": "Quantità personalizzata",
+    "slotsToAdd": "Slot da aggiungere",
+    "pricePerSlot": "Prezzo per slot",
+    "total": "Totale",
+    "newTotal": "Nuovo totale",
+    "processing": "Elaborazione pagamento...",
+    "securePayment": "Pagamento sicuro con PayPal",
+    "securePaymentDesc": "Le tue informazioni sono protette. Gli slot saranno attivati immediatamente dopo il pagamento.",
+    "purchaseSuccess": "Acquisto riuscito! Aggiunti {slots} slot",
+    "purchaseError": "Errore nell'elaborazione del pagamento. Riprova."
+  }
+} 
 
 
 
