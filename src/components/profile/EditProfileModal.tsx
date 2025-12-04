@@ -61,7 +61,7 @@ export default function EditProfileModal({ profile, onClose }: { profile: any; o
       const data = await res.json();
       // Solo guardar el nombre del archivo, no la ruta completa
       setValue('photo', data.path);
-      setPreviewUrl(`/logos/${data.path}`);
+      setPreviewUrl(`${data.path}`);
       notify(t('toast.logoSuccess'), 'success');
     } catch (err: any) {
       notify(err?.message || t('toast.logoError'), 'error');
