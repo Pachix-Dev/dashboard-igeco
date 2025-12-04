@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useTransition, useRef } from 'react';
+import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { updateProfile } from '@/lib/actions/profile';
 import { useToaster } from '@/context/ToasterContext';
@@ -13,9 +13,25 @@ export default function EditProfileModal({ profile, onClose }: { profile: any; o
   const { notify } = useToaster();
   const t = useTranslations('ProfilePage.modal');
   const [isPending, startTransition] = useTransition();
-  const [previewUrl, setPreviewUrl] = useState<string | null>(profile.photo || null);
-  const [uploading, setUploading] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [formData, setFormData] = useState({
+    name: profile.name || '',
+    company: profile.company || '',
+    event: profile.event || '',
+    stand: profile.stand || '',
+    description: profile.description || '',
+    description_en: profile.description_en || '',
+    address: profile.address || '',
+    webpage: profile.webpage || '',
+    phone: profile.phone || '',
+    facebook: profile.facebook || '',
+    instagram: profile.instagram || '',
+    linkedin: profile.linkedin || '',
+    x: profile.x || '',
+    youtube: profile.youtube || '',
+    tiktok: profile.tiktok || '',
+    photo: profile.photo || '',
+    previewUrl: profile.photo || null,
+  });
 
   const { register, handleSubmit, setValue, formState: { errors }, watch } = useForm({
     defaultValues: {
@@ -38,39 +54,40 @@ export default function EditProfileModal({ profile, onClose }: { profile: any; o
     }
   });
   
-  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file) return;
-
-    // Preview local
-    const localUrl = URL.createObjectURL(file);
-    setPreviewUrl(localUrl);
-
-    // Upload
-    setUploading(true);
-    try {
-      const id = uuidv4();
-      const fd = new FormData();
-      fd.append('image', file);
-      fd.append('uuid', id);
-      const res = await fetch('/api/upload/logo', { method: 'POST', body: fd });
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err?.error || 'Error al subir');
-      }
-      const data = await res.json();
-      // Solo guardar el nombre del archivo, no la ruta completa
-      setValue('photo', data.path);
-      setPreviewUrl(`${data.path}`);
-      notify(t('toast.logoSuccess'), 'success');
-    } catch (err: any) {
-      notify(err?.message || t('toast.logoError'), 'error');
-    } finally {
-      setUploading(false);
+    if (file) {
+      // Crear URL temporal para preview
+      const previewUrl = URL.createObjectURL(file);
+      setFormData({ ...formData, photo: file, previewUrl });
     }
-  }
+  };
 
   async function onSubmit(values: any) {
+    let photoValue = values.photo;
+
+    // Si hay un archivo de logo (File object), subirlo primero
+    if (formData.photo instanceof File) {
+      const uploadFormData = new FormData();
+      uploadFormData.append('image', formData.photo);
+      uploadFormData.append('uuid', uuidv4());
+      
+      try {
+        const res = await fetch('/api/upload/logo', { method: 'POST', body: uploadFormData });
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          notify(err?.error || 'Error al subir el logo', 'error');
+          return;
+        }
+        const data = await res.json();
+        photoValue = data.path;
+        notify(t('toast.logoSuccess'), 'success');
+      } catch (error) {
+        notify('Error al subir el logo', 'error');
+        return;
+      }
+    }
+
     const fd = new FormData();
     fd.append('name', values.name);
     fd.append('company', values.company);
@@ -87,7 +104,7 @@ export default function EditProfileModal({ profile, onClose }: { profile: any; o
     fd.append('x', values.x);
     fd.append('youtube', values.youtube);
     fd.append('tiktok', values.tiktok);
-    fd.append('photo', values.photo);
+    fd.append('photo', photoValue);
 
     startTransition(async () => {
       const result = await updateProfile(fd);
@@ -120,33 +137,69 @@ export default function EditProfileModal({ profile, onClose }: { profile: any; o
                 <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-6">
                 {/* Avatar Preview */}
                 <div className="flex flex-col items-center gap-4">
-                    <div className="w-32 h-32 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-500 p-1 shadow-2xl">
-                    <div className="w-full h-full rounded-[14px] bg-slate-900 flex items-center justify-center overflow-hidden">
-                        {previewUrl ? (
-                        <Image src={`/logos/${previewUrl}`} alt="Preview" width={128} height={128} className="w-full h-full object-contain" />
-                        ) : (
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-16 h-16 text-slate-300">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                        </svg>
-                        )}
+                    <div className='space-y-3'>
+                      <label className='flex items-center justify-center w-full px-4 py-3 bg-slate-800/50 border-2 border-dashed border-slate-600 rounded-lg cursor-pointer hover:bg-slate-800 hover:border-blue-500 transition-all group'>
+                        <div className='flex flex-col items-center'>
+                          <svg
+                            className='w-8 h-8 text-slate-400 group-hover:text-blue-400 transition-colors'
+                            fill='none'
+                            stroke='currentColor'
+                            viewBox='0 0 24 24'
+                          >
+                            <path
+                              strokeLinecap='round'
+                              strokeLinejoin='round'
+                              strokeWidth='2'
+                              d='M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12'
+                            />
+                          </svg>
+                          <span className='mt-2 text-sm text-slate-400 group-hover:text-blue-400'>
+                            Haz clic para subir una imagen
+                          </span>
+                        </div>
+                        <input
+                          type='file'
+                          accept='image/png, image/jpeg, image/jpg, image/webp'
+                          onChange={handleFileChange}
+                          className='hidden'
+                          disabled={isPending}
+                        />
+                      </label>
+
+                      {(formData.previewUrl ||
+                        (typeof formData.photo === 'string' &&
+                          formData.photo)) && (
+                        <div className='flex justify-center'>
+                          <div className='relative group'>
+                            {formData.previewUrl && typeof formData.previewUrl === 'string' && formData.previewUrl.startsWith('blob:') ? (
+                              <Image
+                                src={formData.previewUrl}
+                                alt='Vista previas'
+                                className='w-32 h-32 object-cover rounded-xl border-2 border-slate-700'
+                                width={128}
+                                height={128}
+                                unoptimized
+                              />
+                            ) : (
+                              <Image
+                                src={
+                                  `/logos/${formData.photo}`
+                                }
+                                alt='Vista previa'
+                                className='w-32 h-32 object-cover rounded-xl border-2 border-slate-700'
+                                width={128}
+                                height={128}
+                              />
+                            )}
+                            <div className='absolute inset-0 bg-black/50 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center'>
+                              <span className='text-white text-xs'>
+                                Vista previa
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
-                    </div>
-                    <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp"
-                    onChange={handleFileChange}
-                    disabled={uploading || isPending}
-                    className="hidden"
-                    />
-                    <button
-                    type="button"
-                    onClick={() => fileInputRef.current?.click()}
-                    disabled={uploading || isPending}
-                    className="px-4 py-2 rounded-lg bg-slate-800 text-white hover:bg-slate-700 transition-colors disabled:opacity-50"
-                    >
-                    {uploading ? t('uploading') : t('changeLogo')}
-                    </button>
                 </div>
 
                 {/* Grid inputs */}
@@ -360,7 +413,7 @@ export default function EditProfileModal({ profile, onClose }: { profile: any; o
                     </button>
                     <button
                     type="submit"
-                    disabled={isPending || uploading}
+                    disabled={isPending}
                     className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-500 transition-colors disabled:opacity-50 flex items-center gap-2"
                     >
                     {isPending ? (
