@@ -5,8 +5,9 @@ import { useTranslations, useLocale } from 'next-intl'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { LoadingOverlay } from '../shared/Loading'
+import { createUserAction } from '@/lib/actions/users'
 
-export function AddUser({ onUserAdded }) {
+export function AddUser({ onUserCreated }) {
   const t = useTranslations('UsersPage')
   const locale = useLocale()
   const [formData, setFormData] = useState({
@@ -42,77 +43,31 @@ export function AddUser({ onUserAdded }) {
   const handleUser = async () => {
     setIsLoading(true)
     try {
-      const response = await fetch('/api/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          company: formData.company,
-          email: formData.email,
-          password: formData.password,
-          role: formData.role,
-          maxsessions: formData.maxsessions,
-          maxexhibitors: formData.maxexhibitors,
-          event: formData.event,
-          stand: formData.stand,
-        }),
+      const result = await createUserAction({
+        name: formData.name,
+        company: formData.company,
+        email: formData.email,
+        password: formData.password,
+        role: formData.role || undefined,
+        maxsessions: formData.maxsessions,
+        maxexhibitors: formData.maxexhibitors,
+        event: formData.event,
+        stand: formData.stand,
+        locale,
       })
 
-      const data = await response.json()
+      if (result.success) {
+        notify(result.message || t('toast.success'), 'success')
 
-      if (response.ok) {
-        notify(data.message || t('toast.success'), 'success')
-
-        // Enviar email de bienvenida
-        try {
-          const sendResponse = await fetch('/api/send', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              email: formData.email,
-              name: formData.name,
-              password: formData.password,
-              locale,
-            }),
-          })
-
-          const sendData = await sendResponse.json()
-          if (sendResponse.ok) {
-            notify(
-              'Usuario creado y email de bienvenida enviado exitosamente',
-              'success'
-            )
-          } else {
-            notify('Usuario creado, pero no se pudo enviar el email', 'warning')
-          }
-        } catch (emailError) {
-          console.error('Error sending email:', emailError)
-          notify('Usuario creado, pero no se pudo enviar el email', 'warning')
+        if (result.emailStatus) {
+          const level = result.emailStatus.success ? 'success' : 'warning'
+          notify(result.emailStatus.message, level)
         }
 
-        // Crear objeto del nuevo usuario para agregar a la lista
-        const newUser = {
-          id: data.id || Date.now(), // ID temporal si no viene del servidor
-          name: formData.name,
-          company: formData.company,
-          email: formData.email,
-          role: 'exhibitor',
-          maxsessions: formData.maxsessions || 0,
-          maxexhibitors: formData.maxexhibitors || 0,
-          event: formData.event,
-          stand: formData.stand,
+        if (onUserCreated) {
+          onUserCreated(result.data)
         }
 
-        // Notificar al componente padre
-        if (onUserAdded) {
-          onUserAdded(newUser)
-        }
-
-        // Resetear formulario completamente
         reset()
         setFormData({
           name: '',
@@ -127,13 +82,14 @@ export function AddUser({ onUserAdded }) {
           stand: '',
         })
 
-        // Cerrar modal después de un breve delay para que el usuario vea el éxito
         setTimeout(() => {
           handleClose()
         }, 500)
       } else {
-        // Mostrar mensaje de error específico del servidor
-        notify(data.message || t('toast.error'), 'error')
+        notify(result.message || t('toast.error'), 'error')
+        if (Array.isArray(result.errors)) {
+          result.errors.forEach((errorMessage) => notify(errorMessage, 'error'))
+        }
       }
     } catch (error) {
       console.error('Error:', error)

@@ -1,10 +1,11 @@
 'use client'
 import { useToaster } from '@/context/ToasterContext'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { LoadingOverlay } from '../shared/Loading'
 import { createPortal } from 'react-dom'
+import { updateUserAction } from '@/lib/actions/users'
 
 export function EditUser({ user, onUserUpdated }) {
   const t = useTranslations('UsersPage')
@@ -14,16 +15,14 @@ export function EditUser({ user, onUserUpdated }) {
   const handleClose = () => setIsOpen(false)
 
   const { notify } = useToaster()
+  const locale = useLocale()
 
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-    watch,
   } = useForm()
-
-  const isExhibitorPlus = watch('role') === 'exhibitorplus'
 
   useEffect(() => {
     reset({
@@ -54,32 +53,33 @@ export function EditUser({ user, onUserUpdated }) {
   const handleUser = async (data) => {
     setIsLoading(true)
     try {
-      const response = await fetch(`/api/users/${user.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+      const result = await updateUserAction({
+        id: user.id,
+        name: data.name,
+        email: data.email,
+        company: data.company,
+        stand: data.stand,
+        maxsessions: data.maxsessions,
+        maxexhibitors: data.maxexhibitors,
+        event: data.event,
+        locale,
       })
 
-      const responseData = await response.json()
+      if (result.success) {
+        notify(result.message || 'Usuario editado exitosamente', 'success')
 
-      if (response.ok) {
-        notify(
-          responseData.message || 'Usuario editado exitosamente',
-          'success'
-        )
-
-        // Notificar al componente padre con los datos actualizados
         if (onUserUpdated) {
-          onUserUpdated({ ...user, ...data })
+          onUserUpdated(result.data || { ...user, ...data })
         }
 
-        // Cerrar modal después de un breve delay
         setTimeout(() => {
           handleClose()
         }, 500)
       } else {
-        // Mostrar mensaje de error específico del servidor
-        notify(responseData.message || 'Error al editar el usuario', 'error')
+        notify(result.message || 'Error al editar el usuario', 'error')
+        if (Array.isArray(result.errors)) {
+          result.errors.forEach((errorMessage) => notify(errorMessage, 'error'))
+        }
       }
     } catch (error) {
       console.error('Error:', error)

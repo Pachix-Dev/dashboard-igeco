@@ -4,6 +4,7 @@ import { useLocale } from 'next-intl'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { createPortal } from 'react-dom'
+import { updatePasswordAction } from '@/lib/actions/users'
 
 export function EditPassword({ user }) {
   const locale = useLocale()
@@ -30,43 +31,28 @@ export function EditPassword({ user }) {
   const handleUser = async () => {
     setIsLoading(true)
     try {
-      const response = await fetch(`/api/users`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: user.id, password }),
+      const result = await updatePasswordAction({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        password,
+        locale,
       })
 
-      const data = await response.json()
+      if (result.success) {
+        notify(
+          result.message || 'Contraseña actualizada correctamente',
+          'success'
+        )
 
-      if (response.ok) {
-        notify('Contraseña actualizada correctamente', 'success')
-
-        const send = await fetch('/api/send', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: user.name,
-            email: user.email,
-            password,
-            locale,
-          }),
-        })
-
-        const sendResponse = await send.json()
-        if (sendResponse.status) {
-          notify('Credenciales enviadas exitosamente', 'success')
-        } else {
-          notify(
-            sendResponse.message || 'Error al enviar credenciales',
-            'error'
-          )
+        if (result.emailStatus) {
+          const level = result.emailStatus.success ? 'success' : 'warning'
+          notify(result.emailStatus.message, level)
         }
       } else {
-        notify(data.message || 'Error al actualizar contraseña', 'error')
-        if (data.errors) {
-          data.errors.forEach((err) => notify(err, 'error'))
+        notify(result.message || 'Error al actualizar contraseña', 'error')
+        if (Array.isArray(result.errors)) {
+          result.errors.forEach((err) => notify(err, 'error'))
         }
       }
     } catch (error) {

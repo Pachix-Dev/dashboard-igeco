@@ -56,13 +56,19 @@ export default function MenuClient({ translations, role, languageSelector }: { t
       {/* Header mobile */}
       <div className="flex items-center justify-between border-b border-white/10 bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 px-4 py-3 text-white lg:hidden">
         <Link href="/dashboard" onClick={handleNavigate} className="flex items-center gap-2">
+            <Image
+            src="/img/italian.png"
+            alt="logo"
+            width={34}
+            height={34}
+            className="rounded-lg shadow-lg shadow-blue-500/20"            
+          />
           <Image
             src="/img/deutschemesselogo.webp"
             alt="logo"
-            width={48}
-            height={48}
-            className="rounded-lg shadow-lg shadow-blue-500/20"
-            style={{ width: 'auto', height: 32 }}
+            width={34}
+            height={34}
+            className="rounded-lg shadow-lg shadow-blue-500/20"            
           />
           <span className="text-sm font-semibold text-slate-200">Dashboard</span>
         </Link>
@@ -92,7 +98,8 @@ export default function MenuClient({ translations, role, languageSelector }: { t
         <div className="flex-1 space-y-6 overflow-y-auto px-4 py-5">
           <div className="hidden flex-col gap-3 lg:flex">
             <Link href="/dashboard" onClick={handleNavigate} className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
-              <Image src="/img/deutschemesselogo.webp" alt="logo" width={50} height={50} className="rounded-lg" style={{ width: 'auto', height: 32 }} priority />
+               <Image src="/img/italian.png" alt="logo" width={25} height={25} className="rounded-lg" priority /> 
+              <Image src="/img/deutschemesselogo.webp" alt="logo" width={30} height={30} className="rounded-lg" priority />
               <div>
                 <p className="text-xs font-semibold text-slate-400">Dashboard</p>
                 <p className="text-sm font-bold text-white">{t('profile')}</p>

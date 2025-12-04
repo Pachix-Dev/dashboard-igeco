@@ -16,7 +16,7 @@ interface ExhibitorStatsProps {
 export default function ExhibitorStats({ total, maxExhibitors, remaining, usagePercentage, translations }: ExhibitorStatsProps) {
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
       {/* Total registrados */}
       <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 p-4 shadow-lg">
         <div className="flex items-center gap-3">
