@@ -50,9 +50,7 @@ export default async function ScanLeads() {
         </header>
         <div className="">
           <ScanLeadsClient 
-            initialLeads={leads} 
-            maxSessions={maxSessions}
-            activeSessions={activeSessions}
+            initialLeads={leads}             
           />
         </div>
         

@@ -9,7 +9,7 @@ export async function logout() {
   // Delete session from database
   if (token) {
     try {
-      await db.query('DELETE FROM user_sessions WHERE session_token = ?', [token]);
+      await db.query('DELETE FROM active_sessions WHERE session_token = ?', [token]);
     } catch (error) {
       console.error('Error deleting session from database:', error);
     }

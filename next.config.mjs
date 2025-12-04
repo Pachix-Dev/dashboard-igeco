@@ -4,6 +4,14 @@ const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Optimizaciones de compilación
+  swcMinify: true,
+  reactStrictMode: true,
+  
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  
   // Configuración para next-intl con renderizado dinámico
   // output: 'standalone', // Comentado para permitir renderizado dinámico con next-intl
   
