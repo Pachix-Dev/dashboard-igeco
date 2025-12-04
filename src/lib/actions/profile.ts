@@ -57,7 +57,7 @@ export async function updateProfile(formData: FormData) {
     const description = formData.get('description') as string;
     const description_en = formData.get('description_en') as string;
     const address = formData.get('address') as string;
-    const photo = formData.get('photo') as string;
+    let photo = formData.get('photo') as string;
     const webpage = formData.get('webpage') as string;
     const phone = formData.get('phone') as string;
     const facebook = formData.get('facebook') as string;
@@ -69,6 +69,11 @@ export async function updateProfile(formData: FormData) {
 
     if (!name || !company || !event) {
       return { success: false, error: 'name, company y event son requeridos' };
+    }
+
+    // Limpiar ruta: si viene "/logos/nombre.ext" o "/api/logos/nombre.ext", guardar solo "nombre.ext"
+    if (photo) {
+      photo = photo.replace(/^(\/logos\/|\/api\/logos\/)/, '');
     }
 
     await db.query(
