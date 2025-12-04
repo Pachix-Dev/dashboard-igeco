@@ -5,6 +5,8 @@ import {getUserSessions} from '@/lib/actions/sessions';
 import {getTranslations} from 'next-intl/server';
 import {unstable_noStore as noStore} from 'next/cache';
 import {redirect} from 'next/navigation';
+import { AccountDisable } from '@/components/shared/AccountDisable'
+import { getSession } from '@/lib/actions/exhibitors';
 
 export default async function ScanLeads() {
   
@@ -13,6 +15,7 @@ export default async function ScanLeads() {
   
   // Verificar sesiones del usuario
   const sessionData = await getUserSessions();
+  const sessionStatus = await getSession();
   
   if (!sessionData) {
     redirect('/');
@@ -23,7 +26,11 @@ export default async function ScanLeads() {
 
   const leads: Lead[] = await fetchRecordsByUserId();
   const totalLeads = leads.length;
-
+  
+  if (sessionStatus?.status === 0) {
+    return <AccountDisable />;
+  }
+  
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50">
       <section className="mx-auto max-w-8xl space-y-8 px-6 py-10">

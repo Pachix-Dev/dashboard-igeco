@@ -6,14 +6,12 @@ import { FetchLeads } from './FetchLeads'
 import { QrScanner } from './QrScanner'
 import { SessionManager } from './SessionManager'
 import { BuySessionSlots } from './BuySessionSlots'
-import { AccountDisable } from '@/components/shared/AccountDisable'
-import { useSessionUser } from '@/store/session-user'
 import { useRouter } from 'next/navigation'
 
 export function ScanLeadsClient({ initialLeads, maxSessions, activeSessions }) {
   const [leads, setLeads] = useState(initialLeads || [])
   const [showSessionManager, setShowSessionManager] = useState(false)
-  const { userSession } = useSessionUser()
+
   const router = useRouter()
 
   useEffect(() => {
@@ -43,10 +41,6 @@ export function ScanLeadsClient({ initialLeads, maxSessions, activeSessions }) {
 
   const handleSessionsUpdate = () => {
     router.refresh()
-  }
-
-  if (!userSession?.status) {
-    return <AccountDisable />
   }
 
   return (
