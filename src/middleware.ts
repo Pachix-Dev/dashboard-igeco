@@ -57,24 +57,26 @@ export async function middleware(req: NextRequest) {
 
     const {payload} = await jwtVerify(token, secret) as { payload: JWTPayload };
     const userRole = payload.role;
-    const userId = payload.id;
-    const maxSessions = payload.maxsessions;
 
-    // Edge runtime no permite mysql: delegamos validación a API Node
-    const checkUrl = new URL('/api/check-sessions', req.url);
-    const resp = await fetch(checkUrl, {
-      method: 'GET',
-      headers: {
-        authorization: `Bearer ${token}`
+    // Validar límite de sesiones vía API (no Node modules en Edge)
+    try {
+      const checkUrl = new URL('/api/check-sessions', req.url);
+      const resp = await fetch(checkUrl, {
+        method: 'GET',
+        headers: {
+          authorization: `Bearer ${token}`
+        }
+      });
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data?.allowed === false) {
+          const localizedPath = getLocalizedPath(locale, '/dashboard/session-limit');
+          const redirectUrl = `${req.nextUrl.origin}${localizedPath}`;
+          return NextResponse.redirect(redirectUrl);
+        }
       }
-    });
-    if (resp.ok) {
-      const data = await resp.json();
-      if (data && data.allowed === false) {
-        const localizedPath = getLocalizedPath(locale, '/dashboard/session-limit');
-        const redirectUrl = `${req.nextUrl.origin}${localizedPath}`;
-        return NextResponse.redirect(redirectUrl);
-      }
+    } catch (sessionErr) {
+      console.error('Session limit check error:', sessionErr);
     }
 
    
