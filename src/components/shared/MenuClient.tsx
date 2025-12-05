@@ -143,21 +143,6 @@ export default function MenuClient({ translations, role, languageSelector }: { t
                   </Link>
                 </li>
                 <li>
-                  <Link onClick={handleNavigate} href="/dashboard/exhibitors" className={getLinkClasses('/dashboard/exhibitors')}>
-                    <div className="flex items-center gap-3">
-                      <span className="grid h-9 w-9 place-items-center rounded-xl bg-white/5 text-slate-200 ring-1 ring-white/10">                        
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
-                        </svg>
-                      </span>
-                      <span>{t('badges')}</span>
-                    </div>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-4 w-4 text-slate-500 transition group-hover:text-blue-300">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="m9 5 7 7-7 7" />
-                    </svg>
-                  </Link>
-                </li>
-                <li>
                   <Link onClick={handleNavigate} href="/dashboard/programa" className={getLinkClasses('/dashboard/programa')}>
                     <div className="flex items-center gap-3">
                       <span className="grid h-9 w-9 place-items-center rounded-xl bg-white/5 text-slate-200 ring-1 ring-white/10">
@@ -172,6 +157,21 @@ export default function MenuClient({ translations, role, languageSelector }: { t
                     </svg>
                   </Link>
                 </li>
+                <li>
+                  <Link onClick={handleNavigate} href="/dashboard/exhibitors" className={getLinkClasses('/dashboard/exhibitors')}>
+                    <div className="flex items-center gap-3">
+                      <span className="grid h-9 w-9 place-items-center rounded-xl bg-white/5 text-slate-200 ring-1 ring-white/10">                        
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.336a6.721 6.721 0 0 1-3.17.789 6.721 6.721 0 0 1-3.168-.789 3.376 3.376 0 0 1 6.338 0Z" />
+                        </svg>
+                      </span>
+                      <span>{t('badges')}</span>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-4 w-4 text-slate-500 transition group-hover:text-blue-300">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="m9 5 7 7-7 7" />
+                    </svg>
+                  </Link>
+                </li>                
                 <li>
                   <Link onClick={handleNavigate} href="/dashboard/scan-leads" className={getLinkClasses('/dashboard/scan-leads')}>
                     <div className="flex items-center gap-3">
