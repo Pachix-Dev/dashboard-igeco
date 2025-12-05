@@ -45,8 +45,9 @@
       "noData": "Non assegnato"
     },
     "points": {
-      "1": "I badge per gli espositori saranno consegnati il giorno dell'evento al modulo di registrazione individualmente per gli espositori; ricorda che devi presentare un documento d'identità ufficiale.",
-      "2": "Non sono consentite ristampe dei badge, quindi è importante conservare il badge durante i giorni dell'evento in caso contrario, avrà un costo aggiuntivo."      
+      "1": "I badge espositore verranno consegnati a partire dal 13 aprile alle ore 14:00 presso il modulo di registrazione espositori. Ricorda di portare un documento d'identità ufficiale.",
+      "2": "Non sono consentite ristampe dei badge, quindi conserva il tuo badge durante i giorni dell'evento, altrimenti dovrai acquistare un badge aggiuntivo.",
+      "3": "Per velocizzare la consegna dei badge, registra i tuoi espositori prima del 3 aprile. Dopo questa data, la registrazione potrà essere effettuata solo in loco presso il modulo di assistenza espositori a partire dal 13 aprile alle ore 14:00."      
     },
     "globalStats": {
       "title": "Registrazioni globali",
@@ -107,7 +108,7 @@
       "error": "Errore nell'aggiornamento dell'espositore"
     },
     "badge": "{count} attivi",
-    "subtitle": "Gestisci espositori, credenziali e aziende da un pannello pulito.",
+    "subtitle": "Ricorda che hai tempo fino al 3 aprile 2026 per registrare i tuoi espositori ed evitare code il giorno dell'evento.",
     "stat": {
       "label": "Espositori",
       "desc": "Totale registrati"
@@ -244,7 +245,7 @@
   },
   "ProfilePage": {
     "title": "Il Mio Profilo",
-    "subtitle": "Informazioni del tuo account e configurazione",
+    "subtitle": "Ti piacerebbe apparire nella nostra directory espositori? Aggiorna il tuo profilo con le informazioni della tua azienda e dello stand.",
     "edit": "Modifica Profilo",
     "status": {
       "active": "Attivo",

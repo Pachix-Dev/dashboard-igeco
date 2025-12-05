@@ -71,7 +71,7 @@ export function ExhibitorsClient({
                 {t('badge', {count: totalExhibitors})}
               </span>
             </div>
-            <p className="text-sm text-slate-400">{t('subtitle')}</p>
+            <p className="text-sm text-amber-400">{t('subtitle')}</p>
           </div>
 
           {/* Stats Grid */}
@@ -90,18 +90,18 @@ export function ExhibitorsClient({
 
           {/* Action buttons */}
           <div className="grid grid-cols-2 md:flex md:flex-wrap justify-end gap-3">
-            <BuyExhibitors
-              userId={userId}
-              currentTotal={totalExhibitors}
-              maxExhibitors={maxExhibitors}
-              onPurchaseComplete={handlePurchaseComplete}
-            />
             <AddExhibitor 
               userId={userId}
               onExhibitorAdded={handleExhibitorAdded}
               maxExhibitors={maxExhibitors}
               currentTotal={totalExhibitors}
             />
+            <BuyExhibitors
+              userId={userId}
+              currentTotal={totalExhibitors}
+              maxExhibitors={maxExhibitors}
+              onPurchaseComplete={handlePurchaseComplete}
+            />            
           </div>
         </header>
 

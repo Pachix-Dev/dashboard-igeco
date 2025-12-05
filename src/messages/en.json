@@ -45,8 +45,9 @@
       "noData": "Not assigned"
     },
     "points": {
-      "1": "Exhibitor badges will be delivered on the day of the event at the registration module individually. Remember to bring an official ID.",
-      "2": "Badge reprints are not allowed, so keep your badge during the days of the event otherwise, there will be an additional cost."
+      "1": "Exhibitor badges will be delivered starting April 13 at 2:00 PM at the exhibitor registration module. Remember to bring an official ID.",
+      "2": "Badge reprints are not allowed, so keep your badge during the days of the event otherwise, there will be an additional cost.",
+      "3": "To expedite badge delivery, register your exhibitors before April 3. After this date, registration can only be done on-site at the exhibitor service module starting April 13 at 2:00 PM."
       
     },
     "globalStats": {
@@ -180,7 +181,7 @@
       "error": "Error updating exhibitor"
     },
     "badge": "{count} active",
-    "subtitle": "Manage exhibitors, credentials and companies from a clean panel.",
+    "subtitle": "Remember you have until April 3 2026 to register your exhibitors and avoid lines on the event day.",
     "stat": {
       "label": "Exhibitors",
       "desc": "Total registered"
@@ -388,7 +389,7 @@
   },
   "ProfilePage": {
     "title": "My Profile",
-    "subtitle": "Your account information and settings",  
+    "subtitle": "Would you like to appear in our exhibitor directory? Update your profile with your company and stand information.",  
      "edit": "Edit Profile",
     "status": {
       "active": "Active",

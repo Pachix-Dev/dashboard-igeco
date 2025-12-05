@@ -45,9 +45,9 @@
       "noData": "No asignado"
     },
     "points": {
-      "1": "Los gafetes a expositores se entregarán el día del evento en el módulo de registro de forma individual para expositores; recuerda que debes presentar una identificación oficial.",
-      "2": "No se permiten reimpresiones de gafetes, por lo que es importante que conserves tu gafete durante los días del evento de lo contrario, tendrás que comprar un gafete adicional."
-      
+      "1": "Los gafetes a expositores se entregarán a partir del 13 de abril a partir de las 14:00 hrs. en el módulo de registro para expositores, que debes presentar una identificación oficial.",
+      "2": "No se permiten reimpresiones de gafetes, por lo que es importante que conserves tu gafete durante los días del evento de lo contrario, tendrás que comprar un gafete adicional.",
+      "3": "Recuerda que para agilizar la entrega de gafetes debes de registrar a tus expositores antes del 3 de abril, después de esta fecha solo lo podras hacer en sitio en el modulo de atención a expositores a partir del 13 de abril a partir de las 14:00 hrs."
     },
     "globalStats": {
       "title": "Registros globales",
@@ -79,7 +79,7 @@
     "panel": "Panel",
     "title": "Gafetes de expositores",
     "badge": "{count} activos",
-    "subtitle": "Administra expositores, credenciales y empresas desde un panel limpio.",
+    "subtitle": "Recuerda que tienes hasta el 3 de abril 2026 para registrar a tus expositores y evitar filas el día del evento.",
     "stat": {
       "label": "Expositores",
       "desc": "Total registrados"
@@ -240,7 +240,7 @@
   },
   "ProfilePage": {
     "title": "Mi Perfil",
-    "subtitle": "Información de tu cuenta y configuración",
+    "subtitle": "¿Te gustaría aparecer en nuestro directorio de expositores?, actualiza tu perfil con la información de tu empresa y stand.",
     "edit": "Editar Perfil",
     "status": {
       "active": "Activa",

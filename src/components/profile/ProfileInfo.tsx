@@ -31,7 +31,7 @@ export default async function ProfileInfo() {
           <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
             {t('title')}
           </h1>
-          <p className="text-slate-400">{t('subtitle')}</p>
+          <p className="text-emerald-400">{t('subtitle')}</p>
         </div>
 
         {/* Alert for incomplete profile */}

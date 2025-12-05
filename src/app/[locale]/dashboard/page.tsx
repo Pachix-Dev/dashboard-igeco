@@ -187,7 +187,7 @@ export default async function Dashboard() {
                   />
                 </svg>
               </div>
-              <h2 className="text-2xl font-bold text-white">{t('globalStats.title')}</h2>
+              <h2 className="text-2xl font-bold text-white">{t('globalStats.title')} (RE+ MEXICO + ECOMONDO)</h2>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {/* Total Users */}
@@ -258,7 +258,7 @@ export default async function Dashboard() {
             <h2 className="text-2xl font-bold text-white">{t('important')}</h2>
           </div>
           <ul className="space-y-4">
-            {[1, 2].map((num) => (
+            {[1, 2, 3].map((num) => (
               <li key={num} className="flex gap-4">
                 <div className="mt-1 grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-blue-500/20 text-xs font-bold text-blue-300">
                   {num}
