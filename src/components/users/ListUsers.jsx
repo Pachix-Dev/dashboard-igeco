@@ -4,6 +4,7 @@ import { EditUser } from './EditUser'
 import { EditPassword } from './EditPassword'
 import { useTranslations } from 'next-intl'
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 
 export function ListUsers({ users: initialUsers, onUserUpdated }) {
   const t = useTranslations('UsersPage')
@@ -114,20 +115,6 @@ export function ListUsers({ users: initialUsers, onUserUpdated }) {
               </svg>
             </span>
           </div>
-
-          <div className='flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-200 shadow-lg shadow-blue-500/10'>
-            <div className='grid h-10 w-10 place-items-center rounded-xl bg-blue-500/15 text-base font-semibold text-blue-200'>
-              {filteredUsers.length}
-            </div>
-            <div>
-              <p className='text-[11px] uppercase tracking-[0.2em] text-slate-400'>
-                {t('search.inView')}
-              </p>
-              <p className='font-semibold text-white'>
-                {t('search.found', { count: filteredUsers.length })}
-              </p>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -136,11 +123,14 @@ export function ListUsers({ users: initialUsers, onUserUpdated }) {
           <table className='min-w-full divide-y divide-white/5'>
             <thead className='bg-white/5 text-left text-xs font-semibold uppercase tracking-wide text-slate-300'>
               <tr>
+                <th className='px-6 py-3'>Logo</th>
                 <th className='px-6 py-3'>{t('table.user')}</th>
                 <th className='px-6 py-3'>{t('table.company')}</th>
-                <th className='px-6 py-3'>stand</th>
+                <th className='px-6 py-3'>Stand</th>
                 <th className='px-6 py-3'>{t('table.role')}</th>
                 <th className='px-6 py-3'>{t('table.event')}</th>
+                <th className='px-6 py-3'>Status</th>
+                <th className='px-6 py-3'>ShowInDirectory</th>
                 <th className='px-6 py-3 text-right'>{t('table.actions')}</th>
               </tr>
             </thead>
@@ -148,7 +138,7 @@ export function ListUsers({ users: initialUsers, onUserUpdated }) {
               {currentUsers.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={4}
+                    colSpan={9}
                     className='px-6 py-8 text-center text-sm text-slate-400'
                   >
                     {t('empty')}
@@ -157,15 +147,53 @@ export function ListUsers({ users: initialUsers, onUserUpdated }) {
               ) : (
                 currentUsers.map((user, index) => {
                   const roleTone =
-                    user.role === 'exhibitorplus'
-                      ? 'border-amber-500/30 bg-amber-500/15 text-amber-100'
-                      : 'border-emerald-500/30 bg-emerald-500/15 text-emerald-100'
+                    'border-emerald-500/30 bg-emerald-500/15 text-emerald-100'
+                  const statusLabel = user.status === 1 ? 'Activo' : 'Inactivo'
+                  const statusColor =
+                    user.status === 1
+                      ? 'border-green-500/30 bg-green-500/15 text-green-100'
+                      : 'border-red-500/30 bg-red-500/15 text-red-100'
+                  const directoryLabel = user.show_directory === 1 ? 'Sí' : 'No'
+                  const directoryColor =
+                    user.show_directory === 1
+                      ? 'border-blue-500/30 bg-blue-500/15 text-blue-100'
+                      : 'border-slate-500/30 bg-slate-500/15 text-slate-100'
 
                   return (
                     <tr
                       key={user.id ?? user.email ?? index}
                       className='transition hover:bg-white/5'
                     >
+                      {/* Logo Column */}
+                      <td className='px-6 py-4'>
+                        <div className='h-12 w-12 rounded-lg overflow-hidden bg-slate-800 border border-slate-700 flex items-center justify-center'>
+                          {user.photo ? (
+                            <Image
+                              src={`/logos/${user.photo}`}
+                              alt={user.name || 'Logo'}
+                              width={48}
+                              height={48}
+                              className='object-cover w-full h-full'
+                            />
+                          ) : (
+                            <svg
+                              xmlns='http://www.w3.org/2000/svg'
+                              fill='none'
+                              viewBox='0 0 24 24'
+                              strokeWidth={1.5}
+                              stroke='currentColor'
+                              className='w-6 h-6 text-slate-500'
+                            >
+                              <path
+                                strokeLinecap='round'
+                                strokeLinejoin='round'
+                                d='M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z'
+                              />
+                            </svg>
+                          )}
+                        </div>
+                      </td>
+                      {/* User Column */}
                       <td className='px-6 py-4'>
                         <div className='font-semibold text-white'>
                           {user.name || t('table.noData')}
@@ -174,12 +202,15 @@ export function ListUsers({ users: initialUsers, onUserUpdated }) {
                           {user.email || t('table.noData')}
                         </p>
                       </td>
+                      {/* Company Column */}
                       <td className='px-6 py-4 text-sm text-slate-200'>
                         {user.company || t('table.noData')}
                       </td>
+                      {/* Stand Column */}
                       <td className='px-6 py-4 text-sm text-slate-200'>
                         {user.stand || t('table.noData')}
                       </td>
+                      {/* Role Column */}
                       <td className='px-6 py-4'>
                         <span
                           className={`inline-flex items-center gap-2 rounded-lg border px-3 py-1 text-xs font-semibold ${roleTone}`}
@@ -188,12 +219,32 @@ export function ListUsers({ users: initialUsers, onUserUpdated }) {
                           {roleLabel(user.role)}
                         </span>
                       </td>
+                      {/* Event Column */}
                       <td className='px-6 py-4'>
                         <span className='inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-100'>
                           <span className='h-2 w-2 rounded-full bg-blue-400'></span>
                           {user.event || t('table.noData')}
                         </span>
                       </td>
+                      {/* Status Column */}
+                      <td className='px-6 py-4'>
+                        <span
+                          className={`inline-flex items-center gap-2 rounded-lg border px-3 py-1 text-xs font-semibold ${statusColor}`}
+                        >
+                          <span className='h-2 w-2 rounded-full bg-current opacity-70'></span>
+                          {statusLabel}
+                        </span>
+                      </td>
+                      {/* ShowInDirectory Column */}
+                      <td className='px-6 py-4'>
+                        <span
+                          className={`inline-flex items-center gap-2 rounded-lg border px-3 py-1 text-xs font-semibold ${directoryColor}`}
+                        >
+                          <span className='h-2 w-2 rounded-full bg-current opacity-70'></span>
+                          {directoryLabel}
+                        </span>
+                      </td>
+                      {/* Actions Column */}
                       <td className='px-6 py-4'>
                         <div className='flex flex-wrap justify-end gap-2'>
                           <EditUser user={user} onUserUpdated={onUserUpdated} />

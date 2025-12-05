@@ -33,7 +33,7 @@ export function UsersClient({ initialUsers, header }: UsersClientProps) {
       prev.map((current) => (current.id === user.id ? user : current))
     );
   };
-
+  const totalUsers = users.length
   return (
     <section className="mx-auto max-w-8xl space-y-8 px-6 py-10">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -41,8 +41,16 @@ export function UsersClient({ initialUsers, header }: UsersClientProps) {
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
             {header.panel}
           </p>
+          <div className="flex items-end gap-3">            
+            <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-200 text-center">
+              users 
+            </span>
+          </div>
           <div className="flex items-end gap-3">
             <h1 className="text-3xl font-bold text-white">{header.title}</h1>
+            <span className="rounded-full bg-white/10 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-slate-200 text-center">
+              {totalUsers} Activos
+            </span>
           </div>
           <p className="text-sm text-slate-400">{header.subtitle}</p>
         </div>

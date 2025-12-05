@@ -454,8 +454,8 @@
       "title": "Escanea el gafete",
       "desc": "Alinea el QR en el marco. Los datos se guardan al instante.",
       "notice": {
-        "primary": "El escáner es solo para gafetes VISITANTE, MEDIA PARTNER, VIP.",
-        "secondary": "Scanner is only for VISITOR, MEDIA PARTNER, VIP badges."
+        "primary": "El escáner es solo para gafetes oficiales del evento.",
+        "secondary": "Scanner is only for official event badges."
       },
       "leads": {
         "primary": "Lead encontrado",
@@ -603,13 +603,13 @@
     "selectEvent": "Selecciona un evento",
     "submit": "Crear cuenta",
     "loading": "Cargando...",
-    "success": "A?Cuenta creada exitosamente! Redirigiendo al login...",
-      "successTitle": "A?Registro exitoso!",
-      "successMessage": "Hemos enviado tus credenciales de acceso a {email}.",
-      "successRedirect": "Redirigiendo al inicio de sesiA3n...",
+    "success": "¡Cuenta creada exitosamente! Redirigiendo al login...",
+    "successTitle": "¡Registro exitoso!",
+    "successMessage": "Hemos enviado tus credenciales de acceso a {email}.",
+    "successRedirect": "Redirigiendo al inicio de sesión...",
     "hasAccount": "¿Ya tienes cuenta?",
     "loginLink": "Inicia sesión",
-    "footer": "© 2025 IGECO. Todos los derechos reservados.",
+    "footer": "© 2026 IGECO. Todos los derechos reservados.",
     "errors": {
       "passwordMismatch": "Las contraseñas no coinciden",
       "serverError": "Error en el servidor. Por favor, intenta nuevamente."
@@ -848,6 +848,62 @@
     "securePaymentDesc": "Tu información está protegida. Los slots se activarán inmediatamente después del pago.",
     "purchaseSuccess": "¡Compra exitosa! Se agregaron {slots} slots",
     "purchaseError": "Error al procesar el pago. Intenta nuevamente."
+  },
+  "ScanLeadsUpsell": {
+    "badge": "Módulo Premium",
+    "title": "Captura Leads Durante el Evento",
+    "subtitle": "Escanea códigos QR de visitantes y recopila información valiosa de prospectos que visitan tu stand. Aumenta tu ROI del evento con seguimiento profesional.",
+    "pricing": {
+      "label": "Pago por evento",
+      "single": "Acceso durante todo el evento",
+      "cta": "Comprar ahora • $10,750 MXN",
+      "guarantee": "Activación inmediata • Soporte incluido"
+    },
+    "featuresTitle": "Todo lo que necesitas para capturar leads",
+    "featuresSubtitle": "Herramientas profesionales para maximizar tu inversión en el evento",
+    "features": {
+      "qr": {
+        "title": "Escaneo QR Instantáneo",
+        "description": "Escanea gafetes de visitantes en segundos. Captura información completa del prospecto sin formularios manuales."
+      },
+      "contacts": {
+        "title": "Base de Datos de Contactos",
+        "description": "Accede a nombre, empresa, cargo, email y más. Toda la información del visitante en un solo lugar."
+      },
+      "analytics": {
+        "title": "Reportes y Métricas",
+        "description": "Visualiza cuántos leads capturaste, por día, hora. Mide el éxito de tu participación."
+      },
+      "export": {
+        "title": "Exportación a Excel",
+        "description": "Descarga todos tus leads en formato Excel para importar a tu CRM o herramientas de marketing."
+      },
+      "instant": {
+        "title": "Datos en Tiempo Real",
+        "description": "Los leads se guardan automáticamente y están disponibles al instante para consulta o exportación."
+      },
+      "secure": {
+        "title": "Seguro y Privado",
+        "description": "Tus datos están protegidos con encriptación. Solo tú tienes acceso a los leads que captures."
+      }
+    },
+    "benefitsTitle": "¿Por qué necesitas el módulo Scan Leads?",
+    "benefits": [
+      "Ahorra tiempo: No más tarjetas de presentación perdidas o datos escritos a mano",
+      "Aumenta conversiones: Haz seguimiento inmediato mientras el interés está caliente",
+      "Mide resultados: Conoce cuántos prospectos visitaron tu stand realmente",
+      "Ventaja competitiva: Mientras otros toman notas, tú ya tienes los datos digitalizados",
+      "ROI comprobado: Recupera tu inversión con solo cerrar 1-2 nuevos clientes del evento",
+      "Profesionalismo: Impresiona a visitantes con tecnología moderna de captura"
+    ],
+    "cta": {
+      "title": "Comienza a Capturar Leads Hoy",
+      "subtitle": "Únete a cientos de expositores que ya están maximizando su ROI en eventos con nuestro sistema de captura de leads.",
+      "button": "Activar Módulo Scan Leads"
+    },
+    "footer": {
+      "note": "¿Tienes dudas? Contacta a tu asesor de ventas para más información sobre el módulo Scan Leads."
+    }
   }
 }
 

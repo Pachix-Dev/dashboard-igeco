@@ -607,7 +607,7 @@
     "successRedirect": "Redirecting to sign in...",
     "hasAccount": "Already have an account?",
     "loginLink": "Sign in",
-    "footer": "© 2025 IGECO. All rights reserved.",
+    "footer": "© 2026 IGECO. All rights reserved.",
     "errors": {
       "passwordMismatch": "Passwords do not match",
       "serverError": "Server error. Please try again."
@@ -846,5 +846,61 @@
     "securePaymentDesc": "Your information is protected. Slots will be activated immediately after payment.",
     "purchaseSuccess": "Purchase successful! {slots} slots added",
     "purchaseError": "Error processing payment. Please try again."
+  },
+  "ScanLeadsUpsell": {
+    "badge": "Premium Module",
+    "title": "Capture Leads During the Event",
+    "subtitle": "Scan visitor QR codes and collect valuable information from prospects who visit your booth. Increase your event ROI with professional follow-up.",
+    "pricing": {
+      "label": "Payment per event",
+      "single": "Access during the entire event",
+      "cta": "Buy now • $10,750 MXN",
+      "guarantee": "Instant activation • Support included"
+    },
+    "featuresTitle": "Everything you need to capture leads",
+    "featuresSubtitle": "Professional tools to maximize your event investment",
+    "features": {
+      "qr": {
+        "title": "Instant QR Scanning",
+        "description": "Scan visitor badges in seconds. Capture complete prospect information without manual forms."
+      },
+      "contacts": {
+        "title": "Contact Database",
+        "description": "Access name, company, position, email and more. All visitor information in one place."
+      },
+      "analytics": {
+        "title": "Reports & Metrics",
+        "description": "Visualize how many leads you captured, by day, hour. Measure your participation success."
+      },
+      "export": {
+        "title": "Export to Excel",
+        "description": "Download all your leads in Excel format to import into your CRM or marketing tools."
+      },
+      "instant": {
+        "title": "Real-Time Data",
+        "description": "Leads are saved automatically and are instantly available for consultation or export."
+      },
+      "secure": {
+        "title": "Secure & Private",
+        "description": "Your data is protected with encryption. Only you have access to the leads you capture."
+      }
+    },
+    "benefitsTitle": "Why do you need the Scan Leads module?",
+    "benefits": [
+      "Save time: No more lost business cards or handwritten data",
+      "Increase conversions: Follow up immediately while interest is hot",
+      "Measure results: Know how many prospects actually visited your booth",
+      "Competitive advantage: While others take notes, you already have digitized data",
+      "Proven ROI: Recover your investment with just 1-2 new clients from the event",
+      "Professionalism: Impress visitors with modern capture technology"
+    ],
+    "cta": {
+      "title": "Start Capturing Leads Today",
+      "subtitle": "Join hundreds of exhibitors who are already maximizing their event ROI with our lead capture system.",
+      "button": "Activate Scan Leads Module"
+    },
+    "footer": {
+      "note": "Have questions? Contact your sales advisor for more information about the Scan Leads module."
+    }
   }
 }

@@ -67,7 +67,7 @@ export function ExhibitorsClient({
             </p>
             <div className="flex items-end gap-3">
               <h1 className="text-3xl font-bold text-white">{t('title')}</h1>
-              <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-200">
+              <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-200 text-center">
                 {t('badge', {count: totalExhibitors})}
               </span>
             </div>
@@ -89,7 +89,7 @@ export function ExhibitorsClient({
           />
 
           {/* Action buttons */}
-          <div className="flex flex-wrap justify-end gap-3">
+          <div className="grid grid-cols-2 md:flex md:flex-wrap justify-end gap-3">
             <BuyExhibitors
               userId={userId}
               currentTotal={totalExhibitors}

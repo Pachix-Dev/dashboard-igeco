@@ -6,16 +6,33 @@ import { useForm } from 'react-hook-form'
 import { LoadingOverlay } from '../shared/Loading'
 import { createPortal } from 'react-dom'
 import { updateUserAction } from '@/lib/actions/users'
+import { v4 as uuidv4 } from 'uuid'
+import Image from 'next/image'
 
 export function EditUser({ user, onUserUpdated }) {
   const t = useTranslations('UsersPage')
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [showOptional, setShowOptional] = useState(false)
+  const [formData, setFormData] = useState({
+    photo: null,
+    previewUrl: null,
+    show_directory: 0,
+    status: 0,
+  })
   const handleOpen = () => setIsOpen(true)
   const handleClose = () => setIsOpen(false)
 
   const { notify } = useToaster()
   const locale = useLocale()
+
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const previewUrl = URL.createObjectURL(file)
+      setFormData({ ...formData, photo: file, previewUrl })
+    }
+  }
 
   const {
     register,
@@ -28,11 +45,27 @@ export function EditUser({ user, onUserUpdated }) {
     reset({
       name: user.name,
       email: user.email,
-      maxsessions: user.maxsessions,
       maxexhibitors: user.maxexhibitors,
       event: user.event,
       company: user.company,
       stand: user.stand,
+      description: user.description || '',
+      description_en: user.description_en || '',
+      address: user.address || '',
+      webpage: user.webpage || '',
+      phone: user.phone || '',
+      facebook: user.facebook || '',
+      instagram: user.instagram || '',
+      linkedin: user.linkedin || '',
+      x: user.x || '',
+      youtube: user.youtube || '',
+      tiktok: user.tiktok || '',
+    })
+    setFormData({
+      ...formData,
+      show_directory: user.show_directory || 0,
+      status: user.status || 0,
+      previewUrl: user.photo ? `/logos/${user.photo}` : null,
     })
   }, [user, reset])
 
@@ -53,15 +86,56 @@ export function EditUser({ user, onUserUpdated }) {
   const handleUser = async (data) => {
     setIsLoading(true)
     try {
+      let photoPath = user.photo
+
+      // Subir foto si existe
+      if (formData.photo instanceof File) {
+        const uploadFormData = new FormData()
+        uploadFormData.append('image', formData.photo)
+        uploadFormData.append('uuid', uuidv4())
+
+        try {
+          const res = await fetch('/api/upload/logo', {
+            method: 'POST',
+            body: uploadFormData,
+          })
+          if (!res.ok) {
+            const err = await res.json().catch(() => ({}))
+            notify(err?.error || 'Error al subir el logo', 'error')
+            setIsLoading(false)
+            return
+          }
+          const resData = await res.json()
+          photoPath = resData.path
+        } catch (error) {
+          notify('Error al subir el logo', 'error')
+          setIsLoading(false)
+          return
+        }
+      }
+
       const result = await updateUserAction({
         id: user.id,
         name: data.name,
         email: data.email,
         company: data.company,
         stand: data.stand,
-        maxsessions: data.maxsessions,
         maxexhibitors: data.maxexhibitors,
         event: data.event,
+        show_directory: formData.show_directory,
+        status: formData.status,
+        description: data.description || null,
+        description_en: data.description_en || null,
+        address: data.address || null,
+        photo: photoPath,
+        webpage: data.webpage || null,
+        phone: data.phone || null,
+        facebook: data.facebook || null,
+        instagram: data.instagram || null,
+        linkedin: data.linkedin || null,
+        x: data.x || null,
+        youtube: data.youtube || null,
+        tiktok: data.tiktok || null,
         locale,
       })
 
@@ -118,7 +192,7 @@ export function EditUser({ user, onUserUpdated }) {
         createPortal(
           <div className='fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm transition overflow-auto'>
             <div className='flex min-h-full items-center justify-center px-4 py-10'>
-              <div className='relative w-full max-w-3xl rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 p-8 shadow-2xl shadow-blue-500/20'>
+              <div className='relative w-full max-w-4xl rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 p-8 shadow-2xl shadow-blue-500/20'>
                 {isLoading && (
                   <LoadingOverlay message='Actualizando usuario...' />
                 )}
@@ -228,7 +302,30 @@ export function EditUser({ user, onUserUpdated }) {
                   </div>
 
                   <div className='grid gap-4 md:grid-cols-2'>
-                    <div className='pace-y-2'>
+                    <div className='space-y-2'>
+                      <label className='text-sm font-semibold text-slate-200'>
+                        {t('form.event')}
+                      </label>
+                      <select
+                        {...register('event', {
+                          required: t('form.errors.required'),
+                        })}
+                        className='mt-0 w-full rounded-xl border border-white/10 bg-slate-900/60 p-3 text-sm text-white ring-0 transition focus:border-blue-400/60 focus:outline-none *:text-slate-900'
+                      >
+                        <option value='' disabled>
+                          {t('form.select')}
+                        </option>
+                        <option value='ECOMONDO'>ECOMONDO</option>
+                        <option value='RE+ MEXICO'>RE+ MEXICO</option>
+                      </select>
+                      {errors.event && (
+                        <p className='text-sm text-rose-400'>
+                          {errors.event.message}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className='space-y-2'>
                       <label className='text-sm font-semibold text-slate-200'>
                         {t('form.exhibitors')}
                       </label>
@@ -254,56 +351,282 @@ export function EditUser({ user, onUserUpdated }) {
                         </p>
                       )}
                     </div>
+                  </div>
 
+                  <div className='grid gap-4 md:grid-cols-2'>
+                    {/* Toggle Switch Show Directory */}
                     <div className='space-y-2'>
                       <label className='text-sm font-semibold text-slate-200'>
-                        {t('form.sessions')}
+                        Mostrar en Directorio
                       </label>
-                      <input
-                        type='number'
-                        {...register('maxsessions', {
-                          required: t('form.errors.required'),
-                          min: {
-                            value: 0,
-                            message: t('form.errors.sessionsMin'),
-                          },
-                          max: {
-                            value: 100,
-                            message: t('form.errors.sessionsMax'),
-                          },
-                        })}
-                        className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
-                        placeholder='0 - 100'
-                      />
-                      {errors.maxsessions && (
-                        <p className='text-sm text-rose-400'>
-                          {errors.maxsessions.message}
-                        </p>
-                      )}
+                      <div className='flex items-center gap-3 pt-2'>
+                        <button
+                          type='button'
+                          onClick={() =>
+                            setFormData({
+                              ...formData,
+                              show_directory:
+                                formData.show_directory === 1 ? 0 : 1,
+                            })
+                          }
+                          className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
+                            formData.show_directory === 1
+                              ? 'bg-blue-500'
+                              : 'bg-slate-700'
+                          }`}
+                        >
+                          <span
+                            className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${
+                              formData.show_directory === 1
+                                ? 'translate-x-7'
+                                : 'translate-x-1'
+                            }`}
+                          />
+                        </button>
+                        <span className='text-sm text-slate-300'>
+                          {formData.show_directory === 1 ? 'Sí' : 'No'}
+                        </span>
+                      </div>
                     </div>
 
+                    {/* Toggle Switch Status (Habilitar Cuenta) */}
                     <div className='space-y-2'>
                       <label className='text-sm font-semibold text-slate-200'>
-                        {t('form.event')}
+                        Habilitar Cuenta
                       </label>
-                      <select
-                        {...register('event', {
-                          required: t('form.errors.required'),
-                        })}
-                        className='mt-0 w-full rounded-xl border border-white/10 bg-slate-900/60 p-3 text-sm text-white ring-0 transition focus:border-blue-400/60 focus:outline-none *:text-slate-900'
+                      <div className='flex items-center gap-3 pt-2'>
+                        <button
+                          type='button'
+                          onClick={() =>
+                            setFormData({
+                              ...formData,
+                              status: formData.status === 1 ? 0 : 1,
+                            })
+                          }
+                          className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
+                            formData.status === 1
+                              ? 'bg-green-500'
+                              : 'bg-slate-700'
+                          }`}
+                        >
+                          <span
+                            className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${
+                              formData.status === 1
+                                ? 'translate-x-7'
+                                : 'translate-x-1'
+                            }`}
+                          />
+                        </button>
+                        <span className='text-sm text-slate-300'>
+                          {formData.status === 1 ? 'Activo' : 'Inactivo'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Campos Opcionales en Acordeón */}
+                  <div className='border-t border-white/10 pt-4'>
+                    <button
+                      type='button'
+                      onClick={() => setShowOptional(!showOptional)}
+                      className='flex w-full items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-left transition hover:bg-white/10'
+                    >
+                      <span className='text-sm font-semibold text-slate-200'>
+                        Campos Opcionales (Información Adicional)
+                      </span>
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        strokeWidth={2}
+                        stroke='currentColor'
+                        className={`h-5 w-5 text-slate-400 transition-transform ${
+                          showOptional ? 'rotate-180' : ''
+                        }`}
                       >
-                        <option value='' disabled>
-                          {t('form.select')}
-                        </option>
-                        <option value='ECOMONDO'>ECOMONDO</option>
-                        <option value='RE+ MEXICO'>RE+ MEXICO</option>
-                      </select>
-                      {errors.event && (
-                        <p className='text-sm text-rose-400'>
-                          {errors.event.message}
-                        </p>
-                      )}
-                    </div>
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          d='M19.5 8.25l-7.5 7.5-7.5-7.5'
+                        />
+                      </svg>
+                    </button>
+
+                    {showOptional && (
+                      <div className='mt-4 space-y-4 rounded-xl border border-white/10 bg-slate-900/30 p-4'>
+                        {/* Logo Upload */}
+                        <div className='space-y-3'>
+                          <label className='text-sm font-semibold text-slate-200'>
+                            Logo / Foto
+                          </label>
+                          <label className='flex items-center justify-center w-full px-4 py-3 bg-slate-800/50 border-2 border-dashed border-slate-600 rounded-lg cursor-pointer hover:bg-slate-800 hover:border-blue-500 transition-all group'>
+                            <div className='flex flex-col items-center'>
+                              <svg
+                                className='w-8 h-8 text-slate-400 group-hover:text-blue-400 transition-colors'
+                                fill='none'
+                                stroke='currentColor'
+                                viewBox='0 0 24 24'
+                              >
+                                <path
+                                  strokeLinecap='round'
+                                  strokeLinejoin='round'
+                                  strokeWidth='2'
+                                  d='M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12'
+                                />
+                              </svg>
+                              <span className='mt-2 text-sm text-slate-400 group-hover:text-blue-400'>
+                                Haz clic para subir una imagen
+                              </span>
+                            </div>
+                            <input
+                              type='file'
+                              accept='image/png, image/jpeg, image/jpg, image/webp'
+                              onChange={handleFileChange}
+                              className='hidden'
+                            />
+                          </label>
+
+                          {formData.previewUrl && (
+                            <div className='flex justify-center'>
+                              <div className='relative group'>
+                                {formData.previewUrl.startsWith('blob:') ? (
+                                  <Image
+                                    src={formData.previewUrl}
+                                    alt='Vista previa'
+                                    className='w-32 h-32 object-cover rounded-xl border-2 border-slate-700'
+                                    width={128}
+                                    height={128}
+                                    unoptimized
+                                  />
+                                ) : (
+                                  <Image
+                                    src={formData.previewUrl}
+                                    alt='Logo actual'
+                                    className='w-32 h-32 object-cover rounded-xl border-2 border-slate-700'
+                                    width={128}
+                                    height={128}
+                                  />
+                                )}
+                                <div className='absolute inset-0 bg-black/50 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center'>
+                                  <span className='text-white text-xs'>
+                                    Vista previa
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Descriptions */}
+                        <div className='space-y-2'>
+                          <label className='text-sm font-semibold text-slate-200'>
+                            Descripción (Español)
+                          </label>
+                          <textarea
+                            {...register('description')}
+                            rows={3}
+                            className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                            placeholder='Descripción de la empresa...'
+                          />
+                        </div>
+
+                        <div className='space-y-2'>
+                          <label className='text-sm font-semibold text-slate-200'>
+                            Description (English)
+                          </label>
+                          <textarea
+                            {...register('description_en')}
+                            rows={3}
+                            className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                            placeholder='Company description...'
+                          />
+                        </div>
+
+                        {/* Contact Info */}
+                        <div className='grid gap-4 md:grid-cols-2'>
+                          <div className='space-y-2'>
+                            <label className='text-sm font-semibold text-slate-200'>
+                              Dirección
+                            </label>
+                            <input
+                              type='text'
+                              {...register('address')}
+                              className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                              placeholder='Calle, Ciudad, País'
+                            />
+                          </div>
+
+                          <div className='space-y-2'>
+                            <label className='text-sm font-semibold text-slate-200'>
+                              Teléfono
+                            </label>
+                            <input
+                              type='text'
+                              {...register('phone')}
+                              className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                              placeholder='+52 123 456 7890'
+                            />
+                          </div>
+                        </div>
+
+                        <div className='space-y-2'>
+                          <label className='text-sm font-semibold text-slate-200'>
+                            Sitio Web
+                          </label>
+                          <input
+                            type='url'
+                            {...register('webpage')}
+                            className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                            placeholder='https://ejemplo.com'
+                          />
+                        </div>
+
+                        {/* Social Media */}
+                        <div className='space-y-3'>
+                          <h4 className='text-sm font-semibold text-slate-300'>
+                            Redes Sociales
+                          </h4>
+                          <div className='grid gap-3 md:grid-cols-2'>
+                            <input
+                              type='url'
+                              {...register('facebook')}
+                              className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-2.5 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                              placeholder='Facebook URL'
+                            />
+                            <input
+                              type='url'
+                              {...register('instagram')}
+                              className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-2.5 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                              placeholder='Instagram URL'
+                            />
+                            <input
+                              type='url'
+                              {...register('linkedin')}
+                              className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-2.5 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                              placeholder='LinkedIn URL'
+                            />
+                            <input
+                              type='url'
+                              {...register('x')}
+                              className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-2.5 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                              placeholder='X (Twitter) URL'
+                            />
+                            <input
+                              type='url'
+                              {...register('youtube')}
+                              className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-2.5 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                              placeholder='YouTube URL'
+                            />
+                            <input
+                              type='url'
+                              {...register('tiktok')}
+                              className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-2.5 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                              placeholder='TikTok URL'
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div className='flex flex-col gap-3 border-t border-white/5 pt-4 sm:flex-row sm:justify-end'>

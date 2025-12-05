@@ -605,12 +605,12 @@
     "successTitle": "Registrazione riuscita!",
     "successMessage": "Abbiamo inviato le tue credenziali di accesso a {email}.",
     "successRedirect": "Reindirizzamento al login...",
-    "hasAccount": "Hai giA? un account?",
+    "hasAccount": "Hai già un account?",
     "loginLink": "Accedi",
-    "footer": "Ac 2025 IGECO. Tutti i diritti riservati.",
+    "footer": "© 2026 IGECO. Tutti i diritti riservati.",
     "errors": {
       "passwordMismatch": "Le password non corrispondono",
-      "serverError": "Errore del server. Riprova piA1 tardi."
+      "serverError": "Errore del server. Riprova più tardi."
     }
   },
   "ForgotPassword": {
@@ -846,6 +846,62 @@
     "securePaymentDesc": "Le tue informazioni sono protette. Gli slot saranno attivati immediatamente dopo il pagamento.",
     "purchaseSuccess": "Acquisto riuscito! Aggiunti {slots} slot",
     "purchaseError": "Errore nell'elaborazione del pagamento. Riprova."
+  },
+  "ScanLeadsUpsell": {
+    "badge": "Modulo Premium",
+    "title": "Cattura Lead Durante l'Evento",
+    "subtitle": "Scansiona i codici QR dei visitatori e raccogli informazioni preziose dai prospect che visitano il tuo stand. Aumenta il ROI del tuo evento con un follow-up professionale.",
+    "pricing": {
+      "label": "Pagamento per evento",
+      "single": "Accesso durante tutto l'evento",
+      "cta": "Acquista ora • $10,750 MXN",
+      "guarantee": "Attivazione immediata • Supporto incluso"
+    },
+    "featuresTitle": "Tutto ciò di cui hai bisogno per catturare lead",
+    "featuresSubtitle": "Strumenti professionali per massimizzare il tuo investimento nell'evento",
+    "features": {
+      "qr": {
+        "title": "Scansione QR Istantanea",
+        "description": "Scansiona i badge dei visitatori in pochi secondi. Cattura informazioni complete sui prospect senza moduli manuali."
+      },
+      "contacts": {
+        "title": "Database Contatti",
+        "description": "Accedi a nome, azienda, posizione, email e altro. Tutte le informazioni del visitatore in un unico posto."
+      },
+      "analytics": {
+        "title": "Report e Metriche",
+        "description": "Visualizza quanti lead hai catturato, per giorno, ora. Misura il successo della tua partecipazione."
+      },
+      "export": {
+        "title": "Esporta in Excel",
+        "description": "Scarica tutti i tuoi lead in formato Excel per importare nel tuo CRM o strumenti di marketing."
+      },
+      "instant": {
+        "title": "Dati in Tempo Reale",
+        "description": "I lead vengono salvati automaticamente e sono immediatamente disponibili per consultazione o esportazione."
+      },
+      "secure": {
+        "title": "Sicuro e Privato",
+        "description": "I tuoi dati sono protetti con crittografia. Solo tu hai accesso ai lead che catturi."
+      }
+    },
+    "benefitsTitle": "Perché hai bisogno del modulo Scan Leads?",
+    "benefits": [
+      "Risparmia tempo: Niente più biglietti da visita persi o dati scritti a mano",
+      "Aumenta le conversioni: Fai un follow-up immediato mentre l'interesse è alto",
+      "Misura i risultati: Scopri quanti prospect hanno effettivamente visitato il tuo stand",
+      "Vantaggio competitivo: Mentre altri prendono appunti, tu hai già i dati digitalizzati",
+      "ROI comprovato: Recupera il tuo investimento con solo 1-2 nuovi clienti dall'evento",
+      "Professionalità: Impressiona i visitatori con tecnologia moderna di acquisizione"
+    ],
+    "cta": {
+      "title": "Inizia a Catturare Lead Oggi",
+      "subtitle": "Unisciti a centinaia di espositori che stanno già massimizzando il ROI dei loro eventi con il nostro sistema di acquisizione lead.",
+      "button": "Attiva Modulo Scan Leads"
+    },
+    "footer": {
+      "note": "Hai domande? Contatta il tuo consulente di vendita per maggiori informazioni sul modulo Scan Leads."
+    }
   }
 } 
 

@@ -15,7 +15,7 @@ export default async function Exhibitors() {
     return <AccountDisable />;
   }
 
-  const exhibitors = await getExhibitors(session.id);
+  const exhibitors = await getExhibitors(session.id, session.role);
   const stats = await getExhibitorStats(session.id);
 
   return (

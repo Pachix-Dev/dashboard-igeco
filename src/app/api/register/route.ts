@@ -97,8 +97,8 @@ export async function POST(req: NextRequest) {
 
     // Crear usuario con rol 'exhibitor' por defecto
     await db.query(
-      'INSERT INTO users (name, email, password, role, maxsessions, maxexhibitors, event) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [sanitizedCompany, email, hashedPassword, 'exhibitor', 0, 0, event]
+      'INSERT INTO users (name, company, email, password, role, maxexhibitors, event) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      [sanitizedName, sanitizedCompany, email, hashedPassword, 'exhibitor', 0, event]
     );
 
     // Enviar email de bienvenida

@@ -6,6 +6,8 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { LoadingOverlay } from '../shared/Loading'
 import { createUserAction } from '@/lib/actions/users'
+import { v4 as uuidv4 } from 'uuid'
+import Image from 'next/image'
 
 export function AddUser({ onUserCreated }) {
   const t = useTranslations('UsersPage')
@@ -15,15 +17,29 @@ export function AddUser({ onUserCreated }) {
     company: '',
     email: '',
     password: '',
-    showPassword: '',
-    maxsessions: '',
+    showPassword: false,
     maxexhibitors: '',
     event: '',
     stand: '',
+    show_directory: 0,
+    description: '',
+    description_en: '',
+    address: '',
+    photo: null,
+    previewUrl: null,
+    webpage: '',
+    phone: '',
+    facebook: '',
+    instagram: '',
+    linkedin: '',
+    x: '',
+    youtube: '',
+    tiktok: '',
   })
 
   const [isOpen, setIsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [showOptional, setShowOptional] = useState(false)
   const { notify } = useToaster()
 
   const handleOpen = () => setIsOpen(true)
@@ -37,22 +53,74 @@ export function AddUser({ onUserCreated }) {
   } = useForm()
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
+    const { name, value, type, checked } = e.target
+    setFormData({
+      ...formData,
+      [name]: type === 'checkbox' ? (checked ? 1 : 0) : value,
+    })
+  }
+
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const previewUrl = URL.createObjectURL(file)
+      setFormData({ ...formData, photo: file, previewUrl })
+    }
   }
 
   const handleUser = async () => {
     setIsLoading(true)
     try {
+      let photoPath = null
+
+      // Subir foto si existe
+      if (formData.photo instanceof File) {
+        const uploadFormData = new FormData()
+        uploadFormData.append('image', formData.photo)
+        uploadFormData.append('uuid', uuidv4())
+
+        try {
+          const res = await fetch('/api/upload/logo', {
+            method: 'POST',
+            body: uploadFormData,
+          })
+          if (!res.ok) {
+            const err = await res.json().catch(() => ({}))
+            notify(err?.error || 'Error al subir el logo', 'error')
+            setIsLoading(false)
+            return
+          }
+          const data = await res.json()
+          photoPath = data.path
+        } catch (error) {
+          notify('Error al subir el logo', 'error')
+          setIsLoading(false)
+          return
+        }
+      }
+
       const result = await createUserAction({
         name: formData.name,
         company: formData.company,
         email: formData.email,
         password: formData.password,
         role: formData.role || undefined,
-        maxsessions: formData.maxsessions,
         maxexhibitors: formData.maxexhibitors,
         event: formData.event,
         stand: formData.stand,
+        show_directory: formData.show_directory,
+        description: formData.description || null,
+        description_en: formData.description_en || null,
+        address: formData.address || null,
+        photo: photoPath,
+        webpage: formData.webpage || null,
+        phone: formData.phone || null,
+        facebook: formData.facebook || null,
+        instagram: formData.instagram || null,
+        linkedin: formData.linkedin || null,
+        x: formData.x || null,
+        youtube: formData.youtube || null,
+        tiktok: formData.tiktok || null,
         locale,
       })
 
@@ -76,10 +144,23 @@ export function AddUser({ onUserCreated }) {
           password: '',
           showPassword: false,
           role: '',
-          maxsessions: '',
           maxexhibitors: '',
           event: '',
           stand: '',
+          show_directory: 0,
+          description: '',
+          description_en: '',
+          address: '',
+          photo: null,
+          previewUrl: null,
+          webpage: '',
+          phone: '',
+          facebook: '',
+          instagram: '',
+          linkedin: '',
+          x: '',
+          youtube: '',
+          tiktok: '',
         })
 
         setTimeout(() => {
@@ -112,9 +193,9 @@ export function AddUser({ onUserCreated }) {
       </button>
 
       {isOpen && (
-        <div className='absolute inset-0 z-50 bg-slate-950/80 backdrop-blur-sm transition'>
+        <div className='fixed inset-0 z-50 overflow-y-auto bg-slate-950/80 backdrop-blur-sm transition'>
           <div className='flex min-h-full items-center justify-center px-4 py-10'>
-            <div className='relative w-full max-w-3xl rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 p-8 shadow-2xl shadow-blue-500/20'>
+            <div className='relative w-full max-w-4xl rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 p-8 shadow-2xl shadow-blue-500/20'>
               {isLoading && <LoadingOverlay message='Creando usuario...' />}
               <div className='mb-6 flex items-start justify-between gap-4'>
                 <div>
@@ -342,10 +423,10 @@ export function AddUser({ onUserCreated }) {
                   </div>
                 </div>
 
-                <div className='grid gap-4 md:grid-cols-3'>
+                <div className='grid gap-4 md:grid-cols-2'>
                   <div className='space-y-2'>
                     <label className='text-sm font-semibold text-slate-200'>
-                      {t('form.exhibitors')}
+                      {t('form.exhibitors')} *
                     </label>
                     <input
                       type='number'
@@ -377,39 +458,257 @@ export function AddUser({ onUserCreated }) {
                     )}
                   </div>
 
+                  {/* Toggle Switch Show Directory */}
                   <div className='space-y-2'>
                     <label className='text-sm font-semibold text-slate-200'>
-                      {t('form.sessions')}
+                      Mostrar en Directorio *
                     </label>
-                    <input
-                      type='number'
-                      name='maxsessions'
-                      {...register('maxsessions', {
-                        required: t('form.errors.required'),
-                        pattern: {
-                          value: /^[0-9]*$/,
-                          message: t('form.errors.number'),
-                        },
-                        min: {
-                          value: 0,
-                          message: t('form.errors.sessionsMin'),
-                        },
-                        max: {
-                          value: 100,
-                          message: t('form.errors.sessionsMax'),
-                        },
-                        onChange: handleChange,
-                      })}
-                      defaultValue={formData.maxsessions}
-                      className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
-                      placeholder='0 - 100'
-                    />
-                    {errors.maxsessions && (
-                      <p className='text-sm text-rose-400'>
-                        {errors.maxsessions.message}
-                      </p>
-                    )}
+                    <div className='flex items-center gap-3 pt-2'>
+                      <button
+                        type='button'
+                        onClick={() =>
+                          setFormData({
+                            ...formData,
+                            show_directory:
+                              formData.show_directory === 1 ? 0 : 1,
+                          })
+                        }
+                        className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
+                          formData.show_directory === 1
+                            ? 'bg-blue-500'
+                            : 'bg-slate-700'
+                        }`}
+                      >
+                        <span
+                          className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${
+                            formData.show_directory === 1
+                              ? 'translate-x-7'
+                              : 'translate-x-1'
+                          }`}
+                        />
+                      </button>
+                      <span className='text-sm text-slate-300'>
+                        {formData.show_directory === 1 ? 'Sí' : 'No'}
+                      </span>
+                    </div>
                   </div>
+                </div>
+
+                {/* Campos Opcionales en Acordeón */}
+                <div className='border-t border-white/10 pt-4'>
+                  <button
+                    type='button'
+                    onClick={() => setShowOptional(!showOptional)}
+                    className='flex w-full items-center justify-between rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-left transition hover:bg-white/10'
+                  >
+                    <span className='text-sm font-semibold text-slate-200'>
+                      Campos Opcionales (Información Adicional)
+                    </span>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                      strokeWidth={2}
+                      stroke='currentColor'
+                      className={`h-5 w-5 text-slate-400 transition-transform ${
+                        showOptional ? 'rotate-180' : ''
+                      }`}
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        d='M19.5 8.25l-7.5 7.5-7.5-7.5'
+                      />
+                    </svg>
+                  </button>
+
+                  {showOptional && (
+                    <div className='mt-4 space-y-4 rounded-xl border border-white/10 bg-slate-900/30 p-4'>
+                      {/* Logo Upload */}
+                      <div className='space-y-3'>
+                        <label className='text-sm font-semibold text-slate-200'>
+                          Logo / Foto
+                        </label>
+                        <label className='flex items-center justify-center w-full px-4 py-3 bg-slate-800/50 border-2 border-dashed border-slate-600 rounded-lg cursor-pointer hover:bg-slate-800 hover:border-blue-500 transition-all group'>
+                          <div className='flex flex-col items-center'>
+                            <svg
+                              className='w-8 h-8 text-slate-400 group-hover:text-blue-400 transition-colors'
+                              fill='none'
+                              stroke='currentColor'
+                              viewBox='0 0 24 24'
+                            >
+                              <path
+                                strokeLinecap='round'
+                                strokeLinejoin='round'
+                                strokeWidth='2'
+                                d='M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12'
+                              />
+                            </svg>
+                            <span className='mt-2 text-sm text-slate-400 group-hover:text-blue-400'>
+                              Haz clic para subir una imagen
+                            </span>
+                          </div>
+                          <input
+                            type='file'
+                            accept='image/png, image/jpeg, image/jpg, image/webp'
+                            onChange={handleFileChange}
+                            className='hidden'
+                          />
+                        </label>
+
+                        {formData.previewUrl && (
+                          <div className='flex justify-center'>
+                            <div className='relative group'>
+                              <Image
+                                src={formData.previewUrl}
+                                alt='Vista previa'
+                                className='w-32 h-32 object-cover rounded-xl border-2 border-slate-700'
+                                width={128}
+                                height={128}
+                                unoptimized
+                              />
+                              <div className='absolute inset-0 bg-black/50 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center'>
+                                <span className='text-white text-xs'>
+                                  Vista previa
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Descriptions */}
+                      <div className='space-y-2'>
+                        <label className='text-sm font-semibold text-slate-200'>
+                          Descripción (Español)
+                        </label>
+                        <textarea
+                          name='description'
+                          value={formData.description}
+                          onChange={handleChange}
+                          rows={3}
+                          className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                          placeholder='Descripción de la empresa...'
+                        />
+                      </div>
+
+                      <div className='space-y-2'>
+                        <label className='text-sm font-semibold text-slate-200'>
+                          Description (English)
+                        </label>
+                        <textarea
+                          name='description_en'
+                          value={formData.description_en}
+                          onChange={handleChange}
+                          rows={3}
+                          className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                          placeholder='Company description...'
+                        />
+                      </div>
+
+                      {/* Contact Info */}
+                      <div className='grid gap-4 md:grid-cols-2'>
+                        <div className='space-y-2'>
+                          <label className='text-sm font-semibold text-slate-200'>
+                            Dirección
+                          </label>
+                          <input
+                            type='text'
+                            name='address'
+                            value={formData.address}
+                            onChange={handleChange}
+                            className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                            placeholder='Calle, Ciudad, País'
+                          />
+                        </div>
+
+                        <div className='space-y-2'>
+                          <label className='text-sm font-semibold text-slate-200'>
+                            Teléfono
+                          </label>
+                          <input
+                            type='text'
+                            name='phone'
+                            value={formData.phone}
+                            onChange={handleChange}
+                            className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                            placeholder='+52 123 456 7890'
+                          />
+                        </div>
+                      </div>
+
+                      <div className='space-y-2'>
+                        <label className='text-sm font-semibold text-slate-200'>
+                          Sitio Web
+                        </label>
+                        <input
+                          type='url'
+                          name='webpage'
+                          value={formData.webpage}
+                          onChange={handleChange}
+                          className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                          placeholder='https://ejemplo.com'
+                        />
+                      </div>
+
+                      {/* Social Media */}
+                      <div className='space-y-3'>
+                        <h4 className='text-sm font-semibold text-slate-300'>
+                          Redes Sociales
+                        </h4>
+                        <div className='grid gap-3 md:grid-cols-2'>
+                          <input
+                            type='url'
+                            name='facebook'
+                            value={formData.facebook}
+                            onChange={handleChange}
+                            className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-2.5 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                            placeholder='Facebook URL'
+                          />
+                          <input
+                            type='url'
+                            name='instagram'
+                            value={formData.instagram}
+                            onChange={handleChange}
+                            className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-2.5 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                            placeholder='Instagram URL'
+                          />
+                          <input
+                            type='url'
+                            name='linkedin'
+                            value={formData.linkedin}
+                            onChange={handleChange}
+                            className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-2.5 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                            placeholder='LinkedIn URL'
+                          />
+                          <input
+                            type='url'
+                            name='x'
+                            value={formData.x}
+                            onChange={handleChange}
+                            className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-2.5 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                            placeholder='X (Twitter) URL'
+                          />
+                          <input
+                            type='url'
+                            name='youtube'
+                            value={formData.youtube}
+                            onChange={handleChange}
+                            className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-2.5 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                            placeholder='YouTube URL'
+                          />
+                          <input
+                            type='url'
+                            name='tiktok'
+                            value={formData.tiktok}
+                            onChange={handleChange}
+                            className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-2.5 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-blue-400/60 focus:outline-none'
+                            placeholder='TikTok URL'
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className='flex flex-col gap-3 border-t border-white/5 pt-4 sm:flex-row sm:justify-end'>

@@ -18,11 +18,13 @@ export type DashboardUser = {
   name: string;
   email: string;
   role: string;
-  maxsessions: number;
   maxexhibitors: number;
   event: string;
   company: string;
   stand: string | null;
+  status: number;
+  show_directory: number;
+  photo: string | null;
 };
 
 type Locale = "es" | "en" | "it" | (string & {});
@@ -44,10 +46,22 @@ type CreateUserInput = {
   email: string;
   password: string;
   role?: string;
-  maxsessions?: number | string;
   maxexhibitors: number | string;
   event: string;
-  stand?: string | null;
+  stand: string;
+  show_directory?: number;
+  description?: string | null;
+  description_en?: string | null;
+  address?: string | null;
+  photo?: string | null;
+  webpage?: string | null;
+  phone?: string | null;
+  facebook?: string | null;
+  instagram?: string | null;
+  linkedin?: string | null;
+  x?: string | null;
+  youtube?: string | null;
+  tiktok?: string | null;
   locale: Locale;
 };
 
@@ -57,9 +71,22 @@ type UpdateUserInput = {
   email: string;
   company: string;
   event: string;
-  stand?: string | null;
-  maxsessions?: number | string;
+  stand: string;
   maxexhibitors?: number | string;
+  show_directory?: number;
+  status?: number;
+  description?: string | null;
+  description_en?: string | null;
+  address?: string | null;
+  photo?: string | null;
+  webpage?: string | null;
+  phone?: string | null;
+  facebook?: string | null;
+  instagram?: string | null;
+  linkedin?: string | null;
+  x?: string | null;
+  youtube?: string | null;
+  tiktok?: string | null;
   locale: Locale;
 };
 
@@ -101,11 +128,13 @@ const mapRowToDashboardUser = (row: RowDataPacket): DashboardUser => ({
   name: String(row.name ?? ""),
   email: String(row.email ?? ""),
   role: String(row.role ?? ""),
-  maxsessions: Number(row.maxsessions ?? 0),
   maxexhibitors: Number(row.maxexhibitors ?? 0),
   event: String(row.event ?? ""),
   company: String(row.company ?? ""),
   stand: row.stand !== undefined && row.stand !== null ? String(row.stand) : null,
+  status: Number(row.status ?? 1),
+  show_directory: Number(row.show_directory ?? 0),
+  photo: row.photo !== undefined && row.photo !== null ? String(row.photo) : null,
 });
 
 async function sendCredentialsEmail({
@@ -164,7 +193,7 @@ async function sendCredentialsEmail({
 export async function getDashboardUsers(): Promise<DashboardUser[]> {
   try {
     const [rows] = await db.query<RowDataPacket[]>(
-      "SELECT id, name, email, role, maxsessions, maxexhibitors, event, company, stand FROM users WHERE role != 'admin' ORDER BY id DESC"
+      "SELECT id, name, email, role, maxexhibitors, event, company, stand, description, description_en, address, photo, webpage, phone, facebook, instagram, linkedin, x, youtube, tiktok, status, show_directory FROM users WHERE role != 'admin' ORDER BY id DESC"
     );
 
     return rows.map(mapRowToDashboardUser);
@@ -182,10 +211,22 @@ export async function createUserAction(
     company,
     email,
     password,
-    maxsessions,
     maxexhibitors,
     event,
     stand,
+    show_directory,
+    description,
+    description_en,
+    address,
+    photo,
+    webpage,
+    phone,
+    facebook,
+    instagram,
+    linkedin,
+    x,
+    youtube,
+    tiktok,
     locale,
   } = input;
 
@@ -196,11 +237,12 @@ export async function createUserAction(
       !password ||
       !event ||
       !company ||
+      !stand ||
       maxexhibitors === undefined
     ) {
       return {
         success: false,
-        message: "Todos los campos son requeridos",
+        message: "Todos los campos obligatorios son requeridos",
       };
     }
 
@@ -242,30 +284,57 @@ export async function createUserAction(
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const normalizedMaxSessions = Number(maxsessions ?? 0) || 0;
     const normalizedMaxExhibitors = Number(maxexhibitors ?? 0) || 0;
+    const normalizedShowDirectory = Number(show_directory ?? 0);
 
     const sanitizedCompany = sanitizeString(company, 150);
-    const sanitizedStand = stand ? sanitizeString(stand, 150) : null;
+    const sanitizedStand = sanitizeString(stand, 150);
+    const sanitizedDescription = description ? sanitizeString(description, 1000) : null;
+    const sanitizedDescriptionEn = description_en ? sanitizeString(description_en, 1000) : null;
+    const sanitizedAddress = address ? sanitizeString(address, 200) : null;
+    const sanitizedWebpage = webpage ? sanitizeString(webpage, 200) : null;
+    const sanitizedPhone = phone ? sanitizeString(phone, 50) : null;
+    const sanitizedFacebook = facebook ? sanitizeString(facebook, 200) : null;
+    const sanitizedInstagram = instagram ? sanitizeString(instagram, 200) : null;
+    const sanitizedLinkedin = linkedin ? sanitizeString(linkedin, 200) : null;
+    const sanitizedX = x ? sanitizeString(x, 200) : null;
+    const sanitizedYoutube = youtube ? sanitizeString(youtube, 200) : null;
+    const sanitizedTiktok = tiktok ? sanitizeString(tiktok, 200) : null;
 
     const [result] = await db.query<ResultSetHeader>(
-      "INSERT INTO users (name, email, password, role, maxsessions, maxexhibitors, event, company, stand, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      `INSERT INTO users (
+        name, email, password, role, maxexhibitors, event, company, stand, 
+        status, show_directory, description, description_en, address, photo, webpage, 
+        phone, facebook, instagram, linkedin, x, youtube, tiktok
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         sanitizedName,
         email,
         hashedPassword,
         input.role ?? "exhibitor",
-        normalizedMaxSessions,
         normalizedMaxExhibitors,
         event,
         sanitizedCompany,
         sanitizedStand,
-        1,
+        1, // status
+        normalizedShowDirectory,
+        sanitizedDescription,
+        sanitizedDescriptionEn,
+        sanitizedAddress,
+        photo || null,
+        sanitizedWebpage,
+        sanitizedPhone,
+        sanitizedFacebook,
+        sanitizedInstagram,
+        sanitizedLinkedin,
+        sanitizedX,
+        sanitizedYoutube,
+        sanitizedTiktok,
       ]
     );
 
     const [createdRows] = await db.query<RowDataPacket[]>(
-      "SELECT id, name, email, role, maxsessions, maxexhibitors, event, company, stand FROM users WHERE id = ?",
+      "SELECT id, name, email, role, maxexhibitors, event, company, stand FROM users WHERE id = ?",
       [result.insertId]
     );
 
@@ -276,11 +345,13 @@ export async function createUserAction(
           name: sanitizedName,
           email,
           role: input.role ?? "exhibitor",
-          maxsessions: normalizedMaxSessions,
           maxexhibitors: normalizedMaxExhibitors,
           event,
           company: sanitizedCompany,
           stand: sanitizedStand,
+          status: 1,
+          show_directory: normalizedShowDirectory,
+          photo: photo || null,
         };
 
     const emailStatus = await sendCredentialsEmail({
@@ -325,8 +396,21 @@ export async function updateUserAction(
     company,
     event,
     stand,
-    maxsessions,
     maxexhibitors,
+    show_directory,
+    status,
+    description,
+    description_en,
+    address,
+    photo,
+    webpage,
+    phone,
+    facebook,
+    instagram,
+    linkedin,
+    x,
+    youtube,
+    tiktok,
     locale,
   } = input;
 
@@ -369,29 +453,58 @@ export async function updateUserAction(
       };
     }
 
-    const normalizedMaxSessions = Number(maxsessions ?? 0) || 0;
     const normalizedMaxExhibitors = Number(maxexhibitors ?? 0) || 0;
+    const normalizedShowDirectory = Number(show_directory ?? 0);
+    const normalizedStatus = Number(status ?? 1);
 
     const sanitizedName = sanitizeString(name, 100);
     const sanitizedCompany = sanitizeString(company, 150);
-    const sanitizedStand = stand ? sanitizeString(stand, 150) : null;
+    const sanitizedStand = sanitizeString(stand, 150);
+    const sanitizedDescription = description ? sanitizeString(description, 1000) : null;
+    const sanitizedDescriptionEn = description_en ? sanitizeString(description_en, 1000) : null;
+    const sanitizedAddress = address ? sanitizeString(address, 200) : null;
+    const sanitizedWebpage = webpage ? sanitizeString(webpage, 200) : null;
+    const sanitizedPhone = phone ? sanitizeString(phone, 50) : null;
+    const sanitizedFacebook = facebook ? sanitizeString(facebook, 200) : null;
+    const sanitizedInstagram = instagram ? sanitizeString(instagram, 200) : null;
+    const sanitizedLinkedin = linkedin ? sanitizeString(linkedin, 200) : null;
+    const sanitizedX = x ? sanitizeString(x, 200) : null;
+    const sanitizedYoutube = youtube ? sanitizeString(youtube, 200) : null;
+    const sanitizedTiktok = tiktok ? sanitizeString(tiktok, 200) : null;
 
     await db.query(
-      "UPDATE users SET name = ?, email = ?, maxsessions = ?, maxexhibitors = ?, event = ?, company = ?, stand = ? WHERE id = ?",
+      `UPDATE users SET 
+        name = ?, email = ?, maxexhibitors = ?, event = ?, company = ?, stand = ?,
+        show_directory = ?, status = ?, description = ?, description_en = ?, address = ?, photo = ?,
+        webpage = ?, phone = ?, facebook = ?, instagram = ?, linkedin = ?, x = ?, youtube = ?, tiktok = ?
+      WHERE id = ?`,
       [
         sanitizedName,
         email,
-        normalizedMaxSessions,
         normalizedMaxExhibitors,
         event,
         sanitizedCompany,
         sanitizedStand,
+        normalizedShowDirectory,
+        normalizedStatus,
+        sanitizedDescription,
+        sanitizedDescriptionEn,
+        sanitizedAddress,
+        photo || null,
+        sanitizedWebpage,
+        sanitizedPhone,
+        sanitizedFacebook,
+        sanitizedInstagram,
+        sanitizedLinkedin,
+        sanitizedX,
+        sanitizedYoutube,
+        sanitizedTiktok,
         id,
       ]
     );
 
     const [updatedRows] = await db.query<RowDataPacket[]>(
-      "SELECT id, name, email, role, maxsessions, maxexhibitors, event, company, stand FROM users WHERE id = ?",
+      "SELECT id, name, email, role, maxexhibitors, event, company, stand FROM users WHERE id = ?",
       [id]
     );
 
@@ -402,11 +515,13 @@ export async function updateUserAction(
           name: sanitizedName,
           email,
           role: "exhibitor",
-          maxsessions: normalizedMaxSessions,
           maxexhibitors: normalizedMaxExhibitors,
           event,
           company: sanitizedCompany,
           stand: sanitizedStand,
+          status: 1,
+          show_directory: normalizedShowDirectory,
+          photo: photo || null,
         };
 
     revalidatePath(localeDashboardPath(locale));

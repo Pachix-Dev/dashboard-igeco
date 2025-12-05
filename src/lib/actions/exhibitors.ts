@@ -18,6 +18,7 @@ interface SessionData {
   role: string;
   status: number;
   maxexhibitors: number;
+  scanleads_purchased: number;
 }
 
 interface DashboardSessionData {
@@ -46,7 +47,7 @@ export async function getSession(): Promise<SessionData | null> {
 
     // Obtener datos adicionales del usuario
     const [rows] = await db.query<any[]>(
-      'SELECT id, email, role, status, maxexhibitors FROM users WHERE id = ?',
+      'SELECT id, email, role, status, maxexhibitors, scanleads_purchased FROM users WHERE id = ?',
       [payload.id]
     );
 
@@ -58,6 +59,7 @@ export async function getSession(): Promise<SessionData | null> {
       role: rows[0].role,
       status: rows[0].status,
       maxexhibitors: rows[0].maxexhibitors || 0,
+      scanleads_purchased: rows[0].scanleads_purchased || 0,
     };
   } catch (error) {
     console.error('Error getting session:', error);
@@ -136,11 +138,13 @@ export async function getExhibitorStats(userId: number) {
   }
 }
 
-export async function getExhibitors(userId: number): Promise<Exhibitor[]> {
+export async function getExhibitors(userId: number, role: string): Promise<Exhibitor[]> {
   try {
     const [rows] = await db.query<any[]>(
+      role === 'admin' ?
+      'SELECT * FROM exhibitors ORDER BY id DESC':
       'SELECT * FROM exhibitors WHERE user_id = ? ORDER BY id DESC',
-      [userId]
+      role === 'admin' ? [] : [userId]
     );
     return rows as Exhibitor[];
   } catch (error) {
@@ -182,10 +186,11 @@ export async function addExhibitor(formData: {
     }
 
     const [result] = await db.query<any>(
-      `INSERT INTO exhibitors (user_id, name, lastname, email, phone, position, company) 
-       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO exhibitors (user_id, uuid, name, lastname, email, phone, position, company) 
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         formData.user_id,
+        crypto.randomUUID(),
         formData.name,
         formData.lastname,
         formData.email,

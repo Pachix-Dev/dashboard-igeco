@@ -18,36 +18,13 @@ interface DbRow {
 }
 
 export async function POST(req: Request) {
-  const {uuid, user_id, token} = await req.json() as ScanLeadRequest;
+  const {uuid, user_id} = await req.json() as ScanLeadRequest;
   try{
     // Validar UUID
     if (!isValidUUID(uuid)) {
       return NextResponse.json({ message: 'No se encuentra o es inválido' }, { status: 400 });
     }
-    // Obtener información del usuario y verificar límite de expositores
-    const [users]: any = await db.query(
-      'SELECT maxexhibitors FROM users WHERE id = ?',
-      [user_id]
-    );
-
-    if (users.length === 0) {
-      return NextResponse.json(
-        { message: 'Usuario no encontrado' },
-        { status: 404 }
-      );
-    }
-    
-    /*const [existSession] = await db.query(
-      'SELECT * FROM user_sessions WHERE user_id = ? AND session_token = ?',
-      [user_id, token]
-    ) as [DbRow[], any];
-
-    if (existSession.length === 0) {
-      return NextResponse.json({ message: 'Superaste el limite de sesiones / no tienes sesión' }, { status: 401 });
-    }*/
-
-    // Search in `users` table first, then `users_ecomondo`, then `exhibitors`.
-    // Try each source sequentially and only return 404 if none match.
+   
     let [existingRecord] = await db_re_eco.query('SELECT * FROM users_2026 WHERE uuid = ? LIMIT 1', [uuid]) as [DbRow[], any];
 
     if (existingRecord.length === 0) {
@@ -56,6 +33,10 @@ export async function POST(req: Request) {
 
     if (existingRecord.length === 0) {
       [existingRecord] = await db.query('SELECT * FROM exhibitors WHERE uuid = ? LIMIT 1', [uuid]) as [DbRow[], any];
+    }
+
+    if (existingRecord.length === 0) {
+      [existingRecord] = await db.query('SELECT * FROM ponentes WHERE uuid = ? LIMIT 1', [uuid]) as [DbRow[], any];
     }
 
     if (existingRecord.length === 0) {

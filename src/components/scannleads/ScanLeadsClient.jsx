@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { ExportExcel } from './ExportExcel'
 import { FetchLeads } from './FetchLeads'
 import { QrScanner } from './QrScanner'
+import { LeadsMetrics } from './LeadsMetrics'
 
 export function ScanLeadsClient({ initialLeads }) {
   const [leads, setLeads] = useState(initialLeads || [])
@@ -35,10 +36,13 @@ export function ScanLeadsClient({ initialLeads }) {
 
   return (
     <>
-      <div className='flex flex-wrap items-center gap-3'>
+      <div className='flex flex-wrap items-center gap-3 mb-6'>
         <ExportExcel leads={leads} />
         <QrScanner onNewLead={handleAddLead} />
       </div>
+
+      {/* Reportes y Métricas */}
+      <LeadsMetrics leads={leads} />
 
       <div className='rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl shadow-blue-500/5 backdrop-blur mt-6'>
         <FetchLeads leads={leads} onLeadsChange={handleUpdateNote} />
