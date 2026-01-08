@@ -109,7 +109,7 @@ export async function deleteEscenario(id: number) {
 export async function addDia(data: { escenario_id: number; date: string; name?: string; description?: string }) {
   const { escenario_id, date, name, description } = data;
   if (!escenario_id || !date) return { success: false, error: 'escenario_id y date son requeridos' };
-  await db.query('INSERT INTO dias (escenario_id, date, name, description, active) VALUES (?, ?, ?, ?, 1)', [escenario_id, date, name || null, description || null]);
+  await db.query('INSERT INTO programa_dias (escenario_id, date, name, description, active) VALUES (?, ?, ?, ?, 1)', [escenario_id, date, name || null, description || null]);
   revalidatePath('/[locale]/dashboard/programa', 'page');
   return { success: true };
 }
