@@ -6,7 +6,7 @@ export async function POST(req: Request) {
         const {name_esp, name_eng} = await req.json();
 
         await db.query(
-            'INSERT INTO dias (name_esp, name_eng) VALUES (?, ?)',
+            'INSERT INTO programa_dias (name_esp, name_eng) VALUES (?, ?)',
             [name_esp, name_eng]
         );
 
