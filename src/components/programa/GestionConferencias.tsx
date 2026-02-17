@@ -69,7 +69,7 @@ export function GestionConferencias({ escenarios, dias, conferencias, onUpdate }
 
   useEffect(() => {
     onUpdate(filterDia || undefined)
-  }, [filterDia])
+  }, [filterDia, onUpdate])
 
   useEffect(() => {
     loadPonentes()

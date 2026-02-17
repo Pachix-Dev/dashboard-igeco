@@ -109,7 +109,15 @@ export async function deleteEscenario(id: number) {
 export async function addDia(data: { escenario_id: number; date: string; name?: string; description?: string }) {
   const { escenario_id, date, name, description } = data;
   if (!escenario_id || !date) return { success: false, error: 'escenario_id y date son requeridos' };
-  await db.query('INSERT INTO programa_dias (escenario_id, date, name, description, active) VALUES (?, ?, ?, ?, 1)', [escenario_id, date, name || null, description || null]);
+  // Verificar si existe un día inactivo con mismo escenario_id y date
+  const [rows]: any = await db.query('SELECT id FROM programa_dias WHERE escenario_id = ? AND date = ? AND active = 0', [escenario_id, date]);
+  if (rows && rows.length > 0) {
+    // Reactivar el día existente
+    await db.query('UPDATE programa_dias SET active = 1, name = ?, description = ? WHERE id = ?', [name || null, description || null, rows[0].id]);
+  } else {
+    // Insertar nuevo día
+    await db.query('INSERT INTO programa_dias (escenario_id, date, name, description, active) VALUES (?, ?, ?, ?, 1)', [escenario_id, date, name || null, description || null]);
+  }
   revalidatePath('/[locale]/dashboard/programa', 'page');
   return { success: true };
 }
