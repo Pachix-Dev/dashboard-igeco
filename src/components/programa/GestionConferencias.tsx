@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect, type ChangeEvent } from "react";
+import { useState, useEffect, useRef, type ChangeEvent } from "react";
 import { useTranslations } from "next-intl";
 import { useToaster } from "@/context/ToasterContext";
 import { useForm, useFieldArray } from "react-hook-form";
@@ -55,6 +55,7 @@ export function GestionConferencias({
   const [loadingPonentes, setLoadingPonentes] = useState(false);
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
+  const logoInputRef = useRef<HTMLInputElement | null>(null);
 
   const {
     register,
@@ -200,6 +201,15 @@ export function GestionConferencias({
       return;
     }
     setLogoPreview(null);
+  };
+
+  const handleRemoveLogo = () => {
+    setLogoFile(null);
+    setLogoPreview(null);
+    setValue("company_logo", "");
+    if (logoInputRef.current) {
+      logoInputRef.current.value = "";
+    }
   };
 
   const onSubmit = async (data: ConferenciaForm) => {
@@ -632,6 +642,7 @@ export function GestionConferencias({
                       {t("form.companyLogo")}
                     </label>
                     <input
+                      ref={logoInputRef}
                       type="file"
                       accept="image/*"
                       onChange={handleLogoChange}
@@ -651,6 +662,15 @@ export function GestionConferencias({
                           className="object-contain p-2"
                         />
                       </div>
+                    )}
+                    {logoPreview && (
+                      <button
+                        type="button"
+                        onClick={handleRemoveLogo}
+                        className="ml-3 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-1.5 text-xs font-semibold text-red-300 transition hover:bg-red-500/20 h-full"
+                      >
+                        {t("form.ponentes.remove")}
+                      </button>
                     )}
                  </div>
                 </div>
