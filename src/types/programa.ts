@@ -32,13 +32,16 @@ export interface Conferencia {
   id: number
   dia_id: number
   title: string
+  title_eng?: string
   description?: string
+  description_eng?: string
   start_time: string
   end_time: string
   room?: string
   type: ConferenciaType
   capacity?: number
   tags?: string[]
+  company_logo?: string
   active: boolean
   created_at: string
   updated_at: string
@@ -107,6 +110,7 @@ export interface ConferenciaForm {
   room?: string
   type: ConferenciaType  
   tags?: string[]
+  company_logo?: string
   ponentes: {
     ponente_id: number
     role: PonenteRole

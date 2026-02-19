@@ -756,6 +756,8 @@
         },
         "room": "Sala",
         "roomPlaceholder": "Ej: Sala A",
+        "companyLogo": "Logo de la empresa",
+        "companyLogoHint": "Sube una imagen para identificar la empresa que imparte la conferencia.",
         "capacity": "Capacidad",
         "capacityPlaceholder": "Número de personas",
         "ponentes": {
@@ -779,6 +781,7 @@
       "toast": {
         "success": "Conferencia guardada correctamente",
         "error": "Error al guardar conferencia",
+        "uploadError": "Error al subir el logo",
         "deleteSuccess": "Conferencia eliminada",
         "deleteError": "Error al eliminar"
       }

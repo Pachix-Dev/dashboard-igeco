@@ -755,6 +755,8 @@
         },
         "room": "Room",
         "roomPlaceholder": "e.g.: Room A",
+        "companyLogo": "Company logo",
+        "companyLogoHint": "Upload an image to identify the company giving this conference.",
         "capacity": "Capacity",
         "capacityPlaceholder": "Number of people",
         "ponentes": {
@@ -778,6 +780,7 @@
       "toast": {
         "success": "Conference saved successfully",
         "error": "Error saving conference",
+        "uploadError": "Error uploading logo",
         "deleteSuccess": "Conference deleted",
         "deleteError": "Error deleting"
       }

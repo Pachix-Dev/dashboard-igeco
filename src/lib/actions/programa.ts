@@ -137,17 +137,17 @@ export async function deleteDia(id: number) {
 }
 
 // Conferencias CRUD
-export async function addConferencia(data: { dia_id: number; title: string; title_eng: string; description?: string; description_eng?: string; start_time: string; end_time: string; room?: string; type: string; capacity?: number; tags?: any[]; ponentes?: Array<{ ponente_id: number; role?: string; order_index?: number }> }) {
-  const { dia_id, title, title_eng, description, description_eng, start_time, end_time, room, type, capacity, tags, ponentes } = data as any;
+export async function addConferencia(data: { dia_id: number; title: string; title_eng: string; description?: string; description_eng?: string; start_time: string; end_time: string; room?: string; type: string; capacity?: number; tags?: any[]; company_logo?: string; ponentes?: Array<{ ponente_id: number; role?: string; order_index?: number }> }) {
+  const { dia_id, title, title_eng, description, description_eng, start_time, end_time, room, type, capacity, tags, company_logo, ponentes } = data as any;
   if (!dia_id || !title || !title_eng || !start_time || !end_time) return { success: false, error: 'Día, título, título en inglés, hora inicio y hora fin son requeridos' };
   const connection = await (db as any).getConnection();
   try {
     await connection.beginTransaction();
     const [result]: any = await connection.query(
       `INSERT INTO programa_conferencias 
-       (dia_id, title, title_eng, description, description_eng, start_time, end_time, room, type, capacity, tags, active) 
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)`,
-      [dia_id, title, title_eng, description || null, description_eng || null, start_time, end_time, room || null, type || 'presentation', capacity || null, tags ? JSON.stringify(tags) : null]
+       (dia_id, title, title_eng, description, description_eng, start_time, end_time, room, type, capacity, tags, company_logo, active) 
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)`,
+      [dia_id, title, title_eng, description || null, description_eng || null, start_time, end_time, room || null, type || 'presentation', capacity || null, tags ? JSON.stringify(tags) : null, company_logo || null]
     );
     const conferenciaId = result.insertId;
     if (ponentes && Array.isArray(ponentes) && ponentes.length > 0) {
@@ -169,17 +169,17 @@ export async function addConferencia(data: { dia_id: number; title: string; titl
   }
 }
 
-export async function updateConferencia(id: number, data: { dia_id?: number; title: string; title_eng: string; description?: string; description_eng?: string; start_time: string; end_time: string; room?: string; type: string; capacity?: number; tags?: any[]; active?: number; ponentes?: Array<{ ponente_id: number; role?: string; order_index?: number }> }) {
-  const { dia_id, title, title_eng, description, description_eng, start_time, end_time, room, type, capacity, tags, active, ponentes } = data as any;
+export async function updateConferencia(id: number, data: { dia_id?: number; title: string; title_eng: string; description?: string; description_eng?: string; start_time: string; end_time: string; room?: string; type: string; capacity?: number; tags?: any[]; company_logo?: string; active?: number; ponentes?: Array<{ ponente_id: number; role?: string; order_index?: number }> }) {
+  const { dia_id, title, title_eng, description, description_eng, start_time, end_time, room, type, capacity, tags, company_logo, active, ponentes } = data as any;
   if (!title || !title_eng || !start_time || !end_time) return { success: false, error: 'Campos requeridos faltantes' };
   const connection = await (db as any).getConnection();
   try {
     await connection.beginTransaction();
     await connection.query(
       `UPDATE programa_conferencias 
-       SET dia_id = COALESCE(?, dia_id), title = ?, title_eng = ?, description = ?, description_eng = ?, start_time = ?, end_time = ?, room = ?, type = ?, capacity = ?, tags = ?, active = COALESCE(?, active)
+       SET dia_id = COALESCE(?, dia_id), title = ?, title_eng = ?, description = ?, description_eng = ?, start_time = ?, end_time = ?, room = ?, type = ?, capacity = ?, tags = ?, company_logo = ?, active = COALESCE(?, active)
        WHERE id = ?`,
-      [dia_id || null, title, title_eng, description || null, description_eng || null, start_time, end_time, room || null, type || 'presentation', capacity || null, tags ? JSON.stringify(tags) : null, active ?? null, id]
+      [dia_id || null, title, title_eng, description || null, description_eng || null, start_time, end_time, room || null, type || 'presentation', capacity || null, tags ? JSON.stringify(tags) : null, company_logo || null, active ?? null, id]
     );
     if (Array.isArray(ponentes)) {
       await connection.query('DELETE FROM programa_conferencia_ponentes WHERE conferencia_id = ?', [id]);

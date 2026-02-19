@@ -755,6 +755,8 @@
         },
         "room": "Sala",
         "roomPlaceholder": "Es: Sala A",
+        "companyLogo": "Logo dell'azienda",
+        "companyLogoHint": "Carica un'immagine per identificare l'azienda che terrà questa conferenza.",
         "capacity": "Capacità",
         "capacityPlaceholder": "Numero di persone",
         "ponentes": {
@@ -778,6 +780,7 @@
       "toast": {
         "success": "Conferenza salvata correttamente",
         "error": "Errore nel salvataggio della conferenza",
+        "uploadError": "Errore nel caricamento del logo",
         "deleteSuccess": "Conferenza eliminata",
         "deleteError": "Errore nell'eliminazione"
       }
