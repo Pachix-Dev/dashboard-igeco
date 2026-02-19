@@ -34,7 +34,9 @@ export async function GET(req: Request) {
         pc.room,
         pc.type AS conferencia_type,
         pc.capacity AS conferencia_capacity,
-        pc.tags
+        pc.company_logo AS conferencia_company_logo,
+        pc.tags,
+        pc.company_logo
       FROM escenarios e
       LEFT JOIN programa_dias pd ON e.id = pd.escenario_id AND pd.active = 1
       LEFT JOIN programa_conferencias pc ON pd.id = pc.dia_id AND pc.active = 1
@@ -118,6 +120,7 @@ export async function GET(req: Request) {
             room: row.room,
             type: row.conferencia_type,
             capacity: row.conferencia_capacity,
+            company_logo: row.conferencia_company_logo,
             tags: row.tags ? JSON.parse(row.tags) : [],
             ponentes: ponentes.filter(
               (p: any) => p.conferencia_id === row.conferencia_id
