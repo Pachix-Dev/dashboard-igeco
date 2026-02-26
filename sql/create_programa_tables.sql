@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS programa_conferencias (
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
     room VARCHAR(255),
-    type ENUM('keynote', 'panel', 'workshop', 'presentation', 'networking', 'other') DEFAULT 'presentation',
+    type ENUM('keynote', 'panel', 'workshop', 'presentation', 'conference', 'networking', 'technical', 'other') DEFAULT 'presentation',
     capacity INT,
     tags JSON,
     company_logo VARCHAR(500),

@@ -748,10 +748,12 @@
         "type": "Tipo",
         "types": {
           "presentation": "Presentación",
+          "conference": "Conferencia",
           "keynote": "Conferencia Magistral",
           "panel": "Panel",
           "workshop": "Taller",
           "networking": "Networking",
+          "technical_table": "Mesa Técnica",
           "other": "Otro"
         },
         "room": "Sala",

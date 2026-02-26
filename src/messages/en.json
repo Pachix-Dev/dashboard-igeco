@@ -747,10 +747,12 @@
         "type": "Type",
         "types": {
           "presentation": "Presentation",
+          "conference": "Conference",
           "keynote": "Keynote",
           "panel": "Panel",
           "workshop": "Workshop",
           "networking": "Networking",
+          "technical_table": "Technical Table",
           "other": "Other"
         },
         "room": "Room",

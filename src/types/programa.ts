@@ -25,7 +25,7 @@ export interface ProgramaDia {
   escenario?: Escenario
 }
 
-export type ConferenciaType = 'keynote' | 'panel' | 'workshop' | 'presentation' | 'networking' | 'other'
+export type ConferenciaType = 'keynote' | 'panel' | 'workshop' | 'presentation' | 'conference' | 'networking' | 'technical' | 'other'
 export type PonenteRole = 'speaker' | 'moderator' | 'panelist' | 'guest'
 
 export interface Conferencia {

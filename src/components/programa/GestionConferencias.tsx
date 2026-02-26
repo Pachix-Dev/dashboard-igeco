@@ -560,6 +560,8 @@ export function GestionConferencias({
 
                 {/* Horarios y Tipo */}
                 <div className="grid gap-4 md:grid-cols-3">
+
+                  {/* Hora de inicio */}
                   <div className="space-y-2">
                     <label className="text-sm font-semibold text-slate-200">
                       {t("form.startTime")} *
@@ -578,6 +580,7 @@ export function GestionConferencias({
                     )}
                   </div>
 
+                  {/* Hora de finalización */}
                   <div className="space-y-2">
                     <label className="text-sm font-semibold text-slate-200">
                       {t("form.endTime")} *
@@ -595,7 +598,8 @@ export function GestionConferencias({
                       </p>
                     )}
                   </div>
-
+                  
+                  {/* Tipo de conferencia */}
                   <div className="space-y-2">
                     <label className="text-sm font-semibold text-slate-200">
                       {t("form.type")}
@@ -604,18 +608,14 @@ export function GestionConferencias({
                       {...register("type")}
                       className="w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white transition focus:border-blue-400/60 focus:outline-none"
                     >
-                      <option value="presentation">
-                        {t("form.types.presentation")}
-                      </option>
+                      <option value="presentation">{t("form.types.presentation")}</option>
+                      <option value="conference">{t("form.types.conference")}</option>
                       <option value="keynote">{t("form.types.keynote")}</option>
                       <option value="panel">{t("form.types.panel")}</option>
-                      <option value="workshop">
-                        {t("form.types.workshop")}
-                      </option>
-                      <option value="networking">
-                        {t("form.types.networking")}
-                      </option>
-                      <option value="other">{t("form.types.other")}</option>
+                      <option value="workshop">{t("form.types.workshop")}</option>
+                      <option value="networking">{t("form.types.networking")}</option>
+                      <option value="technical">{t("form.types.technical_table")}</option>
+                      <option value="other">{t("form.types.other")}</option> 
                     </select>
                   </div>
                 </div>

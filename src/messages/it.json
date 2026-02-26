@@ -747,10 +747,12 @@
         "type": "Tipo",
         "types": {
           "presentation": "Presentazione",
+          "conference": "Conferenza",
           "keynote": "Conferenza Magistrale",
           "panel": "Panel",
           "workshop": "Workshop",
           "networking": "Networking",
+          "technical_table": "Mesa Técnica",
           "other": "Altro"
         },
         "room": "Sala",
