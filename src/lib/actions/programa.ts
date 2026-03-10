@@ -147,7 +147,7 @@ export async function addConferencia(data: { dia_id: number; title: string; titl
       `INSERT INTO programa_conferencias 
        (dia_id, title, title_eng, description, description_eng, start_time, end_time, room, type, capacity, tags, company_logo, active) 
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)`,
-      [dia_id, title, title_eng, description || null, description_eng || null, start_time, end_time, room || null, type || 'presentation', capacity || null, tags ? JSON.stringify(tags) : null, company_logo || null]
+      [dia_id, title, title_eng, description || null, description_eng || null, start_time, end_time, room || null, type || 'presentation', capacity || null, tags ? JSON.stringify(tags) : null, company_logo || '']
     );
     const conferenciaId = result.insertId;
     if (ponentes && Array.isArray(ponentes) && ponentes.length > 0) {
@@ -179,7 +179,7 @@ export async function updateConferencia(id: number, data: { dia_id?: number; tit
       `UPDATE programa_conferencias 
        SET dia_id = COALESCE(?, dia_id), title = ?, title_eng = ?, description = ?, description_eng = ?, start_time = ?, end_time = ?, room = ?, type = ?, capacity = ?, tags = ?, company_logo = ?, active = COALESCE(?, active)
        WHERE id = ?`,
-      [dia_id || null, title, title_eng, description || null, description_eng || null, start_time, end_time, room || null, type || 'presentation', capacity || null, tags ? JSON.stringify(tags) : null, company_logo || null, active ?? null, id]
+      [dia_id || null, title, title_eng, description || null, description_eng || null, start_time, end_time, room || null, type || 'presentation', capacity || null, tags ? JSON.stringify(tags) : null, company_logo || '', active ?? null, id]
     );
     if (Array.isArray(ponentes)) {
       await connection.query('DELETE FROM programa_conferencia_ponentes WHERE conferencia_id = ?', [id]);
