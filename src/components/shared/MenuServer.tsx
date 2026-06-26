@@ -32,6 +32,7 @@ export default async function MenuServer() {
     users: t('users'),
     speakers: t('speakers'),
     badges: t('badges'),
+    myRecord: t('myRecord'),
     program: t('program'),
     scanLeads: t('scanLeads'),
     logout: t('logout')

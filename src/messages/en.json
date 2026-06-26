@@ -62,10 +62,24 @@
     "users": "Users",
     "speakers": "Speakers",
     "badges": "Exhibitor badges",
+    "myRecord": "My record",
     "scanLeads": "Scan leads",
     "profile": "Profile",
     "program": "Program",
     "logout": "Log out"
+  },
+  "RequirementsPage": {
+    "panel": "Panel",
+    "title": "My record",
+    "subtitle": "Check the main details of your exhibitor participation.",
+    "notAssigned": "Not assigned",
+    "noDescription": "No description available.",
+    "labels": {
+      "company": "Company",
+      "stand": "Stand",
+      "event": "Event",
+      "description": "Description"
+    }
   },
   "SessionLimit": {
     "title": "Session limit",

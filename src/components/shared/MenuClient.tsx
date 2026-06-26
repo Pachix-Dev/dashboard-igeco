@@ -11,6 +11,7 @@ interface MenuTranslations {
   users: string;
   speakers: string;
   badges: string;
+  myRecord: string;
   program: string;
   scanLeads: string;
   logout: string;
@@ -128,6 +129,21 @@ export default function MenuClient({ translations, role, languageSelector }: { t
                   </Link>
                 </li>
                 <li>
+                  <Link onClick={handleNavigate} href="/dashboard/requirements" className={getLinkClasses('/dashboard/requirements')}>
+                    <div className="flex items-center gap-3">
+                      <span className="grid h-9 w-9 place-items-center rounded-xl bg-white/5 text-slate-200 ring-1 ring-white/10">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12h6m-6 3h4.5m2.121-14.121L19.5 6.75m0 0v11.625a1.125 1.125 0 0 1-1.125 1.125H5.625A1.125 1.125 0 0 1 4.5 18.375V5.625A1.125 1.125 0 0 1 5.625 4.5h5.25a3.375 3.375 0 0 1 2.386.989l1.86 1.86Z" />
+                        </svg>
+                      </span>
+                      <span>{role === 'admin' ? 'Validación de Expedientes' : t('myRecord')}</span>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-4 w-4 text-slate-500 transition group-hover:text-blue-300">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="m9 5 7 7-7 7" />
+                    </svg>
+                  </Link>
+                </li>
+                <li>
                   <Link onClick={handleNavigate} href="/dashboard/ponentes" className={getLinkClasses('/dashboard/ponentes')}>
                     <div className="flex items-center gap-3">
                       <span className="grid h-9 w-9 place-items-center rounded-xl bg-white/5 text-slate-200 ring-1 ring-white/10">
@@ -196,6 +212,21 @@ export default function MenuClient({ translations, role, languageSelector }: { t
             <>
               <p className="px-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">Exhibitor</p>
               <ul className="space-y-3">
+                <li>
+                  <Link onClick={handleNavigate} href="/dashboard/requirements" className={getLinkClasses('/dashboard/requirements')}>
+                    <div className="flex items-center gap-3">
+                      <span className="grid h-9 w-9 place-items-center rounded-xl bg-white/5 text-slate-200 ring-1 ring-white/10">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12h6m-6 3h4.5m2.121-14.121L19.5 6.75m0 0v11.625a1.125 1.125 0 0 1-1.125 1.125H5.625A1.125 1.125 0 0 1 4.5 18.375V5.625A1.125 1.125 0 0 1 5.625 4.5h5.25a3.375 3.375 0 0 1 2.386.989l1.86 1.86Z" />
+                        </svg>
+                      </span>
+                      <span>{t('myRecord')}</span>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-4 w-4 text-slate-500 transition group-hover:text-blue-300">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="m9 5 7 7-7 7" />
+                    </svg>
+                  </Link>
+                </li>
                 <li>
                   <Link onClick={handleNavigate} href="/dashboard/exhibitors" className={getLinkClasses('/dashboard/exhibitors')}>
                     <div className="flex items-center gap-3">

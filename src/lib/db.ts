@@ -34,9 +34,9 @@ const db_re_eco = mysql.createPool({
 export {db_re_eco};
 
 export const roles = {
-    admin: ['/dashboard', '/dashboard/usuarios', '/dashboard/exhibitors', '/dashboard/profile', '/dashboard/scan-leads', '/dashboard/ponentes', '/dashboard/programa'],
+    admin: ['/dashboard', '/dashboard/usuarios', '/dashboard/exhibitors', '/dashboard/profile', '/dashboard/scan-leads', '/dashboard/ponentes', '/dashboard/programa', '/dashboard/requirements'],
     editor: ['/dashboard', '/dashboard/profile', '/dashboard/ponentes', '/dashboard/programa'],
-    exhibitor: ['/dashboard', '/dashboard/profile', '/dashboard/exhibitors', '/dashboard/scan-leads', ],    
+    exhibitor: ['/dashboard', '/dashboard/profile', '/dashboard/exhibitors', '/dashboard/scan-leads', '/dashboard/requirements'],
 };
 
 export async function fetchUsers(): Promise<User[]> {    

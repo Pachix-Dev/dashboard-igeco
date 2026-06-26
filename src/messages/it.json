@@ -61,10 +61,24 @@
     "users": "Utenti",
     "speakers": "Relatori",
     "badges": "Badge Espositore",
+    "myRecord": "La mia scheda",
     "scanLeads": "Scansiona lead",
     "profile": "Profilo",
     "program": "Programma",
     "logout": "Esci"
+  },
+  "RequirementsPage": {
+    "panel": "Pannello",
+    "title": "La mia scheda",
+    "subtitle": "Consulta le informazioni principali della tua partecipazione come espositore.",
+    "notAssigned": "Non assegnato",
+    "noDescription": "Nessuna descrizione disponibile.",
+    "labels": {
+      "company": "Azienda",
+      "stand": "Stand",
+      "event": "Evento",
+      "description": "Descrizione"
+    }
   },
   "SessionLimit": {
     "title": "Limite di sessioni",

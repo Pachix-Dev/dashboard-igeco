@@ -61,10 +61,24 @@
     "users": "Usuarios",
     "speakers": "Ponentes",
     "badges": "Gafetes de expositores",
+    "myRecord": "Mi expediente",
     "scanLeads": "Escanear leads",
     "profile": "Perfil",
     "program": "Programa",
     "logout": "Cerrar sesión"
+  },
+  "RequirementsPage": {
+    "panel": "Panel",
+    "title": "Mi expediente",
+    "subtitle": "Consulta la información principal de tu participación como expositor.",
+    "notAssigned": "No asignado",
+    "noDescription": "Sin descripción disponible.",
+    "labels": {
+      "company": "Empresa",
+      "stand": "Stand",
+      "event": "Evento",
+      "description": "Descripción"
+    }
   },
   "SessionLimit": {
     "title": "Límite de sesiones",
