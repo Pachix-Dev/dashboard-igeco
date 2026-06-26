@@ -35,10 +35,14 @@ export async function saveRequirementsFile(userId: number, file: File): Promise<
   const bytes = new Uint8Array(await file.arrayBuffer());
   await fs.writeFile(absolutePath, bytes);
 
+  const relativePath = path.join(relativeDir, safeName).replace(/\\/g, '/');
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const fileUrl = `${appUrl}/${relativePath}`;
+
   return {
     fileName: file.name,
-    filePath: path.join(relativeDir, safeName).replace(/\\/g, '/'),
-    fileUrl: `/${path.join(relativeDir, safeName).replace(/\\/g, '/')}`,
+    filePath: relativePath,
+    fileUrl: fileUrl,
     fileSize: file.size,
     fileMime: file.type,
     fileFingerprint: `${file.name}::${file.size}::${file.lastModified}`
