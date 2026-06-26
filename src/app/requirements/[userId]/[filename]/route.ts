@@ -46,12 +46,17 @@ export async function GET(
       status: 200,
       headers: {
         'Content-Type': type,
-        'Content-Disposition': `attachment; filename="${filename}"`,
+        'Content-Disposition': `inline; filename="${filename}"`,
         'Cache-Control': 'private, max-age=3600',
+        'X-Content-Type-Options': 'nosniff',
       },
     });
   } catch (error) {
     console.error('File serve error:', error);
-    return NextResponse.json({ message: 'Archivo no encontrado' }, { status: 404 });
+    console.error('Attempted path:', path.join(uploadsDir, path.basename(params.userId), path.basename(params.filename)));
+    return NextResponse.json(
+      { message: 'Archivo no encontrado', error: error instanceof Error ? error.message : 'Unknown error' },
+      { status: 404 }
+    );
   }
 }
