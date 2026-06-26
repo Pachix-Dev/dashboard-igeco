@@ -84,6 +84,14 @@ const nextConfig = {
           { key: 'Cache-Control', value: 'public, max-age=60, stale-while-revalidate=120' },
         ],
       },
+      // Headers para archivos de requirements
+      {
+        source: '/requirements/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'private, max-age=3600' },
+          { key: 'X-Content-Type-Options', value: 'nosniff' },
+        ],
+      },
       {
         source: '/:all*(svg|jpg|jpeg|png|gif|ico|webp)',
         headers: [

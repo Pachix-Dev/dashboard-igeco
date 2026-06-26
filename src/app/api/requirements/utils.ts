@@ -36,8 +36,8 @@ export async function saveRequirementsFile(userId: number, file: File): Promise<
   await fs.writeFile(absolutePath, bytes);
 
   const relativePath = path.join(relativeDir, safeName).replace(/\\/g, '/');
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-  const fileUrl = `${appUrl}/${relativePath}`;
+  // Generar URL que use la ruta dinámicade Next.js
+  const fileUrl = `/requirements/${userId}/${safeName}`;
 
   return {
     fileName: file.name,
