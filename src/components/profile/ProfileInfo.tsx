@@ -2,6 +2,7 @@ import { getProfile } from '@/lib/actions/profile';
 import EditProfileButton from './EditProfileButton';
 import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
+import { formatSquareMeters } from '@/lib/stand-space';
 
 export default async function ProfileInfo() {
   const profile = await getProfile();
@@ -13,7 +14,7 @@ export default async function ProfileInfo() {
     : { label: t('status.disabled'), color: 'text-red-400', bgColor: 'bg-red-500/10', borderColor: 'border-red-500/20' };
   
   // Check if profile is incomplete
-  const isIncomplete = !profile.name || !profile.company || !profile.stand || !profile.address || !profile.description || !profile.photo || !profile.webpage || !profile.event || !profile.description_en;
+  const isIncomplete = !profile.name || !profile.company || !profile.stand || !profile.square_meters || !profile.address || !profile.description || !profile.photo || !profile.webpage || !profile.event || !profile.description_en;
   
     if (profile.success === false) {
         return (
@@ -155,6 +156,21 @@ export default async function ProfileInfo() {
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-slate-400 mb-1">{t('fields.address')}</p>
                     <p className="text-base font-semibold text-white truncate">{profile.address || 'N/A'}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Square meters */}
+              <div className="p-5 rounded-xl bg-gradient-to-br from-slate-800/50 to-slate-800/30 border border-slate-700/50">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-amber-400">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75h16.5v16.5H3.75V3.75Zm5.25 0v16.5m6-16.5v16.5M3.75 9h16.5M3.75 15h16.5" />
+                    </svg>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-slate-400 mb-1">{t('fields.squareMeters')}</p>
+                    <p className="text-base font-semibold text-white truncate">{formatSquareMeters(profile.square_meters) || 'N/A'}</p>
                   </div>
                 </div>
               </div>

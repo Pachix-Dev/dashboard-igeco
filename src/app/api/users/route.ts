@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import db from '@/lib/db';
 import bcrypt from 'bcryptjs';
 import { isValidEmail, validateStrongPassword, sanitizeString } from '@/lib/validation';
+import { normalizeSquareMeters } from '@/lib/stand-space';
 
 interface DbRow {
   [key: string]: any;
@@ -14,7 +15,7 @@ interface InsertResult {
 export async function GET() {
   try {
     const [users] = await db.query(
-      'SELECT id, name, email, role, maxsessions, maxexhibitors, company, event, stand FROM users ORDER BY id DESC'
+      'SELECT id, name, email, role, maxsessions, maxexhibitors, company, event, stand, square_meters FROM users ORDER BY id DESC'
     ) as [DbRow[], any];
     return NextResponse.json(users);
   } catch (error) {
@@ -28,7 +29,7 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const { name, email, password, maxsessions, maxexhibitors, event, company, stand } = await req.json();
+    const { name, email, password, maxsessions, maxexhibitors, event, company, stand, square_meters } = await req.json();
 
     // Validar campos requeridos
     if (!name || !email || !password || !event || !company || !maxexhibitors) {
@@ -83,10 +84,12 @@ export async function POST(req: Request) {
     // Encriptar contraseña
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    const normalizedSquareMeters = normalizeSquareMeters(square_meters);
+
     // Crear usuario
     const [result] = await db.query(
-      'INSERT INTO users (name, email, password, role, maxsessions, maxexhibitors, event, company, stand, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [sanitizedName, email, hashedPassword, 'exhibitor', maxsessions || 0, maxexhibitors || 0, event, company, stand, 1]
+      'INSERT INTO users (name, email, password, role, maxsessions, maxexhibitors, event, company, stand, square_meters, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [sanitizedName, email, hashedPassword, 'exhibitor', maxsessions || 0, maxexhibitors || 0, event, company, stand, normalizedSquareMeters, 1]
     ) as [InsertResult, any];
 
     return NextResponse.json(

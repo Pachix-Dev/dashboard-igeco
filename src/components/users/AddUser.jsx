@@ -9,6 +9,7 @@ import { createUserAction } from '@/lib/actions/users'
 import { v4 as uuidv4 } from 'uuid'
 import Image from 'next/image'
 import { EVENT_OPTIONS } from '@/lib/events'
+import { STAND_SQUARE_METERS_OPTIONS } from '@/lib/stand-space'
 
 export function AddUser({ onUserCreated }) {
   const t = useTranslations('UsersPage')
@@ -22,6 +23,7 @@ export function AddUser({ onUserCreated }) {
     maxexhibitors: '',
     event: '',
     stand: '',
+    square_meters: '',
     show_directory: 0,
     description: '',
     description_en: '',
@@ -109,6 +111,7 @@ export function AddUser({ onUserCreated }) {
         maxexhibitors: formData.maxexhibitors,
         event: formData.event,
         stand: formData.stand,
+        square_meters: formData.square_meters,
         show_directory: formData.show_directory,
         description: formData.description || null,
         description_en: formData.description_en || null,
@@ -148,6 +151,7 @@ export function AddUser({ onUserCreated }) {
           maxexhibitors: '',
           event: '',
           stand: '',
+          square_meters: '',
           show_directory: 0,
           description: '',
           description_en: '',
@@ -460,6 +464,27 @@ export function AddUser({ onUserCreated }) {
                         {errors.maxexhibitors.message}
                       </p>
                     )}
+                  </div>
+
+                  <div className='space-y-2'>
+                    <label className='text-sm font-semibold text-slate-200'>
+                      {t('form.squareMeters')}
+                    </label>
+                    <select
+                      name='square_meters'
+                      {...register('square_meters', {
+                        onChange: handleChange,
+                      })}
+                      defaultValue={formData.square_meters}
+                      className='mt-0 w-full rounded-xl border border-white/10 bg-slate-900/60 p-3 text-sm text-white ring-0 transition focus:border-blue-400/60 focus:outline-none *:text-slate-900'
+                    >
+                      <option value=''>{t('form.select')}</option>
+                      {STAND_SQUARE_METERS_OPTIONS.map((squareMeters) => (
+                        <option key={squareMeters} value={squareMeters}>
+                          {squareMeters} m2
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   {/* Toggle Switch Show Directory */}

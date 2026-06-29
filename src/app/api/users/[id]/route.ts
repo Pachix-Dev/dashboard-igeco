@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import db from '@/lib/db';
+import { normalizeSquareMeters } from '@/lib/stand-space';
 
 export async function GET(req: Request, { params }: { params: { id: number } }) {
   try {
@@ -24,7 +25,8 @@ export async function GET(req: Request, { params }: { params: { id: number } }) 
 
 export async function PUT(req: Request, { params }: { params: { id: number } }) {
   try {
-    const { name, email, maxsessions, maxexhibitors, event, company, stand } = await req.json();
+    const { name, email, maxsessions, maxexhibitors, event, company, stand, square_meters } = await req.json();
+    const normalizedSquareMeters = normalizeSquareMeters(square_meters);
 
     // Validar campos requeridos
     if (!name || !email || !event || !company ) {
@@ -71,8 +73,8 @@ export async function PUT(req: Request, { params }: { params: { id: number } }) 
 
     // Actualizar usuario
     await db.query(
-      'UPDATE users SET name = ?, email = ?, maxsessions = ?, maxexhibitors = ?, event = ?, company = ?, stand = ? WHERE id = ?',
-      [name, email, maxsessions || 0, maxexhibitors || 0, event, company, stand, params.id]
+      'UPDATE users SET name = ?, email = ?, maxsessions = ?, maxexhibitors = ?, event = ?, company = ?, stand = ?, square_meters = ? WHERE id = ?',
+      [name, email, maxsessions || 0, maxexhibitors || 0, event, company, stand, normalizedSquareMeters, params.id]
     );
 
     return NextResponse.json({ message: 'Usuario actualizado exitosamente' });

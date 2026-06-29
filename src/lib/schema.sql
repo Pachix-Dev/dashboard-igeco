@@ -186,6 +186,7 @@ CREATE TABLE `users` (
   `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `company` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `stand` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `square_meters` int DEFAULT NULL,
   `email` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `role` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,

@@ -467,7 +467,8 @@
       "webpage": "Website",
       "description": "Description",
       "description_en": "Description (EN)",
-      "noDescription": "No description"
+      "noDescription": "No description",
+      "squareMeters": "Square meters"
     },
     "modal": {
       "title": "Edit Profile",
@@ -485,6 +486,8 @@
         "eventRequired": "Event is required",
         "eventSelect": "--",
         "stand": "Booth number",
+        "squareMeters": "Square meters",
+        "squareMetersSelect": "Select square meters",
         "address": "Address",        
         "description": "Description (ES)",
         "description_en": "Description (EN)",
@@ -537,6 +540,7 @@
       "emailPlaceholder": "email@company.com",
       "stand": "Booth number",
       "standPlaceholder": "e.g. A-123",
+      "squareMeters": "Square meters",
       "password": "Password",
       "passwordPlaceholder": "At least 6 characters",
       "role": "Role",

@@ -4,6 +4,7 @@ import db from '@/lib/db';
 import { cookies } from 'next/headers';
 import { jwtVerify } from 'jose';
 import { revalidatePath } from 'next/cache';
+import { normalizeSquareMeters } from '@/lib/stand-space';
 
 interface JWTPayload {
   id: number;
@@ -23,7 +24,7 @@ export async function getProfile() {
     const userId = payload.id;
 
     const [rows] = await db.query(
-      'SELECT id, name, email, company, event, stand, description, description_en, address, photo, webpage, phone, facebook, instagram, linkedin, x, youtube, tiktok, status FROM users WHERE id = ?',
+      'SELECT id, name, email, company, event, stand, square_meters, description, description_en, address, photo, webpage, phone, facebook, instagram, linkedin, x, youtube, tiktok, status FROM users WHERE id = ?',
       [userId]
     );
     const users = rows as any[];
@@ -54,6 +55,7 @@ export async function updateProfile(formData: FormData) {
     const company = formData.get('company') as string;
     const event = formData.get('event') as string;
     const stand = formData.get('stand') as string;
+    const square_meters = normalizeSquareMeters(formData.get('square_meters'));
     const description = formData.get('description') as string;
     const description_en = formData.get('description_en') as string;
     const address = formData.get('address') as string;
@@ -77,8 +79,8 @@ export async function updateProfile(formData: FormData) {
     }
 
     await db.query(
-      'UPDATE users SET name = ?, company = ?, event = ?, stand = ?, description = ?, description_en = ?, address = ?, photo = ?, webpage = ?, phone = ?, facebook = ?, instagram = ?, linkedin = ?, x = ?, youtube = ?, tiktok = ? WHERE id = ?',
-      [name, company, event, stand || null, description || null, description_en || null, address || null, photo || null, webpage || null, phone || null, facebook || null, instagram || null, linkedin || null, x || null, youtube || null, tiktok || null, userId]
+      'UPDATE users SET name = ?, company = ?, event = ?, stand = ?, square_meters = ?, description = ?, description_en = ?, address = ?, photo = ?, webpage = ?, phone = ?, facebook = ?, instagram = ?, linkedin = ?, x = ?, youtube = ?, tiktok = ? WHERE id = ?',
+      [name, company, event, stand || null, square_meters, description || null, description_en || null, address || null, photo || null, webpage || null, phone || null, facebook || null, instagram || null, linkedin || null, x || null, youtube || null, tiktok || null, userId]
     );
 
     revalidatePath('/[locale]/dashboard/profile', 'page');

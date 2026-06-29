@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { createPortal } from 'react-dom';
 import { useTranslations } from 'next-intl';
 import { EVENT_OPTIONS } from '@/lib/events';
+import { STAND_SQUARE_METERS_OPTIONS } from '@/lib/stand-space';
 
 export default function EditProfileModal({ profile, onClose }: { profile: any; onClose: () => void }) {
   const { notify } = useToaster();
@@ -19,6 +20,7 @@ export default function EditProfileModal({ profile, onClose }: { profile: any; o
     company: profile.company || '',
     event: profile.event || '',
     stand: profile.stand || '',
+    square_meters: profile.square_meters || '',
     description: profile.description || '',
     description_en: profile.description_en || '',
     address: profile.address || '',
@@ -40,6 +42,7 @@ export default function EditProfileModal({ profile, onClose }: { profile: any; o
       company: profile.company || '',
       event: profile.event || '',
       stand: profile.stand || '',
+      square_meters: profile.square_meters || '',
       description: profile.description || '',
       description_en: profile.description_en || '',
       address: profile.address || '',
@@ -94,6 +97,7 @@ export default function EditProfileModal({ profile, onClose }: { profile: any; o
     fd.append('company', values.company);
     fd.append('event', values.event);
     fd.append('stand', values.stand);
+    fd.append('square_meters', values.square_meters);
     fd.append('description', values.description);
     fd.append('description_en', values.description_en);
     fd.append('address', values.address);
@@ -249,6 +253,22 @@ export default function EditProfileModal({ profile, onClose }: { profile: any; o
                         disabled={isPending}
                         className="w-full rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-white focus:border-blue-500 focus:outline-none"
                     />
+                    </div>
+
+                    <div>
+                    <label className="block text-sm font-medium text-slate-400 mb-1">{t('form.squareMeters')}</label>
+                    <select
+                        {...register('square_meters')}
+                        disabled={isPending}
+                        className="w-full rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-white focus:border-blue-500 focus:outline-none"
+                    >
+                        <option value="">{t('form.squareMetersSelect')}</option>
+                        {STAND_SQUARE_METERS_OPTIONS.map((squareMeters) => (
+                          <option key={squareMeters} value={squareMeters}>
+                            {squareMeters} m2
+                          </option>
+                        ))}
+                    </select>
                     </div>
 
                     <div className="md:col-span-2">

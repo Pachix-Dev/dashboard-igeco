@@ -273,7 +273,8 @@
       "webpage": "Sito Web",
       "description": "Descrizione",
       "descriptionEn": "Descrizione (EN)",
-      "noDescription": "Nessuna descrizione"
+      "noDescription": "Nessuna descrizione",
+      "squareMeters": "Metri quadrati"
     },
     "modal": {
       "title": "Modifica Profilo",
@@ -291,6 +292,8 @@
         "eventRequired": "Evento è richiesto",
         "eventSelect": "--",
         "stand": "Numero dello stand",
+        "squareMeters": "Metri quadrati",
+        "squareMetersSelect": "Seleziona metri quadrati",
         "address": "Indirizzo",        
         "description": "Descrizione (ES)",
         "description_en": "Descrizione (EN)",
@@ -392,6 +395,7 @@
       "emailPlaceholder": "email@azienda.com",
       "stand": "Numero dello stand",
       "standPlaceholder": "Es: A-123",
+      "squareMeters": "Metri quadrati",
       "password": "Password",
       "passwordPlaceholder": "Minimo 6 caratteri",
       "role": "Profilo",

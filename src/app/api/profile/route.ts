@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import db from '@/lib/db';
 import { cookies } from 'next/headers';
 import { jwtVerify } from 'jose';
+import { normalizeSquareMeters } from '@/lib/stand-space';
 
 interface JWTPayload {
   id: number;
@@ -29,6 +30,7 @@ export async function PUT(req: Request) {
       name,
       company,
       event,
+      square_meters,
       description,
       description_en,
       address,
@@ -41,8 +43,8 @@ export async function PUT(req: Request) {
     }
 
     await db.query(
-      'UPDATE users SET name = ?, company = ?, event = ?, description = ?, description_en = ?, address = ?, photo = ? WHERE id = ?',
-      [name, company, event, description || null, description_en || null, address || null, photo || null, userId]
+      'UPDATE users SET name = ?, company = ?, event = ?, square_meters = ?, description = ?, description_en = ?, address = ?, photo = ? WHERE id = ?',
+      [name, company, event, normalizeSquareMeters(square_meters), description || null, description_en || null, address || null, photo || null, userId]
     );
 
     return NextResponse.json({ message: 'Perfil actualizado' });

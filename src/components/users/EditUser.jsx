@@ -9,6 +9,7 @@ import { updateUserAction } from '@/lib/actions/users'
 import { v4 as uuidv4 } from 'uuid'
 import Image from 'next/image'
 import { EVENT_OPTIONS } from '@/lib/events'
+import { STAND_SQUARE_METERS_OPTIONS } from '@/lib/stand-space'
 
 export function EditUser({ user, onUserUpdated }) {
   const t = useTranslations('UsersPage')
@@ -50,6 +51,7 @@ export function EditUser({ user, onUserUpdated }) {
       event: user.event,
       company: user.company,
       stand: user.stand,
+      square_meters: user.square_meters || '',
       description: user.description || '',
       description_en: user.description_en || '',
       address: user.address || '',
@@ -121,6 +123,7 @@ export function EditUser({ user, onUserUpdated }) {
         email: data.email,
         company: data.company,
         stand: data.stand,
+        square_meters: data.square_meters,
         maxexhibitors: data.maxexhibitors,
         event: data.event,
         show_directory: formData.show_directory,
@@ -259,6 +262,25 @@ export function EditUser({ user, onUserUpdated }) {
                           {errors.email.message}
                         </p>
                       )}
+                    </div>
+                  </div>
+
+                  <div className='grid gap-4 md:grid-cols-2'>
+                    <div className='space-y-2'>
+                      <label className='text-sm font-semibold text-slate-200'>
+                        {t('form.squareMeters')}
+                      </label>
+                      <select
+                        {...register('square_meters')}
+                        className='mt-0 w-full rounded-xl border border-white/10 bg-slate-900/60 p-3 text-sm text-white ring-0 transition focus:border-blue-400/60 focus:outline-none *:text-slate-900'
+                      >
+                        <option value=''>{t('form.select')}</option>
+                        {STAND_SQUARE_METERS_OPTIONS.map((squareMeters) => (
+                          <option key={squareMeters} value={squareMeters}>
+                            {squareMeters} m2
+                          </option>
+                        ))}
+                      </select>
                     </div>
                   </div>
 
