@@ -922,8 +922,174 @@
     "footer": {
       "note": "Hai domande? Contatta il tuo consulente di vendita per maggiori informazioni sul modulo Scan Leads."
     }
+  },
+  "Requirements": {
+    "titles": {
+      "validation": "Validazione dei Documenti",
+      "summary": "Riepilogo della Documentazione",
+      "confirmation": "Conferma dell'Invio",
+      "design_mandatory": "Design Obbligatorio",
+      "admin_comment": "Commento dell'Amministratore"
+    },
+    "labels": {
+      "type": "Tipo di Stand",
+      "required": "Obbligatorio",
+      "optional": "Facoltativo",
+      "answer": "Risposta",
+      "answer_registered": "Risposta registrata:",
+      "updated": "Aggiornato:",
+      "exhibitor_answer": "Risposta dell'espositore:",
+      "file": "File:",
+      "status_label": "Stato",
+      "stand_type": "Tipo di stand:",
+      "total_documents": "Totale documenti:",
+      "required_loaded": "Documenti obbligatori caricati:",
+      "required_pending": "Documenti obbligatori in sospeso:",
+      "optional_loaded": "Documenti facoltativi caricati:",
+      "deadline_label": "Scadenza per la consegna dei documenti:",
+      "size": "Dimensione:",
+      "issue_date": "Data di emissione:",
+      "uploaded_by": "Caricato da:",
+      "general_status": "Stato generale",
+      "progress": "Progresso"
+    },
+    "buttons": {
+      "load_file": "Carica file",
+      "view": "Visualizza",
+      "download": "Scarica",
+      "replace": "Sostituisci",
+      "delete": "Elimina",
+      "save_comment": "Salva commento",
+      "saving_comment": "Salvataggio...",
+      "cancel": "Annulla",
+      "confirm_send": "Conferma invio",
+      "load_mounting_letter": "Carica carta di montaggio",
+      "save_draft": "Salva bozza",
+      "send_documents": "Invia documenti"
+    },
+    "messages": {
+      "system": "Sistema",
+      "admin_review": "Revisione amministrativa",
+      "portal_exhibitor": "Portale espositore",
+      "exhibitor": "Espositore",
+      "my_requirements": "Il mio fascicolo",
+      "manage_documents": "Gestisci il caricamento, la revisione e l'approvazione dei documenti in base al tipo di stand contratto.",
+      "current_status": "Stato generale attuale:",
+      "required_documents": "Documenti obbligatori",
+      "optional_documents": "Documenti opzionali se necessari",
+      "mounting_letter": "Carta di montaggio",
+      "mounting_letter_admin_info": "Il caricamento della carta di montaggio è abilitato solo quando tutti i documenti obbligatori sono approvati.",
+      "mounting_letter_formats": "Formati consentiti: PDF e DOCX. Dimensione massima: {maxSize} MB.",
+      "no_mounting_letter": "La carta di montaggio non è ancora stata emessa.",
+      "available_when_review_complete": "Disponibile quando la revisione amministrativa è completa.",
+      "authorized_documents_available": "La tua documentazione è stata approvata. La carta di montaggio è ora disponibile per la consultazione e il download.",
+      "loading_requirements": "Caricamento fascicolo...",
+      "stand_change_confirm": "Cambiando il tipo di stand verranno rimossi {count} documento/i che non si applicano più:",
+      "stand_change_question": "Vuoi continuare?",
+      "stand_type_updated": "Tipo di stand aggiornato correttamente.",
+      "document_uploaded_success": "File caricato correttamente. Stato aggiornato a In revisione.",
+      "document_deleted_success": "File eliminato.",
+      "reject_comment_required": "Per rifiutare devi aggiungere un commento.",
+      "status_updated": "Stato aggiornato.",
+      "comment_saved": "Commento salvato correttamente.",
+      "design_response_registered": "Risposta registrata.",
+      "design_response_updated": "Risposta aggiornata.",
+      "draft_saved": "Bozza salvata correttamente.",
+      "must_upload_file": "Devi caricare almeno un file per inviare.",
+      "submit_success": "Invio registrato. Il fascicolo è ora in revisione.",
+      "mounting_letter_unavailable": "Non puoi caricare la carta di montaggio finché tutti i documenti obbligatori non sono approvati.",
+      "mounting_letter_confirm": "Conferma che hai revisionato i documenti obbligatori dell'espositore e che tutti i documenti soddisfano i requisiti per autorizzare il montaggio.",
+      "mounting_letter_delete_confirm": "Conferma di voler eliminare la carta di montaggio.",
+      "delete_authorized_confirm": "Il documento è già autorizzato. Confermi di volerlo eliminare?",
+      "mounting_letter_uploaded": "Carta di montaggio caricata correttamente.",
+      "mounting_letter_deleted": "Carta di montaggio eliminata.",
+      "file_duplicated": "Questo file è già stato caricato in un altro documento. Evita duplicati accidentali.",
+      "exhibitor_selection": "Seleziona un espositore per rivedere il suo fascicolo e convalidare i suoi documenti.",
+      "no_exhibitors": "Nessun espositore in questa sezione.",
+      "no_exhibitors_available": "Nessun espositore disponibile per la revisione.",
+      "drag_drop_instruction": "Trascina e rilascia il tuo file qui o utilizza i pulsanti di selezione.",
+      "design_question": "Hai inviato i render e i file di progettazione del tuo stand a damian.arias@igeco.mx e daniela.torres@igeco.mx?",
+      "select_answer": "Seleziona una risposta",
+      "yes": "Sì",
+      "no": "No",
+      "pending": "In sospeso",
+      "comment_placeholder": "Esempio: Si prega di caricare il documento firmato dal rappresentante legale.",
+      "comment_required": "Se lo stato è Rifiutato, il commento è obbligatorio.",
+      "confirm_send_review": "Rivedi il riepilogo prima di inviare la documentazione dell'espositore.",
+      "partial_send_warning": "Stai per inviare la tua documentazione in modo parziale. Alcuni documenti obbligatori sono ancora in sospeso di caricamento e dovranno essere completati successivamente.",
+      "section_buckets": {
+        "mounting_letter_sent": "Espositori con lettera di montaggio inviata",
+        "authorized": "Espositori con fascicolo autorizzato",
+        "pending_required": "Espositori con documenti obbligatori in sospeso",
+        "pending_optional": "Espositori con documenti facoltativi in sospeso"
+      }
+    },
+    "status": {
+      "pending_upload": "In attesa di caricamento",
+      "in_review": "In fase di revisione",
+      "rejected": "Rifiutato",
+      "authorized": "Autorizzato",
+      "incomplete": "Documentazione incompleta",
+      "in_review_general": "Documentazione in fase di revisione",
+      "with_observations": "Documentazione con osservazioni",
+      "authorized_general": "Documentazione autorizzata",
+      "mounting_letter_issued": "Lettera di montaggio emessa"
+    },
+    "errors": {
+      "invalid_format": "Formato file non valido. Sono consentiti solo file PDF o DOCX.",
+      "file_too_large": "Il file supera la dimensione massima consentita di ${MAX_FILE_SIZE_MB} MB.",
+      "cannot_load_list": "Impossibile caricare l'elenco degli espositori",
+      "load_exhibitors_error": "Errore nel caricamento degli espositori",
+      "cannot_load_requirements": "Impossibile caricare il fascicolo",
+      "load_requirements_error": "Errore nel caricamento del fascicolo",
+      "file_duplicated": "Questo file è già stato caricato in un altro documento. Evita duplicati accidentali.",
+      "authorized_confirmed": "Questo documento è già autorizzato. Sostituendolo tornerà a In fase di revisione. Desideri continuare?"
+    },
+    "documents": {
+      "exhibitor_manual": {
+        "title": "Manuale dell'espositore firmato dal rappresentante legale",
+        "description": "Documento firmato dal rappresentante legale dell'azienda espositrice."
+      },
+      "free_space_approval": {
+        "title": "Formato di approvazione dello stand in spazio libero",
+        "description": "Formato ufficiale per convalidare la progettazione dello stand in spazio libero."
+      },
+      "stand_render": {
+        "title": "Render dello stand con misure",
+        "description": "Render con misure di altezza, larghezza e profondità."
+      },
+      "comfort_plus_design": {
+        "title": "Design obbligatorio",
+        "description": "Invia i file di progettazione dello stand a damian.arias@igeco.mx e daniela.torres@igeco.mx. Includi render e materiale visivo."
+      },
+      "comfort_plus_format": {
+        "title": "Formato Stand Comfort Plus",
+        "description": "Formato ufficiale Stand Comfort Plus con progetti e specifiche."
+      },
+      "equipped_format": {
+        "title": "Formato stand attrezzato",
+        "description": "Formato ufficiale per stand attrezzato."
+      },
+      "machinery_exhibition": {
+        "title": "Formato di esposizione dei macchinari",
+        "description": "Documento facoltativo per notificare l'esposizione di macchinari."
+      },
+      "activity_registry": {
+        "title": "Formato di registrazione attività",
+        "description": "Documento facoltativo per attività aggiuntive in stand."
+      }
+    },
+    "standTypes": {
+      "free_space": "Spazio Libero",
+      "comfort_plus": "Stand Comfort Plus",
+      "equipped": "Stand Attrezzato"
+    },
+    "deadline": {
+      "label": "30/10/2026"
+    }
   }
-} 
+}
+
 
 
 

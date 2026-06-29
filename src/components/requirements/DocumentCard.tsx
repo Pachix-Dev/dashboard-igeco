@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { formatBytes, formatDateTime, statusLabel, statusTone } from './requirements.utils';
 import type { DocumentState, DocumentStatus, RoleType } from './types';
 
@@ -31,6 +32,8 @@ export function DocumentCard({
   onDesignConfirmation,
   savingComment = false
 }: DocumentCardProps) {
+  const t = useTranslations();
+  const resolveText = (value: string) => (value.startsWith('Requirements.') ? t(value) : value);
   const [dragging, setDragging] = useState(false);
   const [uploadMode, setUploadMode] = useState<'upload' | 'replace'>('upload');
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -55,14 +58,14 @@ export function DocumentCard({
     <article className="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h4 className="text-base font-semibold text-white">{item.definition.title}</h4>
-          <p className="mt-1 text-sm text-slate-400">{item.definition.description}</p>
+          <h4 className="text-base font-semibold text-white">{resolveText(item.definition.title)}</h4>
+          <p className="mt-1 text-sm text-slate-400">{resolveText(item.definition.description)}</p>
           <p className="mt-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-            {item.kind === 'required' ? 'Obligatorio' : 'Opcional'}
+            {item.kind === 'required' ? t('Requirements.labels.required') : t('Requirements.labels.optional')}
           </p>
         </div>
         <span className={`rounded-full border px-3 py-1 text-xs font-semibold ${statusTone(item.status)}`}>
-          {statusLabel(item.status)}
+          {t(statusLabel(item.status))}
         </span>
       </div>
 
@@ -84,18 +87,18 @@ export function DocumentCard({
             dragging ? 'border-blue-400 bg-blue-500/10 text-blue-100' : 'border-white/20 bg-slate-900/60 text-slate-300'
           }`}
         >
-          Arrastra y suelta tu archivo aqui o usa los botones de seleccion.
+          {t('Requirements.messages.drag_drop_instruction')}
         </div>
       )}
 
       {isComfortPlusDesign && (
         <div className="rounded-xl border border-cyan-500/30 bg-cyan-500/10 p-4 text-sm text-cyan-50">
-          <p className="font-semibold">Diseño obligatorio</p>
+          <p className="font-semibold">{t('Requirements.titles.design_mandatory')}</p>
           <p className="mt-1 text-cyan-100/80">
-            ¿Enviaste los renders y archivos de diseño de tu stand a damian.arias@igeco.mx y daniela.torres@igeco.mx ? </p>
+            {t('Requirements.messages.design_question')} </p>
           {role === 'exhibitor' ? (
             <div className="mt-3 space-y-3">
-              <label className="block text-xs font-semibold uppercase tracking-[0.2em] text-cyan-100/80">Respuesta</label>
+              <label className="block text-xs font-semibold uppercase tracking-[0.2em] text-cyan-100/80">{t('Requirements.labels.answer')}</label>
               <select
                 value={item.designResponse || ''}
                 onChange={(event) => {
@@ -110,24 +113,24 @@ export function DocumentCard({
                     : 'border-cyan-400/40 bg-slate-950 text-cyan-50'
                 }`}
               >
-                <option value="">Selecciona una respuesta</option>
-                <option value="yes">Sí</option>
-                <option value="no">No</option>
+                <option value="">{t('Requirements.messages.select_answer')}</option>
+                <option value="yes">{t('Requirements.messages.yes')}</option>
+                <option value="no">{t('Requirements.messages.no')}</option>
               </select>
 
               <div className="rounded-lg border border-white/10 bg-slate-950/60 px-3 py-2 text-sm text-slate-100">
-                <span className="text-slate-400">Respuesta registrada: </span>
-                {item.designResponse === 'yes' ? 'Sí' : item.designResponse === 'no' ? 'No' : 'Pendiente'}
+                <span className="text-slate-400">{t('Requirements.labels.answer_registered')}</span>
+                {item.designResponse === 'yes' ? t('Requirements.messages.yes') : item.designResponse === 'no' ? t('Requirements.messages.no') : t('Requirements.messages.pending')}
               </div>
 
               {item.exhibitorConfirmedAt && (
-                <p className="text-xs text-cyan-100/80">Actualizado: {formatDateTime(item.exhibitorConfirmedAt)}</p>
+                <p className="text-xs text-cyan-100/80">{t('Requirements.labels.updated')} {formatDateTime(item.exhibitorConfirmedAt)}</p>
               )}
             </div>
           ) : (
             <div className="mt-3 rounded-lg border border-white/10 bg-slate-950/60 px-3 py-2 text-sm text-slate-100">
-              <p><span className="text-slate-400">Respuesta del expositor: </span>{item.designResponse === 'yes' ? 'Sí' : item.designResponse === 'no' ? 'No' : 'Pendiente'}</p>
-              {item.exhibitorConfirmedAt && <p className="mt-1 text-xs text-slate-400">Actualizado: {formatDateTime(item.exhibitorConfirmedAt)}</p>}
+              <p><span className="text-slate-400">{t('Requirements.labels.exhibitor_answer')}</span>{item.designResponse === 'yes' ? t('Requirements.messages.yes') : item.designResponse === 'no' ? t('Requirements.messages.no') : t('Requirements.messages.pending')}</p>
+              {item.exhibitorConfirmedAt && <p className="mt-1 text-xs text-slate-400">{t('Requirements.labels.updated')} {formatDateTime(item.exhibitorConfirmedAt)}</p>}
             </div>
           )}
         </div>
@@ -136,7 +139,7 @@ export function DocumentCard({
       {hasFile && !isComfortPlusDesign && (
         <div className="rounded-xl border border-white/10 bg-slate-900/70 p-3 text-sm text-slate-300">
           <p>
-            <span className="text-slate-500">Archivo: </span>
+            <span className="text-slate-500">{t('Requirements.labels.file')}</span>
             {item.fileMeta?.fileName}
           </p>
         </div>
@@ -150,36 +153,36 @@ export function DocumentCard({
             item.status === 'rejected' ? 'border-red-500/40 bg-red-500/10 text-red-100' : 'border-white/10 bg-slate-900/60 text-slate-300'
           }`}
         >
-          <p className="font-semibold">Comentario del administrador</p>
+          <p className="font-semibold">{t('Requirements.titles.admin_comment')}</p>
           <p className="mt-1">{item.adminComment}</p>
-          {item.commentUpdatedAt && <p className="mt-1 text-xs text-slate-400">Actualizado: {formatDateTime(item.commentUpdatedAt)}</p>}
+          {item.commentUpdatedAt && <p className="mt-1 text-xs text-slate-400">{t('Requirements.labels.updated')} {formatDateTime(item.commentUpdatedAt)}</p>}
         </div>
       )}
 
       {role === 'admin' && (
         <div className="space-y-3 rounded-xl border border-white/10 bg-slate-900/70 p-3">
-          <label className="block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Estatus</label>
+          <label className="block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">{t('Requirements.labels.status_label')}</label>
           <select
             value={item.status}
             onChange={(event) => onStatusChange(event.target.value as DocumentStatus)}
             className="w-full rounded-lg border border-white/10 bg-slate-950 px-3 py-2 text-sm text-white outline-none"
           >
-            <option value="pending_upload">Pendiente de carga</option>
-            <option value="in_review">En revision</option>
-            <option value="rejected">Rechazado</option>
-            <option value="authorized">Autorizado</option>
+            <option value="pending_upload">{t('Requirements.status.pending_upload')}</option>
+            <option value="in_review">{t('Requirements.status.in_review')}</option>
+            <option value="rejected">{t('Requirements.status.rejected')}</option>
+            <option value="authorized">{t('Requirements.status.authorized')}</option>
           </select>
 
           <div className="rounded-lg border border-white/10 bg-slate-950/60 px-3 py-2 text-sm text-slate-100">
-            <p><span className="text-slate-400">Respuesta del expositor: </span>{item.designResponse === 'yes' ? 'Sí' : item.designResponse === 'no' ? 'No' : 'Pendiente'}</p>
-            {item.exhibitorConfirmedAt && <p className="mt-1 text-xs text-slate-400">Actualizado: {formatDateTime(item.exhibitorConfirmedAt)}</p>}
+            <p><span className="text-slate-400">{t('Requirements.labels.exhibitor_answer')}</span>{item.designResponse === 'yes' ? t('Requirements.messages.yes') : item.designResponse === 'no' ? t('Requirements.messages.no') : t('Requirements.messages.pending')}</p>
+            {item.exhibitorConfirmedAt && <p className="mt-1 text-xs text-slate-400">{t('Requirements.labels.updated')} {formatDateTime(item.exhibitorConfirmedAt)}</p>}
           </div>
 
-          <label className="block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Comentario del administrador</label>
+          <label className="block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">{t('Requirements.titles.admin_comment')}</label>
           <textarea
             value={item.adminComment || ''}
             onChange={(event) => onCommentChange(event.target.value)}
-            placeholder="Ejemplo: Favor de cargar el documento firmado por el representante legal."
+            placeholder={t('Requirements.messages.comment_placeholder')}
             className="min-h-[90px] w-full rounded-lg border border-white/10 bg-slate-950 px-3 py-2 text-sm text-white outline-none"
           />
           <div className="flex justify-end">
@@ -193,10 +196,10 @@ export function DocumentCard({
                   : 'border-blue-500/40 bg-blue-600/20 text-blue-100'
               }`}
             >
-              {savingComment ? 'Guardando...' : 'Guardar comentario'}
+              {savingComment ? t('Requirements.buttons.saving_comment') : t('Requirements.buttons.save_comment')}
             </button>
           </div>
-          <p className="text-xs text-slate-500">Si el estatus es Rechazado, el comentario es obligatorio.</p>
+          <p className="text-xs text-slate-500">{t('Requirements.messages.comment_required')}</p>
         </div>
       )}
 
@@ -207,17 +210,17 @@ export function DocumentCard({
             onClick={() => triggerFileDialog('upload')}
             className="rounded-lg border border-blue-500/40 bg-blue-600/20 px-3 py-2 text-xs font-semibold text-blue-100"
           >
-            Cargar archivo
+            {t('Requirements.buttons.load_file')}
           </button>
         )}
 
         {hasFile && !isComfortPlusDesign && (
           <>
             <button type="button" onClick={onView} className="rounded-lg border border-white/15 px-3 py-2 text-xs font-semibold text-slate-200">
-              Visualizar
+              {t('Requirements.buttons.view')}
             </button>
             <button type="button" onClick={onDownload} className="rounded-lg border border-white/15 px-3 py-2 text-xs font-semibold text-slate-200">
-              Descargar
+              {t('Requirements.buttons.download')}
             </button>
           </>
         )}
@@ -233,7 +236,7 @@ export function DocumentCard({
                 : 'border-amber-500/40 bg-amber-500/10 text-amber-100'
             }`}
           >
-            Reemplazar
+            {t('Requirements.buttons.replace')}
           </button>
         )}
 
@@ -248,7 +251,7 @@ export function DocumentCard({
                 : 'border-red-500/40 bg-red-500/10 text-red-100'
             }`}
           >
-            Eliminar
+            {t('Requirements.buttons.delete')}
           </button>
         )}
       </div>

@@ -1,7 +1,8 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import type { StandType } from './types';
-import { STAND_OPTIONS } from './requirements.config';
+import { STAND_OPTIONS_KEYS } from './requirements.config';
 
 type StandTypeSelectorProps = {
   value: StandType;
@@ -10,11 +11,13 @@ type StandTypeSelectorProps = {
 };
 
 export function StandTypeSelector({ value, onChange, disabled }: StandTypeSelectorProps) {
+  const t = useTranslations();
+
   return (
     <div className="space-y-3 rounded-2xl border border-white/10 bg-white/5 p-5">
-      <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">Tipo de stand</p>
+      <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">{t('Requirements.labels.type')}</p>
       <div className="grid gap-3 md:grid-cols-3">
-        {STAND_OPTIONS.map((option) => {
+        {STAND_OPTIONS_KEYS.map((option) => {
           const active = option.value === value;
           return (
             <button
@@ -28,7 +31,7 @@ export function StandTypeSelector({ value, onChange, disabled }: StandTypeSelect
                   : 'border-white/10 bg-slate-900/70 text-slate-300 hover:border-white/30 hover:text-white'
               } ${disabled ? 'cursor-not-allowed opacity-60' : ''}`}
             >
-              {option.label}
+              {t(option.translationKey)}
             </button>
           );
         })}

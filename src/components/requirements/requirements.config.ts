@@ -9,54 +9,57 @@ export const ALLOWED_MIME_TYPES = [
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
 ];
 
-export const DOCUMENTS_DEADLINE_LABEL = '30/06/2026';
-export const STAND_OPTIONS: Array<{ value: StandType; label: string }> = [
-  { value: 'free_space', label: 'Espacio Libre' },
-  { value: 'comfort_plus', label: 'Stand Comfort Plus' },
-  { value: 'equipped', label: 'Stand Equipado' }
+// Translation keys - components should use useTranslations() to resolve actual values
+export const DOCUMENTS_DEADLINE_KEY = 'Requirements.deadline.label';
+
+// Stand types - keys for translation
+export const STAND_OPTIONS_KEYS: Array<{ value: StandType; translationKey: string }> = [
+  { value: 'free_space', translationKey: 'Requirements.standTypes.free_space' },
+  { value: 'comfort_plus', translationKey: 'Requirements.standTypes.comfort_plus' },
+  { value: 'equipped', translationKey: 'Requirements.standTypes.equipped' }
 ];
 
+// Document definitions with translation keys instead of hardcoded strings
 export const DOCUMENT_DEFINITIONS: Record<string, DocumentDefinition> = {
   exhibitor_manual: {
     id: 'exhibitor_manual',
-    title: 'Manual del expositor firmado por el representante legal',
-    description: 'Documento firmado por el representante legal de la empresa expositoria.'
+    title: 'Requirements.documents.exhibitor_manual.title',
+    description: 'Requirements.documents.exhibitor_manual.description'
   },
   free_space_approval: {
     id: 'free_space_approval',
-    title: 'Formato de aprobacion de stand de superficie libre',
-    description: 'Formato oficial para validar el diseno del stand de superficie libre.'
+    title: 'Requirements.documents.free_space_approval.title',
+    description: 'Requirements.documents.free_space_approval.description'
   },
   stand_render: {
     id: 'stand_render',
-    title: 'Render del stand con medidas',
-    description: 'Render con medidas de alto, ancho y profundidad.'
+    title: 'Requirements.documents.stand_render.title',
+    description: 'Requirements.documents.stand_render.description'
   },
   comfort_plus_format: {
     id: 'comfort_plus_format',
-    title: 'Formato de Stand Comfort Plus',
-    description: 'Formato oficial de Stand Comfort Plus con disenos y especificaciones.'
+    title: 'Requirements.documents.comfort_plus_format.title',
+    description: 'Requirements.documents.comfort_plus_format.description'
   },
   comfort_plus_design: {
     id: 'comfort_plus_design',
-    title: 'Diseño obligatorio',
-    description:
-      'Envía los archivos del diseño del stand a damian.arias@igeco.mx y daniela.torres@igeco.mx. Incluye renders y material visual que muestren claramente la apariencia y distribución del stand, y asegura que cumpla con las especificaciones establecidas por la organización del evento.'
+    title: 'Requirements.documents.comfort_plus_design.title',
+    description: 'Requirements.documents.comfort_plus_design.description'
   },
   equipped_format: {
     id: 'equipped_format',
-    title: 'Formato de stand equipado',
-    description: 'Formato oficial para stand equipado.'
+    title: 'Requirements.documents.equipped_format.title',
+    description: 'Requirements.documents.equipped_format.description'
   },
   machinery_exhibition: {
     id: 'machinery_exhibition',
-    title: 'Formato de exhibicion de maquinaria',
-    description: 'Documento opcional para notificar exhibicion de maquinaria.'
+    title: 'Requirements.documents.machinery_exhibition.title',
+    description: 'Requirements.documents.machinery_exhibition.description'
   },
   activity_registry: {
     id: 'activity_registry',
-    title: 'Formato de registro de actividades',
-    description: 'Documento opcional para actividades adicionales en stand.'
+    title: 'Requirements.documents.activity_registry.title',
+    description: 'Requirements.documents.activity_registry.description'
   }
 };
 

@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { useToaster } from '@/context/ToasterContext';
-import { DOCUMENTS_DEADLINE_LABEL, STAND_OPTIONS, MAX_FILE_SIZE_MB } from './requirements.config';
+import { DOCUMENTS_DEADLINE_KEY, STAND_OPTIONS_KEYS, MAX_FILE_SIZE_MB } from './requirements.config';
 import { DocumentCard } from './DocumentCard';
 import { SendConfirmationModal } from './SendConfirmationModal';
 import { StandTypeSelector } from './StandTypeSelector';
@@ -96,18 +97,18 @@ type ApiRequirementsData = {
   mountingLetter: ApiMountingLetter;
 };
 
-const mapHistory = (entries: ApiHistory[]): HistoryEntry[] => {
+const mapHistory = (entries: ApiHistory[], systemLabel: string): HistoryEntry[] => {
   return entries.map((entry) => ({
     id: String(entry.id),
     action: entry.action as HistoryEntry['action'],
     date: entry.createdAt,
-    user: entry.actorName || 'Sistema',
+    user: entry.actorName || systemLabel,
     role: (entry.actorRole === 'admin' ? 'admin' : 'exhibitor') as RoleType,
     detail: entry.detail || undefined
   }));
 };
 
-const mapDocument = (item: ApiDocument): DocumentState => {
+const mapDocument = (item: ApiDocument, systemLabel: string): DocumentState => {
   const definition = {
     id: item.documentKey,
     title: item.title,
@@ -134,7 +135,7 @@ const mapDocument = (item: ApiDocument): DocumentState => {
     designResponse: item.designResponse || undefined,
     reviewedAt: item.reviewedAt || undefined,
     reviewedBy: item.reviewedByName || undefined,
-    history: mapHistory(item.history || []),
+    history: mapHistory(item.history || [], systemLabel),
     error: undefined
   };
 };
@@ -147,6 +148,7 @@ export function RequirementsWorkspace({
   targetUserId,
   allowStandSelection = true
 }: RequirementsWorkspaceProps) {
+  const t = useTranslations();
   const { notify } = useToaster();
 
   const [standType, setStandType] = useState<StandType>(initialStand);
@@ -165,7 +167,7 @@ export function RequirementsWorkspace({
 
     const nextMap: Record<string, DocumentState> = {};
     [...data.requiredDocuments, ...data.optionalDocuments].forEach((item) => {
-      nextMap[item.documentKey] = mapDocument(item);
+      nextMap[item.documentKey] = mapDocument(item, t('Requirements.messages.system'));
     });
     setDocumentsMap(nextMap);
 
@@ -174,7 +176,7 @@ export function RequirementsWorkspace({
         ? {
             fileMeta: data.mountingLetter.fileUrl
               ? {
-                  fileName: data.mountingLetter.fileName || 'Carta de montaje',
+                  fileName: data.mountingLetter.fileName || t('Requirements.messages.mounting_letter'),
                   fileSize: data.mountingLetter.fileSize || 0,
                   fileMime: data.mountingLetter.fileMime || '',
                   fileUrl: data.mountingLetter.fileUrl,
@@ -185,7 +187,7 @@ export function RequirementsWorkspace({
             commentUpdatedAt: data.mountingLetter.emittedAt || undefined,
             emittedAt: data.mountingLetter.emittedAt || undefined,
             uploadedBy: data.mountingLetter.uploadedByName || undefined,
-            history: mapHistory(data.mountingLetter.history || [])
+            history: mapHistory(data.mountingLetter.history || [], t('Requirements.messages.system'))
           }
         : { history: [] }
     );
@@ -199,12 +201,12 @@ export function RequirementsWorkspace({
       const response = await fetch(url, { cache: 'no-store' });
       const payload = await response.json();
       if (!response.ok || !payload?.success) {
-        throw new Error(payload?.message || 'No se pudo cargar el expediente');
+        throw new Error(payload?.message || t('Requirements.errors.cannot_load_requirements'));
       }
 
       applyRecordData(payload.data as ApiRequirementsData);
     } catch (error) {
-      notify(error instanceof Error ? error.message : 'Error al cargar expediente', 'error');
+      notify(error instanceof Error ? error.message : t('Requirements.errors.load_requirements_error'), 'error');
     } finally {
       setLoading(false);
     }
@@ -215,10 +217,10 @@ export function RequirementsWorkspace({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetUserId]);
 
-  const standLabel = useMemo(
-    () => STAND_OPTIONS.find((option) => option.value === standType)?.label || 'Sin definir',
-    [standType]
-  );
+  const standLabel = useMemo(() => {
+    const translationKey = STAND_OPTIONS_KEYS.find((option) => option.value === standType)?.translationKey;
+    return t(translationKey || 'Requirements.standTypes.free_space');
+  }, [standType, t]);
 
   const definitions = useMemo(() => getDefinitionsByStand(standType), [standType]);
 
@@ -249,7 +251,9 @@ export function RequirementsWorkspace({
 
     return {
       removableIds: removable.map((doc) => doc.definition.id),
-      removableNames: removable.map((doc) => doc.definition.title)
+      removableNames: removable.map((doc) =>
+        doc.definition.title.startsWith('Requirements.') ? t(doc.definition.title) : doc.definition.title
+      )
     };
   };
 
@@ -259,9 +263,7 @@ export function RequirementsWorkspace({
     const { removableNames } = standHasRemovableFiles(nextStand);
     if (removableNames.length > 0) {
       const confirmed = window.confirm(
-        `Al cambiar de tipo de stand, se eliminaran ${removableNames.length} documento(s) que ya no aplican:\n\n- ${removableNames.join(
-          '\n- '
-        )}\n\nDeseas continuar?`
+        `${t('Requirements.messages.stand_change_confirm', { count: removableNames.length })}\n\n- ${removableNames.join('\n- ')}\n\n${t('Requirements.messages.stand_change_question')}`
       );
       if (!confirmed) return;
     }
@@ -277,12 +279,12 @@ export function RequirementsWorkspace({
       });
       const payload = await response.json();
       if (!response.ok || !payload?.success) {
-        throw new Error(payload?.message || 'No se pudo actualizar el tipo de stand');
+        throw new Error(payload?.message || t('Requirements.errors.load_requirements_error'));
       }
       applyRecordData(payload.data as ApiRequirementsData);
-      notify('Tipo de stand actualizado correctamente.', 'success');
+      notify(t('Requirements.messages.stand_type_updated'), 'success');
     } catch (error) {
-      notify(error instanceof Error ? error.message : 'Error al actualizar tipo de stand', 'error');
+      notify(error instanceof Error ? error.message : t('Requirements.errors.load_requirements_error'), 'error');
     }
   };
 
@@ -316,7 +318,7 @@ export function RequirementsWorkspace({
     }
 
     if (findDuplicateFile(docId, file)) {
-      const message = 'Este archivo ya fue cargado en otro documento. Evita duplicados accidentales.';
+      const message = t('Requirements.errors.file_duplicated');
       setDocumentError(docId, message);
       notify(message, 'error');
       return;
@@ -327,9 +329,7 @@ export function RequirementsWorkspace({
 
     let replaceAuthorizedConfirmed = false;
     if (mode === 'replace' && current.status === 'authorized') {
-      const confirmed = window.confirm(
-        'Este documento ya esta autorizado. Al reemplazarlo volvera a En revision. Deseas continuar?'
-      );
+      const confirmed = window.confirm(t('Requirements.errors.authorized_confirmed'));
       if (!confirmed) return;
       replaceAuthorizedConfirmed = true;
     }
@@ -347,12 +347,12 @@ export function RequirementsWorkspace({
       });
       const payload = await response.json();
       if (!response.ok || !payload?.success) {
-        throw new Error(payload?.message || 'No se pudo cargar el archivo');
+        throw new Error(payload?.message || t('Requirements.errors.load_requirements_error'));
       }
       applyRecordData(payload.data as ApiRequirementsData);
-      notify('Archivo cargado correctamente. Estatus actualizado a En revision.', 'success');
+      notify(t('Requirements.messages.document_uploaded_success'), 'success');
     } catch (error) {
-      notify(error instanceof Error ? error.message : 'Error al cargar archivo', 'error');
+      notify(error instanceof Error ? error.message : t('Requirements.errors.load_requirements_error'), 'error');
     }
   };
 
@@ -362,7 +362,7 @@ export function RequirementsWorkspace({
 
     const requiresConfirm = current.status === 'authorized';
     if (requiresConfirm) {
-      const confirmed = window.confirm('El documento esta autorizado. Confirmas que deseas eliminarlo?');
+      const confirmed = window.confirm(t('Requirements.messages.delete_authorized_confirm'));
       if (!confirmed) return;
     }
 
@@ -374,12 +374,12 @@ export function RequirementsWorkspace({
       });
       const payload = await response.json();
       if (!response.ok || !payload?.success) {
-        throw new Error(payload?.message || 'No se pudo eliminar el archivo');
+        throw new Error(payload?.message || t('Requirements.errors.load_requirements_error'));
       }
       applyRecordData(payload.data as ApiRequirementsData);
-      notify('Archivo eliminado.', 'success');
+      notify(t('Requirements.messages.document_deleted_success'), 'success');
     } catch (error) {
-      notify(error instanceof Error ? error.message : 'Error al eliminar archivo', 'error');
+      notify(error instanceof Error ? error.message : t('Requirements.errors.load_requirements_error'), 'error');
     }
   };
 
@@ -405,7 +405,7 @@ export function RequirementsWorkspace({
     const current = documentsMap[docId];
     if (!current) return;
     if (nextStatus === 'rejected' && !current.adminComment?.trim()) {
-      notify('Para rechazar, debes agregar un comentario.', 'error');
+      notify(t('Requirements.messages.reject_comment_required'), 'error');
       return;
     }
 
@@ -422,12 +422,12 @@ export function RequirementsWorkspace({
       });
       const payload = await response.json();
       if (!response.ok || !payload?.success) {
-        throw new Error(payload?.message || 'No se pudo actualizar estatus');
+        throw new Error(payload?.message || t('Requirements.errors.load_requirements_error'));
       }
       applyRecordData(payload.data as ApiRequirementsData);
-      notify('Estatus actualizado.', 'success');
+      notify(t('Requirements.messages.status_updated'), 'success');
     } catch (error) {
-      notify(error instanceof Error ? error.message : 'Error al actualizar estatus', 'error');
+      notify(error instanceof Error ? error.message : t('Requirements.errors.load_requirements_error'), 'error');
     }
   };
 
@@ -467,12 +467,12 @@ export function RequirementsWorkspace({
       });
       const payload = await response.json();
       if (!response.ok || !payload?.success) {
-        throw new Error(payload?.message || 'No se pudo guardar comentario');
+        throw new Error(payload?.message || t('Requirements.errors.load_requirements_error'));
       }
       applyRecordData(payload.data as ApiRequirementsData);
-      notify('Comentario guardado correctamente.', 'success');
+      notify(t('Requirements.messages.comment_saved'), 'success');
     } catch (error) {
-      notify(error instanceof Error ? error.message : 'Error al guardar comentario', 'error');
+      notify(error instanceof Error ? error.message : t('Requirements.errors.load_requirements_error'), 'error');
     } finally {
       setSavingCommentFor(null);
     }
@@ -490,12 +490,12 @@ export function RequirementsWorkspace({
       });
       const payload = await apiResponse.json();
       if (!apiResponse.ok || !payload?.success) {
-        throw new Error(payload?.message || 'No se pudo actualizar la confirmacion de diseño');
+        throw new Error(payload?.message || t('Requirements.errors.load_requirements_error'));
       }
       applyRecordData(payload.data as ApiRequirementsData);
-      notify(designResponse === 'yes' ? 'Respuesta registrada.' : 'Respuesta actualizada.', 'success');
+      notify(designResponse === 'yes' ? t('Requirements.messages.design_response_registered') : t('Requirements.messages.design_response_updated'), 'success');
     } catch (error) {
-      notify(error instanceof Error ? error.message : 'Error al actualizar la confirmación de diseño', 'error');
+      notify(error instanceof Error ? error.message : t('Requirements.errors.load_requirements_error'), 'error');
     }
   };
 
@@ -508,18 +508,18 @@ export function RequirementsWorkspace({
       });
       const payload = await response.json();
       if (!response.ok || !payload?.success) {
-        throw new Error(payload?.message || 'No se pudo guardar borrador');
+        throw new Error(payload?.message || t('Requirements.errors.load_requirements_error'));
       }
       applyRecordData(payload.data as ApiRequirementsData);
-      notify('Borrador guardado correctamente.', 'success');
+      notify(t('Requirements.messages.draft_saved'), 'success');
     } catch (error) {
-      notify(error instanceof Error ? error.message : 'Error al guardar borrador', 'error');
+      notify(error instanceof Error ? error.message : t('Requirements.errors.load_requirements_error'), 'error');
     }
   };
 
   const handleSubmitIntent = () => {
     if (!canSubmit) {
-      notify('Debes cargar al menos un archivo para enviar.', 'error');
+      notify(t('Requirements.messages.must_upload_file'), 'error');
       return;
     }
     setSendModalOpen(true);
@@ -534,13 +534,13 @@ export function RequirementsWorkspace({
       });
       const payload = await response.json();
       if (!response.ok || !payload?.success) {
-        throw new Error(payload?.message || 'No se pudo enviar expediente');
+        throw new Error(payload?.message || t('Requirements.errors.load_requirements_error'));
       }
       applyRecordData(payload.data as ApiRequirementsData);
       setSendModalOpen(false);
-      notify('Envio registrado. El expediente quedo en revision.', 'success');
+      notify(t('Requirements.messages.submit_success'), 'success');
     } catch (error) {
-      notify(error instanceof Error ? error.message : 'Error al enviar expediente', 'error');
+      notify(error instanceof Error ? error.message : t('Requirements.errors.load_requirements_error'), 'error');
     }
   };
 
@@ -556,13 +556,11 @@ export function RequirementsWorkspace({
     }
 
     if (!canUploadMountingLetter && mode === 'upload') {
-      notify('No puedes cargar la Carta de montaje hasta autorizar todos los documentos obligatorios.', 'error');
+      notify(t('Requirements.messages.mounting_letter_unavailable'), 'error');
       return;
     }
 
-    const confirmed = window.confirm(
-      'Confirma que has revisado la documentacion obligatoria del expositor y que todos los documentos cumplen con los requisitos para autorizar el montaje.'
-    );
+    const confirmed = window.confirm(t('Requirements.messages.mounting_letter_confirm'));
     if (!confirmed) return;
 
     const formData = new FormData();
@@ -576,19 +574,19 @@ export function RequirementsWorkspace({
       });
       const payload = await response.json();
       if (!response.ok || !payload?.success) {
-        throw new Error(payload?.message || 'No se pudo cargar Carta de montaje');
+        throw new Error(payload?.message || t('Requirements.errors.load_requirements_error'));
       }
       applyRecordData(payload.data as ApiRequirementsData);
-      notify('Carta de montaje cargada correctamente.', 'success');
+      notify(t('Requirements.messages.mounting_letter_uploaded'), 'success');
     } catch (error) {
-      notify(error instanceof Error ? error.message : 'Error al cargar Carta de montaje', 'error');
+      notify(error instanceof Error ? error.message : t('Requirements.errors.load_requirements_error'), 'error');
     }
   };
 
   const handleMountingLetterDelete = async () => {
     if (role !== 'admin' || !mountingLetter.fileMeta?.fileUrl) return;
 
-    const confirmed = window.confirm('Confirma que deseas eliminar la Carta de montaje.');
+    const confirmed = window.confirm(t('Requirements.messages.mounting_letter_delete_confirm'));
     if (!confirmed) return;
 
     try {
@@ -599,12 +597,12 @@ export function RequirementsWorkspace({
       });
       const payload = await response.json();
       if (!response.ok || !payload?.success) {
-        throw new Error(payload?.message || 'No se pudo eliminar Carta de montaje');
+        throw new Error(payload?.message || t('Requirements.errors.load_requirements_error'));
       }
       applyRecordData(payload.data as ApiRequirementsData);
-      notify('Carta de montaje eliminada.', 'success');
+      notify(t('Requirements.messages.mounting_letter_deleted'), 'success');
     } catch (error) {
-      notify(error instanceof Error ? error.message : 'Error al eliminar Carta de montaje', 'error');
+      notify(error instanceof Error ? error.message : t('Requirements.errors.load_requirements_error'), 'error');
     }
   };
 
@@ -626,7 +624,7 @@ export function RequirementsWorkspace({
   if (loading) {
     return (
       <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-sm text-slate-300">
-        Cargando expediente...
+        {t('Requirements.messages.loading_requirements')}
       </div>
     );
   }
@@ -635,15 +633,17 @@ export function RequirementsWorkspace({
     <div className="space-y-6">
       <header className="space-y-2 rounded-2xl border border-white/10 bg-white/5 p-5">
         <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">
-          {role === 'admin' ? 'Revision administrativa' : 'Portal del expositor'}
+          {role === 'admin' ? t('Requirements.messages.admin_review') : t('Requirements.messages.portal_exhibitor')}
         </p>
         <h2 className="text-2xl font-bold text-white">
-          {role === 'admin' ? `Validación de Expedientes - ${exhibitorName || 'Expositor'}` : 'Mi expediente'}
+          {role === 'admin' ? `${t('Requirements.titles.validation')} - ${exhibitorName || t('Requirements.messages.exhibitor')}` : t('Requirements.messages.my_requirements')}
         </h2>
         <p className="text-sm text-slate-400">
-          Gestiona la carga, revision y autorizacion de documentos segun el tipo de stand contratado.
+          {t('Requirements.messages.manage_documents')}
         </p>
-        <p className="text-xs text-slate-500">Estado general actual: {generalStatusLabelText}</p>
+        <p className="text-xs text-slate-500">
+          {t('Requirements.messages.current_status')} {t(generalStatusLabelText)}
+        </p>
       </header>
 
       <StandTypeSelector value={standType} onChange={handleStandChange} disabled={!allowStandSelection} />
@@ -656,14 +656,14 @@ export function RequirementsWorkspace({
         progress={progress}
         generalStatus={generalStatus}
         canSubmit={canSubmit}
-        deadlineLabel={DOCUMENTS_DEADLINE_LABEL}
+        deadlineLabel={t(DOCUMENTS_DEADLINE_KEY)}
         showActions={role === 'exhibitor'}
         onSaveDraft={handleSaveDraft}
         onSubmit={handleSubmitIntent}
       />
 
       <section className="space-y-4">
-        <h3 className="text-lg font-semibold text-white">Documentos obligatorios</h3>
+        <h3 className="text-lg font-semibold text-white">{t('Requirements.messages.required_documents')}</h3>
         <div className="grid gap-4 lg:grid-cols-2">
           {requiredDocs.map((item) => (
             <DocumentCard
@@ -685,7 +685,7 @@ export function RequirementsWorkspace({
       </section>
 
       <section className="space-y-4">
-        <h3 className="text-lg font-semibold text-white">Documentos opcionales en caso de requerirlo</h3>
+        <h3 className="text-lg font-semibold text-white">{t('Requirements.messages.optional_documents')}</h3>
         <div className="grid gap-4 lg:grid-cols-2">
           {optionalDocs.map((item) => (
             <DocumentCard
@@ -707,15 +707,15 @@ export function RequirementsWorkspace({
       </section>
 
       <section className="space-y-3 rounded-2xl border border-white/10 bg-white/5 p-5">
-        <h3 className="text-lg font-semibold text-white">Carta de montaje</h3>
+        <h3 className="text-lg font-semibold text-white">{t('Requirements.messages.mounting_letter')}</h3>
 
         {role === 'admin' && (
           <div className="rounded-xl border border-white/10 bg-slate-900/70 p-4 text-sm text-slate-300">
             <p>
-              La carga de Carta de montaje se habilita solo cuando todos los documentos obligatorios esten autorizados.
+              {t('Requirements.messages.mounting_letter_admin_info')}
             </p>
             <p className="mt-2 text-xs text-slate-500">
-              Formatos permitidos: PDF y DOCX. Tamano maximo: {MAX_FILE_SIZE_MB} MB.
+              {t('Requirements.messages.mounting_letter_formats', { maxSize: MAX_FILE_SIZE_MB })}
             </p>
           </div>
         )}
@@ -723,19 +723,19 @@ export function RequirementsWorkspace({
         {mountingLetter.fileMeta?.fileUrl ? (
           <div className="rounded-xl border border-white/10 bg-slate-900/70 p-4 text-sm text-slate-200">
             <p>
-              <span className="text-slate-500">Archivo: </span>
+              <span className="mr-1 text-slate-500">{t('Requirements.labels.file')}</span>
               {mountingLetter.fileMeta.fileName}
             </p>
             <p>
-              <span className="text-slate-500">Tamano: </span>
+              <span className="mr-1 text-slate-500">{t('Requirements.labels.size')}</span>
               {formatBytes(mountingLetter.fileMeta.fileSize)}
             </p>
             <p>
-              <span className="text-slate-500">Fecha de emision: </span>
+              <span className="mr-1 text-slate-500">{t('Requirements.labels.issue_date')}</span>
               {formatDateTime(mountingLetter.emittedAt)}
             </p>
             <p>
-              <span className="text-slate-500">Cargado por: </span>
+              <span className="mr-1 text-slate-500">{t('Requirements.labels.uploaded_by')}</span>
               {mountingLetter.uploadedBy || '--'}
             </p>
             {mountingLetter.adminComment && (
@@ -745,15 +745,15 @@ export function RequirementsWorkspace({
             )}
             <div className="mt-3 flex flex-wrap gap-2">
               <button type="button" onClick={() => handleOpenMountingLetter('view')} className="rounded-lg border border-white/15 px-3 py-2 text-xs font-semibold">
-                Visualizar
+                {t('Requirements.buttons.view')}
               </button>
               <button type="button" onClick={() => handleOpenMountingLetter('download')} className="rounded-lg border border-white/15 px-3 py-2 text-xs font-semibold">
-                Descargar
+                {t('Requirements.buttons.download')}
               </button>
               {role === 'admin' && (
                 <>
                   <label className="cursor-pointer rounded-lg border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-xs font-semibold text-amber-100">
-                    Reemplazar
+                    {t('Requirements.buttons.replace')}
                     <input
                       type="file"
                       accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
@@ -770,7 +770,7 @@ export function RequirementsWorkspace({
                     onClick={handleMountingLetterDelete}
                     className="rounded-lg border border-red-500/40 bg-red-500/10 px-3 py-2 text-xs font-semibold text-red-100"
                   >
-                    Eliminar
+                    {t('Requirements.buttons.delete')}
                   </button>
                 </>
               )}
@@ -778,14 +778,14 @@ export function RequirementsWorkspace({
           </div>
         ) : (
           <div className="rounded-xl border border-white/10 bg-slate-900/70 p-4 text-sm text-slate-300">
-            <p>Aun no se ha emitido la Carta de montaje.</p>
+            <p>{t('Requirements.messages.no_mounting_letter')}</p>
             {role === 'admin' ? (
               <label className={`mt-3 inline-flex cursor-pointer rounded-lg border px-3 py-2 text-xs font-semibold ${
                 canUploadMountingLetter
                   ? 'border-blue-500/40 bg-blue-600/20 text-blue-100'
                   : 'cursor-not-allowed border-slate-700 bg-slate-800 text-slate-500'
               }`}>
-                Cargar Carta de montaje
+                {t('Requirements.buttons.load_mounting_letter')}
                 <input
                   type="file"
                   disabled={!canUploadMountingLetter}
@@ -799,14 +799,14 @@ export function RequirementsWorkspace({
                 />
               </label>
             ) : (
-              <p className="mt-2 text-sm text-slate-500">Disponible cuando la revision administrativa este completa.</p>
+              <p className="mt-2 text-sm text-slate-500">{t('Requirements.messages.available_when_review_complete')}</p>
             )}
           </div>
         )}
 
         {role === 'exhibitor' && mountingLetter.fileMeta?.fileUrl && (
           <p className="rounded-xl border border-emerald-500/40 bg-emerald-500/10 p-3 text-sm text-emerald-100">
-            Tu documentacion ha sido autorizada. La Carta de montaje ya se encuentra disponible para su consulta y descarga.
+            {t('Requirements.messages.authorized_documents_available')}
           </p>
         )}
       </section>

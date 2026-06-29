@@ -1,6 +1,6 @@
 'use client';
 
-import { DOCUMENTS_DEADLINE_LABEL } from './requirements.config';
+import { useTranslations } from 'next-intl';
 import { generalStatusLabel } from './requirements.utils';
 import type { GeneralStatus } from './types';
 
@@ -31,37 +31,39 @@ export function SummaryPanel({
   onSaveDraft,
   onSubmit
 }: SummaryPanelProps) {
+  const t = useTranslations();
+
   return (
     <section className="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-5">
-      <h3 className="text-lg font-semibold text-white">Resumen de documentacion</h3>
+      <h3 className="text-lg font-semibold text-white">{t('Requirements.titles.summary')}</h3>
 
       <div className="rounded-xl border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
-        <span className="font-semibold">Fecha límite de entrega de documentos: </span>
+        <span className="mr-1 font-semibold">{t('Requirements.labels.deadline_label')}</span>
         {deadlineLabel}
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-xl border border-white/10 bg-slate-900/70 p-3 text-sm text-slate-200">
-          <p className="text-slate-400">Obligatorios cargados</p>
+          <p className="text-slate-400">{t('Requirements.labels.required_loaded')}</p>
           <p className="text-lg font-semibold text-white">{requiredLoaded}/{requiredTotal}</p>
         </div>
         <div className="rounded-xl border border-white/10 bg-slate-900/70 p-3 text-sm text-slate-200">
-          <p className="text-slate-400">Obligatorios pendientes</p>
+          <p className="text-slate-400">{t('Requirements.labels.required_pending')}</p>
           <p className="text-lg font-semibold text-white">{requiredPending}</p>
         </div>
         <div className="rounded-xl border border-white/10 bg-slate-900/70 p-3 text-sm text-slate-200">
-          <p className="text-slate-400">Opcionales cargados</p>
+          <p className="text-slate-400">{t('Requirements.labels.optional_loaded')}</p>
           <p className="text-lg font-semibold text-white">{optionalLoaded}</p>
         </div>
         <div className="rounded-xl border border-white/10 bg-slate-900/70 p-3 text-sm text-slate-200">
-          <p className="text-slate-400">Estado general</p>
-          <p className="text-sm font-semibold text-white">{generalStatusLabel(generalStatus)}</p>
+          <p className="text-slate-400">{t('Requirements.labels.general_status')}</p>
+          <p className="text-sm font-semibold text-white">{t(generalStatusLabel(generalStatus))}</p>
         </div>
       </div>
 
       <div className="space-y-2">
         <div className="flex items-center justify-between text-xs text-slate-300">
-          <span>Avance</span>
+          <span>{t('Requirements.labels.progress')}</span>
           <span>{Math.round(progress)}%</span>
         </div>
         <div className="h-2 w-full rounded-full bg-slate-800">
@@ -76,7 +78,7 @@ export function SummaryPanel({
             onClick={onSaveDraft}
             className="rounded-xl border border-white/15 px-4 py-2 text-sm font-semibold text-slate-200 hover:border-white/30"
           >
-            Guardar borrador
+            {t('Requirements.buttons.save_draft')}
           </button>
           <button
             type="button"
@@ -88,7 +90,7 @@ export function SummaryPanel({
                 : 'cursor-not-allowed border border-slate-700 bg-slate-800 text-slate-500'
             }`}
           >
-            Enviar documentos
+            {t('Requirements.buttons.send_documents')}
           </button>
         </div>
       )}

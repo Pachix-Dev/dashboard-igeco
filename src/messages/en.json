@@ -922,5 +922,170 @@
     "footer": {
       "note": "Have questions? Contact your sales advisor for more information about the Scan Leads module."
     }
+  },
+  "Requirements": {
+    "titles": {
+      "validation": "Document Validation",
+      "summary": "Documentation Summary",
+      "confirmation": "Submission Confirmation",
+      "design_mandatory": "Mandatory Design",
+      "admin_comment": "Administrator Comment"
+    },
+    "labels": {
+      "type": "Stand Type",
+      "required": "Required",
+      "optional": "Optional",
+      "answer": "Answer",
+      "answer_registered": "Registered answer:",
+      "updated": "Updated:",
+      "exhibitor_answer": "Exhibitor's answer:",
+      "file": "File:",
+      "status_label": "Status",
+      "stand_type": "Stand type:",
+      "total_documents": "Total documents:",
+      "required_loaded": "Required documents loaded:",
+      "required_pending": "Required documents pending:",
+      "optional_loaded": "Optional documents loaded:",
+      "deadline_label": "Document submission deadline:",
+      "size": "Size:",
+      "issue_date": "Issue date:",
+      "uploaded_by": "Uploaded by:",
+      "general_status": "General status",
+      "progress": "Progress"
+    },
+    "buttons": {
+      "load_file": "Load file",
+      "view": "View",
+      "download": "Download",
+      "replace": "Replace",
+      "delete": "Delete",
+      "save_comment": "Save comment",
+      "saving_comment": "Saving...",
+      "cancel": "Cancel",
+      "confirm_send": "Confirm submission",
+      "load_mounting_letter": "Upload mounting letter",
+      "save_draft": "Save draft",
+      "send_documents": "Submit documents"
+    },
+    "messages": {
+      "system": "System",
+      "admin_review": "Admin review",
+      "portal_exhibitor": "Exhibitor portal",
+      "exhibitor": "Exhibitor",
+      "my_requirements": "My file",
+      "manage_documents": "Manage the upload, review, and approval of documents according to the contracted stand type.",
+      "current_status": "Current general status:",
+      "required_documents": "Required documents",
+      "optional_documents": "Optional documents if needed",
+      "mounting_letter": "Mounting letter",
+      "mounting_letter_admin_info": "Mounting letter upload is enabled only when all required documents are approved.",
+      "mounting_letter_formats": "Allowed formats: PDF and DOCX. Maximum size: {maxSize} MB.",
+      "no_mounting_letter": "The mounting letter has not been issued yet.",
+      "available_when_review_complete": "Available when the admin review is complete.",
+      "authorized_documents_available": "Your documentation has been approved. The mounting letter is now available for review and download.",
+      "loading_requirements": "Loading file...",
+      "stand_change_confirm": "Changing the stand type will remove {count} document(s) that no longer apply:",
+      "stand_change_question": "Do you want to continue?",
+      "stand_type_updated": "Stand type updated successfully.",
+      "document_uploaded_success": "File uploaded successfully. Status updated to In review.",
+      "document_deleted_success": "File deleted.",
+      "reject_comment_required": "To reject, you must add a comment.",
+      "status_updated": "Status updated.",
+      "comment_saved": "Comment saved successfully.",
+      "design_response_registered": "Response registered.",
+      "design_response_updated": "Response updated.",
+      "draft_saved": "Draft saved successfully.",
+      "must_upload_file": "You must upload at least one file to send.",
+      "submit_success": "Submission recorded. The file is now under review.",
+      "mounting_letter_unavailable": "You cannot upload the mounting letter until all required documents are approved.",
+      "mounting_letter_confirm": "Confirm that you have reviewed the exhibitor's required documents and that all documents meet the requirements to approve the mounting.",
+      "mounting_letter_delete_confirm": "Confirm that you want to delete the mounting letter.",
+      "delete_authorized_confirm": "The document is already authorized. Do you confirm that you want to delete it?",
+      "mounting_letter_uploaded": "Mounting letter uploaded successfully.",
+      "mounting_letter_deleted": "Mounting letter deleted.",
+      "file_duplicated": "This file has already been uploaded in another document. Avoid accidental duplicates.",
+      "exhibitor_selection": "Select an exhibitor to review their file and validate their documents.",
+      "no_exhibitors": "No exhibitors in this section.",
+      "no_exhibitors_available": "No exhibitors available for review.",
+      "drag_drop_instruction": "Drag and drop your file here or use the selection buttons.",
+      "design_question": "Did you send the renders and design files for your stand to damian.arias@igeco.mx and daniela.torres@igeco.mx?",
+      "select_answer": "Select an answer",
+      "yes": "Yes",
+      "no": "No",
+      "pending": "Pending",
+      "comment_placeholder": "Example: Please upload the document signed by the legal representative.",
+      "comment_required": "If the status is Rejected, the comment is mandatory.",
+      "confirm_send_review": "Review the summary before submitting the exhibitor's documentation.",
+      "partial_send_warning": "You are about to submit your documentation partially. Some required documents are still pending upload and must be completed later.",
+      "section_buckets": {
+        "mounting_letter_sent": "Exhibitors with mounting letter sent",
+        "authorized": "Exhibitors with authorized file",
+        "pending_required": "Exhibitors with pending required documents",
+        "pending_optional": "Exhibitors with pending optional documents"
+      }
+    },
+    "status": {
+      "pending_upload": "Pending upload",
+      "in_review": "Under review",
+      "rejected": "Rejected",
+      "authorized": "Authorized",
+      "incomplete": "Incomplete documentation",
+      "in_review_general": "Documentation under review",
+      "with_observations": "Documentation with observations",
+      "authorized_general": "Documentation authorized",
+      "mounting_letter_issued": "Mounting letter issued"
+    },
+    "errors": {
+      "invalid_format": "Invalid file format. Only PDF or DOCX files are allowed.",
+      "file_too_large": "The file exceeds the maximum allowed size of ${MAX_FILE_SIZE_MB} MB.",
+      "cannot_load_list": "Could not load the exhibitors list",
+      "load_exhibitors_error": "Error loading exhibitors",
+      "cannot_load_requirements": "Could not load the file",
+      "load_requirements_error": "Error loading file",
+      "file_duplicated": "This file has already been uploaded to another document. Avoid accidental duplicates.",
+      "authorized_confirmed": "This document is already authorized. Replacing it will return it to Under review. Do you want to continue?"
+    },
+    "documents": {
+      "exhibitor_manual": {
+        "title": "Exhibitor manual signed by the legal representative",
+        "description": "Document signed by the legal representative of the exhibiting company."
+      },
+      "free_space_approval": {
+        "title": "Free space stand approval format",
+        "description": "Official format to validate the design of the free space stand."
+      },
+      "stand_render": {
+        "title": "Stand render with dimensions",
+        "description": "Render with measurements of height, width and depth."
+      },
+      "comfort_plus_design": {
+        "title": "Mandatory design",
+        "description": "Send the stand design files to damian.arias@igeco.mx and daniela.torres@igeco.mx. Include renders and visual material."
+      },
+      "comfort_plus_format": {
+        "title": "Stand Comfort Plus format",
+        "description": "Official Stand Comfort Plus format with designs and specifications."
+      },
+      "equipped_format": {
+        "title": "Equipped stand format",
+        "description": "Official format for equipped stand."
+      },
+      "machinery_exhibition": {
+        "title": "Machinery exhibition format",
+        "description": "Optional document to report machinery exhibition."
+      },
+      "activity_registry": {
+        "title": "Activity registry format",
+        "description": "Optional document for additional stand activities."
+      }
+    },
+    "standTypes": {
+      "free_space": "Free Space",
+      "comfort_plus": "Stand Comfort Plus",
+      "equipped": "Equipped Stand"
+    },
+    "deadline": {
+      "label": "30/10/2026"
+    }
   }
 }

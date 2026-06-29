@@ -47,10 +47,10 @@ export function formatDateTime(value?: string): string {
 }
 
 export function statusLabel(status: DocumentStatus): string {
-  if (status === 'pending_upload') return 'Pendiente de carga';
-  if (status === 'in_review') return 'En revision';
-  if (status === 'rejected') return 'Rechazado';
-  return 'Autorizado';
+  if (status === 'pending_upload') return 'Requirements.status.pending_upload';
+  if (status === 'in_review') return 'Requirements.status.in_review';
+  if (status === 'rejected') return 'Requirements.status.rejected';
+  return 'Requirements.status.authorized';
 }
 
 export function statusTone(status: DocumentStatus): string {
@@ -72,10 +72,10 @@ export function getDefinitionsByStand(stand: StandType): {
 export function validateFile(file: File, maxBytes = MAX_FILE_SIZE_BYTES): string | null {
   const ext = toExt(file.name);
   if (!ALLOWED_EXTENSIONS.includes(ext) || !ALLOWED_MIME_TYPES.includes(file.type)) {
-    return 'Formato de archivo no valido. Solo se permiten archivos PDF o DOCX.';
+    return 'Requirements.errors.invalid_format';
   }
   if (file.size > maxBytes) {
-    return `El archivo supera el limite maximo permitido de ${MAX_FILE_SIZE_MB} MB.`;
+    return `Requirements.errors.file_too_large`;
   }
   return null;
 }
@@ -113,11 +113,11 @@ export function computeGeneralStatus(
 }
 
 export function generalStatusLabel(status: GeneralStatus): string {
-  if (status === 'incomplete') return 'Documentacion incompleta';
-  if (status === 'in_review') return 'Documentacion en revision';
-  if (status === 'with_observations') return 'Documentacion con observaciones';
-  if (status === 'authorized') return 'Documentacion autorizada';
-  return 'Carta de montaje emitida';
+  if (status === 'incomplete') return 'Requirements.status.incomplete';
+  if (status === 'in_review') return 'Requirements.status.in_review_general';
+  if (status === 'with_observations') return 'Requirements.status.with_observations';
+  if (status === 'authorized') return 'Requirements.status.authorized_general';
+  return 'Requirements.status.mounting_letter_issued';
 }
 
 export function canAdminUploadMountingLetter(requiredDocs: DocumentState[]): boolean {
