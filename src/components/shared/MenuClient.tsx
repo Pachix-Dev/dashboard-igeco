@@ -242,7 +242,7 @@ export default function MenuClient({ translations, role, languageSelector }: { t
                     </svg>
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link onClick={handleNavigate} href="/dashboard/scan-leads" className={getLinkClasses('/dashboard/scan-leads')}>
                     <div className="flex items-center gap-3">
                       <span className="grid h-9 w-9 place-items-center rounded-xl bg-white/5 text-slate-200 ring-1 ring-white/10">
@@ -257,7 +257,7 @@ export default function MenuClient({ translations, role, languageSelector }: { t
                       <path strokeLinecap="round" strokeLinejoin="round" d="m9 5 7 7-7 7" />
                     </svg>
                   </Link>
-                </li>
+                </li> */}
               </ul>
             </>
           )}
