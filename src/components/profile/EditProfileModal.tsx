@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Image from 'next/image';
 import { createPortal } from 'react-dom';
 import { useTranslations } from 'next-intl';
+import { EVENT_OPTIONS } from '@/lib/events';
 
 export default function EditProfileModal({ profile, onClose }: { profile: any; onClose: () => void }) {
   const { notify } = useToaster();
@@ -232,9 +233,11 @@ export default function EditProfileModal({ profile, onClose }: { profile: any; o
                         className="w-full rounded-lg bg-slate-800 border border-slate-700 px-3 py-2 text-white focus:border-blue-500 focus:outline-none"
                     >
                         <option value="">{t('form.eventSelect')}</option>
-                        <option value="ECOMONDO">ECOMONDO</option>
-                        <option value="RE+ MEXICO">RE+ MEXICO</option>
-                        <option value="SMART TECHNOLOGY EXPO">SMART TECHNOLOGY EXPO</option>
+                        {EVENT_OPTIONS.map((eventName) => (
+                          <option key={eventName} value={eventName}>
+                            {eventName}
+                          </option>
+                        ))}
                     </select>
                     {errors.event && <p className="mt-1 text-xs text-red-400">{String(errors.event.message)}</p>}
                     </div>

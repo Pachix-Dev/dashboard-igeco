@@ -1,8 +1,9 @@
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 import { getDashboardSession, getGlobalStats } from '@/lib/actions/exhibitors';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { AccountDisableLight } from '@/components/shared/AccountDisableLight';
+import { getEventDetails, getSupportedLocale } from '@/lib/events';
 
 export const dynamic = 'force-dynamic';
 
@@ -14,6 +15,8 @@ export default async function Dashboard() {
   }
 
   const t = await getTranslations('Dashboard');
+  const locale = getSupportedLocale(await getLocale());
+  const eventDetails = getEventDetails(session.event);
 
   // Obtener stats globales si es admin
   const globalStats = session.role === 'admin' ? await getGlobalStats() : null;
@@ -155,10 +158,10 @@ export default async function Dashboard() {
                   {t('stats.dates')}
                 </p>
                 <p className="mt-1 text-lg font-bold text-white">
-                  {t('stats.eventDates')}
+                  {eventDetails ? eventDetails.dates[locale] : t('stats.noData')}
                 </p>
                 <p className="mt-0.5 text-sm text-slate-300">
-                  {t('stats.venue')}
+                  {eventDetails ? eventDetails.venue[locale] : t('stats.noData')}
                 </p>
               </div>
             </div>

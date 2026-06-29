@@ -8,6 +8,7 @@ import { createPortal } from 'react-dom'
 import { updateUserAction } from '@/lib/actions/users'
 import { v4 as uuidv4 } from 'uuid'
 import Image from 'next/image'
+import { EVENT_OPTIONS } from '@/lib/events'
 
 export function EditUser({ user, onUserUpdated }) {
   const t = useTranslations('UsersPage')
@@ -315,9 +316,11 @@ export function EditUser({ user, onUserUpdated }) {
                         <option value='' disabled>
                           {t('form.select')}
                         </option>
-                        <option value='ECOMONDO'>ECOMONDO</option>
-                        <option value='RE+ MEXICO'>RE+ MEXICO</option>
-                        <option value='SMART TECHNOLOGY EXPO'>SMART TECHNOLOGY EXPO</option>
+                        {EVENT_OPTIONS.map((eventName) => (
+                          <option key={eventName} value={eventName}>
+                            {eventName}
+                          </option>
+                        ))}
                       </select>
                       {errors.event && (
                         <p className='text-sm text-rose-400'>

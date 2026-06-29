@@ -8,6 +8,7 @@ import { LoadingOverlay } from '../shared/Loading'
 import { createUserAction } from '@/lib/actions/users'
 import { v4 as uuidv4 } from 'uuid'
 import Image from 'next/image'
+import { EVENT_OPTIONS } from '@/lib/events'
 
 export function AddUser({ onUserCreated }) {
   const t = useTranslations('UsersPage')
@@ -412,9 +413,11 @@ export function AddUser({ onUserCreated }) {
                       <option value='' disabled>
                         {t('form.select')}
                       </option>
-                      <option value='ECOMONDO'>ECOMONDO</option>
-                      <option value='RE+ MEXICO'>RE+ MEXICO</option>
-                      <option value='SMART TECHNOLOGY EXPO'>SMART TECHNOLOGY EXPO</option>
+                      {EVENT_OPTIONS.map((eventName) => (
+                        <option key={eventName} value={eventName}>
+                          {eventName}
+                        </option>
+                      ))}
                     </select>
                     {errors.event && (
                       <p className='text-sm text-rose-400'>

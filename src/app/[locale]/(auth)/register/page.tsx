@@ -4,6 +4,7 @@ import {useLocale, useTranslations} from 'next-intl';
 import {useRouter} from '@/i18n/routing';
 import {useState} from 'react';
 import Link from 'next/link';
+import { EVENT_OPTIONS } from '@/lib/events';
 
 export default function Register() {
   const t = useTranslations('Register');
@@ -178,9 +179,11 @@ export default function Register() {
                   className="w-full rounded-lg border border-white border-opacity-30 bg-white bg-opacity-10 py-3 pl-10 pr-10 text-white transition-all focus:border-blue-500 focus:bg-opacity-20 focus:outline-none appearance-none"
                 >
                   <option value="" className="bg-gray-800">{t('selectEvent')}</option>
-                  <option value="ECOMONDO" className="bg-gray-800">ECOMONDO</option>
-                  <option value="RE+ MEXICO" className="bg-gray-800">RE+ MEXICO</option>
-                  <option value="SMART TECHNOLOGY EXPO" className="bg-gray-800">SMART TECHNOLOGY EXPO</option>
+                  {EVENT_OPTIONS.map((eventName) => (
+                    <option key={eventName} value={eventName} className="bg-gray-800">
+                      {eventName}
+                    </option>
+                  ))}
                 </select>
                 <svg
                   className="absolute right-3 top-3.5 h-5 w-5 text-gray-400 pointer-events-none"
