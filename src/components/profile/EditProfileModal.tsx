@@ -234,6 +234,7 @@ export default function EditProfileModal({ profile, onClose }: { profile: any; o
                         <option value="">{t('form.eventSelect')}</option>
                         <option value="ECOMONDO">ECOMONDO</option>
                         <option value="RE+ MEXICO">RE+ MEXICO</option>
+                        <option value="SMART TECHNOLOGY EXPO">SMART TECHNOLOGY EXPO</option>
                     </select>
                     {errors.event && <p className="mt-1 text-xs text-red-400">{String(errors.event.message)}</p>}
                     </div>

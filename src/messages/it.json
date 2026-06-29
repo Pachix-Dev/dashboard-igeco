@@ -75,7 +75,7 @@
     "noDescription": "Nessuna descrizione disponibile.",
     "labels": {
       "company": "Azienda",
-      "stand": "Stand",
+      "stand": "Numero dello stand",
       "event": "Evento",
       "description": "Descrizione"
     }
@@ -268,7 +268,7 @@
     "fields": {
       "company": "Azienda",
       "event": "Evento",
-      "stand": "Stand",
+      "stand": "Numero dello stand",
       "address": "Indirizzo",
       "webpage": "Sito Web",
       "description": "Descrizione",
@@ -290,7 +290,7 @@
         "event": "Evento",
         "eventRequired": "Evento è richiesto",
         "eventSelect": "--",
-        "stand": "Stand",
+        "stand": "Numero dello stand",
         "address": "Indirizzo",        
         "description": "Descrizione (ES)",
         "description_en": "Descrizione (EN)",
@@ -390,7 +390,7 @@
       "companyPlaceholder": "Es: IGECO Mexico",
       "email": "Email",
       "emailPlaceholder": "email@azienda.com",
-      "stand": "Stand",
+      "stand": "Numero dello stand",
       "standPlaceholder": "Es: A-123",
       "password": "Password",
       "passwordPlaceholder": "Minimo 6 caratteri",

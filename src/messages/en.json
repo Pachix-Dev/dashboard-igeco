@@ -76,7 +76,7 @@
     "noDescription": "No description available.",
     "labels": {
       "company": "Company",
-      "stand": "Stand",
+      "stand": "Booth number",
       "event": "Event",
       "description": "Description"
     }
@@ -462,7 +462,7 @@
     "fields": {
       "company": "Company",
       "event": "Event",
-      "stand": "Stand",
+      "stand": "Booth number",
       "address": "Address",
       "webpage": "Website",
       "description": "Description",
@@ -484,7 +484,7 @@
         "event": "Event",
         "eventRequired": "Event is required",
         "eventSelect": "--",
-        "stand": "Stand",
+        "stand": "Booth number",
         "address": "Address",        
         "description": "Description (ES)",
         "description_en": "Description (EN)",
@@ -535,7 +535,7 @@
       "companyPlaceholder": "e.g. IGECO Mexico",
       "email": "Email",
       "emailPlaceholder": "email@company.com",
-      "stand": "Stand",
+      "stand": "Booth number",
       "standPlaceholder": "e.g. A-123",
       "password": "Password",
       "passwordPlaceholder": "At least 6 characters",

@@ -414,6 +414,7 @@ export function AddUser({ onUserCreated }) {
                       </option>
                       <option value='ECOMONDO'>ECOMONDO</option>
                       <option value='RE+ MEXICO'>RE+ MEXICO</option>
+                      <option value='SMART TECHNOLOGY EXPO'>SMART TECHNOLOGY EXPO</option>
                     </select>
                     {errors.event && (
                       <p className='text-sm text-rose-400'>
