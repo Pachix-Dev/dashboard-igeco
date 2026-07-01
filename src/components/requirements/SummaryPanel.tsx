@@ -37,11 +37,6 @@ export function SummaryPanel({
     <section className="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-5">
       <h3 className="text-lg font-semibold text-white">{t('Requirements.titles.summary')}</h3>
 
-      <div className="rounded-xl border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-100">
-        <span className="mr-1 font-semibold">{t('Requirements.labels.deadline_label')}</span>
-        {deadlineLabel}
-      </div>
-
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-xl border border-white/10 bg-slate-900/70 p-3 text-sm text-slate-200">
           <p className="text-slate-400">{t('Requirements.labels.required_loaded')}</p>

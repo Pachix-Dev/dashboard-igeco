@@ -635,15 +635,21 @@ export function RequirementsWorkspace({
         <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">
           {role === 'admin' ? t('Requirements.messages.admin_review') : t('Requirements.messages.portal_exhibitor')}
         </p>
-        <h2 className="text-2xl font-bold text-white">
-          {role === 'admin' ? `${t('Requirements.titles.validation')} - ${exhibitorName || t('Requirements.messages.exhibitor')}` : t('Requirements.messages.my_requirements')}
+        <h2 className="text-2xl font-bold text-white uppercase">
+          {role === 'admin' ? `${exhibitorName || t('Requirements.messages.exhibitor')}` : t('Requirements.messages.my_requirements')}
         </h2>
-        <p className="text-sm text-slate-400">
+        <p className="text-base text-slate-400">
           {t('Requirements.messages.manage_documents')}
         </p>
-        <p className="text-xs text-slate-500">
+        {/* <p className="text-base text-slate-500">
           {t('Requirements.messages.current_status')} {t(generalStatusLabelText)}
-        </p>
+        </p> */}
+        <div className="mt-3 rounded-xl border border-amber-400/40 bg-amber-500/10 px-4 py-3 text-sm font-medium text-amber-400">
+          <svg xmlns="http://www.w3.org/2000/svg" className="inline h-4 w-4 mr-1 -mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v4a1 1 0 001 1h2a1 1 0 100-2h-1V7z" clipRule="evenodd" />
+          </svg>
+          {t('Requirements.deadline.documentationRegistration')}
+        </div>
       </header>
 
       <StandTypeSelector value={standType} onChange={handleStandChange} disabled={!allowStandSelection} />

@@ -40,9 +40,18 @@
       "exhibitors": "Espositori",
       "sessions": "Sessioni",
       "dates": "Date",
-      "eventDates": "14 - 16 aprile 2026",
+      "eventDates": "18 al 20 novembre 2026",
       "venue": "Expo Guadalajara, Jalisco",
       "noData": "Non assegnato"
+    },
+    "officialDates": {
+      "title": "Cronogramma operativo dell'evento",
+      "mountingLabel": "Allestimento",
+      "eventLabel": "Evento",
+      "dismantlingLabel": "Smontaggio",
+      "mountingDate": "15 al 17 novembre 2026",
+      "eventDate": "18 al 20 novembre 2026",
+      "dismantlingDate": "20 al 21 novembre 2026"
     },
     "points": {
       "1": "La consegna dei badge per gli espositori avrà luogo il giorno 17 novembre a partire dalle ore 12:00 presso il modulo di assistenza agli espositori. Per ritirare il badge è obbligatorio presentare un documento d'identità valido.",
@@ -122,7 +131,10 @@
       "error": "Errore nell'aggiornamento dell'espositore"
     },
     "badge": "{count} attivi",
-    "subtitle": "Ricorda che hai tempo fino al 3 aprile 2026 per registrare i tuoi espositori ed evitare code il giorno dell'evento.",
+    "subtitle": "Registra i tuoi espositori e il personale di supporto entro la scadenza per facilitare l'ingresso.",
+    "deadlines": {
+      "badgesRegistration": "Data limite per registrare i badge: 30/10/2026"
+    },
     "stat": {
       "label": "Espositori",
       "desc": "Totale registrati"
@@ -1089,7 +1101,8 @@
       "equipped": "Stand Attrezzato"
     },
     "deadline": {
-      "label": "30/10/2026"
+      "label": "16/10/2026",
+      "documentationRegistration": "Registrazione della documentazione : 16/10/2026"
     }
   }
 }

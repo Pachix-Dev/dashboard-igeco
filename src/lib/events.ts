@@ -43,7 +43,7 @@ const EVENT_DETAILS: Record<EventName, EventDetails> = {
   'SMART TECHNOLOGY EXPO': {
     name: 'SMART TECHNOLOGY EXPO',
     dates: {
-      es: '18 - 20  de noviembre 2026',
+      es: '18 - 20 de noviembre de 2026',
       en: 'November 18 - 20, 2026',
       it: '18 - 20 novembre 2026'
     },

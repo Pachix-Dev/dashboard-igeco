@@ -63,34 +63,52 @@ export function ExhibitorsClient({
         <header className="flex flex-col gap-4">
           <div className="space-y-1">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
-              {t('panel')}
+              {t("panel")}
             </p>
             <div className="flex items-end gap-3">
-              <h1 className="text-3xl font-bold text-white">{t('title')}</h1>
+              <h1 className="text-3xl font-bold text-white">{t("title")}</h1>
               <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-200 text-center">
-                {t('badge', {count: totalExhibitors})}
+                {t("badge", { count: totalExhibitors })}
               </span>
             </div>
-            <p className="text-sm text-amber-400">{t('subtitle')}</p>
+          </div>
+
+          <div className="rounded-xl border border-amber-400/40 bg-amber-500/10 px-4 py-3 text-sm font-medium text-amber-400">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="inline h-4 w-4 mr-1 -mt-0.5"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v4a1 1 0 001 1h2a1 1 0 100-2h-1V7z"
+                clipRule="evenodd"
+              />
+            </svg>
+            {t("deadlines.badgesRegistration")}
+          </div>
+          <div>
+            <p className="text-base text-white">{t("subtitle")}</p>
           </div>
 
           {/* Stats Grid */}
-          <ExhibitorStats 
+          <ExhibitorStats
             total={totalExhibitors}
             maxExhibitors={maxExhibitors}
             remaining={stats.remaining}
             usagePercentage={(totalExhibitors / maxExhibitors) * 100}
             translations={{
-              registered: t('stats.registered'),
-              limit: t('stats.limit'),
-              remaining: t('stats.remaining'),
-              usage: t('stats.usage'),
+              registered: t("stats.registered"),
+              limit: t("stats.limit"),
+              remaining: t("stats.remaining"),
+              usage: t("stats.usage"),
             }}
           />
 
           {/* Action buttons */}
           <div className="grid grid-cols-2 md:flex md:flex-wrap justify-end gap-3">
-            <AddExhibitor 
+            <AddExhibitor
               userId={userId}
               onExhibitorAdded={handleExhibitorAdded}
               maxExhibitors={maxExhibitors}
@@ -101,19 +119,19 @@ export function ExhibitorsClient({
               currentTotal={totalExhibitors}
               maxExhibitors={maxExhibitors}
               onPurchaseComplete={handlePurchaseComplete}
-            />            
+            />
           </div>
         </header>
 
         <div className="rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl shadow-blue-500/5 backdrop-blur">
-          <ListExhibitors 
-            exhibitors={exhibitors} 
+          <ListExhibitors
+            exhibitors={exhibitors}
             userId={userId}
             role={role}
-            onExhibitorUpdated={handleExhibitorUpdated} 
+            onExhibitorUpdated={handleExhibitorUpdated}
           />
         </div>
       </section>
     </main>
-  )
+  );
 }

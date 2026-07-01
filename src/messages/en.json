@@ -40,9 +40,18 @@
       "exhibitors": "Exhibitors",
       "sessions": "Sessions",
       "dates": "Dates",
-      "eventDates": "April 14 - 16, 2026",
+      "eventDates": "November 18 to 20, 2026",
       "venue": "Expo Guadalajara, Jalisco",
       "noData": "Not assigned"
+    },
+    "officialDates": {
+      "title": "Official Dates",
+      "mountingLabel": "Setup",
+      "eventLabel": "Event",
+      "dismantlingLabel": "Dismantling",
+      "mountingDate": "November 15 to 17, 2026",
+      "eventDate": "November 18 to 20, 2026",
+      "dismantlingDate": "November 20 to 21, 2026"
     },
     "points": {
       "1": "Exhibitor badges will be delivered starting November 17 at 12:00 PM at the exhibitor registration module. Remember to bring an official ID.",
@@ -195,7 +204,10 @@
       "error": "Error updating exhibitor"
     },
     "badge": "{count} active",
-    "subtitle": "Remember you have until April 3 2026 to register your exhibitors and avoid lines on the event day.",
+    "subtitle": "Please register your exhibitors and support staff before the deadline to ensure faster entry.",
+    "deadlines": {
+      "badgesRegistration": "Deadline to register badges: 30/10/2026"
+    },
     "stat": {
       "label": "Exhibitors",
       "desc": "Total registered"
@@ -1089,7 +1101,8 @@
       "equipped": "Equipped Stand"
     },
     "deadline": {
-      "label": "30/10/2026"
+      "label": "16/10/2026",
+      "documentationRegistration": "Deadline for documentation registration : 16/10/2026"
     }
   }
 }

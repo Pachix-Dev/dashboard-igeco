@@ -166,9 +166,42 @@ export default async function Dashboard() {
               </div>
             </div>
           </div>
-
-          
         </div>
+
+        <section className="rounded-2xl border border-cyan-400/30 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 p-6 shadow-lg shadow-cyan-500/10">
+          <div className="flex items-start gap-4">
+            <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-cyan-500/20 text-cyan-300">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="h-6 w-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M8.25 6.75h7.5M8.25 12h7.5m-7.5 5.25h7.5M3.75 6.75h.008v.008H3.75V6.75Zm0 5.25h.008v.008H3.75V12Zm0 5.25h.008v.008H3.75v-.008Z"
+                />
+              </svg>
+            </div>
+            <div className="w-full">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300">{t('officialDates.title')}</p>
+              <div className="mt-3 grid gap-2 text-sm text-slate-100 md:grid-cols-3">
+                <p className="rounded-xl border border-white/10 bg-black/20 px-3 py-2">
+                  <span className="font-semibold text-cyan-200">{t('officialDates.mountingLabel')} : </span> {t('officialDates.mountingDate')}
+                </p>
+                <p className="rounded-xl border border-white/10 bg-black/20 px-3 py-2">
+                  <span className="font-semibold text-cyan-200">{t('officialDates.eventLabel')} : </span> {t('officialDates.eventDate')}
+                </p>
+                <p className="rounded-xl border border-white/10 bg-black/20 px-3 py-2">
+                  <span className="font-semibold text-cyan-200">{t('officialDates.dismantlingLabel')} : </span> {t('officialDates.dismantlingDate')}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* Global Stats - Admin Only */}
         {session.role === 'admin' && globalStats && (

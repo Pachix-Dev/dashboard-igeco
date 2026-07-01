@@ -40,9 +40,18 @@
       "exhibitors": "Expositores",
       "sessions": "Sesiones",
       "dates": "Fechas",
-      "eventDates": "14 - 16 de abril 2026",
+      "eventDates": "18 al 20 de noviembre de 2026",
       "venue": "Expo Guadalajara, Jalisco",
       "noData": "No asignado"
+    },
+    "officialDates": {
+      "title": "Cronograma operativo del evento",
+      "mountingLabel": "Montaje",
+      "eventLabel": "Evento",
+      "dismantlingLabel": "Desmontaje",
+      "mountingDate": "15 al 17 de noviembre de 2026",
+      "eventDate": "18 al 20 de noviembre de 2026",
+      "dismantlingDate": "20 al 21 de noviembre de 2026"
     },
     "points": {
       "1": "La entrega de gafetes para expositores se llevará a cabo el día 17 de noviembre, a partir de las 12:00 hrs, en el módulo de atención a expositores, deberas presentar una identificación oficial.",
@@ -93,7 +102,10 @@
     "panel": "Panel",
     "title": "Gafetes de expositores",
     "badge": "{count} activos",
-    "subtitle": "Recuerda que tienes hasta el 3 de abril 2026 para registrar a tus expositores y evitar filas el día del evento.",
+    "subtitle": "Registra a tus expositores y personal de apoyo antes de la fecha límite para agilizar el acceso al evento.",
+    "deadlines": {
+      "badgesRegistration": "Fecha límite para registrar gafetes: 30/10/2026"
+    },
     "stat": {
       "label": "Expositores",
       "desc": "Total registrados"
@@ -1090,7 +1102,8 @@
       "equipped": "Stand Equipado"
     },
     "deadline": {
-      "label": "30/10/2026"
+      "label": "16/10/2026",
+      "documentationRegistration": "Fecha limite para completar expediente : 16/10/2026"
     }
   }
 }
