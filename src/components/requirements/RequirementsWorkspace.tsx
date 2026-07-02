@@ -31,6 +31,7 @@ type RequirementsWorkspaceProps = {
   role: RoleType;
   currentUserName: string;
   exhibitorName?: string;
+  exhibitorCompany?: string;
   initialStand?: StandType;
   targetUserId?: number;
   allowStandSelection?: boolean;
@@ -144,6 +145,7 @@ export function RequirementsWorkspace({
   role,
   currentUserName,
   exhibitorName,
+  exhibitorCompany,
   initialStand = 'free_space',
   targetUserId,
   allowStandSelection = true
@@ -636,8 +638,8 @@ export function RequirementsWorkspace({
           {role === 'admin' ? t('Requirements.messages.admin_review') : t('Requirements.messages.portal_exhibitor')}
         </p>
         <h2 className="text-2xl font-bold text-white uppercase">
-          {role === 'admin' ? `${exhibitorName || t('Requirements.messages.exhibitor')}` : t('Requirements.messages.my_requirements')}
-        </h2>
+          {role === 'admin' ? `${exhibitorCompany || t('Requirements.messages.exhibitor')}` : t('Requirements.messages.my_requirements')} / <span className='text-slate-400'>{role === 'admin' ? `${exhibitorName}` : ""}</span>
+        </h2> 
         <p className="text-base text-slate-400">
           {t('Requirements.messages.manage_documents')}
         </p>

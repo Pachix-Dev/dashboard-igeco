@@ -187,6 +187,7 @@ export function AdminDocumentReview({ adminName }: AdminDocumentReviewProps) {
           role="admin"
           currentUserName={adminName}
           exhibitorName={selected.name}
+          exhibitorCompany={selected.company}
           initialStand={selected.standType}
           targetUserId={selected.id}
           allowStandSelection={false}
