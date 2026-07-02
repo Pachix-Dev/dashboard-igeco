@@ -156,8 +156,8 @@ export function AdminDocumentReview({ adminName }: AdminDocumentReviewProps) {
                               : 'border-white/10 bg-slate-900/60 text-slate-200 hover:border-white/25'
                           }`}
                         >
-                          <p className="text-sm font-semibold">{item.name}</p>
-                          <p className="text-xs text-slate-400">{item.company}</p>
+                          <p className="text-sm font-semibold uppercase">{item.company}</p>
+                          <p className="text-xs text-slate-400">{item.name}</p>
                           <p className="mt-1 text-xs text-slate-500">{item.event}</p>
                           <p className="mt-1 text-[11px] text-slate-500">
                             {item.requiredPending > 0
