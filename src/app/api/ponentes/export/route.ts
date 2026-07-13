@@ -5,7 +5,7 @@ import db from '@/lib/db';
 export async function GET() {
   try {
     const [rows]: any = await db.query(
-      `SELECT name, position, position_esp, position_eng, company, bio_esp, bio_eng, photo, impresiones, estatus, created_at
+      `SELECT name, position, position_esp, position_eng, company, company_eng, bio_esp, bio_eng, photo, impresiones, estatus, created_at
        FROM ponentes
        WHERE estatus = 1
        ORDER BY name ASC`
@@ -15,6 +15,7 @@ export async function GET() {
       Nombre: String(item.name ?? '').trim().split(/\s+/).slice(0, -1).join(' ') || item.name || '',
       Apellido: String(item.name ?? '').trim().split(/\s+/).slice(-1).join(' ') || '',
       Empresa: item.company ?? '',
+      'Company (EN)': item.company_eng ?? '',
       'Cargo / Puesto (ES)': item.position_esp ?? item.position ?? '',
       'Position / Role (EN)': item.position_eng ?? '',
       'Bio Español': item.bio_esp ?? '',
@@ -27,6 +28,7 @@ export async function GET() {
     worksheet['!cols'] = [
       { wch: 28 },
       { wch: 24 },
+      { wch: 28 },
       { wch: 28 },
       { wch: 42 },
       { wch: 42 },

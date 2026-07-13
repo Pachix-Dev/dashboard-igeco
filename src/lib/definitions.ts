@@ -36,6 +36,7 @@ export type Ponentes = {
     position_esp?: string;
     position_eng?: string;
     company?: string;
+    company_eng?: string;
     email?: string;
     bio_esp?: string;
     bio_eng?: string;

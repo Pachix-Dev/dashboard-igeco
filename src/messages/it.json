@@ -590,6 +590,8 @@
       "positionEnPlaceholder": "Es: Marketing Director",
       "company": "Azienda",
       "companyPlaceholder": "Es: IGECO",
+      "companyEn": "Azienda (Inglese)",
+      "companyEnPlaceholder": "Es: IGECO Inc.",
       "linkedin": "URL LinkedIn",
       "phone": "Telefono",
       "email": "Email",

@@ -13,6 +13,7 @@ export function AddPonentes({ onPonenteAdded }) {
     position_esp: '',
     position_eng: '',
     company: '',
+    company_eng: '',
     bio_esp: '',
     bio_eng: '',
     photo: '',
@@ -46,6 +47,7 @@ export function AddPonentes({ onPonenteAdded }) {
           position_esp: data.position_esp,
           position_eng: data.position_eng,
           company: data.company,
+          company_eng: data.company_eng,
           bio_esp: data.bio_esp,
           bio_eng: data.bio_eng,
           photo: '',
@@ -97,6 +99,7 @@ export function AddPonentes({ onPonenteAdded }) {
         position_esp: data.position_esp,
         position_eng: data.position_eng,
         company: data.company,
+        company_eng: data.company_eng,
         email: data.email,
         bio_esp: data.bio_esp,
         bio_eng: data.bio_eng,
@@ -119,6 +122,7 @@ export function AddPonentes({ onPonenteAdded }) {
         position_esp: '',
         position_eng: '',
         company: '',
+        company_eng: '',
         bio_esp: '',
         bio_eng: '',
         photo: '',
@@ -202,6 +206,28 @@ export function AddPonentes({ onPonenteAdded }) {
                   {errors.company && (
                     <p className='text-sm text-rose-400'>
                       {errors.company.message}
+                    </p>
+                  )}
+                </div>
+
+                <div className='space-y-2'>
+                  <label className='text-sm font-semibold text-slate-200'>
+                    {t('form.companyEn')}
+                  </label>
+                  <input
+                    type='text'
+                    name='company_eng'
+                    {...register('company_eng', {
+                      required: t('form.errors.required'),
+                      onChange: handleChange,
+                    })}
+                    defaultValue={formData.company_eng}
+                    className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-fuchsia-400/60 focus:outline-none'
+                    placeholder={t('form.companyEnPlaceholder')}
+                  />
+                  {errors.company_eng && (
+                    <p className='text-sm text-rose-400'>
+                      {errors.company_eng.message}
                     </p>
                   )}
                 </div>

@@ -155,6 +155,8 @@
       "positionEnPlaceholder": "e.g. Marketing Director",
       "company": "Company",
       "companyPlaceholder": "e.g. IGECO",
+      "companyEn": "Company (English)",
+      "companyEnPlaceholder": "e.g. IGECO Inc.",
       "linkedin": "LinkedIn URL",
       "phone": "Phone",
       "email": "Email",

@@ -16,6 +16,7 @@ export function EditPonentes({ ponente, onPonenteUpdated }) {
     position_esp: ponente.position_esp ?? ponente.position,
     position_eng: ponente.position_eng,
     company: ponente.company,
+    company_eng: ponente.company_eng,
     bio_esp: ponente.bio_esp,
     bio_eng: ponente.bio_eng,
     photo: ponente.photo,
@@ -83,6 +84,7 @@ export function EditPonentes({ ponente, onPonenteUpdated }) {
         position_esp: data.position_esp,
         position_eng: data.position_eng,
         company: data.company,
+        company_eng: data.company_eng,
         bio_esp: data.bio_esp,
         bio_eng: data.bio_eng,
         photo: imagePath,
@@ -285,6 +287,38 @@ export function EditPonentes({ ponente, onPonenteUpdated }) {
                               />
                             </svg>
                             {errors.company.message}
+                          </p>
+                        )}
+                      </div>
+
+                      <div>
+                        <label className='block text-sm font-semibold text-slate-300 mb-2'>
+                          Company (English)
+                        </label>
+                        <input
+                          type='text'
+                          {...register('company_eng', {
+                            required: 'La empresa en inglés es requerida',
+                            onChange: (e) => handleChange(e),
+                          })}
+                          defaultValue={formData.company_eng}
+                          className='w-full px-4 py-2.5 bg-slate-800/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all'
+                          placeholder='Ex: IGECO Inc.'
+                        />
+                        {errors.company_eng && (
+                          <p className='text-red-400 text-sm mt-1 flex items-center gap-1'>
+                            <svg
+                              className='w-4 h-4'
+                              fill='currentColor'
+                              viewBox='0 0 20 20'
+                            >
+                              <path
+                                fillRule='evenodd'
+                                d='M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z'
+                                clipRule='evenodd'
+                              />
+                            </svg>
+                            {errors.company_eng.message}
                           </p>
                         )}
                       </div>
