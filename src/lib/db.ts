@@ -153,7 +153,7 @@ export async function fetchExhibitors(): Promise<Exhibitor[]> {
 export async function fetchPonenetes(): Promise<Ponentes[]> {        
     try {
         const query = 
-        'SELECT s.id, s.uuid, s.name AS speaker_name, s.position, s.company, s.bio_esp, s.bio_eng, s.photo, s.impresiones, s.estatus ' + 
+        'SELECT s.id, s.uuid, s.name AS speaker_name, COALESCE(s.position_esp, s.position) AS position, s.position_esp, s.position_eng, s.company, s.bio_esp, s.bio_eng, s.photo, s.impresiones, s.estatus ' + 
         'FROM ponentes s WHERE s.estatus = 1 ORDER BY s.name ASC';
 
         const [rows] = await db.query(query);

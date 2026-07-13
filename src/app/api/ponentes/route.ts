@@ -6,7 +6,8 @@ import { RowDataPacket } from 'mysql2';
 
 interface PonenteData {
   name: string;
-  position: string;
+  position_esp: string;
+  position_eng: string;
   company: string;
   bio_esp?: string;
   bio_eng?: string;
@@ -20,7 +21,7 @@ export async function GET(req: Request) {
     const hasStatusFilter = status === '0' || status === '1';
     const params: Array<string | number> = [];
     let query =
-      'SELECT id, uuid, name AS speaker_name, position, company, photo, bio_esp, bio_eng, impresiones, estatus FROM ponentes';
+      'SELECT id, uuid, name AS speaker_name, COALESCE(position_esp, position) AS position, position_esp, position_eng, company, photo, bio_esp, bio_eng, impresiones, estatus FROM ponentes';
 
     if (hasStatusFilter) {
       query += ' WHERE estatus = ?';
@@ -48,19 +49,20 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
-    const { name, position, company, bio_esp, bio_eng, photo } = await req.json() as PonenteData;
+    const { name, position_esp, position_eng, company, bio_esp, bio_eng, photo } = await req.json() as PonenteData;
 
     // Validar campos requeridos
-    if (!name || !position || !company) {
+    if (!name || !position_esp || !position_eng || !company) {
       return NextResponse.json(
-        { message: 'Los campos nombre, posición y empresa son requeridos' },
+        { message: 'Los campos nombre, cargo en español, cargo en inglés y empresa son requeridos' },
         { status: 400 }
       );
     }
 
     // Sanitizar inputs
     const sanitizedName = sanitizeString(name, 100);
-    const sanitizedPosition = sanitizeString(position, 100);
+    const sanitizedPositionEsp = sanitizeString(position_esp, 100);
+    const sanitizedPositionEng = sanitizeString(position_eng, 100);
     const sanitizedCompany = sanitizeString(company, 100);
     const sanitizedBioEsp = bio_esp ? sanitizeHTML(bio_esp, 5000) : null;
     const sanitizedBioEng = bio_eng ? sanitizeHTML(bio_eng, 5000) : null;
@@ -76,8 +78,8 @@ export async function POST(req: Request) {
     const uuid = uuidv4(); // Generar UUID único
 
     const [result]: any = await db.query(
-      'INSERT INTO ponentes (name, position, company, bio_esp, bio_eng, photo, uuid, estatus) VALUES (?, ?, ?, ?, ?, ?, ?, 1)',
-      [sanitizedName, sanitizedPosition, sanitizedCompany, sanitizedBioEsp, sanitizedBioEng, photo, uuid]
+      'INSERT INTO ponentes (name, position, position_esp, position_eng, company, bio_esp, bio_eng, photo, uuid, estatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1)',
+      [sanitizedName, sanitizedPositionEsp, sanitizedPositionEsp, sanitizedPositionEng, sanitizedCompany, sanitizedBioEsp, sanitizedBioEng, photo, uuid]
     );
          
     return NextResponse.json(

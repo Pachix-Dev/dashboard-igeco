@@ -10,7 +10,8 @@ export function AddPonentes({ onPonenteAdded }) {
   const t = useTranslations('SpeakersPage')
   const [formData, setFormData] = useState({
     name: '',
-    position: '',
+    position_esp: '',
+    position_eng: '',
     company: '',
     bio_esp: '',
     bio_eng: '',
@@ -42,7 +43,8 @@ export function AddPonentes({ onPonenteAdded }) {
         },
         body: JSON.stringify({
           name: data.name,
-          position: data.position,
+          position_esp: data.position_esp,
+          position_eng: data.position_eng,
           company: data.company,
           bio_esp: data.bio_esp,
           bio_eng: data.bio_eng,
@@ -91,7 +93,9 @@ export function AddPonentes({ onPonenteAdded }) {
       const newPonente = {
         ...ponenteData,
         speaker_name: data.name,
-        position: data.position,
+        position: data.position_esp,
+        position_esp: data.position_esp,
+        position_eng: data.position_eng,
         company: data.company,
         email: data.email,
         bio_esp: data.bio_esp,
@@ -112,7 +116,8 @@ export function AddPonentes({ onPonenteAdded }) {
 
       setFormData({
         name: '',
-        position: '',
+        position_esp: '',
+        position_eng: '',
         company: '',
         bio_esp: '',
         bio_eng: '',
@@ -203,22 +208,44 @@ export function AddPonentes({ onPonenteAdded }) {
 
                 <div className='space-y-2 '>
                   <label className='text-sm font-semibold text-slate-200'>
-                    {t('form.position')}
+                    {t('form.positionEs')}
                   </label>
                   <input
                     type='text'
-                    name='position'
-                    {...register('position', {
+                    name='position_esp'
+                    {...register('position_esp', {
                       required: t('form.errors.required'),
                       onChange: handleChange,
                     })}
-                    defaultValue={formData.position}
+                    defaultValue={formData.position_esp}
                     className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-fuchsia-400/60 focus:outline-none'
-                    placeholder={t('form.positionPlaceholder')}
+                    placeholder={t('form.positionEsPlaceholder')}
                   />
-                  {errors.position && (
+                  {errors.position_esp && (
                     <p className='text-sm text-rose-400'>
-                      {errors.position.message}
+                      {errors.position_esp.message}
+                    </p>
+                  )}
+                </div>
+
+                <div className='space-y-2 '>
+                  <label className='text-sm font-semibold text-slate-200'>
+                    {t('form.positionEn')}
+                  </label>
+                  <input
+                    type='text'
+                    name='position_eng'
+                    {...register('position_eng', {
+                      required: t('form.errors.required'),
+                      onChange: handleChange,
+                    })}
+                    defaultValue={formData.position_eng}
+                    className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 ring-0 transition focus:border-fuchsia-400/60 focus:outline-none'
+                    placeholder={t('form.positionEnPlaceholder')}
+                  />
+                  {errors.position_eng && (
+                    <p className='text-sm text-rose-400'>
+                      {errors.position_eng.message}
                     </p>
                   )}
                 </div>

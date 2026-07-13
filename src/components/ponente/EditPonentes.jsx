@@ -13,7 +13,8 @@ export function EditPonentes({ ponente, onPonenteUpdated }) {
   const [formData, setFormData] = useState({
     id: ponente.id,
     name: ponente.speaker_name,
-    position: ponente.position,
+    position_esp: ponente.position_esp ?? ponente.position,
+    position_eng: ponente.position_eng,
     company: ponente.company,
     bio_esp: ponente.bio_esp,
     bio_eng: ponente.bio_eng,
@@ -78,7 +79,9 @@ export function EditPonentes({ ponente, onPonenteUpdated }) {
       const updatedPonente = {
         ...ponente,
         speaker_name: data.name,
-        position: data.position,
+        position: data.position_esp,
+        position_esp: data.position_esp,
+        position_eng: data.position_eng,
         company: data.company,
         bio_esp: data.bio_esp,
         bio_eng: data.bio_eng,
@@ -191,19 +194,19 @@ export function EditPonentes({ ponente, onPonenteUpdated }) {
                       {/* Cargo */}
                       <div>
                         <label className='block text-sm font-semibold text-slate-300 mb-2'>
-                          Cargo / Puesto
+                          Cargo / Puesto (Español)
                         </label>
                         <input
                           type='text'
-                          {...register('position', {
-                            required: 'El cargo es requerido',
+                          {...register('position_esp', {
+                            required: 'El cargo en español es requerido',
                             onChange: (e) => handleChange(e),
                           })}
-                          defaultValue={formData.position}
+                          defaultValue={formData.position_esp}
                           className='w-full px-4 py-2.5 bg-slate-800/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all'
                           placeholder='Ej: Director de Marketing'
                         />
-                        {errors.position && (
+                        {errors.position_esp && (
                           <p className='text-red-400 text-sm mt-1 flex items-center gap-1'>
                             <svg
                               className='w-4 h-4'
@@ -216,7 +219,39 @@ export function EditPonentes({ ponente, onPonenteUpdated }) {
                                 clipRule='evenodd'
                               />
                             </svg>
-                            {errors.position.message}
+                            {errors.position_esp.message}
+                          </p>
+                        )}
+                      </div>
+
+                      <div>
+                        <label className='block text-sm font-semibold text-slate-300 mb-2'>
+                          Position / Role (English)
+                        </label>
+                        <input
+                          type='text'
+                          {...register('position_eng', {
+                            required: 'El cargo en inglés es requerido',
+                            onChange: (e) => handleChange(e),
+                          })}
+                          defaultValue={formData.position_eng}
+                          className='w-full px-4 py-2.5 bg-slate-800/50 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all'
+                          placeholder='Ex: Marketing Director'
+                        />
+                        {errors.position_eng && (
+                          <p className='text-red-400 text-sm mt-1 flex items-center gap-1'>
+                            <svg
+                              className='w-4 h-4'
+                              fill='currentColor'
+                              viewBox='0 0 20 20'
+                            >
+                              <path
+                                fillRule='evenodd'
+                                d='M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z'
+                                clipRule='evenodd'
+                              />
+                            </svg>
+                            {errors.position_eng.message}
                           </p>
                         )}
                       </div>

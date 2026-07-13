@@ -33,6 +33,8 @@ export type Ponentes = {
     uuid?: string;
     speaker_name?: string;
     position?: string;
+    position_esp?: string;
+    position_eng?: string;
     company?: string;
     email?: string;
     bio_esp?: string;

@@ -135,6 +135,8 @@ CREATE TABLE `ponentes` (
   `uuid` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `position` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `position_esp` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `position_eng` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `company` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `bio_esp` longtext COLLATE utf8mb4_general_ci,
   `bio_eng` longtext COLLATE utf8mb4_general_ci,
