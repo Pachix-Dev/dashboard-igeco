@@ -70,7 +70,7 @@ export async function GET(req: Request) {
         `SELECT pcp.conferencia_id, pcp.role, pcp.order_index,
                 p.id, p.name, p.position, p.company, p.photo, p.bio_esp, p.bio_eng
          FROM programa_conferencia_ponentes pcp
-         LEFT JOIN ponentes p ON pcp.ponente_id = p.id
+         INNER JOIN ponentes p ON pcp.ponente_id = p.id AND p.estatus = 1
          WHERE pcp.conferencia_id IN (?)
          ORDER BY pcp.conferencia_id, pcp.order_index`,
         [conferenciaIds]

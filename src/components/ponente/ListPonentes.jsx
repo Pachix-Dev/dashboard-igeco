@@ -7,7 +7,7 @@ import { QrPrinterPonente } from './QrPrinterPonentes'
 import { EditPonentes } from './EditPonentes'
 import Image from 'next/image'
 
-export function ListPonentes({ ponente, onPonenteUpdated }) {
+export function ListPonentes({ ponente, onPonenteUpdated, onToggleStatus }) {
   const t = useTranslations('SpeakersPage')
 
   const [searchTerm, setSearchTerm] = useState('')
@@ -183,6 +183,13 @@ export function ListPonentes({ ponente, onPonenteUpdated }) {
                           ponente={item}
                           onPonenteUpdated={onPonenteUpdated}
                         />
+                        <button
+                          type='button'
+                          onClick={() => onToggleStatus?.(item)}
+                          className={`inline-flex items-center gap-2 rounded-lg border px-3 py-2 text-xs font-semibold transition ${item.estatus === 1 ? 'border-amber-400/30 bg-amber-500/10 text-amber-100 hover:bg-amber-500/20' : 'border-emerald-400/30 bg-emerald-500/10 text-emerald-100 hover:bg-emerald-500/20'}`}
+                        >
+                          {item.estatus === 1 ? t('actions.deactivate') : t('actions.activate')}
+                        </button>
                       </div>
                     </td>
                   </tr>

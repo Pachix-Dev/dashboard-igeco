@@ -98,6 +98,7 @@ export function AddPonentes({ onPonenteAdded }) {
         bio_eng: data.bio_eng,
         photo: imagePath,
         impresiones: 0,
+        estatus: 1,
       }
 
       console.log('Nuevo ponente agregado:', newPonente)

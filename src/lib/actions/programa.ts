@@ -73,7 +73,7 @@ export async function getConferenciaById(id: number): Promise<any | null> {
   const [ponentes]: any = await db.query(
     `SELECT pcp.*, p.name, p.position, p.company, p.photo
      FROM programa_conferencia_ponentes pcp
-     LEFT JOIN ponentes p ON pcp.ponente_id = p.id
+     INNER JOIN ponentes p ON pcp.ponente_id = p.id AND p.estatus = 1
      WHERE pcp.conferencia_id = ?
      ORDER BY pcp.order_index`,
     [id]

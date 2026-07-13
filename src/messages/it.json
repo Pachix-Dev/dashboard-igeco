@@ -538,13 +538,26 @@
     "panel": "Pannello",
     "title": "Relatori",
     "badge": "{count} attivi",
+    "badgeActive": "{count} attivi",
+    "badgeInactive": "{count} inattivi",
     "subtitle": "Gestisci relatori, biografie e credenziali da un pannello pulito.",
     "stat": {
       "label": "Relatori",
-      "desc": "Totale registrati"
+      "desc": "Totale registrati",
+      "activeDesc": "Visibili nel pannello",
+      "inactiveDesc": "Record inattivi nascosti"
     },
     "cta": {
       "add": "Aggiungi relatore"
+    },
+    "view": {
+      "active": "Attivi",
+      "inactive": "Inattivi"
+    },
+    "export": {
+      "cta": "Esporta Excel",
+      "success": "Excel generato correttamente",
+      "error": "Impossibile esportare Excel"
     },
     "modal": {
       "title": "Nuovo relatore",
@@ -553,12 +566,18 @@
     "actions": {
       "close": "Chiudi",
       "cancel": "Annulla",
-      "submit": "Crea relatore"
+      "submit": "Crea relatore",
+      "activate": "Attiva",
+      "deactivate": "Disattiva"
     },
     "toast": {
       "success": "Relatore aggiunto correttamente",
       "error": "Non è stato possibile aggiungere il relatore",
-      "uploadError": "Errore nel caricamento dell'immagine"
+      "uploadError": "Errore nel caricamento dell'immagine",
+      "loadError": "Impossibile caricare i relatori",
+      "activated": "Relatore attivato correttamente",
+      "deactivated": "Relatore disattivato correttamente",
+      "statusError": "Impossibile aggiornare lo stato"
     },
     "form": {
       "name": "Nome",
@@ -596,11 +615,13 @@
       "company": "Azienda",
       "position": "Ruolo",
       "email": "Email",
+      "status": "Stato",
       "prints": "Stampe",
       "actions": "Azioni",
       "noData": "Nessun dato"
     },
     "empty": "Nessun relatore trovato con questo criterio.",
+    "loading": "Caricamento relatori...",
     "pagination": {
       "page": "Pagina {current} di {total}",
       "prev": "Precedente",

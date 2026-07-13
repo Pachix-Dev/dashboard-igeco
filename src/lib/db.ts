@@ -152,20 +152,16 @@ export async function fetchExhibitors(): Promise<Exhibitor[]> {
 
 export async function fetchPonenetes(): Promise<Ponentes[]> {        
     try {
-        // Asegúrate de que la consulta esté completa, especificando de dónde obtener los datos.
         const query = 
-        'SELECT s.id, s.uuid, s.name AS speaker_name, s.position, s.company, s.bio_esp, s.bio_eng, s.photo, s.impresiones ' + 
-        'FROM ponentes s';  // Aquí especificamos la tabla 'ponentes' de la que obtener los datos.
-        
-        // Ejecutamos la consulta a la base de datos.
+        'SELECT s.id, s.uuid, s.name AS speaker_name, s.position, s.company, s.bio_esp, s.bio_eng, s.photo, s.impresiones, s.estatus ' + 
+        'FROM ponentes s WHERE s.estatus = 1 ORDER BY s.name ASC';
+
         const [rows] = await db.query(query);
-        
-        // Devolvemos los resultados como un arreglo de Ponentes.
+
         return rows as Ponentes[];
     } catch (error) {
-        // Se recomienda agregar más detalles en el error para facilitar el diagnóstico.
         console.error('Database Error: ', error);
-        throw new Error('Error fetching ponentes');  // Asegúrate de que el mensaje sea coherente con los datos que estás obteniendo.
+        throw new Error('Error fetching ponentes');
     }
 }
 

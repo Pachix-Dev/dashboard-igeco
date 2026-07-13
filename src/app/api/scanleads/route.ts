@@ -36,7 +36,7 @@ export async function POST(req: Request) {
     }
 
     if (existingRecord.length === 0) {
-      [existingRecord] = await db.query('SELECT * FROM ponentes WHERE uuid = ? LIMIT 1', [uuid]) as [DbRow[], any];
+      [existingRecord] = await db.query('SELECT * FROM ponentes WHERE uuid = ? AND estatus = 1 LIMIT 1', [uuid]) as [DbRow[], any];
     }
 
     if (existingRecord.length === 0) {

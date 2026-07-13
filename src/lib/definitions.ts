@@ -39,6 +39,7 @@ export type Ponentes = {
     bio_eng?: string;
     photo?: string;
     impresiones?: number;
+    estatus?: number;
     name?: string;
     lastname?: string;
     companny?: string;

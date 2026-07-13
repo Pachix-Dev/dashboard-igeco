@@ -24,3 +24,24 @@ export async function PUT(req: Request, { params }: { params: { id: number } }) 
     return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
   }
 }
+
+export async function PATCH(req: Request, { params }: { params: { id: number } }) {
+  const { estatus } = await req.json();
+
+  try {
+    const [rows]: any = await db.query('SELECT id FROM ponentes WHERE id = ?', [params.id]);
+
+    if (!rows || rows.length === 0) {
+      return NextResponse.json({ message: 'Speaker not found' }, { status: 404 });
+    }
+
+    const normalizedStatus = estatus === 0 || estatus === '0' ? 0 : 1;
+
+    await db.query('UPDATE ponentes SET estatus = ? WHERE id = ?', [normalizedStatus, params.id]);
+
+    return NextResponse.json({ message: 'Speaker status updated', estatus: normalizedStatus });
+  } catch (error) {
+    console.error('Error updating speaker status:', error);
+    return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
+  }
+}

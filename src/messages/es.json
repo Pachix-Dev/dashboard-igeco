@@ -540,13 +540,26 @@
     "panel": "Panel",
     "title": "Ponentes",
     "badge": "{count} activos",
+    "badgeActive": "{count} activos",
+    "badgeInactive": "{count} inactivos",
     "subtitle": "Administra ponentes, bios y credenciales desde un panel limpio.",
     "stat": {
       "label": "Ponentes",
-      "desc": "Total registrados"
+      "desc": "Total registrados",
+      "activeDesc": "Activos en el panel",
+      "inactiveDesc": "Inactivos ocultos"
     },
     "cta": {
       "add": "Agregar ponente"
+    },
+    "view": {
+      "active": "Activos",
+      "inactive": "Inactivos"
+    },
+    "export": {
+      "cta": "Exportar Excel",
+      "success": "Excel generado correctamente",
+      "error": "No se pudo exportar el Excel"
     },
     "modal": {
       "title": "Nuevo ponente",
@@ -555,12 +568,18 @@
     "actions": {
       "close": "Cerrar",
       "cancel": "Cancelar",
-      "submit": "Crear ponente"
+      "submit": "Crear ponente",
+      "activate": "Activar",
+      "deactivate": "Desactivar"
     },
     "toast": {
       "success": "Ponente agregado correctamente",
       "error": "No se pudo agregar el ponente",
-      "uploadError": "Error al subir la imagen"
+      "uploadError": "Error al subir la imagen",
+      "loadError": "No se pudieron cargar los ponentes",
+      "activated": "Ponente activado correctamente",
+      "deactivated": "Ponente desactivado correctamente",
+      "statusError": "No se pudo actualizar el estatus"
     },
     "form": {
       "name": "Nombre",
@@ -597,11 +616,13 @@
       "speaker": "Ponente",
       "company": "Empresa",
       "position": "Cargo",
+      "status": "Estatus",
       "prints": "Impresiones",
       "actions": "Acciones",
       "noData": "Sin dato"
     },
     "empty": "No se encontraron ponentes con ese criterio.",
+    "loading": "Cargando ponentes...",
     "pagination": {
       "page": "Página {current} de {total}",
       "prev": "Anterior",

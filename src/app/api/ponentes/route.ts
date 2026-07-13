@@ -13,11 +13,25 @@ interface PonenteData {
   photo?: string;
 }
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
-    const [rows] = await db.query<RowDataPacket[]>(
-      'SELECT id, name, position, company, photo FROM ponentes ORDER BY name ASC'
-    );
+    const url = new URL(req.url);
+    const status = url.searchParams.get('status');
+    const hasStatusFilter = status === '0' || status === '1';
+    const params: Array<string | number> = [];
+    let query =
+      'SELECT id, uuid, name AS speaker_name, position, company, photo, bio_esp, bio_eng, impresiones, estatus FROM ponentes';
+
+    if (hasStatusFilter) {
+      query += ' WHERE estatus = ?';
+      params.push(Number(status));
+    } else if (status !== 'all') {
+      query += ' WHERE estatus = 1';
+    }
+
+    query += ' ORDER BY name ASC';
+
+    const [rows] = await db.query<RowDataPacket[]>(query, params);
 
     return NextResponse.json(
       { ponentes: rows },
@@ -62,12 +76,12 @@ export async function POST(req: Request) {
     const uuid = uuidv4(); // Generar UUID único
 
     const [result]: any = await db.query(
-      'INSERT INTO ponentes (name, position, company, bio_esp, bio_eng, photo, uuid) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO ponentes (name, position, company, bio_esp, bio_eng, photo, uuid, estatus) VALUES (?, ?, ?, ?, ?, ?, ?, 1)',
       [sanitizedName, sanitizedPosition, sanitizedCompany, sanitizedBioEsp, sanitizedBioEng, photo, uuid]
     );
          
     return NextResponse.json(
-      { message: 'Ponente creado exitosamente', uuid, id: result.insertId },
+      { message: 'Ponente creado exitosamente', uuid, id: result.insertId, estatus: 1 },
       { status: 201 }
     );
   } catch (err: any) {

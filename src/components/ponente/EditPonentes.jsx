@@ -83,6 +83,7 @@ export function EditPonentes({ ponente, onPonenteUpdated }) {
         bio_esp: data.bio_esp,
         bio_eng: data.bio_eng,
         photo: imagePath,
+        estatus: ponente.estatus,
       }
 
       if (onPonenteUpdated) {

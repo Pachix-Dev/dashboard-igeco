@@ -103,13 +103,26 @@
     "panel": "Panel",
     "title": "Speakers",
     "badge": "{count} active",
+    "badgeActive": "{count} active",
+    "badgeInactive": "{count} inactive",
     "subtitle": "Manage speakers, bios and credentials from a clean panel.",
     "stat": {
       "label": "Speakers",
-      "desc": "Total registered"
+      "desc": "Total registered",
+      "activeDesc": "Visible in the panel",
+      "inactiveDesc": "Hidden inactive records"
     },
     "cta": {
       "add": "Add speaker"
+    },
+    "view": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "export": {
+      "cta": "Export Excel",
+      "success": "Excel generated successfully",
+      "error": "Could not export Excel"
     },
     "modal": {
       "title": "New speaker",
@@ -118,12 +131,18 @@
     "actions": {
       "close": "Close",
       "cancel": "Cancel",
-      "submit": "Create speaker"
+      "submit": "Create speaker",
+      "activate": "Activate",
+      "deactivate": "Deactivate"
     },
     "toast": {
       "success": "Speaker added successfully",
       "error": "Failed to add speaker",
-      "uploadError": "Image upload failed"
+      "uploadError": "Image upload failed",
+      "loadError": "Could not load speakers",
+      "activated": "Speaker activated successfully",
+      "deactivated": "Speaker deactivated successfully",
+      "statusError": "Could not update status"
     },
     "form": {
       "name": "Name",
@@ -160,11 +179,13 @@
       "speaker": "Speaker",
       "company": "Company",
       "position": "Position",
+      "status": "Status",
       "prints": "Prints",
       "actions": "Actions",
       "noData": "No data"
     },
     "empty": "No speakers matched that query.",
+    "loading": "Loading speakers...",
     "pagination": {
       "page": "Page {current} of {total}",
       "prev": "Previous",

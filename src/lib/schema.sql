@@ -140,6 +140,7 @@ CREATE TABLE `ponentes` (
   `bio_eng` longtext COLLATE utf8mb4_general_ci,
   `photo` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `impresiones` int DEFAULT '0',
+  `estatus` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
