@@ -542,7 +542,7 @@
     "badge": "{count} activos",
     "badgeActive": "{count} activos",
     "badgeInactive": "{count} inactivos",
-    "subtitle": "Administra ponentes, bios y credenciales desde un panel limpio.",
+    "subtitle": "Gestiona los ponentes del evento, agrega información, fotos y biografía en ambos idiomas.",
     "stat": {
       "label": "Ponentes",
       "desc": "Total registrados",

@@ -105,7 +105,7 @@
     "badge": "{count} active",
     "badgeActive": "{count} active",
     "badgeInactive": "{count} inactive",
-    "subtitle": "Manage speakers, bios and credentials from a clean panel.",
+    "subtitle": "Manage the event speakers, add information, photos, and biography in both languages.",
     "stat": {
       "label": "Speakers",
       "desc": "Total registered",

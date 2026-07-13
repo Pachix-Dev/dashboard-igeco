@@ -540,7 +540,7 @@
     "badge": "{count} attivi",
     "badgeActive": "{count} attivi",
     "badgeInactive": "{count} inattivi",
-    "subtitle": "Gestisci relatori, biografie e credenziali da un pannello pulito.",
+    "subtitle": "Gestisci i relatori dell'evento, aggiungi nuovi profili e aggiorna le informazioni esistenti.",
     "stat": {
       "label": "Relatori",
       "desc": "Totale registrati",

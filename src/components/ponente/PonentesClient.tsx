@@ -138,34 +138,34 @@ export function PonentesClient({ initialPonentes }: PonentesClientProps) {
         <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="space-y-1">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
-              {t('panel')}
+              {t("panel")}
             </p>
             <div className="flex items-end gap-3">
-              <h1 className="text-3xl font-bold text-white">{t('title')}</h1>
-              <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-200">
-                {viewStatus === '1'
-                  ? t('badgeActive', { count: totalSpeakers })
-                  : t('badgeInactive', { count: totalSpeakers })}
+              <h1 className="text-3xl font-bold text-white uppercase">{t("title")}</h1>
+              <span className="rounded-full bg-white/10 border border-amber-400  px-3 py-1 text-xl font-semibold uppercase tracking-wide text-slate-200">
+                {viewStatus === "1"
+                  ? t("badgeActive", { count: totalSpeakers })
+                  : t("badgeInactive", { count: totalSpeakers })}
               </span>
             </div>
-            <p className="text-sm text-slate-400">{t('subtitle')}</p>
+            <p className="text-sm text-slate-400">{t("subtitle")}</p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
             <div className="inline-flex overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-1">
               <button
                 type="button"
-                onClick={() => handleViewChange('1')}
-                className={`rounded-xl px-4 py-2 text-sm font-semibold transition ${viewStatus === '1' ? 'bg-white text-slate-950' : 'text-slate-300 hover:bg-white/5'}`}
+                onClick={() => handleViewChange("1")}
+                className={`rounded-xl px-4 py-2 text-sm font-semibold transition ${viewStatus === "1" ? "bg-white text-slate-950" : "text-slate-300 hover:bg-white/5"}`}
               >
-                {t('view.active')}
+                {t("view.active")}
               </button>
               <button
                 type="button"
-                onClick={() => handleViewChange('0')}
-                className={`rounded-xl px-4 py-2 text-sm font-semibold transition ${viewStatus === '0' ? 'bg-white text-slate-950' : 'text-slate-300 hover:bg-white/5'}`}
+                onClick={() => handleViewChange("0")}
+                className={`rounded-xl px-4 py-2 text-sm font-semibold transition ${viewStatus === "0" ? "bg-white text-slate-950" : "text-slate-300 hover:bg-white/5"}`}
               >
-                {t('view.inactive')}
+                {t("view.inactive")}
               </button>
             </div>
 
@@ -174,22 +174,35 @@ export function PonentesClient({ initialPonentes }: PonentesClientProps) {
               onClick={handleExport}
               className="inline-flex items-center gap-2 rounded-2xl border border-emerald-400/20 bg-emerald-500/10 px-4 py-3 text-sm font-semibold text-emerald-100 transition hover:bg-emerald-500/20"
             >
-              {t('export.cta')}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="currentColor"
+                  d="M12 2a1 1 0 0 1 1 1v10.586l2.293-2.293a1 1 0 0 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4a1 1 0 1 1 1.414-1.414L11 13.586V3a1 1 0 0 1 1-1M5 17a1 1 0 0 1 1 1v2h12v-2a1 1 0 1 1 2 0v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-2a1 1 0 0 1 1-1"
+                />
+              </svg>{" "}
+              {t("export.cta")}
             </button>
 
-            <div className="hidden items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 shadow-lg shadow-blue-500/10 sm:flex">
+            {/* <div className="hidden items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 shadow-lg shadow-blue-500/10 sm:flex">
               <div className="grid h-12 w-12 place-items-center rounded-xl bg-blue-500/15 text-lg font-semibold text-blue-200">
                 {totalSpeakers}
               </div>
               <div>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400">
-                  {t('stat.label')}
+                  {t("stat.label")}
                 </p>
                 <p className="text-sm font-semibold text-white">
-                  {viewStatus === '1' ? t('stat.activeDesc') : t('stat.inactiveDesc')}
+                  {viewStatus === "1"
+                    ? t("stat.activeDesc")
+                    : t("stat.inactiveDesc")}
                 </p>
               </div>
-            </div>
+            </div> */}
             <AddPonentes onPonenteAdded={handlePonenteAdded} />
           </div>
         </header>
@@ -197,7 +210,7 @@ export function PonentesClient({ initialPonentes }: PonentesClientProps) {
         <div className="rounded-3xl border border-white/10 bg-white/5 p-4 shadow-2xl shadow-blue-500/5 backdrop-blur">
           {isLoading ? (
             <div className="flex min-h-[360px] items-center justify-center text-sm text-slate-400">
-              {t('loading')}
+              {t("loading")}
             </div>
           ) : (
             <ListPonentes
@@ -210,5 +223,5 @@ export function PonentesClient({ initialPonentes }: PonentesClientProps) {
         </div>
       </section>
     </main>
-  )
+  );
 }
