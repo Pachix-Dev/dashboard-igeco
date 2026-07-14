@@ -545,7 +545,7 @@
     "loading": "Loading users...",
     "panel": "Panel",
     "title": "Users",
-    "badge": "{count} active",
+    "badge": "active",
     "subtitle": "Manage access, roles, and events from a clean panel.",
     "stat": {
       "label": "Users",

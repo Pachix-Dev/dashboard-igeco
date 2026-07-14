@@ -375,7 +375,7 @@
     "loading": "Cargando usuarios...",
     "panel": "Panel",
     "title": "Usuarios",
-    "badge": "{count} activos",
+    "badge": "activos",
     "subtitle": "Gestiona accesos, roles y eventos desde un panel limpio.",
     "stat": {
       "label": "Usuarios",

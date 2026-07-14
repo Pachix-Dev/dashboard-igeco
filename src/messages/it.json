@@ -373,7 +373,7 @@
     "loading": "Caricamento utenti...",
     "panel": "Pannello",
     "title": "Utenti",
-    "badge": "{count} attivi",
+    "badge": "attivi",
     "subtitle": "Gestisci accessi, ruoli ed eventi da un pannello pulito.",
     "stat": {
       "label": "Utenti",
