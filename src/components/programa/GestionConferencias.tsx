@@ -30,7 +30,7 @@ interface Props {
 
 interface Ponente {
   id: number;
-  name: string;
+  speaker_name: string;
   position?: string;
   company?: string;
 }
@@ -142,7 +142,11 @@ export function GestionConferencias({
       const response = await fetch("/api/ponentes");
       const data = await response.json();
       if (response.ok && data.ponentes) {
-        setPonentes(data.ponentes);
+        const normalizedPonentes = data.ponentes.map((p: any) => ({
+          ...p,
+          speaker_name: p.speaker_name || p.name || "",
+        }));
+        setPonentes(normalizedPonentes);
       } else {
         console.warn("⚠️ No se encontraron ponentes o error en respuesta");
       }
@@ -787,8 +791,7 @@ export function GestionConferencias({
                               {ponentes.length > 0 ? (
                                 ponentes.map((p) => (
                                   <option key={p.id} value={p.id}>
-                                    {p.name} {p.position && `- ${p.position}`}{" "}
-                                    {p.company && `(${p.company})`}
+                                    {p.speaker_name} - {p.company && `${p.company}`}
                                   </option>
                                 ))
                               ) : (
