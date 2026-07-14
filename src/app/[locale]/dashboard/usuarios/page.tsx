@@ -14,6 +14,7 @@ export default async function Usuarios() {
           panel: t('panel'),
           title: t('title'),
           subtitle: t('subtitle'),
+          badge: t('badge'),
         }}
       />
     </main>

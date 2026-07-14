@@ -12,6 +12,7 @@ type UsersClientProps = {
     panel: string;
     title: string;
     subtitle: string;
+    badge: string;
   };
 };
 
@@ -41,15 +42,10 @@ export function UsersClient({ initialUsers, header }: UsersClientProps) {
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
             {header.panel}
           </p>
-          <div className="flex items-end gap-3">            
-            <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-200 text-center">
-              users 
-            </span>
-          </div>
           <div className="flex items-end gap-3">
-            <h1 className="text-3xl font-bold text-white">{header.title}</h1>
-            <span className="rounded-full bg-white/10 px-3 py-2 text-xs font-semibold uppercase tracking-wide text-slate-200 text-center">
-              {totalUsers} Activos
+            <h1 className="text-3xl font-bold text-white uppercase">{header.title}</h1>
+            <span className="rounded-full bg-white/10 border border-amber-400  px-3 py-1 text-xl font-semibold uppercase tracking-wide text-slate-200">
+              {totalUsers} {header.badge}
             </span>
           </div>
           <p className="text-sm text-slate-400">{header.subtitle}</p>
