@@ -722,6 +722,8 @@
       "form": {
         "name": "Nombre del escenario",
         "namePlaceholder": "Ej: Sala Principal",
+        "feria": "Feria",
+        "selectFeria": "Selecciona una feria",
         "description": "Descripción",
         "descriptionPlaceholder": "Breve descripción del espacio...",
         "location": "Ubicación",
@@ -786,6 +788,7 @@
       "edit": "Editar Conferencia",
       "delete": "Eliminar Conferencia",
       "filters": {
+        "allFerias": "Todas las ferias",
         "allEscenarios": "Todos los escenarios",
         "allDias": "Todos los días"
       },
@@ -848,6 +851,9 @@
     "vista": {
       "title": "Programa Completo",
       "subtitle": "Vista general del programa de conferencias",
+      "filters": {
+        "allFerias": "Todas las ferias"
+      },
       "loading": "Cargando programa...",
       "capacity": "Capacidad",
       "conferencesCount": "conferencias",

@@ -721,6 +721,8 @@
       "form": {
         "name": "Stage name",
         "namePlaceholder": "e.g.: Main Hall",
+        "feria": "Trade show",
+        "selectFeria": "Select a trade show",
         "description": "Description",
         "descriptionPlaceholder": "Brief description of the space...",
         "location": "Location",
@@ -785,6 +787,7 @@
       "edit": "Edit Conference",
       "delete": "Delete Conference",
       "filters": {
+        "allFerias": "All trade shows",
         "allEscenarios": "All stages",
         "allDias": "All days"
       },
@@ -847,6 +850,9 @@
     "vista": {
       "title": "Full Program",
       "subtitle": "General view of the conference program",
+      "filters": {
+        "allFerias": "All trade shows"
+      },
       "loading": "Loading program...",
       "capacity": "Capacity",
       "conferencesCount": "conferences",

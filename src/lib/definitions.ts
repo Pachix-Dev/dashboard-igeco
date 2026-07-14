@@ -9,6 +9,7 @@ export type User= {
 export type Escenarios={
     id: number;
     name:string;
+    feria?: string;
     created_at: Date; 
 
 }

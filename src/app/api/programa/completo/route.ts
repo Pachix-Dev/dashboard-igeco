@@ -10,6 +10,7 @@ export async function GET(req: Request) {
   try {
     const url = new URL(req.url)
     const escenarioId = url.searchParams.get('escenario_id')
+    const feria = url.searchParams.get('feria')
     const date = url.searchParams.get('date')
 
     // Consulta base usando la vista
@@ -17,6 +18,7 @@ export async function GET(req: Request) {
       SELECT 
         e.id AS escenario_id,
         e.name AS escenario_name,
+        e.feria AS escenario_feria,
         e.description AS escenario_description,
         e.location AS escenario_location,
         e.capacity AS escenario_capacity,
@@ -48,6 +50,11 @@ export async function GET(req: Request) {
     if (escenarioId) {
       query += ' AND e.id = ?'
       params.push(escenarioId)
+    }
+
+    if (feria) {
+      query += ' AND e.feria = ?'
+      params.push(feria)
     }
 
     if (date) {
@@ -87,6 +94,7 @@ export async function GET(req: Request) {
         programaOrganizado[row.escenario_id] = {
           id: row.escenario_id,
           name: row.escenario_name,
+          feria: row.escenario_feria,
           description: row.escenario_description,
           location: row.escenario_location,
           capacity: row.escenario_capacity,

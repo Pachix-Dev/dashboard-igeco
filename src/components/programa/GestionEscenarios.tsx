@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl'
 import { useToaster } from '@/context/ToasterContext'
 import { useForm } from 'react-hook-form'
 import { createPortal } from 'react-dom'
-import type { Escenario, EscenarioForm } from '@/types/programa'
+import { FERIA_OPTIONS, type Escenario, type EscenarioForm } from '@/types/programa'
 import { addEscenario, updateEscenario, deleteEscenario } from '@/lib/actions/programa'
 
 interface Props {
@@ -37,6 +37,7 @@ export function GestionEscenarios({ escenarios, onUpdate }: Props) {
       setEditingEscenario(null)
       reset({
         name: '',
+        feria: 'ECOMONDO MEXICO',
         description: '',
         location: '',
         capacity: undefined,
@@ -119,6 +120,11 @@ export function GestionEscenarios({ escenarios, onUpdate }: Props) {
             <div className='mb-4 flex items-start justify-between'>
               <div className='flex-1'>
                 <h3 className='text-lg font-bold text-white'>{escenario.name}</h3>
+                {escenario.feria && (
+                  <p className='mt-1 text-xs font-semibold uppercase tracking-wide text-cyan-300'>
+                    {escenario.feria}
+                  </p>
+                )}
                 {escenario.location && (
                   <p className='mt-1 flex items-center gap-1 text-sm text-slate-400'>
                     <svg className='h-4 w-4' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
@@ -195,6 +201,26 @@ export function GestionEscenarios({ escenarios, onUpdate }: Props) {
                 />
                 {errors.name && (
                   <p className='text-sm text-rose-400'>{errors.name.message}</p>
+                )}
+              </div>
+
+              <div className='space-y-2'>
+                <label className='text-sm font-semibold text-slate-200'>
+                  {t('form.feria')}
+                </label>
+                <select
+                  {...register('feria', { required: t('form.errors.required') })}
+                  className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white transition focus:border-blue-400/60 focus:outline-none'
+                >
+                  <option value=''>{t('form.selectFeria')}</option>
+                  {FERIA_OPTIONS.map((feria) => (
+                    <option key={feria} value={feria}>
+                      {feria}
+                    </option>
+                  ))}
+                </select>
+                {errors.feria && (
+                  <p className='text-sm text-rose-400'>{errors.feria.message}</p>
                 )}
               </div>
 

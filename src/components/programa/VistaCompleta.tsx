@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
-import type { Escenario } from '@/types/programa'
+import type { Escenario, FeriaName } from '@/types/programa'
 
 interface Props {
   escenarios: Escenario[]
@@ -12,16 +12,26 @@ export function VistaCompleta({ escenarios }: Props) {
   const t = useTranslations('ProgramaPage.vista')
   const [programaCompleto, setProgramaCompleto] = useState<any[]>([])
   const [stats, setStats] = useState<any>({})
+  const [filterFeria, setFilterFeria] = useState<FeriaName | null>(null)
   const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    loadProgramaCompleto()
-  }, [])
+  const feriaOptions = Array.from(
+    new Set(
+      escenarios
+        .map((item) => item.feria)
+        .filter((item): item is FeriaName => Boolean(item))
+    )
+  )
 
-  const loadProgramaCompleto = async () => {
+  useEffect(() => {
+    loadProgramaCompleto(filterFeria)
+  }, [filterFeria])
+
+  const loadProgramaCompleto = async (feria?: FeriaName | null) => {
     setLoading(true)
     try {
-      const response = await fetch('/api/programa/completo')
+      const query = feria ? `?feria=${encodeURIComponent(feria)}` : ''
+      const response = await fetch(`/api/programa/completo${query}`)
       const data = await response.json()
       if (response.ok) {
         setProgramaCompleto(data.data || [])
@@ -47,6 +57,19 @@ export function VistaCompleta({ escenarios }: Props) {
 
   return (
     <div className='space-y-6'>
+      <div className='flex justify-end'>
+        <select
+          value={filterFeria || ''}
+          onChange={(e) => setFilterFeria((e.target.value as FeriaName) || null)}
+          className='rounded-xl border border-white/10 bg-slate-900/60 px-4 py-2.5 text-sm text-white transition focus:border-blue-400/60 focus:outline-none'
+        >
+          <option value=''>{t('filters.allFerias')}</option>
+          {feriaOptions.map((feria) => (
+            <option key={feria} value={feria}>{feria}</option>
+          ))}
+        </select>
+      </div>
+
       {/* Header con Estadísticas */}
       <div className='grid gap-4 md:grid-cols-4'>
         <div className='rounded-2xl border border-white/10 bg-gradient-to-br from-blue-500/10 to-cyan-500/5 p-6'>
@@ -83,6 +106,9 @@ export function VistaCompleta({ escenarios }: Props) {
               <div className='mb-6 grid md:flex gap-2 items-center justify-between border-b border-white/10 pb-4'>
                 <div>
                   <h2 className='text-2xl font-bold text-white'>{escenario.name}</h2>
+                  {escenario.feria && (
+                    <p className='mt-1 text-xs font-semibold uppercase tracking-wide text-cyan-300'>{escenario.feria}</p>
+                  )}
                   {escenario.location && (
                     <p className='mt-1 text-sm text-slate-400'>📍 {escenario.location}</p>
                   )}

@@ -2,9 +2,13 @@
 // TIPOS Y INTERFACES PARA EL MÓDULO DE PROGRAMA
 // =====================================================
 
+export const FERIA_OPTIONS = ['ECOMONDO MEXICO', 'RE+ MEXICO', 'SMART TECHNOLOGY EXPO'] as const
+export type FeriaName = (typeof FERIA_OPTIONS)[number]
+
 export interface Escenario {
   id: number
   name: string
+  feria?: FeriaName
   description?: string
   location?: string
   capacity?: number
@@ -69,6 +73,7 @@ export interface ConferenciaPonente {
 export interface ProgramaCompleto {
   escenario_id: number
   escenario_name: string
+  escenario_feria?: FeriaName
   escenario_location?: string
   dia_id: number
   dia_date: string
@@ -87,6 +92,7 @@ export interface ProgramaCompleto {
 // Tipos para formularios
 export interface EscenarioForm {
   name: string
+  feria: FeriaName
   description?: string
   location?: string
   capacity?: number

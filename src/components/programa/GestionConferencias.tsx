@@ -1,13 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect, useRef, type ChangeEvent } from "react";
+import { useState, useEffect, useMemo, useRef, type ChangeEvent } from "react";
 import { useTranslations } from "next-intl";
 import { useToaster } from "@/context/ToasterContext";
 import { useForm, useFieldArray } from "react-hook-form";
 import { createPortal } from "react-dom";
 import type {
   Escenario,
+  FeriaName,
   ProgramaDia,
   Conferencia,
   ConferenciaForm,
@@ -48,6 +49,7 @@ export function GestionConferencias({
   const [editingConferencia, setEditingConferencia] =
     useState<Conferencia | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [filterFeria, setFilterFeria] = useState<FeriaName | null>(null);
   const [filterEscenario, setFilterEscenario] = useState<number | null>(null);
   const [filterDia, setFilterDia] = useState<number | null>(null);
   const [filteredDias, setFilteredDias] = useState<ProgramaDia[]>([]);
@@ -80,6 +82,35 @@ export function GestionConferencias({
     ? dias.find((d) => d.id === Number(watch("dia_id")))?.escenario_id
     : null;
 
+  const escenariosById = useMemo(
+    () =>
+      escenarios.reduce<Record<number, Escenario>>((acc, item) => {
+        acc[item.id] = item;
+        return acc;
+      }, {}),
+    [escenarios],
+  );
+
+  const feriaOptions = useMemo(
+    () =>
+      Array.from(
+        new Set(
+          escenarios
+            .map((item) => item.feria)
+            .filter((item): item is FeriaName => Boolean(item)),
+        ),
+      ),
+    [escenarios],
+  );
+
+  const filteredEscenarios = useMemo(
+    () =>
+      filterFeria
+        ? escenarios.filter((item) => item.feria === filterFeria)
+        : escenarios,
+    [escenarios, filterFeria],
+  );
+
   const getLogoUrl = (logoPath?: string | null) => {
     if (!logoPath) return null;
     if (logoPath.startsWith("http") || logoPath.startsWith("/logos/"))
@@ -88,15 +119,14 @@ export function GestionConferencias({
   };
 
   useEffect(() => {
-    if (filterEscenario) {
-      const diasFiltrados = dias.filter(
-        (d) => d.escenario_id === filterEscenario,
-      );
-      setFilteredDias(diasFiltrados);
-    } else {
-      setFilteredDias(dias);
-    }
-  }, [filterEscenario, dias]);
+    const diasFiltrados = dias.filter((d) => {
+      const escenario = escenariosById[d.escenario_id];
+      if (filterFeria && escenario?.feria !== filterFeria) return false;
+      if (filterEscenario && d.escenario_id !== filterEscenario) return false;
+      return true;
+    });
+    setFilteredDias(diasFiltrados);
+  }, [filterFeria, filterEscenario, dias, escenariosById]);
 
   useEffect(() => {
     onUpdate(filterDia || undefined);
@@ -276,7 +306,19 @@ export function GestionConferencias({
 
   const diasParaSelect = selectedEscenario
     ? dias.filter((d) => d.escenario_id === selectedEscenario)
-    : dias;
+    : filterFeria
+      ? dias.filter((d) => escenariosById[d.escenario_id]?.feria === filterFeria)
+      : dias;
+
+  const conferenciasFiltradas = conferencias.filter((conf: any) => {
+    const dia = dias.find((d) => d.id === conf.dia_id);
+    if (!dia) return false;
+    const escenario = escenariosById[dia.escenario_id];
+    if (filterFeria && escenario?.feria !== filterFeria) return false;
+    if (filterEscenario && dia.escenario_id !== filterEscenario) return false;
+    if (filterDia && conf.dia_id !== filterDia) return false;
+    return true;
+  });
 
   return (
     <div className="space-y-6">
@@ -288,6 +330,22 @@ export function GestionConferencias({
         </div>
         <div className="grid md:flex gap-3">
           <select
+            value={filterFeria || ""}
+            onChange={(e) => {
+              setFilterFeria((e.target.value as FeriaName) || null);
+              setFilterEscenario(null);
+              setFilterDia(null);
+            }}
+            className="rounded-xl border border-white/10 bg-slate-900/60 px-4 py-2.5 text-sm text-white transition focus:border-blue-400/60 focus:outline-none"
+          >
+            <option value="">{t("filters.allFerias")}</option>
+            {feriaOptions.map((feria) => (
+              <option key={feria} value={feria}>
+                {feria}
+              </option>
+            ))}
+          </select>
+          <select
             value={filterEscenario || ""}
             onChange={(e) => {
               setFilterEscenario(
@@ -298,7 +356,7 @@ export function GestionConferencias({
             className="rounded-xl border border-white/10 bg-slate-900/60 px-4 py-2.5 text-sm text-white transition focus:border-blue-400/60 focus:outline-none"
           >
             <option value="">{t("filters.allEscenarios")}</option>
-            {escenarios.map((e) => (
+            {filteredEscenarios.map((e) => (
               <option key={e.id} value={e.id}>
                 {e.name}
               </option>
@@ -344,12 +402,12 @@ export function GestionConferencias({
 
       {/* Lista de Conferencias */}
       <div className="space-y-4">
-        {conferencias.length === 0 ? (
+        {conferenciasFiltradas.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-white/20 p-12 text-center">
             <p className="text-slate-400">{t("table.noData")}</p>
           </div>
         ) : (
-          conferencias.map((conf: any) => (
+          conferenciasFiltradas.map((conf: any) => (
             <div
               key={conf.id}
               className="rounded-2xl border border-white/10 bg-slate-950/50 p-6 transition hover:border-blue-500/30"
@@ -477,7 +535,7 @@ export function GestionConferencias({
                     className="w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white transition focus:border-blue-400/60 focus:outline-none"
                   >
                     <option value="">{t("form.selectDia")}</option>
-                    {dias.map((d: any) => (
+                    {diasParaSelect.map((d: any) => (
                       <option key={d.id} value={d.id}>
                         {d.escenario_name} -{" "}
                         {new Date(d.date).toLocaleDateString("es-ES")}{" "}
