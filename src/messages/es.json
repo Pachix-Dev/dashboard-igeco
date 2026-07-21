@@ -1060,7 +1060,7 @@
       "no_exhibitors": "Sin expositores en esta sección.",
       "no_exhibitors_available": "No hay expositores disponibles para revisión.",
       "drag_drop_instruction": "Arrastra y suelta tu archivo aquí o usa los botones de selección.",
-      "design_question": "¿Enviaste los renders y archivos de diseño de tu stand a damian.arias@igeco.mx y daniela.torres@igeco.mx?",
+      "design_question": "¿Enviaste los renders y archivos de diseño de tu stand a damian.arias@igeco.mx y ximena.monjaraz@igeco.mx?",
       "select_answer": "Selecciona una respuesta",
       "yes": "Sí",
       "no": "No",
@@ -1112,7 +1112,7 @@
       },
       "comfort_plus_design": {
         "title": "Diseño obligatorio",
-        "description": "Envía los archivos del diseño del stand a damian.arias@igeco.mx y daniela.torres@igeco.mx. Incluye renders y material visual."
+        "description": "Envía los archivos del diseño del stand a damian.arias@igeco.mx y ximena.monjaraz@igeco.mx. Incluye renders y material visual."
       },
       "comfort_plus_format": {
         "title": "Formato de Stand Comfort Plus",

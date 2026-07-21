@@ -1059,7 +1059,7 @@
       "no_exhibitors": "No exhibitors in this section.",
       "no_exhibitors_available": "No exhibitors available for review.",
       "drag_drop_instruction": "Drag and drop your file here or use the selection buttons.",
-      "design_question": "Did you send the renders and design files for your stand to damian.arias@igeco.mx and daniela.torres@igeco.mx?",
+      "design_question": "Did you send the renders and design files for your stand to damian.arias@igeco.mx and ximena.monjaraz@igeco.mx?",
       "select_answer": "Select an answer",
       "yes": "Yes",
       "no": "No",
@@ -1111,7 +1111,7 @@
       },
       "comfort_plus_design": {
         "title": "Mandatory design",
-        "description": "Send the stand design files to damian.arias@igeco.mx and daniela.torres@igeco.mx. Include renders and visual material."
+        "description": "Send the stand design files to damian.arias@igeco.mx and ximena.monjaraz@igeco.mx. Include renders and visual material."
       },
       "comfort_plus_format": {
         "title": "Stand Comfort Plus format",
