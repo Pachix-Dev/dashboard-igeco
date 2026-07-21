@@ -725,6 +725,8 @@
         "selectFeria": "Select a trade show",
         "description": "Description",
         "descriptionPlaceholder": "Brief description of the space...",
+        "descriptionEn": "Description (English)",
+        "descriptionEnPlaceholder": "Brief description of the stage...",
         "location": "Location",
         "locationPlaceholder": "e.g.: Floor 1, North Wing",
         "capacity": "Capacity",

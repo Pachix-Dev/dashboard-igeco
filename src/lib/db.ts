@@ -75,13 +75,14 @@ import type { Escenario as ProgramaEscenario, ProgramaDia as ProgramaDiaType } f
 export async function fetchProgramaEscenarios(): Promise<ProgramaEscenario[]> {
     try {
         const [rows] = await db.query<any[]>(
-            'SELECT id, name, feria, description, location, capacity, active, created_at, updated_at FROM escenarios'
+            'SELECT id, name, feria, description, description_eng, location, capacity, active, created_at, updated_at FROM escenarios'
         );
         return rows.map((r) => ({
             id: r.id,
             name: r.name,
             feria: r.feria ?? undefined,
             description: r.description ?? undefined,
+            description_eng: r.description_eng ?? undefined,
             location: r.location ?? undefined,
             capacity: r.capacity ?? undefined,
             active: !!r.active,

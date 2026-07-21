@@ -7,13 +7,14 @@ import type { Escenario, ProgramaDia, Conferencia } from '@/types/programa';
 // Listados
 export async function getEscenarios(): Promise<Escenario[]> {
   const [rows] = await db.query<any[]>(
-    'SELECT id, name, feria, description, location, capacity, active, created_at, updated_at FROM escenarios ORDER BY id DESC'
+    'SELECT id, name, feria, description, description_eng, location, capacity, active, created_at, updated_at FROM escenarios ORDER BY id DESC'
   );
   return rows.map((r) => ({
     id: r.id,
     name: r.name,
     feria: r.feria ?? undefined,
     description: r.description ?? undefined,
+    description_eng: r.description_eng ?? undefined,
     location: r.location ?? undefined,
     capacity: r.capacity ?? undefined,
     active: !!r.active,
@@ -84,18 +85,18 @@ export async function getConferenciaById(id: number): Promise<any | null> {
 }
 
 // Escenarios CRUD
-export async function addEscenario(data: { name: string; feria: string; description?: string; location?: string; capacity?: number }) {
-  const { name, feria, description, location, capacity } = data;
+export async function addEscenario(data: { name: string; feria: string; description?: string; description_eng?: string; location?: string; capacity?: number }) {
+  const { name, feria, description, description_eng, location, capacity } = data;
   if (!name || !feria) return { success: false, error: 'El nombre y la feria son requeridos' };
-  await db.query('INSERT INTO escenarios (name, feria, description, location, capacity, active) VALUES (?, ?, ?, ?, ?, 1)', [name, feria, description || null, location || null, capacity || null]);
+  await db.query('INSERT INTO escenarios (name, feria, description, description_eng, location, capacity, active) VALUES (?, ?, ?, ?, ?, ?, 1)', [name, feria, description || null, description_eng || null, location || null, capacity || null]);
   revalidatePath('/[locale]/dashboard/programa', 'page');
   return { success: true };
 }
 
-export async function updateEscenario(id: number, data: { name: string; feria: string; description?: string; location?: string; capacity?: number; active?: boolean }) {
-  const { name, feria, description, location, capacity, active } = data;
+export async function updateEscenario(id: number, data: { name: string; feria: string; description?: string; description_eng?: string; location?: string; capacity?: number; active?: boolean }) {
+  const { name, feria, description, description_eng, location, capacity, active } = data;
   if (!name || !feria) return { success: false, error: 'El nombre y la feria son requeridos' };
-  await db.query('UPDATE escenarios SET name = ?, feria = ?, description = ?, location = ?, capacity = ?, active = ? WHERE id = ?', [name, feria, description || null, location || null, capacity || null, active ? 1 : 0, id]);
+  await db.query('UPDATE escenarios SET name = ?, feria = ?, description = ?, description_eng = ?, location = ?, capacity = ?, active = ? WHERE id = ?', [name, feria, description || null, description_eng || null, location || null, capacity || null, active ? 1 : 0, id]);
   revalidatePath('/[locale]/dashboard/programa', 'page');
   return { success: true };
 }

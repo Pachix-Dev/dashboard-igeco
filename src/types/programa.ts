@@ -10,6 +10,7 @@ export interface Escenario {
   name: string
   feria?: FeriaName
   description?: string
+  description_eng?: string
   location?: string
   capacity?: number
   active: boolean
@@ -94,6 +95,7 @@ export interface EscenarioForm {
   name: string
   feria: FeriaName
   description?: string
+  description_eng?: string
   location?: string
   capacity?: number
 }

@@ -725,6 +725,8 @@
         "selectFeria": "Seleziona una fiera",
         "description": "Descrizione",
         "descriptionPlaceholder": "Breve descrizione dello spazio...",
+        "descriptionEn": "Descrizione (Inglese)",
+        "descriptionEnPlaceholder": "Breve descrizione dello scenario in inglese...",
         "location": "Ubicazione",
         "locationPlaceholder": "Es: Piano 1, Ala Nord",
         "capacity": "Capacità",

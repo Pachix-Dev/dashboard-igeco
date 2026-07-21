@@ -726,6 +726,8 @@
         "selectFeria": "Selecciona una feria",
         "description": "Descripción",
         "descriptionPlaceholder": "Breve descripción del espacio...",
+        "descriptionEn": "Descripción (Inglés)",
+        "descriptionEnPlaceholder": "Brief description of the stage...",
         "location": "Ubicación",
         "locationPlaceholder": "Ej: Piso 1, Ala Norte",
         "capacity": "Capacidad",

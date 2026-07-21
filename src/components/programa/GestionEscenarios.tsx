@@ -39,6 +39,7 @@ export function GestionEscenarios({ escenarios, onUpdate }: Props) {
         name: '',
         feria: 'ECOMONDO MEXICO',
         description: '',
+        description_eng: '',
         location: '',
         capacity: undefined,
       })
@@ -260,6 +261,18 @@ export function GestionEscenarios({ escenarios, onUpdate }: Props) {
                   rows={3}
                   className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 transition focus:border-blue-400/60 focus:outline-none'
                   placeholder={t('form.descriptionPlaceholder')}
+                />
+              </div>
+
+              <div className='space-y-2'>
+                <label className='text-sm font-semibold text-slate-200'>
+                  {t('form.descriptionEn')}
+                </label>
+                <textarea
+                  {...register('description_eng')}
+                  rows={3}
+                  className='w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white placeholder-slate-500 transition focus:border-blue-400/60 focus:outline-none'
+                  placeholder={t('form.descriptionEnPlaceholder')}
                 />
               </div>
 
