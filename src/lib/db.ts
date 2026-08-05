@@ -23,7 +23,7 @@ const db_re_eco = mysql.createPool({
     user: process.env.DB_USER2,
     password: process.env.DB_PASSWORD2,
     database: process.env.DB_NAME2,
-    connectionLimit: 10,
+    connectionLimit: 8,
     waitForConnections: true,
     queueLimit: 0,
     enableKeepAlive: true,
