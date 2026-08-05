@@ -101,8 +101,8 @@ export async function POST(req: Request) {
     const paidAmount = paypalOrder.purchase_units[0].amount.value;
     const currency = paypalOrder.purchase_units[0].amount.currency_code;
     
-    // Validar que el monto es correcto (6,900 MXN)
-    const expectedAmount = '6900.00';
+    // Validar que el monto es correcto (6,960 MXN)
+    const expectedAmount = '6960.00';
     if (parseFloat(paidAmount) !== parseFloat(expectedAmount)) {
       return NextResponse.json(
         { message: 'El monto del pago no coincide con el precio del módulo' },
