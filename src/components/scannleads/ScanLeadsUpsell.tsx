@@ -116,20 +116,19 @@ export function ScanLeadsUpsell({ userId, userName, userEmail }: ScanLeadsUpsell
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50">
       <section className="mx-auto max-w-7xl space-y-16 px-6 py-16">
-        
         {/* Header */}
         <div className="text-center space-y-6">
           <div className="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 px-4 py-2 text-sm font-medium text-emerald-400 border border-emerald-500/20">
             <ZapIcon />
-            {t('badge')}
+            {t("badge")}
           </div>
-          
+
           <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
-            {t('title')}
+            {t("title")}
           </h1>
-          
+
           <p className="text-xl text-slate-400 max-w-3xl mx-auto leading-relaxed">
-            {t('subtitle')}
+            {t("subtitle")}
           </p>
         </div>
 
@@ -137,35 +136,48 @@ export function ScanLeadsUpsell({ userId, userName, userEmail }: ScanLeadsUpsell
         <div className="max-w-md mx-auto">
           <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 p-8 border border-emerald-500/20 backdrop-blur-sm">
             <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent" />
-            
+
             <div className="relative space-y-6">
-              <div className="text-center space-y-2">
-                <p className="text-sm font-medium text-slate-400 uppercase tracking-wider">
-                  {t('pricing.label')}
+              <div className="text-center space-y-4">
+                <p className="text-sm font-medium text-white uppercase tracking-wider">
+                  {t("pricing.label")}
                 </p>
-                <div className="flex items-baseline justify-center gap-2">
-                  <span className="text-5xl font-bold text-white">$10,750</span>
-                  <span className="text-2xl text-slate-400">MXN</span>
+                <div className="flex items-baseline justify-center gap-2 mb-10">
+                  <span className="text-5xl font-bold text-amber-400">$6,900</span>
+                  <span className="text-2xl text-white">MXN</span>
                 </div>
-                <p className="text-sm text-slate-500">{t('pricing.single')}</p>
+                <p className="text-base text-white uppercase font-semibold mt-8">{t("pricing.noteIva")}</p>
               </div>
 
               {!showPayPal ? (
                 <button
                   onClick={() => setShowPayPal(true)}
-                  className="w-full rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 px-8 py-4 font-semibold text-white shadow-lg shadow-emerald-500/25 transition-all hover:shadow-emerald-500/40 hover:scale-[1.02] active:scale-[0.98]"
+                  className="w-full rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 px-8 py-4 text-white shadow-lg shadow-emerald-500/25 transition-all hover:shadow-emerald-500/40 hover:scale-[1.02] active:scale-[0.98] uppercase font-extrabold flex items-center justify-center gap-2 text-lg"
                 >
-                  {t('pricing.cta')}
+                  {t("pricing.cta")}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M5 12h14m-7-7l7 7l-7 7"
+                    />
+                  </svg>
                 </button>
               ) : (
-                <BuyScanLeads 
-                  userId={userId}                                  
-                />
+                <BuyScanLeads userId={userId} />
               )}
 
-                <p className="text-center text-xs text-slate-500">
-                    {t('pricing.guarantee')}
-                </p>
+              <p className="text-center text-base text-white">
+                {t("pricing.guarantee")}
+              </p>
             </div>
           </div>
         </div>
@@ -173,8 +185,10 @@ export function ScanLeadsUpsell({ userId, userName, userEmail }: ScanLeadsUpsell
         {/* Features Grid */}
         <div className="space-y-8">
           <div className="text-center space-y-2">
-            <h2 className="text-3xl font-bold text-white">{t('featuresTitle')}</h2>
-            <p className="text-slate-400">{t('featuresSubtitle')}</p>
+            <h2 className="text-3xl font-bold text-white">
+              {t("featuresTitle")}
+            </h2>
+            <p className="text-slate-400">{t("featuresSubtitle")}</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -186,16 +200,16 @@ export function ScanLeadsUpsell({ userId, userName, userEmail }: ScanLeadsUpsell
                   className="group relative overflow-hidden rounded-xl bg-white/5 p-6 backdrop-blur-sm border border-white/10 transition-all hover:bg-white/10 hover:border-emerald-500/30"
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/0 to-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  
+
                   <div className="relative space-y-3">
                     <div className="inline-flex rounded-lg bg-emerald-500/10 p-3 text-emerald-400 group-hover:bg-emerald-500/20 transition-colors">
                       <Icon />
                     </div>
-                    
+
                     <h3 className="text-lg font-semibold text-white">
                       {feature.title}
                     </h3>
-                    
+
                     <p className="text-sm text-slate-400 leading-relaxed">
                       {feature.description}
                     </p>
@@ -210,9 +224,9 @@ export function ScanLeadsUpsell({ userId, userName, userEmail }: ScanLeadsUpsell
         <div className="max-w-4xl mx-auto">
           <div className="rounded-2xl bg-white/5 p-8 md:p-12 backdrop-blur-sm border border-white/10">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-8 text-center">
-              {t('benefitsTitle')}
+              {t("benefitsTitle")}
             </h2>
-            
+
             <div className="grid md:grid-cols-2 gap-4">
               {benefits.map((benefit, index) => (
                 <div key={index} className="flex items-start gap-3">
@@ -227,10 +241,9 @@ export function ScanLeadsUpsell({ userId, userName, userEmail }: ScanLeadsUpsell
         </div>
 
         {/* Footer Note */}
-        <div className="text-center text-sm text-slate-500 max-w-2xl mx-auto">
-          <p>{t('footer.note')}</p>
+        <div className="text-center text-sm text-cyan-100 max-w-2xl mx-auto">
+          <p>{t("footer.note")}</p>
         </div>
-
       </section>
     </main>
   );

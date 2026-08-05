@@ -926,8 +926,9 @@
     "pricing": {
       "label": "Pago por evento",
       "single": "Acceso durante todo el evento",
-      "cta": "Comprar ahora • $10,750 MXN",
-      "guarantee": "Activación inmediata • Soporte incluido"
+      "cta": "Comprar ahora",
+      "guarantee": "Activación inmediata • Soporte incluido",
+      "noteIva": "* El precio ya incluye IVA *"
     },
     "featuresTitle": "Todo lo que necesitas para capturar leads",
     "featuresSubtitle": "Herramientas profesionales para maximizar tu inversión en el evento",

@@ -16,7 +16,7 @@ export function BuyScanLeads({ userId }: BuyScanLeadsProps) {
   const { notify } = useToaster()
   const [isProcessing, setIsProcessing] = useState(false)
 
-  const modulePrice = 10750 // $10,750 MXN
+  const modulePrice = 6900 // $6,900 MXN PARA STE 2026
   
   // Map current locale to PayPal locale format
   const paypalLocale = locale === 'es' ? 'es_MX' : locale === 'en' ? 'en_US' : 'it_IT'
