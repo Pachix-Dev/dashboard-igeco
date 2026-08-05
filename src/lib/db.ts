@@ -8,7 +8,7 @@ const db = mysql.createPool({
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
-    connectionLimit: 100, // Máximo 10 conexiones simultáneas
+    connectionLimit: 10, // Máximo 10 conexiones simultáneas
     waitForConnections: true, // Esperar si no hay conexiones disponibles
     queueLimit: 0, // Sin límite de cola
     enableKeepAlive: true,
@@ -23,7 +23,7 @@ const db_re_eco = mysql.createPool({
     user: process.env.DB_USER2,
     password: process.env.DB_PASSWORD2,
     database: process.env.DB_NAME2,
-    connectionLimit: 100,
+    connectionLimit: 10,
     waitForConnections: true,
     queueLimit: 0,
     enableKeepAlive: true,
