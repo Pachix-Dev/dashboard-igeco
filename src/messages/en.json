@@ -215,9 +215,9 @@
       "emailRequired": "Email is required",
       "emailInvalid": "Invalid email format",
       "phone": "Phone",
-      "phonePlaceholder": "5512345678",
+      "phonePlaceholder": "551234567890123",
       "phoneRequired": "Phone is required",
-      "phoneInvalid": "Must contain 10 digits",
+      "phoneInvalid": "Must contain up to 15 digits",
       "position": "Position",
       "positionPlaceholder": "E.g: Director, Manager",
       "positionRequired": "Position is required",
@@ -324,7 +324,7 @@
       "email": "Email",
       "emailPlaceholder": "email@company.com",
       "phone": "Phone",
-      "phonePlaceholder": "e.g. 5512345678",
+      "phonePlaceholder": "e.g. 551234567890123",
       "position": "Position",
       "positionPlaceholder": "e.g. Sales Manager",
       "nationality": "Nationality",
@@ -334,7 +334,7 @@
       "errors": {
         "required": "Required field",
         "email": "Invalid email format",
-        "phone": "Must contain 10 digits"
+        "phone": "Must contain up to 15 digits"
       }
     },
     "list": {

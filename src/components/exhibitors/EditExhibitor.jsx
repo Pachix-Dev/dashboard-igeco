@@ -212,7 +212,7 @@ export function EditExhibitor({ exhibitor, userId, onExhibitorUpdated }) {
                     {...register('phone', {
                       required: t('phoneRequired'),
                       pattern: {
-                        value: /^[0-9]{10}$/,
+                        value: /^[0-9]{1,15}$/,
                         message: t('phoneInvalid'),
                       },
                       onChange: (e) => handleChange(e),

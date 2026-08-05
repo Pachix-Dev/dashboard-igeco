@@ -224,7 +224,7 @@ export function AddExhibitor({
                       {...register('phone', {
                         required: t('form.errors.required'),
                         pattern: {
-                          value: /^[0-9]{10}$/,
+                          value: /^[0-9]{1,15}$/,
                           message: t('form.errors.phone'),
                         },
                         onChange: handleChange,

@@ -115,9 +115,9 @@
       "emailRequired": "L'email è obbligatoria",
       "emailInvalid": "Formato email non valido",
       "phone": "Telefono",
-      "phonePlaceholder": "5512345678",
+      "phonePlaceholder": "551234567890123",
       "phoneRequired": "Il telefono è obbligatorio",
-      "phoneInvalid": "Deve contenere 10 cifre",
+      "phoneInvalid": "Deve contenere massimo 15 cifre",
       "position": "Posizione",
       "positionPlaceholder": "Es: Direttore, Manager",
       "positionRequired": "La posizione è obbligatoria",
@@ -225,7 +225,7 @@
       "email": "Email",
       "emailPlaceholder": "email@azienda.com",
       "phone": "Telefono",
-      "phonePlaceholder": "Es: 5512345678",
+      "phonePlaceholder": "Es: 551234567890123",
       "position": "Ruolo",
       "positionPlaceholder": "Es: Sales Manager",
       "nationality": "Nazionalità",
@@ -235,7 +235,7 @@
       "errors": {
         "required": "Campo obbligatorio",
         "email": "Formato email non valido",
-        "phone": "Deve contenere 10 cifre"
+        "phone": "Deve contenere massimo 15 cifre"
       }
     },
     "list": {

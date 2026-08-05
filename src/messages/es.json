@@ -192,9 +192,9 @@
       "emailRequired": "El correo es requerido",
       "emailInvalid": "Formato de correo inválido",
       "phone": "Teléfono",
-      "phonePlaceholder": "5512345678",
+      "phonePlaceholder": "551234567890123",
       "phoneRequired": "El teléfono es requerido",
-      "phoneInvalid": "Debe contener 10 dígitos",
+      "phoneInvalid": "Debe contener máximo 15 dígitos",
       "position": "Cargo",
       "positionPlaceholder": "Ej: Director, Gerente",
       "positionRequired": "El cargo es requerido",
@@ -225,7 +225,7 @@
       "email": "Email",
       "emailPlaceholder": "correo@empresa.com",
       "phone": "Teléfono",
-      "phonePlaceholder": "Ej: 5512345678",
+      "phonePlaceholder": "Ej: 551234567890123",
       "position": "Cargo",
       "positionPlaceholder": "Ej: Sales Manager",
       "nationality": "Nacionalidad",
@@ -235,7 +235,7 @@
       "errors": {
         "required": "Campo requerido",
         "email": "Formato de email inválido",
-        "phone": "Debe contener 10 dígitos"
+        "phone": "Debe contener máximo 15 dígitos"
       }
     },
     "list": {
