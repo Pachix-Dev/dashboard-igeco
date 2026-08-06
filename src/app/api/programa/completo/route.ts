@@ -20,6 +20,7 @@ export async function GET(req: Request) {
         e.name AS escenario_name,
         e.feria AS escenario_feria,
         e.description AS escenario_description,
+        e.description_eng AS escenario_description_eng,
         e.location AS escenario_location,
         e.capacity AS escenario_capacity,
         pd.id AS dia_id,
@@ -75,7 +76,7 @@ export async function GET(req: Request) {
     if (conferenciaIds.length > 0) {
       const [ponentesResult]: any = await db.query(
         `SELECT pcp.conferencia_id, pcp.role, pcp.order_index,
-                p.id, p.name, p.position, p.company, p.photo, p.bio_esp, p.bio_eng
+                p.id, p.name, p.position_esp, p.position_eng, p.company, p.company_eng, p.photo, p.bio_esp, p.bio_eng
          FROM programa_conferencia_ponentes pcp
          INNER JOIN ponentes p ON pcp.ponente_id = p.id AND p.estatus = 1
          WHERE pcp.conferencia_id IN (?)
