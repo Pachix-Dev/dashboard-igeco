@@ -1140,5 +1140,35 @@
       "label": "16/10/2026",
       "documentationRegistration": "Deadline for documentation registration : 16/10/2026"
     }
+  },
+  "ScanLeadsClientTemp": {
+    "badge": "Purchase confirmed",
+    "title": "Thank you for purchasing the Lead Scanner service",
+    "description": "The service will be activated on November 10, 2026. To use the application, you will need a device with a camera and an internet connection; internet service is not included. In the meantime, download the application, review the user manual, and prepare your team.",
+    "nextSteps": {
+      "title": "Before you start",
+      "access": {
+        "title": "Download the application",
+        "description": "Install the Lead Scanner app on the device with a camera that you will use during the event."
+      },
+      "scan": {
+        "title": "Prepare your connection",
+        "description": "The app requires an internet connection to operate correctly. This service is not included, so you must have mobile data or an available network."
+      },
+      "export": {
+        "title": "Download your data on time",
+        "description": "You will have 15 calendar days after the expo to download the data from the leads obtained during the event."
+      }
+    },
+    "status": {
+      "label": "Scheduled activation",
+      "title": "Your service will be activated on November 10, 2026",
+      "description": "Use the links below to install the application and review the user manual before the event."
+    },
+    "actions": {
+      "downloadApp": "Download application",
+      "readManual": "Read user manual"
+    },
+    "support": "If you have questions about your activation, email jesus.zermeno@igeco.mx or visit the exhibitor attention module for activation and support."
   }
 }

@@ -1141,6 +1141,36 @@
       "label": "16/10/2026",
       "documentationRegistration": "Fecha limite para completar expediente : 16/10/2026"
     }
+  },
+  "ScanLeadsClientTemp": {
+    "badge": "Compra confirmada",
+    "title": "Gracias por adquirir el servicio de Scanner de Leads",
+    "description": "La activación del servicio se realizará el 10 de noviembre de 2026. Para usar la aplicación necesitarás un dispositivo con cámara y conexión a internet; el servicio de internet no está incluido. Mientras tanto, descarga la aplicación, revisa el manual de uso y prepara a tu equipo.",
+    "nextSteps": {
+      "title": "Antes de comenzar",
+      "access": {
+        "title": "Descarga la aplicación",
+        "description": "Instala la app de Scanner de Leads en el dispositivo con cámara que usarás dentro del evento."
+      },
+      "scan": {
+        "title": "Prepara tu conexión",
+        "description": "La app requiere conexión a internet para operar correctamente. Este servicio no está incluido, por lo que deberás contar con datos móviles o una red disponible."
+      },
+      "export": {
+        "title": "Descarga tu data a tiempo",
+        "description": "Tendrás 15 días naturales después de la expo para descargar la data de los leads obtenidos durante el evento."
+      }
+    },
+    "status": {
+      "label": "Activación programada",
+      "title": "Disponible a partir del 10 de noviembre de 2026",
+      "description": "Usa los accesos de abajo para instalar la aplicación y consultar el manual de uso antes del evento."
+    },
+    "actions": {
+      "downloadApp": "Descargar aplicación",
+      "readManual": "Leer manual de uso"
+    },
+    "support": "Si tienes dudas sobre tu activación, escribe a jesus.zermeno@igeco.mx o acude al módulo de atención a expositores para activación y soporte."
   }
 }
 
