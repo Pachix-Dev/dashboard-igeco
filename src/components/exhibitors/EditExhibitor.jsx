@@ -175,8 +175,7 @@ export function EditExhibitor({ exhibitor, userId, onExhibitorUpdated }) {
                     {...register('email', {
                       required: t('emailRequired'),
                       pattern: {
-                        value:
-                          /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                        value:/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,9}$/,
                         message: t('emailInvalid'),
                       },
                       onChange: (e) => handleChange(e),

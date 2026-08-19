@@ -277,7 +277,7 @@ export function AddUser({ onUserCreated }) {
                         required: t('form.errors.required'),
                         pattern: {
                           value:
-                            /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                            /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,9}$/,
                           message: t('form.errors.email'),
                         },
                         onChange: handleChange,
