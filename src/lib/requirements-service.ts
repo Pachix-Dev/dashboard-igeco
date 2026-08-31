@@ -784,7 +784,7 @@ export async function listExhibitorsForRequirementsReview(actor: RequirementsAct
             r.updated_at
      FROM users u
      LEFT JOIN requirements_records r ON r.user_id = u.id
-     WHERE u.role IN ('exhibitor', 'exhibitorplus')
+     WHERE u.role IN ('exhibitor', 'exhibitorplus') AND u.status = 1
      ORDER BY u.created_at DESC`
   );
 

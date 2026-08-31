@@ -13,16 +13,24 @@ export function ListUsers({ users: initialUsers, onUserUpdated }) {
   const [users, setUsers] = useState(initialUsers)
 
   const [searchTerm, setSearchTerm] = useState('')
+  const [statusFilter, setStatusFilter] = useState('all')
+  const [eventFilter, setEventFilter] = useState('all')
   const [filteredUsers, setFilteredUsers] = useState(initialUsers)
 
-  // Actualizar estado cuando cambien los usuarios desde el padre
+  const eventOptions = Array.from(
+    new Set(initialUsers.map((user) => user.event).filter(Boolean))
+  ).sort()
+
   useEffect(() => {
     setUsers(initialUsers)
-    if (searchTerm.trim() === '') {
-      setFilteredUsers(initialUsers)
-    } else {
-      const lowerQuery = searchTerm.toLowerCase()
-      const results = initialUsers.filter(
+  }, [initialUsers])
+
+  useEffect(() => {
+    const lowerQuery = searchTerm.trim().toLowerCase()
+    let results = [...users]
+
+    if (lowerQuery) {
+      results = results.filter(
         (item) =>
           item.name?.toLowerCase().includes(lowerQuery) ||
           item.email?.toLowerCase().includes(lowerQuery) ||
@@ -30,33 +38,27 @@ export function ListUsers({ users: initialUsers, onUserUpdated }) {
           item.company?.toLowerCase().includes(lowerQuery) ||
           item.stand?.toLowerCase().includes(lowerQuery)
       )
-      setFilteredUsers(results)
     }
-  }, [initialUsers, searchTerm])
+
+    if (statusFilter !== 'all') {
+      results = results.filter((item) => {
+        const isActive = Number(item.status) === 1
+        return statusFilter === 'active' ? isActive : !isActive
+      })
+    }
+
+    if (eventFilter !== 'all') {
+      results = results.filter((item) => item.event === eventFilter)
+    }
+
+    setFilteredUsers(results)
+    setCurrentPage(1)
+  }, [users, searchTerm, statusFilter, eventFilter])
 
   const totalPages = Math.max(1, Math.ceil(filteredUsers.length / itemsPerPage))
 
   const searchResults = (query) => {
     setSearchTerm(query)
-
-    if (query.trim() === '') {
-      setFilteredUsers(users)
-      setCurrentPage(1)
-      return
-    }
-
-    const lowerQuery = query.toLowerCase()
-    const results = users.filter(
-      (item) =>
-        item.name?.toLowerCase().includes(lowerQuery) ||
-        item.email?.toLowerCase().includes(lowerQuery) ||
-        item.event?.toLowerCase().includes(lowerQuery) ||
-        item.company?.toLowerCase().includes(lowerQuery) ||
-        item.stand?.toLowerCase().includes(lowerQuery)
-    )
-
-    setFilteredUsers(results)
-    setCurrentPage(1)
   }
 
   const currentUsers = filteredUsers.slice(
@@ -115,6 +117,29 @@ export function ListUsers({ users: initialUsers, onUserUpdated }) {
               </svg>
             </span>
           </div>
+
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className='rounded-xl border border-white/10 bg-slate-900/70 px-3 py-2.5 text-sm text-white outline-none transition focus:border-blue-400/60'
+          >
+            <option value='all'>Todos los estatus</option>
+            <option value='active'>Activos</option>
+            <option value='inactive'>Inactivos</option>
+          </select>
+
+          <select
+            value={eventFilter}
+            onChange={(e) => setEventFilter(e.target.value)}
+            className='rounded-xl border border-white/10 bg-slate-900/70 px-3 py-2.5 text-sm text-white outline-none transition focus:border-blue-400/60'
+          >
+            <option value='all'>Todos los eventos</option>
+            {eventOptions.map((event) => (
+              <option key={event} value={event}>
+                {event}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 

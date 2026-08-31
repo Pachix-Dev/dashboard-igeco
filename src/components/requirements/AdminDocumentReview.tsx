@@ -34,8 +34,20 @@ export function AdminDocumentReview({ adminName }: AdminDocumentReviewProps) {
   const { notify } = useToaster();
   const [exhibitors, setExhibitors] = useState<ExhibitorItem[]>([]);
   const [selectedId, setSelectedId] = useState<number>(0);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const selected = exhibitors.find((item) => item.id === selectedId) || exhibitors[0];
+  const filteredExhibitors = useMemo(() => {
+    const query = searchTerm.trim().toLowerCase();
+    if (!query) return exhibitors;
+
+    return exhibitors.filter((item) =>
+      item.name.toLowerCase().includes(query) ||
+      item.company.toLowerCase().includes(query) ||
+      item.event.toLowerCase().includes(query)
+    );
+  }, [exhibitors, searchTerm]);
+
+  const selected = filteredExhibitors.find((item) => item.id === selectedId) || filteredExhibitors[0];
 
   const sections = useMemo(() => {
     const grouped: Record<ReviewBucket, ExhibitorItem[]> = {
@@ -45,7 +57,7 @@ export function AdminDocumentReview({ adminName }: AdminDocumentReviewProps) {
       pendingOptional: []
     };
 
-    exhibitors.forEach((item) => {
+    filteredExhibitors.forEach((item) => {
       if (item.mountingLetterSent) {
         grouped.mountingLetter.push(item);
       } else if (item.generalStatus === 'authorized') {
@@ -60,7 +72,18 @@ export function AdminDocumentReview({ adminName }: AdminDocumentReviewProps) {
     });
 
     return grouped;
-  }, [exhibitors]);
+  }, [filteredExhibitors]);
+
+  useEffect(() => {
+    if (filteredExhibitors.length === 0) {
+      setSelectedId(0);
+      return;
+    }
+
+    if (!filteredExhibitors.some((item) => item.id === selectedId)) {
+      setSelectedId(filteredExhibitors[0].id);
+    }
+  }, [filteredExhibitors, selectedId]);
 
   useEffect(() => {
     let mounted = true;
@@ -114,71 +137,83 @@ export function AdminDocumentReview({ adminName }: AdminDocumentReviewProps) {
           <p className="text-sm text-slate-400">{t('Requirements.messages.exhibitor_selection')}</p>
         </div>
 
-        {(
-          [
-            'mountingLetter',
-            'authorized',
-            'pendingRequired',
-            'pendingOptional'
-          ] as ReviewBucket[]
-        ).map((bucket) => {
-          const bucketItems = sections[bucket];
-          
-          const getBucketLabel = () => {
+        <div className="relative">
+          <input
+            type="search"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            placeholder="Buscar expositor por nombre, empresa o evento"
+            className="w-full rounded-xl border border-white/10 bg-slate-900/70 px-3 py-2.5 pr-10 text-sm text-white placeholder-slate-500 outline-none transition focus:border-blue-400/60"
+          />
+          <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-slate-500">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="h-4 w-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+          </span>
+        </div>
+
+        {filteredExhibitors.length === 0 ? (
+          <p className="rounded-xl border border-white/10 bg-slate-950/50 p-3 text-sm text-slate-400">
+            No se encontraron expositores con ese criterio.
+          </p>
+        ) : (
+          (
+            ['mountingLetter', 'authorized', 'pendingRequired', 'pendingOptional'] as ReviewBucket[]
+          ).map((bucket) => {
+            const bucketItems = sections[bucket];
             const labels: Record<ReviewBucket, string> = {
               mountingLetter: t('Requirements.messages.section_buckets.mounting_letter_sent'),
               authorized: t('Requirements.messages.section_buckets.authorized'),
               pendingRequired: t('Requirements.messages.section_buckets.pending_required'),
               pendingOptional: t('Requirements.messages.section_buckets.pending_optional')
             };
-            return labels[bucket];
-          };
 
-          return (
-            <section key={bucket} className="space-y-2 rounded-xl border border-white/10 bg-slate-950/50 p-3">
-              <div className="flex items-center justify-between gap-3">
-                <h4 className="text-sm font-semibold text-white">{getBucketLabel()}</h4>
-                <span className="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-xs text-slate-300">{bucketItems.length}</span>
-              </div>
+            return (
+              <section key={bucket} className="space-y-2 rounded-xl border border-white/10 bg-slate-950/50 p-3">
+                <div className="flex items-center justify-between gap-3">
+                  <h4 className="text-sm font-semibold text-white">{labels[bucket]}</h4>
+                  <span className="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-xs text-slate-300">{bucketItems.length}</span>
+                </div>
 
-              {bucketItems.length > 0 ? (
-                <ul className="space-y-2">
-                  {bucketItems.map((item) => {
-                    const active = item.id === selected?.id;
-                    return (
-                      <li key={item.id}>
-                        <button
-                          type="button"
-                          onClick={() => setSelectedId(item.id)}
-                          className={`w-full rounded-xl border p-3 text-left transition ${
-                            active
-                              ? 'border-blue-500/40 bg-blue-500/10 text-blue-100'
-                              : 'border-white/10 bg-slate-900/60 text-slate-200 hover:border-white/25'
-                          }`}
-                        >
-                          <p className="text-sm font-semibold uppercase">{item.company}</p>
-                          <p className="text-xs text-slate-400">{item.name}</p>
-                          <p className="mt-1 text-xs text-slate-500">{item.event}</p>
-                          <p className="mt-1 text-[11px] text-slate-500">
-                            {item.requiredPending > 0
-                              ? `${item.requiredPending} ${t('Requirements.labels.required_pending')}`
-                              : item.optionalPending > 0
-                                ? `${item.optionalPending} ${t('Requirements.labels.optional_loaded')}`
-                                : item.mountingLetterSent
-                                  ? t('Requirements.status.mounting_letter_sent')
-                                  : t('Requirements.status.authorized_general')}
-                          </p>
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
-              ) : (
-                <p className="text-xs text-slate-500">{t('Requirements.messages.no_exhibitors')}</p>
-              )}
-            </section>
-          );
-        })}
+                {bucketItems.length > 0 ? (
+                  <ul className="space-y-2">
+                    {bucketItems.map((item) => {
+                      const active = item.id === selected?.id;
+                      return (
+                        <li key={item.id}>
+                          <button
+                            type="button"
+                            onClick={() => setSelectedId(item.id)}
+                            className={`w-full rounded-xl border p-3 text-left transition ${
+                              active
+                                ? 'border-blue-500/40 bg-blue-500/10 text-blue-100'
+                                : 'border-white/10 bg-slate-900/60 text-slate-200 hover:border-white/25'
+                            }`}
+                          >
+                            <p className="text-sm font-semibold uppercase">{item.company}</p>
+                            <p className="text-xs text-slate-400">{item.name}</p>
+                            <p className="mt-1 text-xs text-slate-500">{item.event}</p>
+                            <p className="mt-1 text-[11px] text-slate-500">
+                              {item.requiredPending > 0
+                                ? `${item.requiredPending} ${t('Requirements.labels.required_pending')}`
+                                : item.optionalPending > 0
+                                  ? `${item.optionalPending} ${t('Requirements.labels.optional_loaded')}`
+                                  : item.mountingLetterSent
+                                    ? t('Requirements.status.mounting_letter_sent')
+                                    : t('Requirements.status.authorized_general')}
+                            </p>
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                ) : (
+                  <p className="text-xs text-slate-500">{t('Requirements.messages.no_exhibitors')}</p>
+                )}
+              </section>
+            );
+          })
+        )}
       </aside>
 
       {selected ? (
@@ -190,7 +225,7 @@ export function AdminDocumentReview({ adminName }: AdminDocumentReviewProps) {
           exhibitorCompany={selected.company}
           initialStand={selected.standType}
           targetUserId={selected.id}
-          allowStandSelection={false}
+          allowStandSelection
         />
       ) : (
         <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-sm text-slate-300">
