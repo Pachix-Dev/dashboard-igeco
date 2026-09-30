@@ -176,7 +176,7 @@ export function AdminDocumentReview({ adminName }: AdminDocumentReviewProps) {
                 </div>
 
                 {bucketItems.length > 0 ? (
-                  <ul className="space-y-2">
+                  <ul className="max-h-64 space-y-2 overflow-y-auto pr-1">
                     {bucketItems.map((item) => {
                       const active = item.id === selected?.id;
                       return (
