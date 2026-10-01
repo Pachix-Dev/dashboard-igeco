@@ -817,6 +817,11 @@
           "technical_table": "Mesa Técnica",
           "other": "Altro"
         },
+        "language": "Lingua",
+        "languages": {
+          "spanish": "Spagnolo",
+          "english": "Inglese"
+        },
         "room": "Sala",
         "roomPlaceholder": "Es: Sala A",
         "companyLogo": "Logo dell'azienda",

@@ -817,6 +817,11 @@
           "technical_table": "Technical Table",
           "other": "Other"
         },
+        "language": "Language",
+        "languages": {
+          "spanish": "Spanish",
+          "english": "English"
+        },
         "room": "Room",
         "roomPlaceholder": "e.g.: Room A",
         "companyLogo": "Company logo",

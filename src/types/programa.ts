@@ -32,6 +32,7 @@ export interface ProgramaDia {
 
 export type ConferenciaType = 'keynote' | 'panel' | 'workshop' | 'presentation' | 'conference' | 'networking' | 'technical' | 'other'
 export type PonenteRole = 'speaker' | 'moderator' | 'panelist' | 'guest'
+export type ConferenciaLanguage = 'es' | 'en'
 
 export interface Conferencia {
   id: number
@@ -43,6 +44,7 @@ export interface Conferencia {
   start_time: string
   end_time: string
   room?: string
+  language?: ConferenciaLanguage
   type: ConferenciaType
   capacity?: number
   tags?: string[]
@@ -86,6 +88,7 @@ export interface ProgramaCompleto {
   end_time: string
   room?: string
   conferencia_type: ConferenciaType
+  conferencia_language?: ConferenciaLanguage
   capacity?: number
   ponentes_info?: string
 }
@@ -116,6 +119,7 @@ export interface ConferenciaForm {
   start_time: string
   end_time: string
   room?: string
+  language: ConferenciaLanguage
   type: ConferenciaType  
   tags?: string[]
   company_logo?: string

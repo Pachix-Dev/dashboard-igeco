@@ -69,6 +69,7 @@ export function GestionConferencias({
     setValue,
   } = useForm<ConferenciaForm>({
     defaultValues: {
+      language: "es",
       ponentes: [],
     },
   });
@@ -173,6 +174,7 @@ export function GestionConferencias({
         start_time: "",
         end_time: "",
         room: "",
+        language: "es",
         type: "presentation",
         tags: [],
         company_logo: "",
@@ -197,6 +199,7 @@ export function GestionConferencias({
           start_time: conf.start_time,
           end_time: conf.end_time,
           room: conf.room || "",
+          language: conf.language || "es",
           type: conf.type,
           tags: conf.tags || [],
           company_logo: conf.company_logo || "",
@@ -472,6 +475,13 @@ export function GestionConferencias({
                         {conf.room}
                       </span>
                     )}
+                    {conf.language && (
+                      <span className="rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-xs font-semibold text-slate-300">
+                        {conf.language === "en"
+                          ? t("form.languages.english")
+                          : t("form.languages.spanish")}
+                      </span>
+                    )}
                     {conf.total_ponentes > 0 && (
                       <span className="flex items-center gap-1">
                         👥 {conf.total_ponentes} {t("table.ponentes")}
@@ -682,8 +692,31 @@ export function GestionConferencias({
                   </div>
                 </div>
 
-                {/* Sala y Capacidad */}
+                {/* Sala e idioma */}
                 <div className="grid gap-4 md:grid-cols-2">
+
+                  {/* Idioma */}
+                  <div className="space-y-2">
+                    <label className="text-sm font-semibold text-slate-200">
+                      {t("form.language")}
+                    </label>
+                    <select
+                      {...register("language", {
+                        required: t("form.errors.required"),
+                      })}
+                      className="w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-sm text-white transition focus:border-blue-400/60 focus:outline-none"
+                    >
+                      <option value="es">{t("form.languages.spanish")}</option>
+                      <option value="en">{t("form.languages.english")}</option>
+                    </select>
+                    {errors.language && (
+                      <p className="text-sm text-rose-400">
+                        {errors.language.message}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Sala */}
                   <div className="space-y-2">
                     <label className="text-sm font-semibold text-slate-200">
                       {t("form.room")}
