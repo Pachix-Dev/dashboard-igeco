@@ -20,7 +20,7 @@ export function BuyExhibitors({ userId, currentTotal, maxExhibitors, onPurchaseC
   const [quantity, setQuantity] = useState(1)
   const [isProcessing, setIsProcessing] = useState(false)
 
-  const pricePerExhibitor = 300 // $300 MXN por expositor
+  const pricePerExhibitor = 350 // $350 MXN por expositor ya incluido impuestos
   const totalPrice = (quantity * pricePerExhibitor).toFixed(2)
   const formattedPrice = (quantity * pricePerExhibitor).toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 

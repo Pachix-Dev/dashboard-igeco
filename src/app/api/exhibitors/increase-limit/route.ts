@@ -89,8 +89,8 @@ export async function POST(req: Request) {
     const paidAmount = paypalOrder.purchase_units[0].amount.value;
     const currency = paypalOrder.purchase_units[0].amount.currency_code;
     
-    // Validar que el monto es correcto (300 MXN por slot)
-    const expectedAmount = (additional_slots * 300).toFixed(2);
+    // Validar que el monto es correcto (350 MXN por slot)
+    const expectedAmount = (additional_slots * 350).toFixed(2);
     if (paidAmount !== expectedAmount) {
       return NextResponse.json(
         { message: 'El monto del pago no coincide con la cantidad de espacios' },
@@ -177,7 +177,7 @@ export async function POST(req: Request) {
             userEmail: user.email,
             userCompany: user.company,
             quantity: additional_slots,
-            pricePerSlot: 300,
+            pricePerSlot: 350,
             totalAmount: parseFloat(paidAmount),
             currency: currency,
             paymentId: payment_id,

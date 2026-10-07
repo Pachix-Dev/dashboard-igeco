@@ -133,7 +133,7 @@ export default function ReceiptEmail({
   userEmail = 'usuario@ejemplo.com',
   userCompany,
   quantity = 5,
-  pricePerSlot = 300,
+  pricePerSlot = 350,
   totalAmount = 1500,
   currency = 'MXN',
   paymentId = 'PAYPAL-12345',
@@ -322,7 +322,7 @@ export default function ReceiptEmail({
               {t.needInvoice}
             </Heading>
             <Text style={invoiceText}>
-              {t.invoiceInstruction}{' '}
+              {t.invoiceInstruction}
               <strong style={email}>emmanuel.heredia@igeco.mx</strong>
             </Text>
             <Text style={invoiceText}>
@@ -580,10 +580,11 @@ const successText = {
 }
 
 const invoiceSection = {
-  padding: '0 40px',
+  padding: '20px 30px',
   backgroundColor: '#fef3c7',
   borderRadius: '8px',
-  margin: '0 40px',
+  margin: '0 10px',
+  width: '650px',
 }
 
 const invoiceText = {

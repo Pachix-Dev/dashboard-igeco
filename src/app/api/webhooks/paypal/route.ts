@@ -163,7 +163,7 @@ async function handlePaymentCompleted(event: any) {
             userEmail: user.email,
             userCompany: user.company,
             quantity: payment.amount_slots,
-            pricePerSlot: 300,
+            pricePerSlot: 350,
             totalAmount: parseFloat(payment.amount_paid),
             currency: payment.currency,
             paymentId: payment.payment_id,
