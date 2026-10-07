@@ -140,7 +140,8 @@
       "pending": "Pago pendiente de confirmación",
       "pendingMessage": "Tu pago está siendo procesado por PayPal. Te notificaremos por correo cuando se complete y los gafetes sean activados.",
       "error": "Error al procesar el pago. Intenta nuevamente",
-      "paymentError": "Error en el pago. Por favor verifica tu método de pago"
+      "paymentError": "Error en el pago. Por favor verifica tu método de pago",
+      "ivaIncluded": "El precio ya incluye IVA"
     },
     "receipt": {
       "subject": "Recibo de compra - Gafetes de expositores IGECO",

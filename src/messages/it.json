@@ -169,7 +169,8 @@
       "pending": "Pagamento in attesa di conferma",
       "pendingMessage": "Il tuo pagamento è in fase di elaborazione da PayPal. Ti avviseremo via email quando sarà completato e le gafette saranno attivate.",
       "error": "Errore durante l'elaborazione del pagamento. Riprova",
-      "paymentError": "Errore nel pagamento. Verifica il tuo metodo di pagamento"
+      "paymentError": "Errore nel pagamento. Verifica il tuo metodo di pagamento",
+      "ivaIncluded": "Il prezzo include IVA"
     },
     "receipt": {
       "subject": "Ricevuta di acquisto - Gafette espositore IGECO",

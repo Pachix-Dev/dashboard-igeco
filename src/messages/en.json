@@ -269,7 +269,8 @@
       "pending": "Payment pending confirmation",
       "pendingMessage": "Your payment is being processed by PayPal. We will notify you by email when it is completed and the badges are activated.",
       "error": "Error processing payment. Please try again",
-      "paymentError": "Payment error. Please check your payment method"
+      "paymentError": "Payment error. Please check your payment method",
+      "ivaIncluded": "Price includes VAT"
     },
     "receipt": {
       "subject": "Purchase Receipt - IGECO Exhibitor badges",

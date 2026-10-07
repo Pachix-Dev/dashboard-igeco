@@ -211,6 +211,9 @@ export function BuyExhibitors({ userId, currentTotal, maxExhibitors, onPurchaseC
                     <span className='text-lg font-bold text-white'>{t('total')}</span>
                     <span className='text-2xl font-bold text-emerald-400'>${formattedPrice} MXN</span>
                   </div>
+                  <p className='mt-1 text-right text-base font-medium text-emerald-200 italic uppercase'>
+                    {t('ivaIncluded')}
+                  </p>
                 </div>
               </div>
             </div>
