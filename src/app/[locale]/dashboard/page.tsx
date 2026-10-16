@@ -1,5 +1,5 @@
 import { getLocale, getTranslations } from 'next-intl/server';
-import { getDashboardSession, getGlobalStats } from '@/lib/actions/exhibitors';
+import { getDashboardSession } from '@/lib/actions/exhibitors';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { AccountDisableLight } from '@/components/shared/AccountDisableLight';
@@ -17,9 +17,6 @@ export default async function Dashboard() {
   const t = await getTranslations('Dashboard');
   const locale = getSupportedLocale(await getLocale());
   const eventDetails = getEventDetails(session.event);
-
-  // Obtener stats globales si es admin
-  const globalStats = session.role === 'admin' ? await getGlobalStats() : null;
 
   // Check if profile is incomplete
   const isProfileIncomplete = !session.company || !session.stand || !session.description || !session.description_en || !session.phone || !session.address || !session.photo;
@@ -202,75 +199,6 @@ export default async function Dashboard() {
             </div>
           </div>
         </section>
-
-        {/* Global Stats - Admin Only */}
-        {session.role === 'admin' && globalStats && (
-          <div className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl shadow-purple-500/5 backdrop-blur">
-            <div className="mb-6 flex items-center gap-3">
-              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-purple-500/20 text-purple-300">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                  className="h-5 w-5"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"
-                  />
-                </svg>
-              </div>
-              <h2 className="text-2xl font-bold text-white">{t('globalStats.title')} (RE+ MEXICO + ECOMONDO)</h2>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {/* Total Users */}
-              <div className="rounded-xl border border-white/10 bg-gradient-to-br from-blue-500/10 to-cyan-500/10 p-4">
-                <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                  {t('globalStats.totalUsers')}
-                </p>
-                <p className="mt-2 text-2xl font-bold text-white">
-                  {globalStats.totalUsers.toLocaleString()}
-                </p>
-              </div>
-              {/* Total Students */}
-              <div className="rounded-xl border border-white/10 bg-gradient-to-br from-emerald-500/10 to-teal-500/10 p-4">
-                <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                  {t('globalStats.totalStudents')}
-                </p>
-                <p className="mt-2 text-2xl font-bold text-white">
-                  {globalStats.totalStudents.toLocaleString()}
-                </p>
-              </div>
-              {/* Goal */}
-              <div className="rounded-xl border border-white/10 bg-gradient-to-br from-purple-500/10 to-pink-500/10 p-4">
-                <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                  {t('globalStats.goal')}
-                </p>
-                <p className="mt-2 text-2xl font-bold text-white">
-                  {globalStats.goal.toLocaleString()}
-                </p>
-              </div>
-              {/* Percentage */}
-              <div className="rounded-xl border border-white/10 bg-gradient-to-br from-amber-500/10 to-orange-500/10 p-4">
-                <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                  {t('globalStats.percentage')}
-                </p>
-                <p className="mt-2 text-2xl font-bold text-white">
-                  {globalStats.percentage}%
-                </p>
-                <div className="mt-3 h-2 overflow-hidden rounded-full bg-slate-700/50">
-                  <div 
-                    className="h-full rounded-full bg-gradient-to-r from-amber-500 to-orange-500 transition-all duration-500"
-                    style={{ width: `${Math.min(globalStats.percentage, 100)}%` }}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Important Points Section */}
         <div className="rounded-3xl border border-white/10 bg-white/5 p-8 shadow-2xl shadow-blue-500/5 backdrop-blur">
