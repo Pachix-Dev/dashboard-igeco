@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { RequirementsWorkspace } from './RequirementsWorkspace';
+import { RequirementsSkeleton } from './RequirementsSkeleton';
 import type { GeneralStatus, StandType } from './types';
 import { useToaster } from '@/context/ToasterContext';
 
@@ -33,6 +34,7 @@ export function AdminDocumentReview({ adminName }: AdminDocumentReviewProps) {
   const t = useTranslations();
   const { notify } = useToaster();
   const [exhibitors, setExhibitors] = useState<ExhibitorItem[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedId, setSelectedId] = useState<number>(0);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -89,6 +91,7 @@ export function AdminDocumentReview({ adminName }: AdminDocumentReviewProps) {
     let mounted = true;
 
     const load = async () => {
+      setLoading(true);
       try {
         const response = await fetch('/api/requirements/exhibitors', { cache: 'no-store' });
         const payload = await response.json();
@@ -119,7 +122,13 @@ export function AdminDocumentReview({ adminName }: AdminDocumentReviewProps) {
           setSelectedId(items[0].id);
         }
       } catch (error) {
-        notify(t('Requirements.errors.load_exhibitors_error'), 'error');
+        if (mounted) {
+          notify(t('Requirements.errors.load_exhibitors_error'), 'error');
+        }
+      } finally {
+        if (mounted) {
+          setLoading(false);
+        }
       }
     };
 
@@ -127,7 +136,11 @@ export function AdminDocumentReview({ adminName }: AdminDocumentReviewProps) {
     return () => {
       mounted = false;
     };
-  }, [notify]);
+  }, [notify, t]);
+
+  if (loading) {
+    return <RequirementsSkeleton showExhibitors />;
+  }
 
   return (
     <div className="grid gap-6 xl:grid-cols-[300px_minmax(0,1fr)]">

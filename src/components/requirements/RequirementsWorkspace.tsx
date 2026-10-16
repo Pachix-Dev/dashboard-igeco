@@ -8,6 +8,7 @@ import { DocumentCard } from './DocumentCard';
 import { SendConfirmationModal } from './SendConfirmationModal';
 import { StandTypeSelector } from './StandTypeSelector';
 import { SummaryPanel } from './SummaryPanel';
+import { RequirementsSkeleton } from './RequirementsSkeleton';
 import {
   canAdminUploadMountingLetter,
   fileFingerprint,
@@ -624,11 +625,7 @@ export function RequirementsWorkspace({
   };
 
   if (loading) {
-    return (
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-sm text-slate-300">
-        {t('Requirements.messages.loading_requirements')}
-      </div>
-    );
+    return <RequirementsSkeleton />;
   }
 
   return (
