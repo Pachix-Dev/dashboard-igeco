@@ -165,35 +165,26 @@ export default async function Dashboard() {
           </div>
         </div>
 
-        <section className="rounded-2xl border border-cyan-400/30 bg-gradient-to-r from-cyan-500/10 to-blue-500/10 p-6 shadow-lg shadow-cyan-500/10">
+        <section className="rounded-2xl border border-amber-400/30 bg-gradient-to-r from-500-500/10 to-amber-500/10 p-6 shadow-lg shadow-amber-500/10">
           <div className="flex items-start gap-4">
-            <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-cyan-500/20 text-cyan-300">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-                className="h-6 w-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M8.25 6.75h7.5M8.25 12h7.5m-7.5 5.25h7.5M3.75 6.75h.008v.008H3.75V6.75Zm0 5.25h.008v.008H3.75V12Zm0 5.25h.008v.008H3.75v-.008Z"
-                />
-              </svg>
+            <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-amber-500/20 text-amber-300">
+             
+
+           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 512 512"><path fill="currentColor" d="M256 0C114.6 0 0 114.6 0 256s114.6 256 256 256s256-114.6 256-256S397.4 0 256 0m0 469.3c-117.8 0-213.3-95.5-213.3-213.3S138.2 42.7 256 42.7S469.3 138.2 469.3 256S373.8 469.3 256 469.3m21.3-384h-42.7v192H384v-42.7H277.3z"/></svg> 
+
+
             </div>
             <div className="w-full">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300">{t('officialDates.title')}</p>
+              <p className="text-xl font-semibold uppercase tracking-[0.2em] text-amber-300">{t('officialDates.title')}</p>
               <div className="mt-3 grid gap-2 text-sm text-slate-100 md:grid-cols-3">
                 <p className="rounded-xl border border-white/10 bg-black/20 px-3 py-2">
-                  <span className="font-semibold text-cyan-200">{t('officialDates.mountingLabel')} : </span> {t('officialDates.mountingDate')}
+                  <span className="font-semibold text-amber-200">{t('officialDates.mountingLabel')} : </span> {t('officialDates.mountingDate')}
                 </p>
                 <p className="rounded-xl border border-white/10 bg-black/20 px-3 py-2">
-                  <span className="font-semibold text-cyan-200">{t('officialDates.eventLabel')} : </span> {t('officialDates.eventDate')}
+                  <span className="font-semibold text-amber-200">{t('officialDates.eventLabel')} : </span> {t('officialDates.eventDate')}
                 </p>
                 <p className="rounded-xl border border-white/10 bg-black/20 px-3 py-2">
-                  <span className="font-semibold text-cyan-200">{t('officialDates.dismantlingLabel')} : </span> {t('officialDates.dismantlingDate')}
+                  <span className="font-semibold text-amber-200">{t('officialDates.dismantlingLabel')} : </span> {t('officialDates.dismantlingDate')}
                 </p>
               </div>
             </div>
