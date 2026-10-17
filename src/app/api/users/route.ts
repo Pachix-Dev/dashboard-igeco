@@ -15,7 +15,7 @@ interface InsertResult {
 export async function GET() {
   try {
     const [users] = await db.query(
-      'SELECT id, name, email, role, maxsessions, maxexhibitors, company, event, stand, square_meters FROM users ORDER BY id DESC'
+      'SELECT id, name, email, role, maxsessions, maxexhibitors, company, event, stand, square_meters, document_penalty_waived, document_penalty_locked_by_admin FROM users ORDER BY id DESC'
     ) as [DbRow[], any];
     return NextResponse.json(users);
   } catch (error) {

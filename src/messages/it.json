@@ -270,6 +270,22 @@
     "message": "Il tuo account non è ancora abilitato, completa il processo di contrattazione e contatta il tuo consulente di vendita.",
     "contact": "Contatta il tuo consulente di vendita per attivare il tuo account"
   },
+  "AccountReactivation": {
+    "badge": "Pagamento di riattivazione",
+    "title": "Account inattivo per documentazione incompleta",
+    "subtitle": "Per recuperare l'accesso completo alla piattaforma devi pagare la multa di riattivazione.",
+    "reasonTitle": "Motivo della disattivazione",
+    "reasonDescription": "Abbiamo rilevato documenti obbligatori mancanti nel tuo fascicolo:",
+    "fineLabel": "Importo della multa (IVA inclusa)",
+    "usdEquivalent": "Equivalente a $400 USD",
+    "paypalDescription": "Effettua il pagamento sicuro con PayPal per riattivare il tuo account.",
+    "messages": {
+      "success": "Pagamento confermato. Il tuo account è stato riattivato e verrai reindirizzato alla dashboard.",
+      "pending": "Il tuo pagamento è in attesa di conferma da PayPal.",
+      "cancelled": "Pagamento annullato. Puoi riprovare quando vuoi.",
+      "error": "Non è stato possibile completare la riattivazione. Verifica il pagamento e riprova."
+    }
+  },
   "ProfilePage": {
     "title": "Il Mio Profilo",
     "subtitle": "Ti piacerebbe apparire nella nostra directory espositori? Aggiorna il tuo profilo con le informazioni della tua azienda e dello stand.",
@@ -1178,7 +1194,6 @@
     "support": "Per domande sull'attivazione, scrivi a jesus.zermeno@igeco.mx o visita il modulo di attenzione agli espositori per attivazione e supporto."
   }
 }
-
 
 
 

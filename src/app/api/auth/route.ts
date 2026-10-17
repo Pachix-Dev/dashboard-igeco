@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 //import { checkRateLimit, getClientIp, RATE_LIMITS } from '@/lib/rate-limiter';
 import { isValidEmail } from '@/lib/validation';
+import { enforceUserDocumentCompliance } from '@/lib/document-compliance';
 
 export async function POST(req: NextRequest) {
   try {
@@ -66,9 +67,25 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const compliance = await enforceUserDocumentCompliance(user.id);
+    const userStatus = compliance.currentStatus;
+    const penaltyState = compliance.penaltyState;
+
     // Generate JWT token
     const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.role, maxsessions: user.maxsessions, event: user.event, company: user.company  },
+      {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        status: userStatus,
+        document_penalty_required: penaltyState.required ? 1 : 0,
+        document_penalty_paid: penaltyState.paid ? 1 : 0,
+        document_penalty_waived: penaltyState.waived ? 1 : 0,
+        document_penalty_locked_by_admin: penaltyState.lockedByAdmin ? 1 : 0,
+        maxsessions: user.maxsessions,
+        event: user.event,
+        company: user.company
+      },
       process.env.JWT_SECRET || 'tu_secreto_jwt', // Use an environment variable for the secret
       { expiresIn: '7d' }
     );
@@ -109,6 +126,11 @@ export async function POST(req: NextRequest) {
           name: user.name,
           email: user.email,
           role: user.role,
+          status: userStatus,
+          document_penalty_required: penaltyState.required ? 1 : 0,
+          document_penalty_paid: penaltyState.paid ? 1 : 0,
+          document_penalty_waived: penaltyState.waived ? 1 : 0,
+          document_penalty_locked_by_admin: penaltyState.lockedByAdmin ? 1 : 0,
           maxsessions: user.maxsessions,
           maxexhibitors: user.maxexhibitors,
           event: user.event,

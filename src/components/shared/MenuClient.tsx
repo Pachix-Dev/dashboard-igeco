@@ -17,12 +17,24 @@ interface MenuTranslations {
   logout: string;
 }
 
-export default function MenuClient({ translations, role, languageSelector }: { translations: MenuTranslations; role: string | null; languageSelector: React.ReactNode }) {
+export default function MenuClient({
+  translations,
+  role,
+  status,
+  languageSelector
+}: {
+  translations: MenuTranslations;
+  role: string | null;
+  status: number | null;
+  languageSelector: React.ReactNode;
+}) {
   const t = (key: keyof MenuTranslations) => translations[key];
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
   const locale = useLocale();
+  const isInactiveExhibitor =
+    (role === 'exhibitor' || role === 'exhibitorplus') && Number(status ?? 1) !== 1;
 
   const handleNavigate = () => {
     setIsOpen(false);
@@ -50,6 +62,24 @@ export default function MenuClient({ translations, role, languageSelector }: { t
       'border-white/5 text-slate-300 hover:border-white/15 hover:bg-white/5 hover:text-white';
 
     return `${base} ${normalizedPath === path ? active : idle}`;
+  };
+
+  const handleSidebarLinkCapture = (event: React.MouseEvent<HTMLElement>) => {
+    if (!isInactiveExhibitor) return;
+
+    const target = event.target as HTMLElement;
+    const anchor = target.closest('a');
+    if (!anchor) return;
+
+    const href = anchor.getAttribute('href') || '';
+    const normalizedHref = href.replace(/^\/(es|en|it)(?=\/|$)/, '') || '/';
+
+    if (normalizedHref === '/dashboard' || normalizedHref === '/dashboard/profile') {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
   };
 
   return (
@@ -92,6 +122,7 @@ export default function MenuClient({ translations, role, languageSelector }: { t
       )}
 
       <aside
+        onClickCapture={handleSidebarLinkCapture}
         className={`fixed inset-y-0 left-0 z-40 flex flex-col justify-between w-[280px] border-r border-white/10 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-slate-100 shadow-2xl shadow-blue-500/10 transition-transform duration-200 lg:static lg:translate-x-0 ${
           isOpen ? 'translate-x-0' : '-translate-x-full lg:block'
         }`}

@@ -32,7 +32,7 @@ export default function Login() {
 
       if (data.status) {
         setUserSession(data.user);
-        router.push('/dashboard', {locale: locale as 'es' | 'en'});
+        router.push('/dashboard', {locale: locale as 'es' | 'en' | 'it'});
       } else {
         setError(data.message);
       }

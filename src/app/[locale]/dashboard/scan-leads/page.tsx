@@ -5,7 +5,6 @@ import {fetchRecordsByUserId} from '@/lib/db';
 import {getTranslations} from 'next-intl/server';
 import {unstable_noStore as noStore} from 'next/cache';
 import {redirect} from 'next/navigation';
-import { AccountDisable } from '@/components/shared/AccountDisable'
 import { getSession, getDashboardSession } from '@/lib/actions/exhibitors';
 import { ScanLeadsUpsell } from '@/components/scannleads/ScanLeadsUpsell';
 
@@ -18,10 +17,6 @@ export default async function ScanLeads() {
   
   if (!dashboardSession) {
     redirect('/');
-  }  
-  
-  if (sessionStatus?.status === 0) {
-    return <AccountDisable />;
   }
 
   // Verificar si el usuario ha comprado el módulo scan-leads

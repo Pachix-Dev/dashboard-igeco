@@ -8,22 +8,26 @@ interface JWTPayload {
   id: number;
   email: string;
   role: string;
+  status?: number;
 }
 
-async function getUserRole(): Promise<string | null> {
+async function getUserSession(): Promise<{ role: string | null; status: number | null }> {
   try {
     const token = cookies().get('access_token')?.value;
-    if (!token) return null;
+    if (!token) return { role: null, status: null };
     const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
     const { payload } = await jwtVerify(token, secret) as { payload: JWTPayload };
-    return payload.role || null;
+    return {
+      role: payload.role || null,
+      status: Number(payload.status ?? 1),
+    };
   } catch {
-    return null;
+    return { role: null, status: null };
   }
 }
 
 export default async function MenuServer() {
-  const role = await getUserRole();
+  const session = await getUserSession();
   const t = await getTranslations('Menu');
 
   // Serialize translations for client
@@ -38,5 +42,12 @@ export default async function MenuServer() {
     logout: t('logout')
   };
 
-  return <MenuClient translations={translations} role={role} languageSelector={<LanguageSelector />} />;
+  return (
+    <MenuClient
+      translations={translations}
+      role={session.role}
+      status={session.status}
+      languageSelector={<LanguageSelector />}
+    />
+  );
 }

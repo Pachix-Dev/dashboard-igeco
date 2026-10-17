@@ -3,7 +3,6 @@ import {ScanLeadsClientTemp} from '@/components/scannleads/ScanLeadsClientTemp';
 import {getTranslations} from 'next-intl/server';
 import {unstable_noStore as noStore} from 'next/cache';
 import {redirect} from 'next/navigation';
-import { AccountDisable } from '@/components/shared/AccountDisable'
 import { getSession, getDashboardSession } from '@/lib/actions/exhibitors';
 import { ScanLeadsUpsell } from '@/components/scannleads/ScanLeadsUpsell';
 
@@ -17,11 +16,6 @@ export default async function ScanLeads() {
   // Verificar si el usuario tiene sesión activa
   if (!dashboardSession) {
     redirect('/');
-  }  
-  
-  // Verificar si el usuario ha sido deshabilitado
-  if (sessionStatus?.status === 0) {
-    return <AccountDisable />;
   }
 
   // Verificar si el usuario ha comprado el módulo scan-leads

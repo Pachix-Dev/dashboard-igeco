@@ -17,6 +17,10 @@ interface SessionData {
   email: string;
   role: string;
   status: number;
+  document_penalty_required: number;
+  document_penalty_paid: number;
+  document_penalty_waived: number;
+  document_penalty_locked_by_admin: number;
   maxexhibitors: number;
   scanleads_purchased: number;
 }
@@ -27,6 +31,10 @@ interface DashboardSessionData {
   email: string;
   role: string;
   status: number;
+  document_penalty_required: number;
+  document_penalty_paid: number;
+  document_penalty_waived: number;
+  document_penalty_locked_by_admin: number;
   event: string | null;
   company: string | null;
   stand: string | null;
@@ -47,7 +55,9 @@ export async function getSession(): Promise<SessionData | null> {
 
     // Obtener datos adicionales del usuario
     const [rows] = await db.query<any[]>(
-      'SELECT id, email, role, status, maxexhibitors, scanleads_purchased FROM users WHERE id = ?',
+      `SELECT id, email, role, status, document_penalty_required, document_penalty_paid,
+              document_penalty_waived, document_penalty_locked_by_admin, maxexhibitors, scanleads_purchased
+       FROM users WHERE id = ?`,
       [payload.id]
     );
 
@@ -58,6 +68,10 @@ export async function getSession(): Promise<SessionData | null> {
       email: rows[0].email,
       role: rows[0].role,
       status: rows[0].status,
+      document_penalty_required: rows[0].document_penalty_required || 0,
+      document_penalty_paid: rows[0].document_penalty_paid || 0,
+      document_penalty_waived: rows[0].document_penalty_waived || 0,
+      document_penalty_locked_by_admin: rows[0].document_penalty_locked_by_admin || 0,
       maxexhibitors: rows[0].maxexhibitors || 0,
       scanleads_purchased: rows[0].scanleads_purchased || 0,
     };
@@ -77,7 +91,10 @@ export async function getDashboardSession(): Promise<DashboardSessionData | null
 
     // Obtener datos completos del usuario para el dashboard
     const [rows] = await db.query<any[]>(
-      'SELECT id, name, email, role, status, event, company, stand, description, description_en, phone, address, photo FROM users WHERE id = ?',
+      `SELECT id, name, email, role, status, document_penalty_required, document_penalty_paid,
+              document_penalty_waived, document_penalty_locked_by_admin, event, company, stand, description,
+              description_en, phone, address, photo
+       FROM users WHERE id = ?`,
       [payload.id]
     );
 
@@ -89,6 +106,10 @@ export async function getDashboardSession(): Promise<DashboardSessionData | null
       email: rows[0].email,
       role: rows[0].role,
       status: rows[0].status,
+      document_penalty_required: rows[0].document_penalty_required || 0,
+      document_penalty_paid: rows[0].document_penalty_paid || 0,
+      document_penalty_waived: rows[0].document_penalty_waived || 0,
+      document_penalty_locked_by_admin: rows[0].document_penalty_locked_by_admin || 0,
       event: rows[0].event,
       company: rows[0].company,
       stand: rows[0].stand,

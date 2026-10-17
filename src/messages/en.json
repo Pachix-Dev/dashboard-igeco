@@ -369,6 +369,22 @@
     "message": "Your account is not yet enabled, complete the hiring process and contact your sales advisor.",
     "contact": "Contact your sales advisor to activate your account"
   },
+  "AccountReactivation": {
+    "badge": "Reactivation payment",
+    "title": "Inactive account due to incomplete record",
+    "subtitle": "To recover full platform access, you must pay the reactivation fine.",
+    "reasonTitle": "Inactivation reason",
+    "reasonDescription": "We detected missing mandatory documents in your file:",
+    "fineLabel": "Fine amount (VAT included)",
+    "usdEquivalent": "Equivalent to $400 USD",
+    "paypalDescription": "Complete the secure PayPal payment to reactivate your account.",
+    "messages": {
+      "success": "Payment confirmed. Your account was reactivated and you will be redirected to the dashboard.",
+      "pending": "Your payment is pending confirmation by PayPal.",
+      "cancelled": "Payment cancelled. You can try again whenever you want.",
+      "error": "Reactivation could not be completed. Verify the payment and try again."
+    }
+  },
   "ScanLeadsPage": {
     "panel": "Panel",
     "title": "Scan leads",

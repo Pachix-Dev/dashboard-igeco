@@ -25,8 +25,21 @@ export async function GET(req: Request, { params }: { params: { id: number } }) 
 
 export async function PUT(req: Request, { params }: { params: { id: number } }) {
   try {
-    const { name, email, maxsessions, maxexhibitors, event, company, stand, square_meters } = await req.json();
+    const {
+      name,
+      email,
+      maxsessions,
+      maxexhibitors,
+      event,
+      company,
+      stand,
+      square_meters,
+      document_penalty_waived,
+      document_penalty_locked_by_admin
+    } = await req.json();
     const normalizedSquareMeters = normalizeSquareMeters(square_meters);
+    const normalizedDocumentPenaltyWaived = Number(document_penalty_waived ?? 0);
+    const normalizedDocumentPenaltyLockedByAdmin = Number(document_penalty_locked_by_admin ?? 0);
 
     // Validar campos requeridos
     if (!name || !email || !event || !company ) {
@@ -47,7 +60,7 @@ export async function PUT(req: Request, { params }: { params: { id: number } }) 
 
     // Verificar si el usuario existe
     const [existingUser]: any = await db.query(
-      'SELECT id FROM users WHERE id = ?',
+      'SELECT id, document_penalty_paid FROM users WHERE id = ?',
       [params.id]
     );
 
@@ -55,6 +68,16 @@ export async function PUT(req: Request, { params }: { params: { id: number } }) 
       return NextResponse.json(
         { message: 'Usuario no encontrado' },
         { status: 404 }
+      );
+    }
+
+    if (
+      Number(existingUser[0]?.document_penalty_paid ?? 0) === 1 &&
+      (normalizedDocumentPenaltyWaived === 1 || normalizedDocumentPenaltyLockedByAdmin === 1)
+    ) {
+      return NextResponse.json(
+        { message: 'No se puede exentar ni forzar pago cuando la multa ya fue pagada.' },
+        { status: 400 }
       );
     }
 
@@ -73,8 +96,31 @@ export async function PUT(req: Request, { params }: { params: { id: number } }) 
 
     // Actualizar usuario
     await db.query(
-      'UPDATE users SET name = ?, email = ?, maxsessions = ?, maxexhibitors = ?, event = ?, company = ?, stand = ?, square_meters = ? WHERE id = ?',
-      [name, email, maxsessions || 0, maxexhibitors || 0, event, company, stand, normalizedSquareMeters, params.id]
+      `UPDATE users
+       SET name = ?,
+           email = ?,
+           maxsessions = ?,
+           maxexhibitors = ?,
+           event = ?,
+           company = ?,
+           stand = ?,
+           square_meters = ?,
+           document_penalty_waived = ?,
+           document_penalty_locked_by_admin = ?
+       WHERE id = ?`,
+      [
+        name,
+        email,
+        maxsessions || 0,
+        maxexhibitors || 0,
+        event,
+        company,
+        stand,
+        normalizedSquareMeters,
+        normalizedDocumentPenaltyWaived,
+        normalizedDocumentPenaltyLockedByAdmin,
+        params.id
+      ]
     );
 
     return NextResponse.json({ message: 'Usuario actualizado exitosamente' });

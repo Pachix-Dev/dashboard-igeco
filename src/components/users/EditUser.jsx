@@ -21,12 +21,15 @@ export function EditUser({ user, onUserUpdated }) {
     previewUrl: null,
     show_directory: 0,
     status: 0,
+    document_penalty_waived: 0,
+    document_penalty_locked_by_admin: 0,
   })
   const handleOpen = () => setIsOpen(true)
   const handleClose = () => setIsOpen(false)
 
   const { notify } = useToaster()
   const locale = useLocale()
+  const isDocumentPenaltyPaid = Number(user.document_penalty_paid || 0) === 1
 
   const handleFileChange = (e) => {
     const file = e.target.files?.[0]
@@ -64,12 +67,15 @@ export function EditUser({ user, onUserUpdated }) {
       youtube: user.youtube || '',
       tiktok: user.tiktok || '',
     })
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       show_directory: user.show_directory || 0,
       status: user.status || 0,
+      document_penalty_waived: user.document_penalty_waived || 0,
+      document_penalty_locked_by_admin: user.document_penalty_locked_by_admin || 0,
       previewUrl: user.photo ? `/logos/${user.photo}` : null,
-    })
+      photo: null,
+    }))
   }, [user, reset])
 
   // Prevent body scroll while modal is open
@@ -128,6 +134,8 @@ export function EditUser({ user, onUserUpdated }) {
         event: data.event,
         show_directory: formData.show_directory,
         status: formData.status,
+        document_penalty_waived: formData.document_penalty_waived,
+        document_penalty_locked_by_admin: formData.document_penalty_locked_by_admin,
         description: data.description || null,
         description_en: data.description_en || null,
         address: data.address || null,
@@ -447,6 +455,93 @@ export function EditUser({ user, onUserUpdated }) {
                           {formData.status === 1 ? 'Activo' : 'Inactivo'}
                         </span>
                       </div>
+                    </div>
+
+                    <div className='space-y-2'>
+                      <label className='text-sm font-semibold text-slate-200'>
+                        Exentar multa documental
+                      </label>
+                      <div className='flex items-center gap-3 pt-2'>
+                        <button
+                          type='button'
+                          onClick={() => {
+                            if (
+                              isDocumentPenaltyPaid &&
+                              formData.document_penalty_waived !== 1
+                            ) {
+                              return
+                            }
+                            setFormData({
+                              ...formData,
+                              document_penalty_waived:
+                                formData.document_penalty_waived === 1 ? 0 : 1,
+                            })
+                          }}
+                          className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
+                            formData.document_penalty_waived === 1
+                              ? 'bg-indigo-500'
+                              : 'bg-slate-700'
+                          } ${isDocumentPenaltyPaid && formData.document_penalty_waived !== 1 ? 'cursor-not-allowed opacity-60' : ''}`}
+                        >
+                          <span
+                            className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${
+                              formData.document_penalty_waived === 1
+                                ? 'translate-x-7'
+                                : 'translate-x-1'
+                            }`}
+                          />
+                        </button>
+                        <span className='text-sm text-slate-300'>
+                          {formData.document_penalty_waived === 1 ? 'Sí' : 'No'}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className='space-y-2'>
+                      <label className='text-sm font-semibold text-slate-200'>
+                        Forzar pantalla de pago
+                      </label>
+                      <div className='flex items-center gap-3 pt-2'>
+                        <button
+                          type='button'
+                          onClick={() => {
+                            if (
+                              isDocumentPenaltyPaid &&
+                              formData.document_penalty_locked_by_admin !== 1
+                            ) {
+                              return
+                            }
+                            setFormData({
+                              ...formData,
+                              document_penalty_locked_by_admin:
+                                formData.document_penalty_locked_by_admin === 1
+                                  ? 0
+                                  : 1,
+                            })
+                          }}
+                          className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
+                            formData.document_penalty_locked_by_admin === 1
+                              ? 'bg-amber-500'
+                              : 'bg-slate-700'
+                          } ${isDocumentPenaltyPaid && formData.document_penalty_locked_by_admin !== 1 ? 'cursor-not-allowed opacity-60' : ''}`}
+                        >
+                          <span
+                            className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${
+                              formData.document_penalty_locked_by_admin === 1
+                                ? 'translate-x-7'
+                                : 'translate-x-1'
+                            }`}
+                          />
+                        </button>
+                        <span className='text-sm text-slate-300'>
+                          {formData.document_penalty_locked_by_admin === 1 ? 'Sí' : 'No'}
+                        </span>
+                      </div>
+                      {isDocumentPenaltyPaid && (
+                        <p className='text-xs text-amber-300'>
+                          Este usuario ya pagó la multa. No se puede activar exención ni forzar pago.
+                        </p>
+                      )}
                     </div>
                   </div>
 

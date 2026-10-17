@@ -2,7 +2,7 @@ import { getLocale, getTranslations } from 'next-intl/server';
 import { getDashboardSession } from '@/lib/actions/exhibitors';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { AccountDisableLight } from '@/components/shared/AccountDisableLight';
+import { AccountDisable } from '@/components/shared/AccountDisable';
 import { getEventDetails, getSupportedLocale } from '@/lib/events';
 
 export const dynamic = 'force-dynamic';
@@ -12,6 +12,10 @@ export default async function Dashboard() {
   
   if (!session) {
     redirect('/login');
+  }
+
+  if (session.status !== 1) {
+    return <AccountDisable />;
   }
 
   const t = await getTranslations('Dashboard');
@@ -87,11 +91,6 @@ export default async function Dashboard() {
               </Link>
             </div>
           </div>
-        )}
-
-        {/* Account Status Alert */}
-        {session.status === 0 && (
-          <AccountDisableLight />
         )}
 
         {/* Stats Cards */}

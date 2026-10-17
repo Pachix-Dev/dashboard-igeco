@@ -25,6 +25,9 @@ export type DashboardUser = {
   stand: string | null;
   square_meters: number | null;
   status: number;
+  document_penalty_paid: number;
+  document_penalty_waived: number;
+  document_penalty_locked_by_admin: number;
   show_directory: number;
   photo: string | null;
 };
@@ -79,6 +82,8 @@ type UpdateUserInput = {
   maxexhibitors?: number | string;
   show_directory?: number;
   status?: number;
+  document_penalty_waived?: number;
+  document_penalty_locked_by_admin?: number;
   description?: string | null;
   description_en?: string | null;
   address?: string | null;
@@ -138,6 +143,9 @@ const mapRowToDashboardUser = (row: RowDataPacket): DashboardUser => ({
   stand: row.stand !== undefined && row.stand !== null ? String(row.stand) : null,
   square_meters: row.square_meters !== undefined && row.square_meters !== null ? Number(row.square_meters) : null,
   status: Number(row.status ?? 1),
+  document_penalty_paid: Number(row.document_penalty_paid ?? 0),
+  document_penalty_waived: Number(row.document_penalty_waived ?? 0),
+  document_penalty_locked_by_admin: Number(row.document_penalty_locked_by_admin ?? 0),
   show_directory: Number(row.show_directory ?? 0),
   photo: row.photo !== undefined && row.photo !== null ? String(row.photo) : null,
 });
@@ -198,7 +206,7 @@ async function sendCredentialsEmail({
 export async function getDashboardUsers(): Promise<DashboardUser[]> {
   try {
     const [rows] = await db.query<RowDataPacket[]>(
-      "SELECT id, name, email, role, maxexhibitors, event, company, stand, square_meters, description, description_en, address, photo, webpage, phone, facebook, instagram, linkedin, x, youtube, tiktok, status, show_directory FROM users WHERE role != 'admin' ORDER BY id DESC"
+      "SELECT id, name, email, role, maxexhibitors, event, company, stand, square_meters, description, description_en, address, photo, webpage, phone, facebook, instagram, linkedin, x, youtube, tiktok, status, show_directory, document_penalty_paid, document_penalty_waived, document_penalty_locked_by_admin FROM users WHERE role != 'admin' ORDER BY id DESC"
     );
 
     return rows.map(mapRowToDashboardUser);
@@ -342,7 +350,7 @@ export async function createUserAction(
     );
 
     const [createdRows] = await db.query<RowDataPacket[]>(
-      "SELECT id, name, email, role, maxexhibitors, event, company, stand, square_meters FROM users WHERE id = ?",
+      "SELECT id, name, email, role, maxexhibitors, event, company, stand, square_meters, status, show_directory, document_penalty_paid, document_penalty_waived, document_penalty_locked_by_admin FROM users WHERE id = ?",
       [result.insertId]
     );
 
@@ -359,6 +367,9 @@ export async function createUserAction(
           stand: sanitizedStand,
           square_meters: normalizedSquareMeters,
           status: 1,
+          document_penalty_paid: 0,
+          document_penalty_waived: 0,
+          document_penalty_locked_by_admin: 0,
           show_directory: normalizedShowDirectory,
           photo: photo || null,
         };
@@ -409,6 +420,8 @@ export async function updateUserAction(
     maxexhibitors,
     show_directory,
     status,
+    document_penalty_waived,
+    document_penalty_locked_by_admin,
     description,
     description_en,
     address,
@@ -440,7 +453,7 @@ export async function updateUserAction(
     }
 
     const [existingUser] = await db.query<RowDataPacket[]>(
-      "SELECT id FROM users WHERE id = ?",
+      "SELECT id, document_penalty_paid FROM users WHERE id = ?",
       [id]
     );
 
@@ -466,7 +479,21 @@ export async function updateUserAction(
     const normalizedMaxExhibitors = Number(maxexhibitors ?? 0) || 0;
     const normalizedShowDirectory = Number(show_directory ?? 0);
     const normalizedStatus = Number(status ?? 1);
+    const normalizedDocumentPenaltyWaived = Number(document_penalty_waived ?? 0);
+    const normalizedDocumentPenaltyLockedByAdmin = Number(document_penalty_locked_by_admin ?? 0);
     const normalizedSquareMeters = normalizeSquareMeters(square_meters);
+
+    if (
+      Number(existingUser[0]?.document_penalty_paid ?? 0) === 1 &&
+      (normalizedDocumentPenaltyWaived === 1 ||
+        normalizedDocumentPenaltyLockedByAdmin === 1)
+    ) {
+      return {
+        success: false,
+        message:
+          "No se puede exentar ni forzar pago cuando la multa ya fue pagada.",
+      };
+    }
 
     const sanitizedName = sanitizeString(name, 100);
     const sanitizedCompany = sanitizeString(company, 150);
@@ -486,7 +513,7 @@ export async function updateUserAction(
     await db.query(
       `UPDATE users SET 
         name = ?, email = ?, maxexhibitors = ?, event = ?, company = ?, stand = ?, square_meters = ?,
-        show_directory = ?, status = ?, description = ?, description_en = ?, address = ?, photo = ?,
+        show_directory = ?, status = ?, document_penalty_waived = ?, document_penalty_locked_by_admin = ?, description = ?, description_en = ?, address = ?, photo = ?,
         webpage = ?, phone = ?, facebook = ?, instagram = ?, linkedin = ?, x = ?, youtube = ?, tiktok = ?
       WHERE id = ?`,
       [
@@ -499,6 +526,8 @@ export async function updateUserAction(
         normalizedSquareMeters,
         normalizedShowDirectory,
         normalizedStatus,
+        normalizedDocumentPenaltyWaived,
+        normalizedDocumentPenaltyLockedByAdmin,
         sanitizedDescription,
         sanitizedDescriptionEn,
         sanitizedAddress,
@@ -516,7 +545,7 @@ export async function updateUserAction(
     );
 
     const [updatedRows] = await db.query<RowDataPacket[]>(
-      "SELECT id, name, email, role, maxexhibitors, event, company, stand, square_meters FROM users WHERE id = ?",
+      "SELECT id, name, email, role, maxexhibitors, event, company, stand, square_meters, status, show_directory, document_penalty_paid, document_penalty_waived, document_penalty_locked_by_admin FROM users WHERE id = ?",
       [id]
     );
 
@@ -532,7 +561,10 @@ export async function updateUserAction(
           company: sanitizedCompany,
           stand: sanitizedStand,
           square_meters: normalizedSquareMeters,
-          status: 1,
+          status: normalizedStatus,
+          document_penalty_paid: Number(existingUser[0]?.document_penalty_paid ?? 0),
+          document_penalty_waived: normalizedDocumentPenaltyWaived,
+          document_penalty_locked_by_admin: normalizedDocumentPenaltyLockedByAdmin,
           show_directory: normalizedShowDirectory,
           photo: photo || null,
         };

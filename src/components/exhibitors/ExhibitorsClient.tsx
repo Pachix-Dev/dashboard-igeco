@@ -7,7 +7,6 @@ import { BuyExhibitors } from './BuyExhibitors'
 import { ListExhibitors } from './ListExhibitors'
 import ExhibitorStats from './ExhibitorStats'
 import type { Exhibitor } from '@/lib/definitions'
-import { AccountDisable } from '@/components/shared/AccountDisable'
 
 interface ExhibitorsClientProps {
   initialExhibitors: Exhibitor[]
@@ -50,12 +49,6 @@ export function ExhibitorsClient({
   }
 
   const totalExhibitors = exhibitors.length
-
-  if(status === 0){
-    return (
-      <AccountDisable />
-    )
-  }
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50">

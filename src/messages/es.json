@@ -372,6 +372,22 @@
     "message": "Tu cuenta no está habilitada aún, termina el proceso de contratación contacta a tu asesor de ventas.",
     "contact": "Contacta a tu asesor de ventas para activar tu cuenta"
   },
+  "AccountReactivation": {
+    "badge": "Pago de reactivación",
+    "title": "Cuenta inactiva por expediente incompleto",
+    "subtitle": "Para recuperar el acceso total a la plataforma debes cubrir la multa de reactivación.",
+    "reasonTitle": "Motivo de inactivación",
+    "reasonDescription": "Detectamos documentos obligatorios faltantes en tu expediente:",
+    "fineLabel": "Monto de multa (IVA incluido)",
+    "usdEquivalent": "Equivalente a $400 USD",
+    "paypalDescription": "Realiza el pago seguro con PayPal para activar tu cuenta.",
+    "messages": {
+      "success": "Pago confirmado. Tu cuenta fue reactivada y serás redirigido al dashboard.",
+      "pending": "Tu pago está pendiente de confirmación por PayPal.",
+      "cancelled": "Pago cancelado. Puedes intentarlo nuevamente cuando desees.",
+      "error": "No se pudo completar la reactivación. Verifica el pago e inténtalo de nuevo."
+    }
+  },
   "UsersPage": {
     "loading": "Cargando usuarios...",
     "panel": "Panel",
@@ -1179,4 +1195,3 @@
     "support": "Si tienes dudas sobre tu activación, escribe a jesus.zermeno@igeco.mx o acude al módulo de atención a expositores para activación y soporte."
   }
 }
-
