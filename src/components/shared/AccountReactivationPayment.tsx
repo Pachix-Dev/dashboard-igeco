@@ -97,71 +97,73 @@ export function AccountReactivationPayment({ userId, missingDocuments }: Account
 
           <div className="space-y-3">
             <p className="text-sm text-slate-300">{t('paypalDescription')}</p>
-            <PayPalScriptProvider
-              options={{
-                clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!,
-                currency: 'MXN',
-                locale: paypalLocale
-              }}
-            >
-              <PayPalButtons
-                createOrder={(_data, actions) =>
-                  actions.order.create({
-                    intent: 'CAPTURE',
-                    purchase_units: [
-                      {
-                        custom_id: String(userId),
-                        description: 'Document compliance reactivation fine',
-                        amount: {
-                          currency_code: 'MXN',
-                          value: amountMxn
+            <div className="rounded-2xl bg-white p-3 shadow-md">
+              <PayPalScriptProvider
+                options={{
+                  clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!,
+                  currency: 'MXN',
+                  locale: paypalLocale
+                }}
+              >
+                <PayPalButtons
+                  createOrder={(_data, actions) =>
+                    actions.order.create({
+                      intent: 'CAPTURE',
+                      purchase_units: [
+                        {
+                          custom_id: String(userId),
+                          description: 'Document compliance reactivation fine',
+                          amount: {
+                            currency_code: 'MXN',
+                            value: amountMxn
+                          }
                         }
+                      ],
+                      application_context: {
+                        shipping_preference: 'NO_SHIPPING'
                       }
-                    ],
-                    application_context: {
-                      shipping_preference: 'NO_SHIPPING'
-                    }
-                  })
-                }
-                onApprove={async (_data, actions) => {
-                  setIsProcessing(true);
-                  setFeedback(null);
-                  try {
-                    if (!actions.order) {
-                      throw new Error(t('messages.error'));
-                    }
-                    const order = await actions.order.capture();
-                    await handlePaymentCompleted(String(order.id || ''), String(order.status || ''));
-                  } catch (error) {
-                    console.error('Error processing reactivation payment:', error);
-                    setFeedback({
-                      type: 'error',
-                      message: error instanceof Error ? error.message : t('messages.error')
-                    });
-                  } finally {
-                    setIsProcessing(false);
+                    })
                   }
-                }}
-                onCancel={() => {
-                  setFeedback({ type: 'info', message: t('messages.cancelled') });
-                  setIsProcessing(false);
-                }}
-                onError={(error) => {
-                  console.error('PayPal checkout error:', error);
-                  setFeedback({ type: 'error', message: t('messages.error') });
-                  setIsProcessing(false);
-                }}
-                disabled={isProcessing}
-                style={{
-                  layout: 'vertical',
-                  color: 'gold',
-                  shape: 'rect',
-                  label: 'paypal',
-                  height: 48
-                }}
-                forceReRender={[paypalLocale]}
-              />
-            </PayPalScriptProvider>
+                  onApprove={async (_data, actions) => {
+                    setIsProcessing(true);
+                    setFeedback(null);
+                    try {
+                      if (!actions.order) {
+                        throw new Error(t('messages.error'));
+                      }
+                      const order = await actions.order.capture();
+                      await handlePaymentCompleted(String(order.id || ''), String(order.status || ''));
+                    } catch (error) {
+                      console.error('Error processing reactivation payment:', error);
+                      setFeedback({
+                        type: 'error',
+                        message: error instanceof Error ? error.message : t('messages.error')
+                      });
+                    } finally {
+                      setIsProcessing(false);
+                    }
+                  }}
+                  onCancel={() => {
+                    setFeedback({ type: 'info', message: t('messages.cancelled') });
+                    setIsProcessing(false);
+                  }}
+                  onError={(error) => {
+                    console.error('PayPal checkout error:', error);
+                    setFeedback({ type: 'error', message: t('messages.error') });
+                    setIsProcessing(false);
+                  }}
+                  disabled={isProcessing}
+                  style={{
+                    layout: 'vertical',
+                    color: 'gold',
+                    shape: 'rect',
+                    label: 'paypal',
+                    height: 48
+                  }}
+                  forceReRender={[paypalLocale]}
+                />
+              </PayPalScriptProvider>
+            </div>
           </div>
         </article>
       </section>
