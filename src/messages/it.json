@@ -101,6 +101,13 @@
   "ExhibitorsPage": {
     "panel": "Pannello",
     "title": "Badge Espositore",
+    "registrationClosed": {
+      "title": "Il periodo di registrazione dei badge è terminato",
+      "description": "La registrazione online dei badge espositore è chiusa.",
+      "onSite": "Per registrare i tuoi badge espositore, dovrai completare la procedura in loco.",
+      "onSiteDetails": "La consegna e la registrazione dei badge per gli espositori si svolgeranno il 17 novembre, a partire dalle ore 12:00, presso il punto di assistenza agli espositori. Dovrai presentare un documento d'identità ufficiale.",
+      "noReprints": "Non è consentita la ristampa dei badge, quindi è importante conservare il proprio badge durante tutti i giorni dell'evento. In caso contrario, dovrai acquistare un badge aggiuntivo."
+    },
     "edit": {
       "title": "Modifica espositore",
       "subtitle": "Aggiorna le informazioni dell'espositore registrato",

@@ -201,6 +201,13 @@
   "ExhibitorsPage": {
     "panel": "Panel",
     "title": "Exhibitor badges",
+    "registrationClosed": {
+      "title": "The badge registration period has ended",
+      "description": "Online registration for exhibitor badges is now closed.",
+      "onSite": "To register your exhibitor badges, please complete the process on site.",
+      "onSiteDetails": "Exhibitor badge collection and registration will take place on November 17, starting at 12:00 noon, at the exhibitor service desk. You must present an official ID.",
+      "noReprints": "Badge reprints are not permitted, so please keep your badge throughout the event. Otherwise, you will need to purchase an additional badge."
+    },
     "edit": {
       "title": "Edit exhibitor",
       "subtitle": "Update the registered exhibitor information",

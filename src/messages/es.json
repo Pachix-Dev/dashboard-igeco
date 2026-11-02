@@ -101,6 +101,13 @@
   "ExhibitorsPage": {
     "panel": "Panel",
     "title": "Gafetes de expositores",
+    "registrationClosed": {
+      "title": "El periodo de registro de gafetes ha finalizado",
+      "description": "El registro en línea de gafetes de expositor se encuentra cerrado.",
+      "onSite": "Para registrar tus gafetes de expositor, deberás realizar el trámite en sitio.",
+      "onSiteDetails": "La entrega y el registro de gafetes para expositores se llevarán a cabo el 17 de noviembre, a partir de las 12:00 hrs, en el módulo de atención a expositores. Deberás presentar una identificación oficial.",
+      "noReprints": "No se permiten reimpresiones de gafetes, por lo que es importante que conserves tu gafete durante los días del evento. De lo contrario, tendrás que comprar un gafete adicional."
+    },
     "badge": "{count} activos",
     "subtitle": "Registra a tus expositores y personal de apoyo antes de la fecha límite para agilizar el acceso al evento.",
     "deadlines": {

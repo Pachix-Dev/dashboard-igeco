@@ -1,3 +1,4 @@
+import ExhibitorRegistrationClosed from '@/components/exhibitors/ExhibitorRegistrationClosed';
 import { ExhibitorsClient } from '@/components/exhibitors/ExhibitorsClient';
 import { getSession, getExhibitors, getExhibitorStats } from '@/lib/actions/exhibitors';
 import { redirect } from 'next/navigation';
@@ -11,8 +12,13 @@ export default async function Exhibitors() {
     redirect('/login');
   }
 
-  const exhibitors = await getExhibitors(session.id, session.role);
   const stats = await getExhibitorStats(session.id);
+  
+  if (session.role === "exhibitor" || session.role === "exhibitorplus") {
+    return <ExhibitorRegistrationClosed stats={stats} />;
+  }
+
+  const exhibitors = await getExhibitors(session.id, session.role);
 
   return (
     <ExhibitorsClient
