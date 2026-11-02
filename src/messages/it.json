@@ -280,10 +280,10 @@
   "AccountReactivation": {
     "badge": "Pagamento di riattivazione",
     "title": "Account inattivo per documentazione incompleta",
-    "subtitle": "Per recuperare l'accesso completo alla piattaforma devi pagare la multa di riattivazione.",
+    "subtitle": "Per recuperare l'accesso completo alla piattaforma devi pagare la penale di riattivazione.",
     "reasonTitle": "Motivo della disattivazione",
     "reasonDescription": "Abbiamo rilevato documenti obbligatori mancanti nel tuo fascicolo:",
-    "fineLabel": "Importo della multa (IVA inclusa)",
+    "fineLabel": "Importo della penale (IVA inclusa)",
     "usdEquivalent": "Equivalente a $400 USD",
     "paypalDescription": "Effettua il pagamento sicuro con PayPal per riattivare il tuo account.",
     "messages": {

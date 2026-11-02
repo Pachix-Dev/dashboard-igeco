@@ -382,10 +382,10 @@
   "AccountReactivation": {
     "badge": "Pago de reactivación",
     "title": "Cuenta inactiva por expediente incompleto",
-    "subtitle": "Para recuperar el acceso total a la plataforma debes cubrir la multa de reactivación.",
+    "subtitle": "Para recuperar el acceso total a la plataforma debes cubrir la penalización de reactivación.",
     "reasonTitle": "Motivo de inactivación",
     "reasonDescription": "Detectamos documentos obligatorios faltantes en tu expediente:",
-    "fineLabel": "Monto de multa (IVA incluido)",
+    "fineLabel": "Monto de penalización (IVA incluido)",
     "usdEquivalent": "Equivalente a $400 USD",
     "paypalDescription": "Realiza el pago seguro con PayPal para activar tu cuenta.",
     "messages": {

@@ -379,10 +379,10 @@
   "AccountReactivation": {
     "badge": "Reactivation payment",
     "title": "Inactive account due to incomplete record",
-    "subtitle": "To recover full platform access, you must pay the reactivation fine.",
+    "subtitle": "To recover full platform access, you must pay the reactivation penalty.",
     "reasonTitle": "Inactivation reason",
     "reasonDescription": "We detected missing mandatory documents in your file:",
-    "fineLabel": "Fine amount (VAT included)",
+    "fineLabel": "Penalty amount (VAT included)",
     "usdEquivalent": "Equivalent to $400 USD",
     "paypalDescription": "Complete the secure PayPal payment to reactivate your account.",
     "messages": {
