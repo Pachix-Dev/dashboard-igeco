@@ -477,7 +477,8 @@
       "company": "Azienda",
       "event": "Evento",
       "actions": "Azioni",
-      "noData": "Nessun dato"
+      "noData": "Nessun dato",
+      "scanLeadsLicenses": "Licenze scanner pagate"
     },
     "empty": "Nessun utente trovato con questo criterio.",
     "pagination": {
@@ -947,6 +948,24 @@
     "purchaseSuccess": "Acquisto riuscito! Aggiunti {slots} slot",
     "purchaseError": "Errore nell'elaborazione del pagamento. Riprova."
   },
+  "ScanLeadsPurchase": {
+    "quantity": "Numero di licenze",
+    "unitPrice": "Prezzo per licenza",
+    "total": "Totale da pagare",
+    "paidLicenses": "Licenze pagate",
+    "totalPaid": "Totale pagato",
+    "buyMore": "Acquista altre licenze",
+    "closePurchase": "Chiudi acquisto",
+    "noRecordedPurchases": "Se hai già pagato e il tuo acquisto non compare nel totale, contatta il tuo referente.",
+    "processing": "Elaborazione del pagamento...",
+    "success": "Licenze registrate! Aggiornamento in corso...",
+    "pending": "Pagamento in sospeso. Usa Verifica pagamento per controllarne lo stato o contatta l'assistenza.",
+    "error": "Impossibile registrare il pagamento. Verifica lo stato prima di pagare di nuovo.",
+    "paymentError": "Errore di pagamento. Verifica il metodo di pagamento.",
+    "unconfirmed": "Un pagamento deve essere verificato. Controlla lo stato prima di iniziare un altro acquisto.",
+    "paymentId": "Riferimento del pagamento",
+    "checkPayment": "Verifica pagamento"
+  },
   "ScanLeadsUpsell": {
     "badge": "Modulo Premium",
     "title": "Cattura Lead Durante l'Evento",
@@ -955,8 +974,9 @@
       "label": "Pagamento per evento",
       "single": "Accesso durante tutto l'evento",
       "cta": "Acquista ora",
-      "guarantee": "Attivazione immediata • Supporto incluso",
-      "noteIva": "* Il prezzo include già l'IVA *"
+      "guarantee": "Attivazione e supporto inclusi",
+      "noteIva": "* Il prezzo include già l'IVA *",
+      "perLicense": "Prezzo per licenza. Puoi acquistarne diverse in un'unica operazione."
     },
     "featuresTitle": "Tutto ciò di cui hai bisogno per catturare lead",
     "featuresSubtitle": "Strumenti professionali per massimizzare il tuo investimento nell'evento",

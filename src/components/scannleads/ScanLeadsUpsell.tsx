@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { BuyScanLeads } from './BuyScanLeads';
+import { SCANLEADS_MODULE_PRICE_CENTS } from '@/lib/scanleads-pricing';
 
 interface ScanLeadsUpsellProps {
   userId: number;
@@ -143,10 +144,11 @@ export function ScanLeadsUpsell({ userId, userName, userEmail }: ScanLeadsUpsell
                   {t("pricing.label")}
                 </p>
                 <div className="flex items-baseline justify-center gap-2 mb-10">
-                  <span className="text-5xl font-bold text-amber-400">$6,960</span>
+                  <span className="text-5xl font-bold text-amber-400">${(SCANLEADS_MODULE_PRICE_CENTS / 100).toLocaleString('es-MX')}</span>
                   <span className="text-2xl text-white">MXN</span>
                 </div>
                 <p className="text-base text-white uppercase font-semibold mt-8">{t("pricing.noteIva")}</p>
+                <p className="text-sm text-slate-300">{t('pricing.perLicense')}</p>
               </div>
 
               {!showPayPal ? (

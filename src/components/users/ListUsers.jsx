@@ -154,6 +154,7 @@ export function ListUsers({ users: initialUsers, onUserUpdated }) {
                 <th className='px-6 py-3'>Stand</th>
                 <th className='px-6 py-3'>{t('table.role')}</th>
                 <th className='px-6 py-3'>{t('table.event')}</th>
+                <th className='px-6 py-3'>{t('table.scanLeadsLicenses')}</th>
                 <th className='px-6 py-3'>Status</th>
                 <th className='px-6 py-3'>ShowInDirectory</th>
                 <th className='px-6 py-3 text-right'>{t('table.actions')}</th>
@@ -163,7 +164,7 @@ export function ListUsers({ users: initialUsers, onUserUpdated }) {
               {currentUsers.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={9}
+                    colSpan={10}
                     className='px-6 py-8 text-center text-sm text-slate-400'
                   >
                     {t('empty')}
@@ -250,6 +251,9 @@ export function ListUsers({ users: initialUsers, onUserUpdated }) {
                           <span className='h-2 w-2 rounded-full bg-blue-400'></span>
                           {user.event || t('table.noData')}
                         </span>
+                      </td>
+                      <td className='px-6 py-4 text-sm font-semibold text-emerald-300'>
+                        {Number(user.scanleads_paid_licenses ?? 0)}
                       </td>
                       {/* Status Column */}
                       <td className='px-6 py-4'>

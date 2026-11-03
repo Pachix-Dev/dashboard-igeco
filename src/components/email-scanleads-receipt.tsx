@@ -18,6 +18,7 @@ interface ScanLeadsReceiptProps {
   userEmail: string
   userCompany?: string
   totalAmount: number
+  quantity?: number
   currency: string
   paymentId: string
   paymentDate: string
@@ -40,6 +41,7 @@ const translations = {
     concept: 'Concepto',
     amount: 'Monto',
     module: 'Módulo Scan Leads - Acceso durante el evento',
+    quantity: 'Licencias',
     totalPaid: 'Total pagado:',
     activated: '¡Módulo Activado!',
     activatedDesc: 'Ya puedes comenzar a escanear leads de visitantes durante el evento.',
@@ -82,6 +84,7 @@ const translations = {
     concept: 'Description',
     amount: 'Amount',
     module: 'Scan Leads Module - Access during the event',
+    quantity: 'Licenses',
     totalPaid: 'Total Paid:',
     activated: 'Module Activated!',
     activatedDesc: 'You can now start scanning visitor leads during the event.',
@@ -124,6 +127,7 @@ const translations = {
     concept: 'Descrizione',
     amount: 'Importo',
     module: 'Modulo Scan Leads - Accesso durante l\'evento',
+    quantity: 'Licenze',
     totalPaid: 'Totale Pagato:',
     activated: 'Modulo Attivato!',
     activatedDesc: 'Ora puoi iniziare a scansionare i lead dei visitatori durante l\'evento.',
@@ -159,6 +163,7 @@ export default function ScanLeadsReceipt({
   userEmail,
   userCompany,
   totalAmount,
+  quantity = 1,
   currency,
   paymentId,
   paymentDate,
@@ -277,6 +282,7 @@ export default function ScanLeadsReceipt({
             <Row style={tableRow}>
               <Column style={tableColConcept}>
                 <Text style={tableText}>{t.module}</Text>
+                <Text style={tableText}>{t.quantity}: {quantity}</Text>
               </Column>
               <Column style={tableColAmount}>
                 <Text style={tableTextAmount}>

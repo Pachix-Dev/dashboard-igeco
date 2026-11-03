@@ -479,7 +479,8 @@
       "company": "Empresa",
       "event": "Evento",
       "actions": "Acciones",
-      "noData": "Sin dato"
+      "noData": "Sin dato",
+      "scanLeadsLicenses": "Licencias de scanner pagadas"
     },
     "empty": "No se encontraron usuarios con ese criterio.",
     "pagination": {
@@ -948,6 +949,24 @@
     "purchaseSuccess": "¡Compra exitosa! Se agregaron {slots} slots",
     "purchaseError": "Error al procesar el pago. Intenta nuevamente."
   },
+  "ScanLeadsPurchase": {
+    "quantity": "Cantidad de licencias",
+    "unitPrice": "Precio por licencia",
+    "total": "Total a pagar",
+    "paidLicenses": "Licencias pagadas",
+    "totalPaid": "Total pagado",
+    "buyMore": "Comprar más licencias",
+    "closePurchase": "Cerrar compra",
+    "noRecordedPurchases": "Si ya pagaste y tu compra no aparece en este total, contacta a tu asesor.",
+    "processing": "Procesando pago...",
+    "success": "¡Licencias registradas exitosamente! Actualizando...",
+    "pending": "Pago pendiente. Usa Verificar pago para consultar su estado o contacta a soporte.",
+    "error": "No se pudo registrar el pago. Verifica su estado antes de volver a pagar.",
+    "paymentError": "Error en el pago. Por favor verifica tu método de pago.",
+    "unconfirmed": "Hay un pago por verificar. Consulta su estado antes de iniciar otra compra.",
+    "paymentId": "Referencia de pago",
+    "checkPayment": "Verificar pago"
+  },
   "ScanLeadsUpsell": {
     "badge": "Módulo Premium",
     "title": "Captura Leads Durante el Evento",
@@ -956,8 +975,9 @@
       "label": "Pago por evento",
       "single": "Acceso durante todo el evento",
       "cta": "Comprar ahora",
-      "guarantee": "Activación inmediata • Soporte incluido",
-      "noteIva": "* El precio ya incluye IVA *"
+      "guarantee": "Activación y soporte incluido",
+      "noteIva": "* El precio ya incluye IVA *",
+      "perLicense": "Precio por licencia. Puedes comprar varias en una sola operación."
     },
     "featuresTitle": "Todo lo que necesitas para capturar leads",
     "featuresSubtitle": "Herramientas profesionales para maximizar tu inversión en el evento",

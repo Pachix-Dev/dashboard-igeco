@@ -1,5 +1,4 @@
 import {ScanLeadsClient} from '@/components/scannleads/ScanLeadsClient';
-import {Lead} from '@/lib/definitions';
 import {fetchRecordsByUserId} from '@/lib/db';
 
 import {getTranslations} from 'next-intl/server';
@@ -7,6 +6,8 @@ import {unstable_noStore as noStore} from 'next/cache';
 import {redirect} from 'next/navigation';
 import { getSession, getDashboardSession } from '@/lib/actions/exhibitors';
 import { ScanLeadsUpsell } from '@/components/scannleads/ScanLeadsUpsell';
+import { ScanLeadsLicenses } from '@/components/scannleads/ScanLeadsLicenses';
+import { getScanLeadsPurchaseSummary } from '@/lib/scanleads-payments';
 
 export default async function ScanLeads() {
   noStore();
@@ -33,7 +34,9 @@ export default async function ScanLeads() {
     );
   }
 
-  const leads: Lead[] = await fetchRecordsByUserId();
+  const [leads, purchaseSummary] = await Promise.all([
+    fetchRecordsByUserId(), getScanLeadsPurchaseSummary(dashboardSession.id),
+  ]);
   const totalLeads = leads.length;
   
   return (
@@ -53,6 +56,7 @@ export default async function ScanLeads() {
             <p className="text-sm text-slate-400">{t('subtitle')}</p>
           </div>          
         </header>
+        <ScanLeadsLicenses userId={dashboardSession.id} {...purchaseSummary} />
         <div className="">
           <ScanLeadsClient 
             initialLeads={leads}             

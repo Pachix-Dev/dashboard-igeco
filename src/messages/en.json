@@ -649,7 +649,8 @@
       "company": "Company",
       "event": "Event",
       "actions": "Actions",
-      "noData": "No data"
+      "noData": "No data",
+      "scanLeadsLicenses": "Paid scanner licenses"
     },
     "empty": "No users matched that query.",
     "pagination": {
@@ -947,6 +948,24 @@
     "purchaseSuccess": "Purchase successful! {slots} slots added",
     "purchaseError": "Error processing payment. Please try again."
   },
+  "ScanLeadsPurchase": {
+    "quantity": "Number of licenses",
+    "unitPrice": "Price per license",
+    "total": "Total to pay",
+    "paidLicenses": "Paid licenses",
+    "totalPaid": "Total paid",
+    "buyMore": "Buy more licenses",
+    "closePurchase": "Close purchase",
+    "noRecordedPurchases": "If you already paid and your purchase is missing from this total, contact your advisor.",
+    "processing": "Processing payment...",
+    "success": "Licenses registered successfully! Updating...",
+    "pending": "Payment pending. Use Check payment to review its status or contact support.",
+    "error": "The payment could not be registered. Check its status before paying again.",
+    "paymentError": "Payment error. Please check your payment method.",
+    "unconfirmed": "A payment needs verification. Check its status before starting another purchase.",
+    "paymentId": "Payment reference",
+    "checkPayment": "Check payment"
+  },
   "ScanLeadsUpsell": {
     "badge": "Premium Module",
     "title": "Capture Leads During the Event",
@@ -955,8 +974,9 @@
       "label": "Payment per event",
       "single": "Access during the entire event",
       "cta": "Buy now",
-      "guarantee": "Instant activation • Support included",
-      "noteIva": "* Price includes VAT *"
+      "guarantee": "Activation and support included",
+      "noteIva": "* Price includes VAT *",
+      "perLicense": "Price per license. You can purchase several in one transaction."
     },
     "featuresTitle": "Everything you need to capture leads",
     "featuresSubtitle": "Professional tools to maximize your event investment",

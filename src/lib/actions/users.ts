@@ -8,6 +8,8 @@ import type { ResultSetHeader, RowDataPacket } from "mysql2";
 import db from "@/lib/db";
 import { EmailTemplate } from "@/components/email-template";
 import { normalizeSquareMeters } from "@/lib/stand-space";
+import { scanLeadsSummaryColumns } from "@/lib/scanleads-payments";
+import { getSession } from "@/lib/actions/exhibitors";
 import {
   isValidEmail,
   sanitizeString,
@@ -20,6 +22,7 @@ export type DashboardUser = {
   email: string;
   role: string;
   maxexhibitors: number;
+  scanleads_paid_licenses: number;
   event: string;
   company: string;
   stand: string | null;
@@ -138,6 +141,7 @@ const mapRowToDashboardUser = (row: RowDataPacket): DashboardUser => ({
   email: String(row.email ?? ""),
   role: String(row.role ?? ""),
   maxexhibitors: Number(row.maxexhibitors ?? 0),
+  scanleads_paid_licenses: Number(row.scanleads_paid_licenses ?? 0),
   event: String(row.event ?? ""),
   company: String(row.company ?? ""),
   stand: row.stand !== undefined && row.stand !== null ? String(row.stand) : null,
@@ -205,8 +209,9 @@ async function sendCredentialsEmail({
 
 export async function getDashboardUsers(): Promise<DashboardUser[]> {
   try {
+    if ((await getSession())?.role !== 'admin') return [];
     const [rows] = await db.query<RowDataPacket[]>(
-      "SELECT id, name, email, role, maxexhibitors, event, company, stand, square_meters, description, description_en, address, photo, webpage, phone, facebook, instagram, linkedin, x, youtube, tiktok, status, show_directory, document_penalty_paid, document_penalty_waived, document_penalty_locked_by_admin FROM users WHERE role != 'admin' ORDER BY id DESC"
+      `SELECT id, name, email, role, maxexhibitors, event, company, stand, square_meters, description, description_en, address, photo, webpage, phone, facebook, instagram, linkedin, x, youtube, tiktok, status, show_directory, document_penalty_paid, document_penalty_waived, document_penalty_locked_by_admin, ${scanLeadsSummaryColumns} FROM users WHERE role != 'admin' ORDER BY id DESC`
     );
 
     return rows.map(mapRowToDashboardUser);
@@ -350,7 +355,7 @@ export async function createUserAction(
     );
 
     const [createdRows] = await db.query<RowDataPacket[]>(
-      "SELECT id, name, email, role, maxexhibitors, event, company, stand, square_meters, status, show_directory, document_penalty_paid, document_penalty_waived, document_penalty_locked_by_admin FROM users WHERE id = ?",
+      `SELECT id, name, email, role, maxexhibitors, event, company, stand, square_meters, status, show_directory, document_penalty_paid, document_penalty_waived, document_penalty_locked_by_admin, ${scanLeadsSummaryColumns} FROM users WHERE id = ?`,
       [result.insertId]
     );
 
@@ -362,6 +367,7 @@ export async function createUserAction(
           email,
           role: input.role ?? "exhibitor",
           maxexhibitors: normalizedMaxExhibitors,
+          scanleads_paid_licenses: 0,
           event,
           company: sanitizedCompany,
           stand: sanitizedStand,
@@ -545,7 +551,7 @@ export async function updateUserAction(
     );
 
     const [updatedRows] = await db.query<RowDataPacket[]>(
-      "SELECT id, name, email, role, maxexhibitors, event, company, stand, square_meters, status, show_directory, document_penalty_paid, document_penalty_waived, document_penalty_locked_by_admin FROM users WHERE id = ?",
+      `SELECT id, name, email, role, maxexhibitors, event, company, stand, square_meters, status, show_directory, document_penalty_paid, document_penalty_waived, document_penalty_locked_by_admin, ${scanLeadsSummaryColumns} FROM users WHERE id = ?`,
       [id]
     );
 
@@ -562,6 +568,7 @@ export async function updateUserAction(
           stand: sanitizedStand,
           square_meters: normalizedSquareMeters,
           status: normalizedStatus,
+          scanleads_paid_licenses: 0,
           document_penalty_paid: Number(existingUser[0]?.document_penalty_paid ?? 0),
           document_penalty_waived: normalizedDocumentPenaltyWaived,
           document_penalty_locked_by_admin: normalizedDocumentPenaltyLockedByAdmin,

@@ -1,14 +1,14 @@
 import {ScanLeadsClientTemp} from '@/components/scannleads/ScanLeadsClientTemp';
 
-import {getTranslations} from 'next-intl/server';
 import {unstable_noStore as noStore} from 'next/cache';
 import {redirect} from 'next/navigation';
 import { getSession, getDashboardSession } from '@/lib/actions/exhibitors';
 import { ScanLeadsUpsell } from '@/components/scannleads/ScanLeadsUpsell';
+import { ScanLeadsLicenses } from '@/components/scannleads/ScanLeadsLicenses';
+import { getScanLeadsPurchaseSummary } from '@/lib/scanleads-payments';
 
 export default async function ScanLeads() {
   noStore();
-  const t = await getTranslations('ScanLeadsPage');
   
   const sessionStatus = await getSession();
   const dashboardSession = await getDashboardSession();
@@ -32,10 +32,11 @@ export default async function ScanLeads() {
     );
   }
 
-  
+  const purchaseSummary = await getScanLeadsPurchaseSummary(dashboardSession.id);
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50">
       <section className="mx-auto max-w-8xl space-y-8 px-6 py-10">
+        <ScanLeadsLicenses userId={dashboardSession.id} {...purchaseSummary} />
         <div className="">
           <ScanLeadsClientTemp />
         </div>        

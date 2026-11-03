@@ -2,13 +2,21 @@ import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import db from '@/lib/db';
 import ScanLeadsReceipt from '@/components/email-scanleads-receipt';
+import type { RowDataPacket } from 'mysql2';
+import { getSession } from '@/lib/actions/exhibitors';
+import { getScanLeadsPurchaseSummary } from '@/lib/scanleads-payments';
+import {
+  amountInCents, isScanLeadsQuantity, scanLeadsPaymentReference,
+  SCANLEADS_CURRENCY, SCANLEADS_MODULE_PRICE_CENTS,
+} from '@/lib/scanleads-pricing';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 interface ActivateRequest {
-  user_id: number;
+  user_id?: number;
   payment_id: string;
-  payment_status: string;
+  payment_status?: string;
+  quantity?: number;
   locale?: 'es' | 'en' | 'it';
 }
 
@@ -60,28 +68,48 @@ async function verifyPayPalPayment(paymentId: string) {
 
 export async function POST(req: Request) {
   try {
-    const { user_id, payment_id, payment_status, locale } = await req.json() as ActivateRequest;
-    const userLocale = (locale || 'es') as 'es' | 'en' | 'it';
+    const session = await getSession();
+    if (!session) return NextResponse.json({ message: 'Sesión requerida' }, { status: 401 });
 
-    // Validar campos requeridos
-    if (!user_id || !payment_id || !payment_status) {
-      return NextResponse.json(
-        { message: 'Todos los campos son requeridos' },
-        { status: 400 }
-      );
+    let input: ActivateRequest;
+    try {
+      input = await req.json();
+    } catch {
+      return NextResponse.json({ message: 'Solicitud no válida' }, { status: 400 });
+    }
+    if (!input || typeof input !== 'object') {
+      return NextResponse.json({ message: 'Solicitud no válida' }, { status: 400 });
+    }
+    const { user_id, payment_id, locale, quantity = 1 } = input;
+    const userLocale = locale === 'en' || locale === 'it' ? locale : 'es';
+    if (user_id !== undefined && user_id !== session.id) {
+      return NextResponse.json({ message: 'La compra no pertenece al usuario autenticado' }, { status: 403 });
+    }
+    if (typeof payment_id !== 'string' || !/^[a-z0-9]{1,100}$/i.test(payment_id)
+      || !isScanLeadsQuantity(quantity)) {
+      return NextResponse.json({ message: 'Identificador de pago o cantidad no válidos' }, { status: 400 });
     }
 
-    // Verificar si ya tiene el módulo activado
-    const [existingUsers]: any = await db.query(
-      'SELECT scanleads_purchased FROM users WHERE id = ?',
-      [user_id]
+    const [existingPayments] = await db.query<RowDataPacket[]>(
+      'SELECT user_id, quantity, payment_status FROM scanleads_payments WHERE payment_id = ?',
+      [payment_id]
     );
-
-    if (existingUsers.length > 0 && existingUsers[0].scanleads_purchased === 1) {
-      return NextResponse.json(
-        { message: 'El módulo ya está activado para este usuario' },
-        { status: 400 }
-      );
+    const existingPayment = existingPayments[0];
+    if (existingPayment && Number(existingPayment.user_id) !== session.id) {
+      return NextResponse.json({ message: 'El pago ya pertenece a otro usuario' }, { status: 409 });
+    }
+    if (existingPayment?.payment_status === 'COMPLETED') {
+      return NextResponse.json({
+        message: 'Pago registrado previamente', status: 'COMPLETED',
+        quantity: Number(existingPayment.quantity),
+        ...await getScanLeadsPurchaseSummary(session.id),
+      });
+    }
+    if (existingPayment && Number(existingPayment.quantity) !== quantity) {
+      return NextResponse.json({ message: 'La cantidad no coincide con la compra registrada' }, { status: 409 });
+    }
+    if (existingPayment && !['PENDING', 'CREATED'].includes(existingPayment.payment_status)) {
+      return NextResponse.json({ message: 'El pago no puede volver a activarse' }, { status: 409 });
     }
 
     // Verificar el pago directamente con PayPal API
@@ -96,24 +124,34 @@ export async function POST(req: Request) {
       );
     }
 
-    // Obtener información del pago
-    const paypalStatus = paypalOrder.status;
-    const paidAmount = paypalOrder.purchase_units[0].amount.value;
-    const currency = paypalOrder.purchase_units[0].amount.currency_code;
-    
-    // Validar que el monto es correcto (6,960 MXN)
-    const expectedAmount = '6960.00';
-    if (parseFloat(paidAmount) !== parseFloat(expectedAmount)) {
-      return NextResponse.json(
-        { message: 'El monto del pago no coincide con el precio del módulo' },
-        { status: 400 }
-      );
+    const purchaseUnit = paypalOrder.purchase_units?.[0];
+    // La referencia devuelta por PayPal identifica el servicio, usuario y cantidad.
+    // Las compras pendientes anteriores a esta migración no incluían custom_id.
+    const isLegacyPayment = existingPayment && quantity === 1 && !purchaseUnit?.custom_id;
+    if (paypalOrder.purchase_units?.length !== 1 || !purchaseUnit
+      || (!isLegacyPayment && purchaseUnit.custom_id !== scanLeadsPaymentReference(session.id, quantity))) {
+      return NextResponse.json({ message: 'La orden no corresponde a esta compra de licencias' }, { status: 400 });
+    }
+    const capture = purchaseUnit.payments?.captures?.[0];
+    if (!capture || purchaseUnit.payments.captures.length !== 1) {
+      return NextResponse.json({ message: 'El pago todavía no tiene una captura confirmada' }, { status: 400 });
+    }
+    const paypalStatus = capture.status;
+    const paidAmount = capture.amount?.value;
+    const currency = capture.amount?.currency_code;
+    const expectedAmountCents = SCANLEADS_MODULE_PRICE_CENTS * quantity;
+    if (amountInCents(paidAmount) !== expectedAmountCents
+      || amountInCents(purchaseUnit.amount?.value) !== expectedAmountCents
+      || currency !== SCANLEADS_CURRENCY || purchaseUnit.amount?.currency_code !== SCANLEADS_CURRENCY) {
+      return NextResponse.json({ message: 'El importe o la moneda no coinciden con las licencias compradas' }, { status: 400 });
+    }
+    if (paypalStatus !== 'COMPLETED' && paypalStatus !== 'PENDING') {
+      return NextResponse.json({ message: `Estado de pago no válido: ${paypalStatus}`, status: paypalStatus }, { status: 400 });
     }
 
-    // Obtener datos del usuario
-    const [users]: any = await db.query(
+    const [users] = await db.query<RowDataPacket[]>(
       'SELECT id, name, email, company FROM users WHERE id = ?',
-      [user_id]
+      [session.id]
     );
 
     if (users.length === 0) {
@@ -125,25 +163,58 @@ export async function POST(req: Request) {
 
     const user = users[0];
 
-    // Si el pago está COMPLETED, activar el módulo
-    if (paypalStatus === 'COMPLETED') {
-      // Actualizar scanleads_purchased a 1
-      await db.query(
-        'UPDATE users SET scanleads_purchased = 1 WHERE id = ?',
-        [user_id]
+    const connection = await db.getConnection();
+    let newlyCompleted = false;
+    let recordedStatus = paypalStatus;
+    try {
+      await connection.beginTransaction();
+      // Serializar compras de la misma cuenta, incluidos reintentos simultáneos.
+      const [lockedUsers] = await connection.query<RowDataPacket[]>(
+        'SELECT id FROM users WHERE id = ? FOR UPDATE', [session.id]
       );
-
-      // Registrar la transacción (puedes crear una tabla scanleads_payments si quieres)
-      try {
-        await db.query(
-          `INSERT INTO scanleads_payments 
-          (user_id, payment_id, amount_paid, currency, payment_status, completed_at) 
-          VALUES (?, ?, ?, ?, 'COMPLETED', NOW())`,
-          [user_id, payment_id, paidAmount, currency]
-        );
-      } catch (error) {
-        console.log('Payment logging skipped - table may not exist');
+      if (!lockedUsers.length) throw new Error('Usuario no encontrado');
+      const [payments] = await connection.query<RowDataPacket[]>(
+        'SELECT user_id, quantity, payment_status FROM scanleads_payments WHERE payment_id = ? FOR UPDATE',
+        [payment_id]
+      );
+      const payment = payments[0];
+      if (payment && (Number(payment.user_id) !== session.id || Number(payment.quantity) !== quantity)) {
+        throw new Error('El pago ya está asociado a otra compra');
       }
+      if (payment?.payment_status === 'COMPLETED') {
+        recordedStatus = 'COMPLETED';
+      } else {
+        if (payment && !['PENDING', 'CREATED'].includes(payment.payment_status)) {
+          throw new Error('El pago no puede volver a activarse');
+        }
+        if (payment) {
+          await connection.query(
+            `UPDATE scanleads_payments SET amount_paid = ?, payment_status = ?,
+             completed_at = CASE WHEN ? = 'COMPLETED' THEN NOW() ELSE NULL END WHERE payment_id = ?`,
+            [paidAmount, paypalStatus, paypalStatus, payment_id]
+          );
+        } else {
+          await connection.query(
+            `INSERT INTO scanleads_payments
+             (user_id, payment_id, quantity, amount_paid, currency, payment_status, completed_at)
+             VALUES (?, ?, ?, ?, ?, ?, CASE WHEN ? = 'COMPLETED' THEN NOW() ELSE NULL END)`,
+            [session.id, payment_id, quantity, paidAmount, currency, paypalStatus, paypalStatus]
+          );
+        }
+        if (paypalStatus === 'COMPLETED') {
+          await connection.query('UPDATE users SET scanleads_purchased = 1 WHERE id = ?', [session.id]);
+          newlyCompleted = true;
+        }
+      }
+      await connection.commit();
+    } catch (error) {
+      await connection.rollback();
+      throw error;
+    } finally {
+      connection.release();
+    }
+
+    if (newlyCompleted) {
 
       // Enviar email de confirmación
       try {
@@ -161,7 +232,8 @@ export async function POST(req: Request) {
             userName: user.name,
             userEmail: user.email,
             userCompany: user.company,
-            totalAmount: parseFloat(paidAmount),
+            totalAmount: Number(paidAmount),
+            quantity,
             currency: currency,
             paymentId: payment_id,
             paymentDate: new Date().toLocaleDateString(userLocale === 'es' ? 'es-MX' : userLocale === 'en' ? 'en-US' : 'it-IT', {
@@ -179,36 +251,15 @@ export async function POST(req: Request) {
         // No fallar la transacción si el email falla
       }
 
-      return NextResponse.json({
-        message: 'Módulo activado exitosamente',
-        status: 'COMPLETED',
-      }, { status: 200 });
     }
-
-    // Si el pago está PENDING
-    if (paypalStatus === 'PENDING') {
-      try {
-        await db.query(
-          `INSERT INTO scanleads_payments 
-          (user_id, payment_id, amount_paid, currency, payment_status) 
-          VALUES (?, ?, ?, ?, 'PENDING')`,
-          [user_id, payment_id, paidAmount, currency]
-        );
-      } catch (error) {
-        console.log('Payment logging skipped - table may not exist');
-      }
-
-      return NextResponse.json({
-        message: 'Pago pendiente de confirmación. Te notificaremos cuando se complete.',
-        status: 'PENDING',
-      }, { status: 202 });
-    }
-
-    // Cualquier otro estado (FAILED, CANCELLED, etc.)
-    return NextResponse.json(
-      { message: `Estado de pago no válido: ${paypalStatus}` },
-      { status: 400 }
-    );
+    return NextResponse.json({
+      message: recordedStatus === 'COMPLETED'
+        ? 'Licencias registradas exitosamente'
+        : 'Pago pendiente. Consulta nuevamente su estado o contacta a soporte.',
+      status: recordedStatus,
+      quantity,
+      ...await getScanLeadsPurchaseSummary(session.id),
+    }, { status: recordedStatus === 'COMPLETED' ? 200 : 202 });
 
   } catch (err: any) {
     console.error('Error activating scan leads module:', err);
