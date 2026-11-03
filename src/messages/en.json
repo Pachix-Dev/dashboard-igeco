@@ -650,7 +650,8 @@
       "event": "Event",
       "actions": "Actions",
       "noData": "No data",
-      "scanLeadsLicenses": "Paid scanner licenses"
+      "availableBadges": "Available badges",
+      "scanLeadsLicenses": "Paid scanners"
     },
     "empty": "No users matched that query.",
     "pagination": {

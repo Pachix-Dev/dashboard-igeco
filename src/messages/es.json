@@ -480,7 +480,8 @@
       "event": "Evento",
       "actions": "Acciones",
       "noData": "Sin dato",
-      "scanLeadsLicenses": "Licencias de scanner pagadas"
+      "availableBadges": "Gafetes disponibles",
+      "scanLeadsLicenses": "lectora pagadas"
     },
     "empty": "No se encontraron usuarios con ese criterio.",
     "pagination": {

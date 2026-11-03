@@ -90,8 +90,8 @@ export function ListUsers({ users: initialUsers, onUserUpdated }) {
           <p className='text-sm text-slate-400'>{t('list.desc')}</p>
         </div>
 
-        <div className='flex flex-col gap-3 sm:flex-row sm:items-center'>
-          <div className='relative w-full sm:w-72'>
+        <div className='flex min-w-0 flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center'>
+          <div className='relative w-full sm:w-60'>
             <input
               type='text'
               id='Search'
@@ -121,7 +121,7 @@ export function ListUsers({ users: initialUsers, onUserUpdated }) {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className='rounded-xl border border-white/10 bg-slate-900/70 px-3 py-2.5 text-sm text-white outline-none transition focus:border-blue-400/60'
+            className='min-w-0 max-w-full rounded-xl border border-white/10 bg-slate-900/70 px-3 py-2.5 text-sm text-white outline-none transition focus:border-blue-400/60'
           >
             <option value='all'>Todos los estatus</option>
             <option value='active'>Activos</option>
@@ -131,7 +131,7 @@ export function ListUsers({ users: initialUsers, onUserUpdated }) {
           <select
             value={eventFilter}
             onChange={(e) => setEventFilter(e.target.value)}
-            className='rounded-xl border border-white/10 bg-slate-900/70 px-3 py-2.5 text-sm text-white outline-none transition focus:border-blue-400/60'
+            className='min-w-0 max-w-full rounded-xl border border-white/10 bg-slate-900/70 px-3 py-2.5 text-sm text-white outline-none transition focus:border-blue-400/60'
           >
             <option value='all'>Todos los eventos</option>
             {eventOptions.map((event) => (
@@ -145,27 +145,38 @@ export function ListUsers({ users: initialUsers, onUserUpdated }) {
 
       <div className='overflow-hidden rounded-2xl border border-white/10 bg-slate-950/50 shadow-inner shadow-blue-500/5'>
         <div className='overflow-x-auto'>
-          <table className='min-w-full divide-y divide-white/5'>
+          <table className='w-full divide-y divide-white/5 text-left text-sm [&_td]:align-middle'>
             <thead className='bg-white/5 text-left text-xs font-semibold uppercase tracking-wide text-slate-300'>
               <tr>
-                <th className='px-6 py-3'>Logo</th>
-                <th className='px-6 py-3'>{t('table.user')}</th>
-                <th className='px-6 py-3'>{t('table.company')}</th>
-                <th className='px-6 py-3'>Stand</th>
-                <th className='px-6 py-3'>{t('table.role')}</th>
-                <th className='px-6 py-3'>{t('table.event')}</th>
-                <th className='px-6 py-3'>{t('table.scanLeadsLicenses')}</th>
-                <th className='px-6 py-3'>Status</th>
-                <th className='px-6 py-3'>ShowInDirectory</th>
-                <th className='px-6 py-3 text-right'>{t('table.actions')}</th>
+                <th className='w-14 px-2 py-3'>Logo</th>
+                <th className='px-2 py-3 text-left'>{t('table.user')}</th>
+                <th className='px-2 py-3'>{t('table.company')}</th>
+                <th className='w-16 px-2 py-3'>Stand</th>
+                <th className='w-24 px-2 py-3'>{t('table.role')}</th>
+                <th className='px-2 py-3'>{t('table.event')}</th>
+                <th className='w-24 px-2 py-3'>
+                  <span className='block max-w-[5rem]'>
+                    {t('table.availableBadges')}
+                  </span>
+                </th>
+                <th className='w-24 px-2 py-3'>
+                  <span className='block max-w-[5rem]'>
+                    {t('table.scanLeadsLicenses')}
+                  </span>
+                </th>
+                <th className='w-24 px-2 py-3'>Status</th>
+                <th className='w-24 px-2 py-3'>
+                  ShowIn<wbr />Directory
+                </th>
+                <th className='w-20 px-2 py-3'>{t('table.actions')}</th>
               </tr>
             </thead>
             <tbody className='divide-y divide-white/5'>
               {currentUsers.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={10}
-                    className='px-6 py-8 text-center text-sm text-slate-400'
+                    colSpan={11}
+                    className='px-2 py-8 text-left text-sm text-slate-400'
                   >
                     {t('empty')}
                   </td>
@@ -191,14 +202,14 @@ export function ListUsers({ users: initialUsers, onUserUpdated }) {
                       className='transition hover:bg-white/5'
                     >
                       {/* Logo Column */}
-                      <td className='px-6 py-4'>
-                        <div className='h-12 w-12 rounded-lg overflow-hidden bg-slate-800 border border-slate-700 flex items-center justify-center'>
+                      <td className='px-2 py-3'>
+                        <div className='h-10 w-10 rounded-lg overflow-hidden bg-slate-800 border border-slate-700 flex items-center justify-center'>
                           {user.photo ? (
                             <Image
                               src={`/logos/${user.photo}`}
                               alt={user.name || 'Logo'}
-                              width={48}
-                              height={48}
+                              width={40}
+                              height={40}
                               className='object-cover w-full h-full'
                             />
                           ) : (
@@ -220,7 +231,7 @@ export function ListUsers({ users: initialUsers, onUserUpdated }) {
                         </div>
                       </td>
                       {/* User Column */}
-                      <td className='px-6 py-4'>
+                      <td className='max-w-[12rem] px-2 py-3 [overflow-wrap:anywhere] text-left'>
                         <div className='font-semibold text-white'>
                           {user.name || t('table.noData')}
                         </div>
@@ -229,53 +240,60 @@ export function ListUsers({ users: initialUsers, onUserUpdated }) {
                         </p>
                       </td>
                       {/* Company Column */}
-                      <td className='px-6 py-4 text-sm text-slate-200'>
+                      <td className='max-w-[10rem] px-2 py-3 text-sm text-slate-200 [overflow-wrap:anywhere]'>
                         {user.company || t('table.noData')}
                       </td>
                       {/* Stand Column */}
-                      <td className='px-6 py-4 text-sm text-slate-200'>
+                      <td className='px-2 py-3 text-sm text-slate-200 [overflow-wrap:anywhere]'>
                         {user.stand || t('table.noData')}
                       </td>
                       {/* Role Column */}
-                      <td className='px-6 py-4'>
+                      <td className='px-2 py-3'>
                         <span
-                          className={`inline-flex items-center gap-2 rounded-lg border px-3 py-1 text-xs font-semibold ${roleTone}`}
+                          className={`inline-flex max-w-full items-center justify-start gap-1 rounded-lg border px-1.5 py-1 text-xs font-semibold ${roleTone}`}
                         >
-                          <span className='h-2 w-2 rounded-full bg-current opacity-70'></span>
-                          {roleLabel(user.role)}
+                          <span className='h-2 w-2 shrink-0 rounded-full bg-current opacity-70'></span>
+                          <span className='[overflow-wrap:anywhere]'>
+                            {roleLabel(user.role)}
+                          </span>
                         </span>
                       </td>
                       {/* Event Column */}
-                      <td className='px-6 py-4'>
-                        <span className='inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-3 py-1 text-xs font-semibold text-slate-100'>
-                          <span className='h-2 w-2 rounded-full bg-blue-400'></span>
-                          {user.event || t('table.noData')}
+                      <td className='max-w-[8rem] px-2 py-3'>
+                        <span className='inline-flex max-w-full items-center justify-start gap-1 rounded-lg border border-white/10 bg-white/5 px-1.5 py-1 text-xs font-semibold text-slate-100'>
+                          <span className='h-2 w-2 shrink-0 rounded-full bg-blue-400'></span>
+                          <span className='[overflow-wrap:anywhere]'>
+                            {user.event || t('table.noData')}
+                          </span>
                         </span>
                       </td>
-                      <td className='px-6 py-4 text-sm font-semibold text-emerald-300'>
+                      <td className='px-2 py-3 text-sm font-semibold text-emerald-300'>
+                        {Number(user.available_badges ?? 0)}
+                      </td>
+                      <td className='px-2 py-3 text-sm font-semibold text-emerald-300'>
                         {Number(user.scanleads_paid_licenses ?? 0)}
                       </td>
                       {/* Status Column */}
-                      <td className='px-6 py-4'>
+                      <td className='px-2 py-3'>
                         <span
-                          className={`inline-flex items-center gap-2 rounded-lg border px-3 py-1 text-xs font-semibold ${statusColor}`}
+                          className={`inline-flex items-center justify-start gap-1 whitespace-nowrap rounded-lg border px-1.5 py-1 text-xs font-semibold ${statusColor}`}
                         >
-                          <span className='h-2 w-2 rounded-full bg-current opacity-70'></span>
+                          <span className='h-2 w-2 shrink-0 rounded-full bg-current opacity-70'></span>
                           {statusLabel}
                         </span>
                       </td>
                       {/* ShowInDirectory Column */}
-                      <td className='px-6 py-4'>
+                      <td className='px-2 py-3'>
                         <span
-                          className={`inline-flex items-center gap-2 rounded-lg border px-3 py-1 text-xs font-semibold ${directoryColor}`}
+                          className={`inline-flex items-center justify-start gap-1 whitespace-nowrap rounded-lg border px-1.5 py-1 text-xs font-semibold ${directoryColor}`}
                         >
-                          <span className='h-2 w-2 rounded-full bg-current opacity-70'></span>
+                          <span className='h-2 w-2 shrink-0 rounded-full bg-current opacity-70'></span>
                           {directoryLabel}
                         </span>
                       </td>
                       {/* Actions Column */}
-                      <td className='px-6 py-4'>
-                        <div className='flex flex-wrap justify-end gap-2'>
+                      <td className='px-2 py-3'>
+                        <div className='flex items-center justify-start gap-1'>
                           <EditUser user={user} onUserUpdated={onUserUpdated} />
                           <EditPassword user={user} />
                         </div>

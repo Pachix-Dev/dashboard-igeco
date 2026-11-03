@@ -13,7 +13,7 @@ export default async function DashboardLayout({children, params}: DashboardLayou
   return (
     <section className="relative min-h-screen bg-slate-950 text-slate-50 lg:flex">
       <Menu />
-      <main className="w-full flex-1">
+      <main className="min-w-0 w-full flex-1">
         <div className="mx-auto ">{children}</div>
       </main>
     </section>

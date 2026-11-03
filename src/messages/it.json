@@ -478,7 +478,8 @@
       "event": "Evento",
       "actions": "Azioni",
       "noData": "Nessun dato",
-      "scanLeadsLicenses": "Licenze scanner pagate"
+      "availableBadges": "Badge disponibili",
+      "scanLeadsLicenses": "Scanner pagati"
     },
     "empty": "Nessun utente trovato con questo criterio.",
     "pagination": {

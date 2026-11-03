@@ -22,6 +22,7 @@ export type DashboardUser = {
   email: string;
   role: string;
   maxexhibitors: number;
+  available_badges: number;
   scanleads_paid_licenses: number;
   event: string;
   company: string;
@@ -135,12 +136,19 @@ const safeLocale = (locale: Locale): "es" | "en" | "it" => {
 const localeDashboardPath = (locale: Locale) =>
   `/${safeLocale(locale)}/dashboard/usuarios`;
 
+const badgeSummaryColumns = `
+  (SELECT COUNT(*) FROM exhibitors WHERE user_id = users.id) AS registered_exhibitors`;
+
 const mapRowToDashboardUser = (row: RowDataPacket): DashboardUser => ({
   id: Number(row.id),
   name: String(row.name ?? ""),
   email: String(row.email ?? ""),
   role: String(row.role ?? ""),
   maxexhibitors: Number(row.maxexhibitors ?? 0),
+  available_badges: Math.max(
+    0,
+    Number(row.maxexhibitors ?? 0) - Number(row.registered_exhibitors ?? 0)
+  ),
   scanleads_paid_licenses: Number(row.scanleads_paid_licenses ?? 0),
   event: String(row.event ?? ""),
   company: String(row.company ?? ""),
@@ -211,7 +219,7 @@ export async function getDashboardUsers(): Promise<DashboardUser[]> {
   try {
     if ((await getSession())?.role !== 'admin') return [];
     const [rows] = await db.query<RowDataPacket[]>(
-      `SELECT id, name, email, role, maxexhibitors, event, company, stand, square_meters, description, description_en, address, photo, webpage, phone, facebook, instagram, linkedin, x, youtube, tiktok, status, show_directory, document_penalty_paid, document_penalty_waived, document_penalty_locked_by_admin, ${scanLeadsSummaryColumns} FROM users WHERE role != 'admin' ORDER BY id DESC`
+      `SELECT id, name, email, role, maxexhibitors, event, company, stand, square_meters, description, description_en, address, photo, webpage, phone, facebook, instagram, linkedin, x, youtube, tiktok, status, show_directory, document_penalty_paid, document_penalty_waived, document_penalty_locked_by_admin, ${badgeSummaryColumns}, ${scanLeadsSummaryColumns} FROM users WHERE role != 'admin' ORDER BY id DESC`
     );
 
     return rows.map(mapRowToDashboardUser);
@@ -355,7 +363,7 @@ export async function createUserAction(
     );
 
     const [createdRows] = await db.query<RowDataPacket[]>(
-      `SELECT id, name, email, role, maxexhibitors, event, company, stand, square_meters, status, show_directory, document_penalty_paid, document_penalty_waived, document_penalty_locked_by_admin, ${scanLeadsSummaryColumns} FROM users WHERE id = ?`,
+      `SELECT id, name, email, role, maxexhibitors, event, company, stand, square_meters, status, show_directory, document_penalty_paid, document_penalty_waived, document_penalty_locked_by_admin, ${badgeSummaryColumns}, ${scanLeadsSummaryColumns} FROM users WHERE id = ?`,
       [result.insertId]
     );
 
@@ -367,6 +375,7 @@ export async function createUserAction(
           email,
           role: input.role ?? "exhibitor",
           maxexhibitors: normalizedMaxExhibitors,
+          available_badges: Math.max(0, normalizedMaxExhibitors),
           scanleads_paid_licenses: 0,
           event,
           company: sanitizedCompany,
@@ -459,7 +468,7 @@ export async function updateUserAction(
     }
 
     const [existingUser] = await db.query<RowDataPacket[]>(
-      "SELECT id, document_penalty_paid FROM users WHERE id = ?",
+      `SELECT id, document_penalty_paid, ${badgeSummaryColumns} FROM users WHERE id = ?`,
       [id]
     );
 
@@ -551,7 +560,7 @@ export async function updateUserAction(
     );
 
     const [updatedRows] = await db.query<RowDataPacket[]>(
-      `SELECT id, name, email, role, maxexhibitors, event, company, stand, square_meters, status, show_directory, document_penalty_paid, document_penalty_waived, document_penalty_locked_by_admin, ${scanLeadsSummaryColumns} FROM users WHERE id = ?`,
+      `SELECT id, name, email, role, maxexhibitors, event, company, stand, square_meters, status, show_directory, document_penalty_paid, document_penalty_waived, document_penalty_locked_by_admin, ${badgeSummaryColumns}, ${scanLeadsSummaryColumns} FROM users WHERE id = ?`,
       [id]
     );
 
@@ -563,6 +572,10 @@ export async function updateUserAction(
           email,
           role: "exhibitor",
           maxexhibitors: normalizedMaxExhibitors,
+          available_badges: Math.max(
+            0,
+            normalizedMaxExhibitors - Number(existingUser[0]?.registered_exhibitors ?? 0)
+          ),
           event,
           company: sanitizedCompany,
           stand: sanitizedStand,
