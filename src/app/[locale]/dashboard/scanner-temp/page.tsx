@@ -35,12 +35,11 @@ export default async function ScanLeads() {
   const purchaseSummary = await getScanLeadsPurchaseSummary(dashboardSession.id);
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50">
-      <section className="mx-auto max-w-8xl space-y-8 px-6 py-10">
-        <ScanLeadsLicenses userId={dashboardSession.id} {...purchaseSummary} />
-        <div className="">
+      <section className="mx-auto max-w-8xl space-y-8 px-4 py-8 sm:px-6 sm:py-10">
+        <div className="mx-auto grid max-w-7xl items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(320px,380px)]">
           <ScanLeadsClientTemp />
-        </div>        
-        <div />
+          <ScanLeadsLicenses userId={dashboardSession.id} {...purchaseSummary} />
+        </div>
       </section>
     </main>
   );

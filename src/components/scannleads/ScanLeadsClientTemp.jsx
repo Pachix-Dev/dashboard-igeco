@@ -32,7 +32,7 @@ export function ScanLeadsClientTemp() {
     const t = useTranslations('ScanLeadsClientTemp');
 
     return (
-        <div className='mx-auto mt-6 max-w-4xl overflow-hidden rounded-3xl border border-emerald-400/20 bg-slate-950/70 shadow-2xl shadow-emerald-500/10 backdrop-blur'>
+        <div className='w-full overflow-hidden rounded-3xl border border-emerald-400/20 bg-slate-950/70 shadow-2xl shadow-emerald-500/10 backdrop-blur'>
             <div className='border-b border-white/10 bg-gradient-to-br from-emerald-500/15 via-cyan-500/10 to-white/5 px-6 py-10 text-center sm:px-10'>
                 <div className='mx-auto flex h-20 w-20 items-center justify-center rounded-full border border-emerald-300/30 bg-emerald-400/15 text-emerald-300 shadow-lg shadow-emerald-500/20'>
                     <CheckIcon />

@@ -155,12 +155,12 @@ export function BuyScanLeads({ userId }: BuyScanLeadsProps) {
         <label htmlFor={`scanleads-quantity-${userId}`} className="block text-sm font-semibold text-slate-200">
           {t('quantity')}
         </label>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <button
             type="button"
             onClick={() => setQuantity(Math.max(1, quantity - 1))}
             disabled={isProcessing || isCheckoutOpen || Boolean(unconfirmedPayment) || quantity <= 1}
-            className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
             aria-label={`- ${t('quantity')}`}
           >
             <span aria-hidden="true" className="text-xl leading-none">−</span>
@@ -175,13 +175,13 @@ export function BuyScanLeads({ userId }: BuyScanLeadsProps) {
             disabled={isProcessing || isCheckoutOpen || Boolean(unconfirmedPayment)}
             onChange={(event) => setQuantity(Math.min(SCANLEADS_MAX_QUANTITY,
               Math.max(1, Math.trunc(Number(event.target.value) || 1))))}
-            className="w-full rounded-xl border border-white/10 bg-slate-900/60 px-4 py-3 text-center text-lg font-bold text-white outline-none transition focus:border-emerald-400/60 disabled:opacity-50"
+            className="min-w-0 flex-1 rounded-xl border border-white/10 bg-slate-900/60 px-2 py-3 text-center text-lg font-bold text-white outline-none transition focus:border-emerald-400/60 disabled:opacity-50 sm:px-4"
           />
           <button
             type="button"
             onClick={() => setQuantity(Math.min(SCANLEADS_MAX_QUANTITY, quantity + 1))}
             disabled={isProcessing || isCheckoutOpen || Boolean(unconfirmedPayment) || quantity >= SCANLEADS_MAX_QUANTITY}
-            className="rounded-lg border border-white/10 bg-white/5 px-4 py-2 text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
             aria-label={`+ ${t('quantity')}`}
           >
             <span aria-hidden="true" className="text-xl leading-none">+</span>
@@ -217,7 +217,7 @@ export function BuyScanLeads({ userId }: BuyScanLeadsProps) {
         </div>
       )}
 
-      <div className="rounded-2xl bg-white p-4">
+      <div className="min-w-0 rounded-2xl bg-white p-3 sm:p-4">
         <PayPalScriptProvider
           options={{
             clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!,
