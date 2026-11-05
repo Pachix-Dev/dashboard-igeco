@@ -33,6 +33,19 @@ const db_re_eco = mysql.createPool({
 
 export {db_re_eco};
 
+export const db_scanleads = mysql.createPool({
+    host: process.env.DB_HOST4,
+    user: process.env.DB_USER4,
+    password: process.env.DB_PASSWORD4,
+    database: process.env.DB_NAME4,
+    connectionLimit: 8,
+    waitForConnections: true,
+    queueLimit: 0,
+    enableKeepAlive: true,
+    keepAliveInitialDelay: 0,
+    connectTimeout: 10000,
+});
+
 export const roles = {
     admin: ['/dashboard', '/dashboard/usuarios', '/dashboard/exhibitors', '/dashboard/profile', '/dashboard/scan-leads', '/dashboard/ponentes', '/dashboard/programa', '/dashboard/requirements'],
     editor: ['/dashboard', '/dashboard/profile', '/dashboard/ponentes', '/dashboard/programa'],
@@ -206,15 +219,9 @@ export async function fetchRecordsByUserId(): Promise<Lead[]> {
 
         const placeholders = limitedRecordIds.map(() => '?').join(',');
 
-        // Fetch from `users` table
-        const [users]: [any[], any] = await db_re_eco.query(
-            `SELECT * FROM users_2026 WHERE uuid IN (${placeholders})`,
-            limitedRecordIds
-        );
-
-        // Fetch from `users_ecomondo` table
-        const [usersEcomondo]: [any[], any] = await db_re_eco.query(
-            `SELECT * FROM users_ecomondo_2026 WHERE uuid IN (${placeholders})`,
+        // This visitor source does not have a maternal surname column.
+        const [visitors]: [any[], any] = await db_scanleads.query(
+            `SELECT *, '' AS maternSurname FROM visitors_ste_2026 WHERE uuid IN (${placeholders})`,
             limitedRecordIds
         );
 
@@ -223,10 +230,10 @@ export async function fetchRecordsByUserId(): Promise<Lead[]> {
             limitedRecordIds
         );
 
-        // Merge both results into one array
-        const records = [...users, ...usersEcomondo, ...usersExhibitors];
+        // Blend visitors and exhibitors
+        const records = [...visitors, ...usersExhibitors];
 
-        // Add notes to the records
+        // Add notes from leads table
         const recordsWithNotes = records.map(record => {
             const lead = rows.find(row => row.uuid === record.uuid);
             return { ...record, notes: lead?.notes };

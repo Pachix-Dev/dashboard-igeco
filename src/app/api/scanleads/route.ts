@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import db, {db_re_eco} from '@/lib/db';
+import db, {db_scanleads} from '@/lib/db';
 import { isValidUUID } from '@/lib/validation';
 
 interface ScanLeadRequest {
@@ -25,11 +25,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: 'No se encuentra o es inválido' }, { status: 400 });
     }
    
-    let [existingRecord] = await db_re_eco.query('SELECT * FROM users_2026 WHERE uuid = ? LIMIT 1', [uuid]) as [DbRow[], any];
-
-    if (existingRecord.length === 0) {
-      [existingRecord] = await db_re_eco.query('SELECT * FROM users_ecomondo_2026 WHERE uuid = ? LIMIT 1', [uuid]) as [DbRow[], any];
-    }
+    let [existingRecord] = await db_scanleads.query("SELECT *, '' AS maternSurname FROM visitors_ste_2026 WHERE uuid = ? LIMIT 1", [uuid]) as [DbRow[], any];
 
     if (existingRecord.length === 0) {
       [existingRecord] = await db.query('SELECT * FROM exhibitors WHERE uuid = ? LIMIT 1', [uuid]) as [DbRow[], any];
