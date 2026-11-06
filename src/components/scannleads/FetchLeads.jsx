@@ -144,14 +144,14 @@ export function FetchLeads({ leads, onLeadsChange }) {
                       </p>
                       {email && <p className='mt-1 text-xs text-slate-400 [overflow-wrap:anywhere]'>{email}</p>}
                     </td>
-                    <td role='cell' className='min-w-0 border-t border-white/5 py-3 align-top lg:table-cell lg:px-4 lg:py-4'>
+                    <td role='cell' className='col-span-2 min-w-0 border-t border-white/5 py-3 align-top lg:table-cell lg:px-4 lg:py-4'>
                       <span className='mb-1 block text-[10px] font-semibold uppercase tracking-wide text-slate-500 lg:hidden'>
                         {t('table.companyAndPosition')}
                       </span>
                       <p className='text-sm font-medium text-slate-200 [overflow-wrap:anywhere]'>{company || '—'}</p>
                       {position && <p className='mt-1 text-xs text-slate-400 [overflow-wrap:anywhere]'>{position}</p>}
                     </td>
-                    <td role='cell' className='min-w-0 border-t border-white/5 py-3 align-top lg:table-cell lg:px-4 lg:py-4'>
+                    <td role='cell' className='col-span-2 min-w-0 border-t border-white/5 py-3 align-top lg:table-cell lg:px-4 lg:py-4'>
                       <span className='mb-1 block text-[10px] font-semibold uppercase tracking-wide text-slate-500 lg:hidden'>
                         {t('table.phone')}
                       </span>
