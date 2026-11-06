@@ -2,23 +2,25 @@
 
 import { Scanner } from '@yudiel/react-qr-scanner'
 import { useTranslations } from 'next-intl'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useSessionUser } from '@/store/session-user'
 import { useToaster } from '@/context/ToasterContext'
 
 export function QrScanner({ onNewLead }) {
   const t = useTranslations('ScanLeadsPage')
   const [showScanner, setShowScanner] = useState(false)
+  const scanInProgress = useRef(false)
   const { notify } = useToaster()
   const { userSession } = useSessionUser()
 
   const handleScan = async (result) => {
     // Basic validation
-    if (!result || !Array.isArray(result) || result.length === 0) return
+    if (scanInProgress.current || !result || !Array.isArray(result) || result.length === 0) return
 
     const uuid = result[0]?.rawValue
     if (!uuid) return
 
+    scanInProgress.current = true
     try {
       const response = await fetch('/api/scanleads', {
         method: 'POST',
@@ -39,39 +41,13 @@ export function QrScanner({ onNewLead }) {
         // ignore parse errors
       }
 
-      const logicalStatus = data?.status
-      const newLead = data?.lead || data?.record || data?.data || null
-
-      if (logicalStatus === 201) {
-        notify(t('scanner.leads.primary'), 'success')
-        if (onNewLead && newLead) {
-          try {
-            onNewLead(newLead)
-          } catch (e) {}
-        }
-        setShowScanner(false)
-        return
-      }
-
-      if (logicalStatus === 400) {
+      if (response.status === 409 || data?.code === 'LEAD_ALREADY_EXISTS') {
         notify(t('scanner.leads.tertiary'), 'success')
-        if (onNewLead && newLead) {
-          try {
-            onNewLead(newLead)
-          } catch (e) {}
-        }
-        setShowScanner(false)
         return
       }
 
-      if (logicalStatus === 500) {
-        notify(t('scanner.leads.secondary'), 'error')
-        setShowScanner(false)
-        return
-      }
-
-      // Fallbacks
-      if (response.ok) {
+      const newLead = data?.lead || data?.record || data?.data || null
+      if (response.ok && data?.status === 201 && newLead) {
         notify(t('scanner.leads.primary'), 'success')
         if (onNewLead && newLead) {
           try {
@@ -81,12 +57,12 @@ export function QrScanner({ onNewLead }) {
       } else {
         notify(t('scanner.leads.secondary'), 'error')
       }
-
-      setShowScanner(false)
     } catch (err) {
       console.error('Error scanning QR:', err)
       notify(t('scanner.leads.secondary'), 'error')
+    } finally {
       setShowScanner(false)
+      scanInProgress.current = false
     }
   }
 
