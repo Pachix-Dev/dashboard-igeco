@@ -25,7 +25,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: 'No se encuentra o es inválido' }, { status: 400 });
     }
    
-    let [existingRecord] = await db_scanleads.query("SELECT *, '' AS maternSurname FROM visitors_ste_2026 WHERE uuid = ? LIMIT 1", [uuid]) as [DbRow[], any];
+    let [existingRecord] = await db_scanleads.query("SELECT uuid, name, paternSurname, email, company,  position, phone, municipality, state, postalCode, country, created_at FROM visitors_ste_2026 WHERE uuid = ? LIMIT 1", [uuid]) as [DbRow[], any];
 
     if (existingRecord.length === 0) {
       [existingRecord] = await db.query('SELECT * FROM exhibitors WHERE uuid = ? LIMIT 1', [uuid]) as [DbRow[], any];
@@ -45,8 +45,8 @@ export async function POST(req: Request) {
     const [existingLead] = await db.query('SELECT * FROM leads WHERE user_id = ? AND uuid = ?', [user_id, record.uuid]) as [DbRow[], any];
    
     if(existingLead.length > 0){
-      // Return the existing lead and the source record so client can decide
-      return NextResponse.json({ message: 'Lead already exists', status: 400, lead: existingLead[0], record }, { status: 400 });
+      // Keep the contact fields available when the same QR is scanned again.
+      return NextResponse.json({ message: 'Lead already exists', status: 400, lead: { ...record, notes: existingLead[0].notes }, record }, { status: 400 });
     }
 
     await db.query('INSERT INTO leads (uuid, user_id) VALUES (?, ?)', [record.uuid, user_id]);

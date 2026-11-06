@@ -542,17 +542,26 @@
     "list": {
       "label": "Listado",
       "title": "Leads capturados",
-      "desc": "Busca por nombre, email, nacionalidad o empresa. Agrega notas por lead."
+      "desc": "Consulta los datos de contacto, empresa y ubicación. Busca en todas las columnas y agrega notas por lead."
     },
     "search": {
-      "placeholder": "Buscar lead, correo o empresa"
+      "placeholder": "Buscar en los datos del lead"
     },
     "table": {
       "name": "Nombre",
+      "paternSurname": "Apellido",
+      "email": "Correo electrónico",
       "nationality": "Nacionalidad",
       "company": "Empresa",
-      "position": "Puesto",
+      "position": "Cargo o posición",
       "phone": "Teléfono",
+      "municipality": "Municipio",
+      "state": "Estado",
+      "postalCode": "Código postal",
+      "country": "País",
+      "contact": "Contacto",
+      "companyAndPosition": "Empresa y cargo",
+      "location": "Ubicación",
       "actions": "Acciones"
     },
     "empty": "No se encontraron leads con ese criterio.",

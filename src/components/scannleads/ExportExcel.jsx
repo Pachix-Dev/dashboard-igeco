@@ -12,15 +12,16 @@ export function ExportExcel({ leads }) {
     if (!leads.length) return notify(t('export.empty'), 'error')
 
     const leadsData = leads.map((lead) => ({
-      Name: `${lead.name} ${lead.paternSurname} ${lead.maternSurname}`,
-      Email: lead.email,
-      Phone: lead.phone,
-      Company: lead.company,
-      Position: lead.position,
-      Country: lead.country,
-      State: lead.state,
-      City: lead.city,
-      Notes: lead.notes,
+      Name: lead.name ?? lead.speaker_name ?? '',
+      Surname: lead.paternSurname ?? lead.lastname ?? '',
+      Email: lead.email ?? '',
+      Company: lead.company ?? '',
+      Position: lead.position ?? '',
+      Phone: String(lead.phone ?? ''),
+      Municipality: lead.municipality ?? '',
+      State: lead.state ?? '',
+      PostalCode: String(lead.postalCode ?? ''),
+      Country: lead.country ?? '',
     }))
     const ws = XLSX.utils.json_to_sheet(leadsData)
     const wb = XLSX.utils.book_new()

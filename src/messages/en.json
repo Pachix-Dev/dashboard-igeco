@@ -444,17 +444,26 @@
     "list": {
       "label": "Listing",
       "title": "Captured leads",
-      "desc": "Search by name, email, nationality or company. Add notes per lead."
+      "desc": "View contact, company and location details. Search all columns and add notes for each lead."
     },
     "search": {
-      "placeholder": "Search lead, email or company"
+      "placeholder": "Search lead details"
     },
     "table": {
       "name": "Name",
+      "paternSurname": "Surname",
+      "email": "Email",
       "nationality": "Nationality",
       "company": "Company",
-      "position": "Position",
+      "position": "Job title / position",
       "phone": "Phone",
+      "municipality": "Municipality",
+      "state": "State",
+      "postalCode": "Postal code",
+      "country": "Country",
+      "contact": "Contact",
+      "companyAndPosition": "Company and position",
+      "location": "Location",
       "actions": "Actions"
     },
     "empty": "No leads matched that query.",

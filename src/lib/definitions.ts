@@ -53,19 +53,21 @@ export type Ponentes = {
 };
 
 export type Lead = {
-    id: number;
+    id?: number;
     uuid: string;
     name: string;
-    paternSurname: string;
-    maternSurname: string;
+    paternSurname?: string;
+    lastname?: string;
     email: string;
     phone: string;    
-    nationality: string;
+    nationality?: string;
     company: string;
     position: string;
     country: string;
     municipality: string;
     state: string;
-    city: string;
+    city?: string;
+    postalCode?: string;
+    notes?: string;
     created_at: Date; 
 };

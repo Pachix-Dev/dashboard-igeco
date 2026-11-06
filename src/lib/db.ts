@@ -219,9 +219,9 @@ export async function fetchRecordsByUserId(): Promise<Lead[]> {
 
         const placeholders = limitedRecordIds.map(() => '?').join(',');
 
-        // This visitor source does not have a maternal surname column.
+        // It is used to filter visitors by valid UUIDs.
         const [visitors]: [any[], any] = await db_scanleads.query(
-            `SELECT *, '' AS maternSurname FROM visitors_ste_2026 WHERE uuid IN (${placeholders})`,
+            `SELECT uuid, name, paternSurname, email, company, position, phone, municipality, state, postalCode, country, created_at FROM visitors_ste_2026 WHERE uuid IN (${placeholders})`,
             limitedRecordIds
         );
 

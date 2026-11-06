@@ -540,17 +540,26 @@
     "list": {
       "label": "Elenco",
       "title": "Lead acquisiti",
-      "desc": "Cerca per nome, email, nazionalità o azienda. Aggiungi note per lead."
+      "desc": "Consulta i dati di contatto, azienda e località. Cerca in tutte le colonne e aggiungi note per ogni lead."
     },
     "search": {
-      "placeholder": "Cerca lead, email o azienda"
+      "placeholder": "Cerca nei dati del lead"
     },
     "table": {
       "name": "Nome",
+      "paternSurname": "Cognome",
+      "email": "Email",
       "nationality": "Nazionalità",
       "company": "Azienda",
-      "position": "Posizione",
+      "position": "Ruolo o posizione",
       "phone": "Telefono",
+      "municipality": "Comune",
+      "state": "Stato",
+      "postalCode": "Codice postale",
+      "country": "Paese",
+      "contact": "Contatto",
+      "companyAndPosition": "Azienda e ruolo",
+      "location": "Località",
       "actions": "Azioni"
     },
     "empty": "Nessun lead trovato con questo criterio.",
