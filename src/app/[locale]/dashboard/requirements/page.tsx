@@ -27,7 +27,8 @@ export default async function RequirementsPage() {
     redirect('/dashboard/reactivation-payment');
   }
 
-  if (session.role !== 'exhibitor' && session.role !== 'admin') {
+
+  if (!['admin', 'exhibitor', 'exhibitorplus'].includes(session.role)) {
     redirect('/dashboard');
   }
 
