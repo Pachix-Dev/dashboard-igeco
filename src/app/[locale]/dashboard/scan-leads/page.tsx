@@ -56,7 +56,12 @@ export default async function ScanLeads() {
             <p className="text-sm text-slate-400">{t('subtitle')}</p>
           </div>          
         </header>
-        <ScanLeadsLicenses userId={dashboardSession.id} {...purchaseSummary} />
+        {dashboardSession.role !== 'exhibitorplus' && (
+          <ScanLeadsLicenses
+            userId={dashboardSession.id}
+            {...purchaseSummary}
+          />
+        )}
         <div className="">
           <ScanLeadsClient 
             initialLeads={leads}             
