@@ -58,8 +58,16 @@ export async function POST(req: Request) {
     
 
     await db.query('INSERT INTO leads (uuid, user_id, notes) VALUES (?, ?, ?)', [record.uuid, user_id, '']);
+    const [savedLead] = await db.query(
+      'SELECT UNIX_TIMESTAMP(created_at) * 1000 AS created_at_ms FROM leads WHERE uuid = ? AND user_id = ? LIMIT 1',
+      [record.uuid, user_id]
+    ) as [DbRow[], any];
     // Return the source record as the created lead payload so the client can insert it locally
-    return NextResponse.json({ message: 'Lead created', status: 201, lead: { ...record, notes: '' } }, { status: 201 });
+    return NextResponse.json({ message: 'Lead created', status: 201, lead: {
+      ...record,
+      notes: '',
+      created_at: new Date(Number(savedLead[0].created_at_ms)).toISOString(),
+    } }, { status: 201 });
   }catch(err){
     // The unique index also protects against simultaneous scans passing the check above.
     if ((err as { code?: string })?.code === 'ER_DUP_ENTRY') {

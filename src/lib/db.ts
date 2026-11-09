@@ -196,7 +196,7 @@ export async function fetchRecordsByUserId(): Promise<Lead[]> {
     try {
 
         const [rows]: [any[], any] = await db.query(
-            'SELECT uuid, notes FROM leads WHERE user_id = ?',
+            'SELECT uuid, notes, UNIX_TIMESTAMP(created_at) * 1000 AS created_at_ms FROM leads WHERE user_id = ?',
             [userId]
         );
 
@@ -235,8 +235,12 @@ export async function fetchRecordsByUserId(): Promise<Lead[]> {
 
         // Add notes from leads table
         const recordsWithNotes = records.map(record => {
-            const lead = rows.find(row => row.uuid === record.uuid);
-            return { ...record, notes: lead?.notes };
+            const lead = rows.find(row => row.uuid.toLowerCase() === record.uuid.toLowerCase());
+            return {
+                ...record,
+                notes: lead?.notes,
+                created_at: new Date(Number(lead.created_at_ms)).toISOString(),
+            };
         });
 
         return recordsWithNotes as Lead[];
