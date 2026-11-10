@@ -43,13 +43,6 @@ export function apiErrorResponse(error: unknown, origin?: string | null) {
   return apiResponse({ error: { code: 'SERVICE_UNAVAILABLE' } }, 503, origin);
 }
 
-export function assertSecureTransport(request: Request) {
-  if (process.env.NODE_ENV !== 'production') return;
-  // The reverse proxy must overwrite this header and redirect HTTP to HTTPS.
-  const protocol = request.headers.get('x-forwarded-proto') ?? new URL(request.url).protocol.replace(':', '');
-  if (protocol !== 'https') throw new ScanLeadsApiError(426, 'HTTPS_REQUIRED');
-}
-
 export function positiveInteger(value: unknown, maximum = Number.MAX_SAFE_INTEGER): number {
   if ((typeof value !== 'string' && typeof value !== 'number') || !/^[1-9]\d*$/.test(String(value))) {
     throw new ScanLeadsApiError(400, 'INVALID_REQUEST');

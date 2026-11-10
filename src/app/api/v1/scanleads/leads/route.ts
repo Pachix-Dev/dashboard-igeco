@@ -1,5 +1,5 @@
 import {
-  apiErrorResponse, apiResponse, assertSecureTransport, authenticateApiKey,
+  apiErrorResponse, apiResponse, authenticateApiKey,
   checkPublicApiIpLimit, consumeApiRequest, getApiLeads, isAllowedPreflightOrigin,
   parseLeadsQuery, SCANLEADS_API_RATE_LIMIT, ScanLeadsApiError,
 } from '@/lib/scanleads-api';
@@ -10,7 +10,6 @@ export const dynamic = 'force-dynamic';
 export async function GET(request: Request) {
   let origin: string | null = null;
   try {
-    assertSecureTransport(request);
     checkPublicApiIpLimit(request);
     const requestedOrigin = request.headers.get('origin');
     if (requestedOrigin && isAllowedPreflightOrigin(requestedOrigin)) origin = requestedOrigin;
@@ -26,7 +25,6 @@ export async function GET(request: Request) {
 
 export async function OPTIONS(request: Request) {
   try {
-    assertSecureTransport(request);
     checkPublicApiIpLimit(request);
     const origin = request.headers.get('origin');
     const method = request.headers.get('access-control-request-method');
