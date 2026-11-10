@@ -3,7 +3,6 @@
 import { Scanner } from '@yudiel/react-qr-scanner'
 import { useTranslations } from 'next-intl'
 import { useRef, useState } from 'react'
-import { useSessionUser } from '@/store/session-user'
 import { useToaster } from '@/context/ToasterContext'
 
 export function QrScanner({ onNewLead }) {
@@ -11,7 +10,6 @@ export function QrScanner({ onNewLead }) {
   const [showScanner, setShowScanner] = useState(false)
   const scanInProgress = useRef(false)
   const { notify } = useToaster()
-  const { userSession } = useSessionUser()
 
   const handleScan = async (result) => {
     // Basic validation
@@ -29,8 +27,6 @@ export function QrScanner({ onNewLead }) {
         },
         body: JSON.stringify({
           uuid,
-          user_id: userSession?.id,
-          token: userSession?.token,
         }),
       })
 
