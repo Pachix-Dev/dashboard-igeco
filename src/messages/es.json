@@ -66,8 +66,31 @@
       "percentage": "Progreso"
     }
   },
+  "RegistrationStatsPage": {
+    "panel": "Panel",
+    "title": "Panel Asistencia",
+    "subtitle": "Consulta los prerregistros de visitantes, expositores, conferencistas, VIP y medios.",
+    "adminOnly": "Solo administradores",
+    "loading": "Cargando Panel Asistencia...",
+    "unavailable": "Sin datos disponibles",
+    "registered": "Prerregistros",
+    "total": "Total de prerregistros",
+    "types": {
+      "visitors": "Visitantes",
+      "exhibitors": "Expositores",
+      "speakers": "Conferencistas",
+      "vip": "VIP",
+      "media": "Medios"
+    },
+    "error": {
+      "title": "No se pudieron cargar los prerregistros",
+      "unavailable": "Vuelve a cargar la página para intentar consultar las estadísticas nuevamente.",
+      "unauthorized": "Necesitas una cuenta de administrador activa para consultar las estadísticas."
+    }
+  },
   "Menu": {
     "users": "Usuarios",
+    "registrationStats": "Panel Asistencia",
     "speakers": "Ponentes",
     "badges": "Gafetes de expositores",
     "myRecord": "Mi expediente",

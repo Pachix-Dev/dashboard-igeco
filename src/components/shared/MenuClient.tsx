@@ -9,6 +9,7 @@ import { logout } from '@/lib/actions/logout';
 interface MenuTranslations {
   profile: string;
   users: string;
+  registrationStats: string;
   speakers: string;
   badges: string;
   myRecord: string;
@@ -144,6 +145,21 @@ export default function MenuClient({
             <>
               <p className="px-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">Admin</p>
               <ul className="space-y-3">
+                <li>
+                  <Link onClick={handleNavigate} href="/dashboard/estadisticas-registros" className={getLinkClasses('/dashboard/estadisticas-registros')}>
+                    <div className="flex items-center gap-3">
+                      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-white/5 text-slate-200 ring-1 ring-white/10">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-5 w-5" aria-hidden="true">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M3 3v18h18M7.5 16.5v-3m4.5 3v-6m4.5 6v-9" />
+                        </svg>
+                      </span>
+                      <span>{t('registrationStats')}</span>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="h-4 w-4 shrink-0 text-slate-500 transition group-hover:text-blue-300" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="m9 5 7 7-7 7" />
+                    </svg>
+                  </Link>
+                </li>
                 <li>
                   <Link onClick={handleNavigate} href="/dashboard/usuarios" className={getLinkClasses('/dashboard/usuarios')}>
                     <div className="flex items-center gap-3">

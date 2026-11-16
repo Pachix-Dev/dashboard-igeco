@@ -66,8 +66,31 @@
       "percentage": "Progresso"
     }
   },
+  "RegistrationStatsPage": {
+    "panel": "Pannello",
+    "title": "Pannello Presenze",
+    "subtitle": "Consulta le preregistrazioni di visitatori, espositori, relatori, VIP e media.",
+    "adminOnly": "Solo amministratori",
+    "loading": "Caricamento del pannello presenze...",
+    "unavailable": "Nessun dato disponibile",
+    "registered": "Preregistrazioni",
+    "total": "Totale delle preregistrazioni",
+    "types": {
+      "visitors": "Visitatori",
+      "exhibitors": "Espositori",
+      "speakers": "Relatori",
+      "vip": "VIP",
+      "media": "Media"
+    },
+    "error": {
+      "title": "Impossibile caricare le preregistrazioni",
+      "unavailable": "Ricarica la pagina per riprovare a consultare le statistiche.",
+      "unauthorized": "Per consultare le statistiche è necessario un account amministratore attivo."
+    }
+  },
   "Menu": {
     "users": "Utenti",
+    "registrationStats": "Pannello Presenze",
     "speakers": "Relatori",
     "badges": "Badge Espositore",
     "myRecord": "La mia scheda",

@@ -67,8 +67,31 @@
       "percentage": "Progress"
     }
   },
+  "RegistrationStatsPage": {
+    "panel": "Dashboard",
+    "title": "Attendance Dashboard",
+    "subtitle": "View pre-registration counts for visitors, exhibitors, speakers, VIP and media.",
+    "adminOnly": "Administrators only",
+    "loading": "Loading attendance dashboard...",
+    "unavailable": "No data available",
+    "registered": "Pre-registrations",
+    "total": "Total pre-registrations",
+    "types": {
+      "visitors": "Visitors",
+      "exhibitors": "Exhibitors",
+      "speakers": "Speakers",
+      "vip": "VIP",
+      "media": "Media"
+    },
+    "error": {
+      "title": "Pre-registration counts could not be loaded",
+      "unavailable": "Reload the page to try loading the statistics again.",
+      "unauthorized": "You need an active administrator account to view these statistics."
+    }
+  },
   "Menu": {
     "users": "Users",
+    "registrationStats": "Attendance Dashboard",
     "speakers": "Speakers",
     "badges": "Exhibitor badges",
     "myRecord": "My record",

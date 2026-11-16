@@ -47,7 +47,7 @@ export const db_scanleads = mysql.createPool({
 });
 
 export const roles = {
-    admin: ['/dashboard', '/dashboard/usuarios', '/dashboard/exhibitors', '/dashboard/profile', '/dashboard/scan-leads', '/dashboard/ponentes', '/dashboard/programa', '/dashboard/requirements'],
+    admin: ['/dashboard', '/dashboard/usuarios', '/dashboard/exhibitors', '/dashboard/profile', '/dashboard/scan-leads', '/dashboard/ponentes', '/dashboard/programa', '/dashboard/requirements', '/dashboard/estadisticas-registros'],
     editor: ['/dashboard', '/dashboard/profile', '/dashboard/ponentes', '/dashboard/programa'],
     exhibitor: ['/dashboard', '/dashboard/profile', '/dashboard/exhibitors', '/dashboard/scanner-temp', '/dashboard/requirements', '/dashboard/reactivation-payment'],
     exhibitorplus: ['/dashboard', '/dashboard/profile', '/dashboard/exhibitors', '/dashboard/scanner-temp', '/dashboard/requirements', '/dashboard/scan-leads', '/dashboard/reactivation-payment'],

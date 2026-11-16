@@ -34,6 +34,7 @@ export default async function MenuServer() {
   const translations = {
     profile: t('profile'),
     users: t('users'),
+    registrationStats: t('registrationStats'),
     speakers: t('speakers'),
     badges: t('badges'),
     myRecord: t('myRecord'),
