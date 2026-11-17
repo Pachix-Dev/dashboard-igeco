@@ -16,3 +16,12 @@ export type RegistrationStatsData = {
 export type RegistrationStatsResult =
   | { success: true; data: RegistrationStatsData }
   | { success: false; error: 'unauthorized' | 'unavailable' };
+
+export type AttendanceDayStats = {
+  date: string;
+  total: number;
+};
+
+export type AttendanceStatsResult =
+  | { success: true; data: { total: number; daily: AttendanceDayStats[] } }
+  | { success: false; error: 'unauthorized' | 'unavailable' };

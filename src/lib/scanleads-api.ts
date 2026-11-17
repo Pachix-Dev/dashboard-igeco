@@ -162,6 +162,8 @@ export async function getApiLeads(userId: number, limit: number, cursor: number)
     data: page.map(capture => {
       const record = records.get(String(capture.uuid).toLowerCase());
       return {
+        id: Number(capture.id),
+        uuid: String(capture.uuid),
         ...Object.fromEntries(scanLeadFields.map(({ key }) => [key, getScanLeadValue(record ?? {}, key)])),
         notes: capture.notes ?? '',
       };

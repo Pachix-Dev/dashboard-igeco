@@ -1,5 +1,5 @@
 import { getFormatter, getTranslations } from 'next-intl/server';
-import { getRegistrationStats } from '@/lib/actions/registration-stats';
+import { getAttendanceStats, getRegistrationStats } from '@/lib/actions/registration-stats';
 import { registrationTypes, type RegistrationType } from '@/lib/registration-stats';
 
 const cardStyles: Record<RegistrationType, { background: string; indicator: string }> = {
@@ -26,10 +26,11 @@ const cardStyles: Record<RegistrationType, { background: string; indicator: stri
 };
 
 export async function RegistrationStatsModule() {
-  const [t, format, result] = await Promise.all([
+  const [t, format, result, attendance] = await Promise.all([
     getTranslations('RegistrationStatsPage'),
     getFormatter({ locale: 'es-MX' }),
     getRegistrationStats(),
+    getAttendanceStats(),
   ]);
 
   return (
@@ -78,6 +79,71 @@ export async function RegistrationStatsModule() {
           </p>
         </div>
       </div>
+
+      <section aria-labelledby="attendance-title" className="rounded-2xl border border-cyan-400/30 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 p-6 shadow-lg shadow-cyan-500/5">
+        <h2 id="attendance-title" className="text-xl font-bold text-white">{t('attendance.title')}</h2>
+        <p className="mt-2 text-sm text-slate-300">{t('attendance.description')}</p>
+        <p aria-label={attendance.success ? undefined : t('unavailable')} className="mt-6 text-5xl font-bold tabular-nums tracking-tight text-white">
+          {attendance.success ? format.number(attendance.data.total) : '—'}
+        </p>
+        <p className="mt-2 text-sm font-semibold text-cyan-200">{t('attendance.entries')}</p>
+
+        {attendance.success && (
+          <div className="mt-8">
+            <h3 className="text-lg font-semibold text-white">{t('attendance.dailyTitle')}</h3>
+            <div className="mt-4 overflow-hidden rounded-2xl border border-white/10 bg-slate-950/50">
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-white/10 text-sm">
+                  <caption className="sr-only">{t('attendance.dailyTitle')}</caption>
+                  <thead className="bg-white/5">
+                    <tr>
+                      <th scope="col" className="px-4 py-3 text-left font-semibold text-slate-300">{t('attendance.table.date')}</th>
+                      <th scope="col" className="px-4 py-3 text-right font-semibold text-slate-300">{t('attendance.table.count')}</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/5">
+                    {attendance.data.daily.length === 0 ? (
+                      <tr>
+                        <td colSpan={2} className="px-4 py-8 text-center text-slate-400">{t('attendance.empty')}</td>
+                      </tr>
+                    ) : (
+                      attendance.data.daily.map((day) => (
+                        <tr key={day.date} className="transition hover:bg-white/5">
+                          <td className="whitespace-nowrap px-4 py-3 text-slate-200">
+                            <time dateTime={day.date}>
+                              {format.dateTime(new Date(`${day.date}T00:00:00Z`), {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric',
+                                timeZone: 'UTC',
+                              })}
+                            </time>
+                          </td>
+                          <td className="px-4 py-3 text-right font-semibold tabular-nums text-white">{format.number(day.total)}</td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                  <tfoot className="border-t border-cyan-400/20 bg-cyan-500/10">
+                    <tr>
+                      <th scope="row" className="px-4 py-3 text-left font-semibold text-cyan-100">{t('attendance.total')}</th>
+                      <td className="px-4 py-3 text-right font-bold tabular-nums text-white">{format.number(attendance.data.total)}</td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+            <p className="mt-3 text-xs leading-relaxed text-slate-400">{t('attendance.dailyNote')}</p>
+          </div>
+        )}
+
+        {!attendance.success && (
+          <div role="alert" className="mt-4 rounded-xl border border-rose-400/30 bg-rose-500/10 p-4">
+            <h3 className="font-semibold text-rose-200">{t('attendance.error')}</h3>
+            <p className="mt-2 text-sm text-rose-100/80">{t(`error.${attendance.error}`)}</p>
+          </div>
+        )}
+      </section>
     </section>
   );
 }

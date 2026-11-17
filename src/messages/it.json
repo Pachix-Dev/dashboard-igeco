@@ -69,12 +69,26 @@
   "RegistrationStatsPage": {
     "panel": "Pannello",
     "title": "Pannello Presenze",
-    "subtitle": "Consulta le preregistrazioni di visitatori, espositori, relatori, VIP e media.",
+    "subtitle": "Consulta le preregistrazioni per tipologia e gli ingressi giornalieri.",
     "adminOnly": "Solo amministratori",
     "loading": "Caricamento del pannello presenze...",
     "unavailable": "Nessun dato disponibile",
     "registered": "Preregistrazioni",
     "total": "Totale delle preregistrazioni",
+    "attendance": {
+      "title": "Conteggio delle presenze",
+      "description": "Check-in registrati raggruppati per giorno.",
+      "entries": "Ingressi registrati (check-in)",
+      "dailyTitle": "Ingressi giornalieri",
+      "total": "Totale generale degli ingressi",
+      "dailyNote": "Ogni check-in conta come un ingresso, compresi i rientri. Il totale generale è la somma dei conteggi giornalieri.",
+      "empty": "Non sono ancora stati registrati check-in.",
+      "table": {
+        "date": "Data",
+        "count": "Presenze"
+      },
+      "error": "Impossibile caricare il conteggio delle presenze"
+    },
     "types": {
       "visitors": "Visitatori",
       "exhibitors": "Espositori",
@@ -537,7 +551,13 @@
       "leads": {
         "primary": "Lead trovato",
         "secondary": "Lead non trovato o QR non valido",
-        "tertiary": "Il lead è già registrato"
+        "tertiary": "Il lead è già registrato",
+        "invalidQr": "Il QR non contiene un identificativo valido.",
+        "sessionRequired": "Non è stato possibile verificare la sessione. Accedi nuovamente.",
+        "accessDenied": "Accesso negato. Verifica i permessi del tuo account e il dominio configurato per l'applicazione.",
+        "notFound": "Il QR non corrisponde a un contatto disponibile nei registri dell'evento.",
+        "saveFailed": "Non è stato possibile recuperare o salvare il lead. Riprova; se il problema persiste, contatta l'assistenza.",
+        "networkError": "Impossibile connettersi al server. Verifica la connessione e riprova."
       },
       "helper": "Mantieni il badge stabile e a distanza media per una lettura rapida. Evita riflessi sul QR."
     },

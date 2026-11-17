@@ -69,12 +69,26 @@
   "RegistrationStatsPage": {
     "panel": "Panel",
     "title": "Panel Asistencia",
-    "subtitle": "Consulta los prerregistros de visitantes, expositores, conferencistas, VIP y medios.",
+    "subtitle": "Consulta los prerregistros por tipo y el aforo por día.",
     "adminOnly": "Solo administradores",
     "loading": "Cargando Panel Asistencia...",
     "unavailable": "Sin datos disponibles",
     "registered": "Prerregistros",
     "total": "Total de prerregistros",
+    "attendance": {
+      "title": "Conteo de aforo",
+      "description": "Entradas con check-in registradas por día.",
+      "entries": "Entradas registradas (check-in)",
+      "dailyTitle": "Aforo por día",
+      "total": "Total general de entradas",
+      "dailyNote": "Cada check-in suma una entrada, incluidas las reentradas. El total general es la suma de los días.",
+      "empty": "Todavía no hay check-ins registrados.",
+      "table": {
+        "date": "Fecha",
+        "count": "Aforo"
+      },
+      "error": "No se pudo cargar el conteo de aforo"
+    },
     "types": {
       "visitors": "Visitantes",
       "exhibitors": "Expositores",
@@ -539,7 +553,13 @@
       "leads": {
         "primary": "Lead encontrado",
         "secondary": "Lead no encontrado o QR inválido",
-        "tertiary": "El lead ya fue registrado"
+        "tertiary": "El lead ya fue registrado",
+        "invalidQr": "El QR no contiene un identificador válido.",
+        "sessionRequired": "No se pudo validar tu sesión. Inicia sesión nuevamente.",
+        "accessDenied": "Acceso denegado. Revisa los permisos de tu cuenta y el dominio configurado para la aplicación.",
+        "notFound": "El QR no corresponde a un contacto disponible en los registros del evento.",
+        "saveFailed": "No se pudo consultar o guardar el lead. Intenta nuevamente; si el problema continúa, contacta a soporte.",
+        "networkError": "No se pudo conectar con el servidor. Revisa tu conexión e intenta nuevamente."
       },
       "helper": "Mantén el gafete estable y a distancia media para una lectura rápida. Evita reflejos sobre el QR."
     },

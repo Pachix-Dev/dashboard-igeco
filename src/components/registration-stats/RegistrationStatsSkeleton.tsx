@@ -38,6 +38,31 @@ export function RegistrationStatsSkeleton({ label }: { label: string }) {
             <div className="mt-4 h-9 w-24 max-w-full rounded bg-slate-800 lg:h-8 2xl:h-9" />
           </div>
         </div>
+
+        <section className="animate-pulse rounded-2xl border border-cyan-400/30 bg-cyan-500/10 p-6 motion-reduce:animate-none">
+          <div className="h-7 w-44 max-w-full rounded bg-slate-800" />
+          <div className="mt-2 h-5 w-full max-w-xl rounded bg-slate-800" />
+          <div className="mt-6 h-12 w-28 max-w-full rounded bg-slate-800" />
+          <div className="mt-2 h-5 w-36 max-w-full rounded bg-slate-800" />
+          <div className="mt-8 h-7 w-56 max-w-full rounded bg-slate-800" />
+          <div className="mt-4 overflow-hidden rounded-2xl border border-white/10 bg-slate-950/50">
+            <div className="grid grid-cols-2 gap-4 bg-white/5 px-4 py-3">
+              <div className="h-5 w-20 max-w-full rounded bg-slate-800" />
+              <div className="ml-auto h-5 w-16 max-w-full rounded bg-slate-800" />
+            </div>
+            {[0, 1, 2, 3].map((row) => (
+              <div key={row} className="grid grid-cols-2 gap-4 border-t border-white/5 px-4 py-3">
+                <div className="h-5 w-24 max-w-full rounded bg-slate-800" />
+                <div className="ml-auto h-5 w-12 max-w-full rounded bg-slate-800" />
+              </div>
+            ))}
+            <div className="flex justify-between gap-4 border-t border-cyan-400/20 bg-cyan-500/10 px-4 py-3">
+              <div className="h-5 w-56 max-w-full rounded bg-slate-800" />
+              <div className="h-5 w-12 shrink-0 rounded bg-slate-800" />
+            </div>
+          </div>
+          <div className="mt-3 h-4 w-full max-w-2xl rounded bg-slate-800" />
+        </section>
       </section>
     </main>
   );

@@ -51,11 +51,18 @@ export function QrScanner({ onNewLead }) {
           } catch (e) {}
         }
       } else {
-        notify(t('scanner.leads.secondary'), 'error')
+        const errorKeys = {
+          400: 'invalidQr',
+          401: 'sessionRequired',
+          403: 'accessDenied',
+          404: 'notFound',
+        }
+        const errorKey = errorKeys[response.status] || 'saveFailed'
+        notify(t(`scanner.leads.${errorKey}`), 'error')
       }
     } catch (err) {
       console.error('Error scanning QR:', err)
-      notify(t('scanner.leads.secondary'), 'error')
+      notify(t('scanner.leads.networkError'), 'error')
     } finally {
       setShowScanner(false)
       scanInProgress.current = false

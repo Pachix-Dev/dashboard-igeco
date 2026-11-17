@@ -70,12 +70,26 @@
   "RegistrationStatsPage": {
     "panel": "Dashboard",
     "title": "Attendance Dashboard",
-    "subtitle": "View pre-registration counts for visitors, exhibitors, speakers, VIP and media.",
+    "subtitle": "View pre-registration counts by type and daily check-ins.",
     "adminOnly": "Administrators only",
     "loading": "Loading attendance dashboard...",
     "unavailable": "No data available",
     "registered": "Pre-registrations",
     "total": "Total pre-registrations",
+    "attendance": {
+      "title": "Attendance count",
+      "description": "Recorded check-ins grouped by day.",
+      "entries": "Recorded entries (check-in)",
+      "dailyTitle": "Daily attendance",
+      "total": "Overall entry count",
+      "dailyNote": "Each check-in counts as an entry, including repeat entries. The overall total is the sum of the daily counts.",
+      "empty": "No check-ins have been recorded yet.",
+      "table": {
+        "date": "Date",
+        "count": "Attendance"
+      },
+      "error": "The attendance count could not be loaded"
+    },
     "types": {
       "visitors": "Visitors",
       "exhibitors": "Exhibitors",
@@ -441,7 +455,13 @@
       "leads": {
         "primary": "Lead found",
         "secondary": "Lead not found or invalid QR",
-        "tertiary": "Lead already registered"
+        "tertiary": "Lead already registered",
+        "invalidQr": "The QR does not contain a valid identifier.",
+        "sessionRequired": "Your session could not be verified. Please sign in again.",
+        "accessDenied": "Access denied. Check your account permissions and the domain configured for the application.",
+        "notFound": "The QR does not match an available contact in the event records.",
+        "saveFailed": "The lead could not be retrieved or saved. Try again; if the problem persists, contact support.",
+        "networkError": "Could not connect to the server. Check your connection and try again."
       },
       "helper": "Keep the badge stable and at a medium distance for a faster read. Avoid glare on the QR."
     },
