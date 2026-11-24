@@ -441,7 +441,10 @@
     "export": {
       "cta": "Export to Excel",
       "empty": "No leads to export",
-      "success": "Export generated"
+      "success": "Export generated",
+      "columns": {
+        "comments": "Comments"
+      }
     },
     "scanner": {
       "show": "Open scanner",

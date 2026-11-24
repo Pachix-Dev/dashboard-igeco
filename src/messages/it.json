@@ -537,7 +537,10 @@
     "export": {
       "cta": "Esporta in Excel",
       "empty": "Nessun lead da esportare",
-      "success": "Esportazione generata"
+      "success": "Esportazione generata",
+      "columns": {
+        "comments": "Commenti"
+      }
     },
     "scanner": {
       "show": "Apri scanner",

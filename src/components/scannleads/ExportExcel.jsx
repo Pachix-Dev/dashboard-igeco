@@ -11,6 +11,7 @@ export function ExportExcel({ leads }) {
   const exportToExcel = () => {
     if (!leads.length) return notify(t('export.empty'), 'error')
 
+    const commentsHeader = t('export.columns.comments')
     const leadsData = leads.map((lead) => ({
       Name: lead.name ?? lead.speaker_name ?? '',
       Surname: lead.paternSurname ?? lead.lastname ?? '',
@@ -22,6 +23,7 @@ export function ExportExcel({ leads }) {
       State: lead.state ?? '',
       PostalCode: String(lead.postalCode ?? ''),
       Country: lead.country ?? '',
+      [commentsHeader]: lead.notes ?? lead.comments ?? '',
     }))
     const ws = XLSX.utils.json_to_sheet(leadsData)
     const wb = XLSX.utils.book_new()
